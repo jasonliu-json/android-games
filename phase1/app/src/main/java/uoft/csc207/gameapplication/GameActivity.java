@@ -2,6 +2,7 @@ package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
@@ -18,6 +19,8 @@ public class GameActivity extends AppCompatActivity {
         mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        mazeView.init(metrics);
+        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
+        mazeView.init(metrics, returnToMenu);
+
     }
 }

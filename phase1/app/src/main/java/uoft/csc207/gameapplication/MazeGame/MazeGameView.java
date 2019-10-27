@@ -1,12 +1,12 @@
 package uoft.csc207.gameapplication.MazeGame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-
 
 
 public class MazeGameView extends View {
@@ -18,10 +18,10 @@ public class MazeGameView extends View {
 
     public MazeGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mazeGameDriver = new MazeGameDriver();
+        this.mazeGameDriver = new MazeGameDriver(context);
     }
 
-    public void init(DisplayMetrics metrics) {
+    public void init(DisplayMetrics metrics, Intent test) {
         mazeGameDriver.init(metrics);
     }
 

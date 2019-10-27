@@ -1,53 +1,100 @@
 package uoft.csc207.gameapplication.MazeGame;
 
+import android.content.Context;
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Random;
 
-import static java.lang.Thread.sleep;
+import uoft.csc207.gameapplication.Login;
+
 
 public class MazeGame {
     public Character[][] maze;
+//    private Character[][] maze;
     private int xCharacter;
     private int yCharacter;
-    public MazeGame() {
-        this.maze = generateMaze(2 * 10 + 1, 2 * 19 + 1);
+    private int xEndPos = 0;
+    private int yEndPos = 0;
+
+    private int currentLevel;
+
+    private int mazeWidth;
+    private int mazeHeight;
+
+    private Context gameActivityContext;
+
+    public MazeGame(Context context) {
+        gameActivityContext = context;
+        mazeWidth = 2 * 7 + 1;
+        mazeHeight = 2 * 13 + 1;
+
+        this.maze = generateMaze(mazeWidth, mazeHeight);
+
         xCharacter = 1;
         yCharacter = 1;
+
+        currentLevel = 0;
     }
-    public void moveDown() {
+
+    void moveDown() {
 
         if (!maze[xCharacter][yCharacter + 1].equals('W')) {
             maze[xCharacter][yCharacter + 1] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
             yCharacter += 1;
+            checkEndpointReached();
         }
     }
 
-    public void moveUp() {
+    void moveUp() {
         if (!maze[xCharacter][yCharacter - 1].equals('W')) {
             maze[xCharacter][yCharacter - 1] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
             yCharacter -= 1;
+            checkEndpointReached();
         }
     }
 
-    public void moveLeft() {
+    void moveLeft() {
         if (!maze[xCharacter - 1][yCharacter].equals('W')) {
             maze[xCharacter - 1][yCharacter] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
             xCharacter -= 1;
+            checkEndpointReached();
         }
     }
 
-    public void moveRight() {
+    void moveRight() {
         if (!maze[xCharacter + 1][yCharacter].equals('W')) {
             maze[xCharacter + 1][yCharacter] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
             xCharacter += 1;
+            checkEndpointReached();
         }
     }
-
-    public Character[][] generateMaze(int unitWidth, int unitHeight) {
+    private void checkEndpointReached() {
+        System.out.println(xCharacter);
+        System.out.println(yCharacter);
+        System.out.println(xEndPos);
+        System.out.println(yEndPos);
+        if (xCharacter == xEndPos && yCharacter == yEndPos) {
+            System.out.println("goal reached");
+            currentLevel += 1;
+            if (currentLevel == 3) {
+                // should return to main menu
+                gameActivityContext.startActivity(new Intent(gameActivityContext, Login.class));
+            }
+            else {
+                xCharacter = 1;
+                yCharacter = 1;
+                xEndPos = 0;
+                yEndPos = 0;
+                this.maze = generateMaze(mazeWidth, mazeHeight);
+            }
+        }
+    }
+    private Character[][] generateMaze(int unitWidth, int unitHeight) {
         Character[][] blocks = new Character[unitWidth][unitHeight];
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[0].length; y++) {
@@ -62,17 +109,19 @@ public class MazeGame {
 
     private void setEnd(Character[][] maze) {
         for (int x = maze.length - 2; x > 0; x -= 2) {
-            int y = maze[0].length - 2;
-            int tempX = x;
+            int yCheck = maze[0].length - 2;
+            int xCheck = x;
             boolean flag = false;
-            while (tempX < maze.length - 1) {
-                if (checkSurrounding(maze, tempX, y)) {
+            while (xCheck < maze.length - 1) {
+                if (checkSurrounding(maze, xCheck, yCheck)) {
                     flag = true;
-                    maze[tempX][y] = 'E';
+                    maze[xCheck][yCheck] = 'E';
+                    this.xEndPos = xCheck;
+                    this.yEndPos = yCheck;
+                    break;
                 }
-                tempX += 2;
-                y -= 2;
-                break;
+                xCheck += 2;
+                yCheck -= 2;
             }
             if (flag) {
                 break;
