@@ -1,103 +1,61 @@
 package uoft.csc207.gameapplication;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.graphics.Canvas;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.View;
 
-/**
- * The game view. Taken from FishTank Assignment.
- */
-public abstract class GameView extends SurfaceView implements SurfaceHolder.Callback {
+import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
-    /**
-     * Screen width.
-     */
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-
-    /**
-     * Screen height.
-     */
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-
-    /**
-     * The game.
-     */
-    public Game game;
-    /**
-     * The part of the program that manages time.
-     */
-    private MainThread thread;
-
-    /**
-     * Create a new game in the context environment.
-     *
-     * @param context the environment.
-     */
+public abstract class GameView extends View {
+    private MazeGameDriver mazeGameDriver;
+    // private RhythmGameDriver rhythmGameDriver;
+    // private TetrisGameDriver tetrisGameDriver;
+    
     public GameView(Context context) {
-        super(context);
-        getHolder().addCallback(this);
-        thread = new MainThread(getHolder(), this);
-        setFocusable(true);
-        setClickable(true);
+        this(context, null);
+    }
+
+    public GameView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.mazeGameDriver = new MazeGameDriver(context);
+    }
+
+    public void init(DisplayMetrics metrics, Intent test) {
+        mazeGameDriver.init(metrics);
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        game = initializeGame(screenHeight, screenWidth);
-
-        thread.setRunning(true);
-        thread.start();
+    protected void onDraw(Canvas canvas) {
+        mazeGameDriver.draw(canvas);
     }
 
-    /**
-     * Constructs a new Game object and initializes its event handlers.
-     *
-     * @param screenHeight height of the screen
-     * @param screenWidth  width of the screen
-     * @return the game
-     */
-    protected abstract Game initializeGame(int screenHeight, int screenWidth);
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-    }
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        boolean retry = true;
-        while (retry) {
-            try {
-                thread.setRunning(false);
-                thread.join();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            retry = false;
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN :
+                mazeGameDriver.touchStart(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_MOVE :
+                mazeGameDriver.touchMove(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP :
+                mazeGameDriver.touchUp();
+                invalidate();
+                break;
         }
+
+        return true;
     }
-
-    /**
-     * Update the game state for the next frame
-     */
-    public void update() {
-        game.update();
-    }
-
-    /**
-     * Draws the current state of the game
-     * @param canvas the graphics context to draw the game on
-     */
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        if (canvas != null) game.draw(canvas);
-
-    }
-
-
 }
 
 
