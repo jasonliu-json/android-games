@@ -6,16 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
+import uoft.csc207.gameapplication.GameDriver;
 
-public class RhythmGameDriver {
-    private Bitmap bitmap;
 
-    private Canvas newCanvas;
-
+public class RhythmGameDriver extends GameDriver {
     private Paint circlePaint = new Paint();
-
-    private int screenHeight;
-    private int screenWidth;
 
     private int X;
     private int Y;
@@ -27,14 +22,6 @@ public class RhythmGameDriver {
         circlePaint.setColor(Color.BLACK);
         circlePaint.setStyle(Paint.Style.FILL);
         circlePaint.setStrokeWidth(10);
-
-    }
-
-    public void init(DisplayMetrics metrics) {
-        screenHeight = metrics.heightPixels - 40;
-        screenWidth = metrics.widthPixels;
-        bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
-        newCanvas = new Canvas(bitmap);
     }
 
     public void touchStart(float x, float y) {

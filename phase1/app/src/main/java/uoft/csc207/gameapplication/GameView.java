@@ -10,7 +10,7 @@ import android.view.View;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
-public abstract class GameView extends View {
+public class GameView extends View {
     private MazeGameDriver mazeGameDriver;
     // private RhythmGameDriver rhythmGameDriver;
     // private TetrisGameDriver tetrisGameDriver;

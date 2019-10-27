@@ -1,27 +1,20 @@
 package uoft.csc207.gameapplication.MazeGame;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
 
+
+import uoft.csc207.gameapplication.GameDriver;
 
 import static java.lang.Thread.sleep;
 
-public class MazeGameDriver {
-    private Bitmap bitmap;
-
-    private Canvas newCanvas;
-
+public class MazeGameDriver extends GameDriver {
     private Paint wallPaint = new Paint();
     private Paint endPaint = new Paint();
     private Paint startPaint = new Paint();
-
-    private int screenHeight;
-    private int screenWidth;
 
     private MazeGame mazeGame;
 
@@ -40,13 +33,6 @@ public class MazeGameDriver {
         startPaint.setStyle(Paint.Style.FILL);
         startPaint.setStrokeWidth(1);
 
-    }
-
-    public void init(DisplayMetrics metrics) {
-        screenHeight = metrics.heightPixels - 40;
-        screenWidth = metrics.widthPixels;
-        bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
-        newCanvas = new Canvas(bitmap);
     }
 
     public void touchStart(float x, float y) {

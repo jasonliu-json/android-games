@@ -1,14 +1,11 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-
-import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;

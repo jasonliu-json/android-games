@@ -2,8 +2,9 @@ package uoft.csc207.gameapplication;
 
 import android.graphics.Canvas;
 
-public abstract class Game {
+// THIS CLASS WILL NOT BE NEEDED KEEPING IT FOR INFO REFERENCE;
 
+public abstract class Game {
     // Statistics
     private int pointsGained = 0;
     private int numDeaths = 0;
