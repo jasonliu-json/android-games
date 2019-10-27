@@ -7,8 +7,13 @@
     tools:context=".GameActivity">
 
 
-    <uoft.csc207.gameapplication.MazeGame.MazeGameView
-        android:id="@+id/MazeGameView"
+<!--    <uoft.csc207.gameapplication.MazeGame.MazeGameView-->
+<!--        android:id="@+id/MazeGameView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <uoft.csc207.gameapplication.RhythmGame.RhythmGameView
+        android:id="@+id/RhythmGameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

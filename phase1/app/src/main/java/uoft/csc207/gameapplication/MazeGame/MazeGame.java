@@ -82,7 +82,8 @@ public class MazeGame {
             System.out.println("goal reached");
             currentLevel += 1;
             if (currentLevel == 3) {
-                // should return to main menu
+                // should return to main menu this should not be here in the future
+                // this is simply for current testing purposes to see how to move states
                 gameActivityContext.startActivity(new Intent(gameActivityContext, Login.class));
             }
             else {

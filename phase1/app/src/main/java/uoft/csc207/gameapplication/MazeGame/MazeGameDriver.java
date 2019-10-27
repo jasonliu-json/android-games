@@ -19,7 +19,6 @@ public class MazeGameDriver {
     private Paint wallPaint = new Paint();
     private Paint endPaint = new Paint();
     private Paint startPaint = new Paint();
-    private Paint bitmapPaint = new Paint();
 
     private int screenHeight;
     private int screenWidth;
@@ -112,7 +111,7 @@ public class MazeGameDriver {
             }
         }
 
-        canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
+        canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
     }
 }
