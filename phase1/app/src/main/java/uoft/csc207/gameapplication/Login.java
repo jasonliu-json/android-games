@@ -2,7 +2,6 @@ package uoft.csc207.gameapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +37,8 @@ public class Login extends AppCompatActivity {
                 loginPassword = passwordInput.getText().toString();
                 if (loginEmail.equals("test@gmail.com") && loginPassword.equals("password")) {
                     showToast("Login Successful");
+                    Intent gameActivity = new Intent(Login.this, GameActivity.class);
+                    startActivity(gameActivity);
                 }
                 else {
                     showToast("Incorrect login credentials");
