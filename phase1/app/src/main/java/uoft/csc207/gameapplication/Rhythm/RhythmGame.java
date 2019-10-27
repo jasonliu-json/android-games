@@ -12,8 +12,8 @@ import android.view.View;
 
 import uoft.csc207.gameapplication.Game;
 
-/* A game where notes ascend the screen and the player aims to tap the note precisely when the note
- * overlaps a fixed note shadow. */
+/* A game where notes ascend the screen and the player aims to tap the
+ * note precisely when the note overlaps a fixed note shadow. */
 public class RhythmGame extends Game {
     private static int numColumns = 4;
     private ArrayList<Column> columns;
@@ -63,7 +63,7 @@ public class RhythmGame extends Game {
 
         for (int i = 0; i < numColumns; i++) {
             Pair<NoteShape, Paint> theme = colThemes.get(i);
-            columns.add(new Column(getScreenWidth() * (i + 1) / numColumns, theme.first, theme.second));
+            columns.add(new Column(getScreenWidth() * i / numColumns, theme.first, theme.second));
         }
     }
 
@@ -74,7 +74,7 @@ public class RhythmGame extends Game {
     public void update() {
         for (Column col : columns) col.update();
 
-
+        // update time
     }
 
     /**
@@ -85,6 +85,9 @@ public class RhythmGame extends Game {
     @Override
     public void draw(Canvas canvas) {
         for (Column col : columns) col.draw(canvas);
+
+        // draw statistics
+        // draw time
     }
 
     /**
