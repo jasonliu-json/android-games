@@ -12,20 +12,29 @@ public abstract class Game {
     // Dimensions
     private int screenHeight, screenWidth;
 
+    /**
+     * Constructs a game with the specified screen height and width
+     *
+     * @param screenHeight height of the screen
+     * @param screenWidth  width of the screen
+     */
     public Game(int screenHeight, int screenWidth) {
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
     }
 
-    public Game() {
 
-    }
-
-
+    /**
+     * Updates the state of the game for the next frame
+     */
     public abstract void update();
 
+    /**
+     * Draws a frame of the game
+     *
+     * @param canvas the graphics context to draw on
+     */
     public abstract void draw(Canvas canvas);
-
 
     public int getPointsGained() {
         return pointsGained;
@@ -33,6 +42,10 @@ public abstract class Game {
 
     public void setPointsGained(int pointsGained) {
         this.pointsGained = pointsGained;
+    }
+
+    public void addPointsGained(int dPoints) {
+        this.pointsGained += dPoints;
     }
 
     public int getNumDeaths() {
@@ -43,11 +56,15 @@ public abstract class Game {
         this.numDeaths = numDeaths;
     }
 
-    public void setScreenHeight(int screenHeight) {
-        this.screenHeight = screenHeight;
+    public void addNumDeaths(int dDeaths) {
+        this.numDeaths += dDeaths;
     }
 
-    public void setScreenWidth(int screenWidth) {
-        this.screenWidth = screenWidth;
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
     }
 }

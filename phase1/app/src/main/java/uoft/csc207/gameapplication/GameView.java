@@ -9,12 +9,13 @@ import android.view.SurfaceView;
 /**
  * The game view. Taken from FishTank Assignment.
  */
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+public abstract class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * Screen width.
      */
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+
     /**
      * Screen height.
      */
@@ -30,27 +31,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
 
     /**
-     * Create a new fish tank in the context environment.
+     * Create a new game in the context environment.
      *
      * @param context the environment.
      */
-    public GameView(Context context, Game game) {
+    public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
         setClickable(true);
-        this.game = game;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        game.setScreenHeight(screenHeight);
-        game.setScreenWidth(screenWidth);
+        game = initializeGame(screenHeight, screenWidth);
 
         thread.setRunning(true);
         thread.start();
     }
+
+    /**
+     * Constructs a new Game object and initializes its event handlers.
+     *
+     * @param screenHeight height of the screen
+     * @param screenWidth  width of the screen
+     * @return the game
+     */
+    protected abstract Game initializeGame(int screenHeight, int screenWidth);
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -72,18 +80,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Update the game state.
+     * Update the game state for the next frame
      */
     public void update() {
         game.update();
     }
 
+    /**
+     * Draws the current state of the game
+     * @param canvas the graphics context to draw the game on
+     */
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (canvas != null) {
-            game.draw(canvas);
-        }
+        if (canvas != null) game.draw(canvas);
 
     }
 
