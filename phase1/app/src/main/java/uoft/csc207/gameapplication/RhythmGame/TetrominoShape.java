@@ -1,7 +1,5 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
@@ -9,19 +7,26 @@ import android.graphics.RectF;
  */
 public class TetrominoShape {
 
-    private Tetromino tetro;
-
-    public float getHeight() {
-        return height;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
+    private Tetromino tetromino;
     private float height, width;
-
     private RectF[] unitFigure;
+
+    public TetrominoShape(Tetromino tetromino) {
+        this.tetromino = tetromino;
+        this.unitFigure = generateFigure(tetromino.getCoords());
+        this.height = tetromino.getHeight();
+        this.width = tetromino.getWidth();
+    }
+
+    public static RectF[] generateFigure(int[][] coords) {
+        RectF[] fourBlocks = new RectF[4];
+        for (int i = 0; i < 4; i++) {
+            int left = coords[i][0];
+            int top = coords[i][1];
+            fourBlocks[i] = new RectF(left, top, left + 1, top + 1);
+        }
+        return fourBlocks;
+    }
 
     public RectF[] getCopyOfUnitFigure() {
         RectF[] copy = new RectF[unitFigure.length];
@@ -30,20 +35,11 @@ public class TetrominoShape {
         return copy;
     }
 
-    public TetrominoShape(Tetromino tetro) {
-        this.tetro = tetro;
-        this.unitFigure = generateFigure(tetro.getCoords());
-        this.height = tetro.getHeight();
-        this.width = tetro.getWidth();
+    public float getHeight() {
+        return height;
     }
 
-    public static RectF[] generateFigure(int[][] coords) {
-        RectF[] fourBlocks = new RectF[4];
-        for (int i  = 0; i < 4; i++) {
-            int left = coords[i][0];
-            int top = coords[i][1];
-            fourBlocks[i] = new RectF(left, top, left + 1, top + 1);
-        }
-        return fourBlocks;
+    public float getWidth() {
+        return width;
     }
 }

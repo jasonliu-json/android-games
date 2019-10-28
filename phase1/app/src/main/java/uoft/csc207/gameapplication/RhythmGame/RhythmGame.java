@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.util.Pair;
 
+
 // testing git
 
 /* A game where notes ascend the screen and the player aims to tap the
@@ -15,40 +16,24 @@ import android.util.Pair;
 public class RhythmGame {
     private int numColumns;
     private ArrayList<Column> columns;
-    private float colSize;
-    private int screenHeight;
-
 
     /**
      * Constructs the Rhythm game
      *
-     * @param screenHeight height of the screen
-     * @param screenWidth  width of the screen
-     * @param numColumns   number of columns of the game
+     * @param numColumns number of columns of the game
      */
-    public RhythmGame(int screenHeight, int screenWidth, int numColumns) {
-        this.screenHeight = screenHeight;
+    public RhythmGame(int numColumns) {
         this.numColumns = numColumns;
-        this.colSize = screenWidth / (float) numColumns;
 
-        createColumns();
+        columns = new ArrayList<>(numColumns);
+        for (int i = 0; i < numColumns; i++) {
+            columns.add(new Column(100, i));
+        }
+
 //        setPointsGained(0);
 //        setNumDeaths(0);
     }
 
-    /**
-     * Initializes the columns of the game
-     */
-    public void createColumns() {
-        // get the theme of each column (the shape of the notes and the colour)
-        ArrayList<Pair<NoteShape, Paint>> colThemes = getTheme();
-        columns = new ArrayList<>(numColumns);
-
-        for (int i = 0; i < numColumns; i++) {
-            Pair<NoteShape, Paint> theme = colThemes.get(i);
-            columns.add(new Column((int) (colSize * i), (int) colSize, screenHeight, theme.first, theme.second));
-        }
-    }
 
     /**
      * Updates the state of the game for the next frame
@@ -66,10 +51,15 @@ public class RhythmGame {
      * @param canvas the graphics context to draw on
      */
 
-    public void draw(Canvas canvas) {
-        //columns.get(0).draw(canvas);
+    public void draw(Canvas canvas, int screenHeight, int screenWidth, NoteShape[] colUnitNoteShapes,
+                     Paint[] colPaints, Paint targetPaint) {
+        float colSize = screenWidth / (float) numColumns;
 
-        for (Column col : columns) col.draw(canvas);
+        for (int i = 0; i < numColumns; i++) {
+            NoteShape colUnitNoteShape = colUnitNoteShapes[i];
+            Paint colPaint = colPaints[i];
+            columns.get(i).draw(canvas, screenHeight, colSize, colUnitNoteShape, colPaint, targetPaint);
+        }
 
         Paint circlePaint = new Paint();
         circlePaint.setColor(Color.YELLOW);
@@ -81,28 +71,8 @@ public class RhythmGame {
         // draw time
     }
 
-    /**
-     * @return a list of a pair of the note shape and colour for each column
-     */
-    private ArrayList<Pair<NoteShape, Paint>> getTheme() {
-        // later implementation will allow for customizability
-        ArrayList<Pair<NoteShape, Paint>> lst = new ArrayList<>(numColumns);
-        for (int i = 0; i < numColumns; i++) {
-            Paint paint = new Paint();
-            paint.setColor(Color.YELLOW);
-            int[][] coords = new int[][]{{1, 0}, {1, 1}, {0, 1}, {2, 1}};
-            lst.add(new Pair<>(new NoteShape(new TetrominoShape(new Tetromino(coords))), paint));
-        }
 
-        return lst;
-    }
-
-    public void tap(float xPos) {
-        for (int i = 0; i < numColumns; i++) {
-            if (xPos < i * colSize) {
-                columns.get(i).tap();
-                break;
-            }
-        }
+    public void tap(int colNumber) {
+        columns.get(colNumber).tap();
     }
 }

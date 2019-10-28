@@ -14,8 +14,7 @@ class NoteShape {
 
     public NoteShape(TetrominoShape tetroShape) {
         this.tetroShape = tetroShape;
-        this.figure = tetroShape.getCopyOfUnitFigure();
-        this.scale = 1;
+        this.setScale(1);
     }
 
     public NoteShape(TetrominoShape tetroShape, float scale) {
@@ -23,6 +22,31 @@ class NoteShape {
         this.setScale(scale);
     }
 
+    public NoteShape clone() {
+        return new NoteShape(this.tetroShape, this.scale);
+    }
+
+    public void draw(Canvas canvas, float x, float y, Paint paint) {
+        for (RectF rect : figure) {
+            RectF toDrawRect = new RectF(x + rect.left, y + rect.top,
+                    x + rect.right, y + rect.bottom);
+            canvas.drawRect(toDrawRect, paint);
+        }
+    }
+
+    /**
+     * Changes the figure of this shape by making the unit length the scale
+     *
+     * @param sc scaling factor
+     */
+    public void setScale(float sc) {
+        this.scale = sc;
+        RectF[] figureToRescale = tetroShape.getCopyOfUnitFigure();
+        for (RectF r : figureToRescale) {
+            r.set(r.left * sc, r.top * sc, r.right * sc, r.bottom * sc);
+        }
+        this.figure = figureToRescale;
+    }
 
     public float getHeight() {
         return tetroShape.getHeight() * scale;
@@ -30,29 +54,5 @@ class NoteShape {
 
     public float getWidth() {
         return tetroShape.getWidth() * scale;
-    }
-
-    public void setScale(float sc) {
-        this.scale = sc;
-        RectF[] figureToRescale = tetroShape.getCopyOfUnitFigure();
-        for (RectF r : figureToRescale) {
-            r.set(r.left * sc, r.top*sc, r.right*sc, r.bottom *sc);
-        }
-        this.figure = figureToRescale;
-
-    }
-
-    public NoteShape clone() {
-       return new NoteShape(this.tetroShape, this.scale);
-    }
-
-    public void draw(float x, float y, Canvas canvas, Paint paint) {
-        // RectF[] unitFigure = getFigure();
-        for (RectF rect : figure) {
-            RectF toDrawRect = new RectF(x + rect.left, y + rect.top,
-                    x + rect.right, y +rect.bottom);
-            canvas.drawRect(toDrawRect, paint);
-        }
-
     }
 }
