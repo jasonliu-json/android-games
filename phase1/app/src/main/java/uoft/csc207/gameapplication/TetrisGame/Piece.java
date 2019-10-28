@@ -37,7 +37,7 @@ abstract class Piece {
         return rotation;
     }
 
-    boolean canMoveTo(Board board, int adjX, int adjY) {
+    boolean canMoveTo(BoardVersionWithPieceClass board, int adjX, int adjY) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (this.shape[this.rotation][y].charAt(x) == 'X') {
@@ -54,22 +54,22 @@ abstract class Piece {
         return true;
     }
 
-    private void tryMove(Board board, int adjX, int adjY) {
+    private void tryMove(BoardVersionWithPieceClass board, int adjX, int adjY) {
         if (this.canMoveTo(board, adjX, adjY)) {
             this.x += adjX;
             this.y += adjY;
         }
     }
 
-    void moveLeft(Board board) {
+    void moveLeft(BoardVersionWithPieceClass board) {
         this.tryMove(board, -1, 0);
     }
 
-    void moveRight(Board board) {
+    void moveRight(BoardVersionWithPieceClass board) {
         this.tryMove(board, 1, 0);
     }
 
-    void moveDown(Board board) {
+    void moveDown(BoardVersionWithPieceClass board) {
         this.tryMove(board, 0, 1);
     }
 
