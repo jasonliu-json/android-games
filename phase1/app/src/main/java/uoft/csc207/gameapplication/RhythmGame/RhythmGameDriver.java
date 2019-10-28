@@ -43,12 +43,20 @@ public class RhythmGameDriver extends GameDriver {
             Tetromino tetromino = new Tetromino(coords);
             TetrominoShape tetrominoShape = new TetrominoShape(tetromino);
             colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
-            startTime = System.currentTimeMillis();
-        }
 
+        }
+        startTime = System.currentTimeMillis();
 //        circlePaint.setColor(Color.BLACK);
 //        circlePaint.setStyle(Paint.Style.FILL);
 //        circlePaint.setStrokeWidth(10);
+    }
+
+    public void update() {
+        rhythmGame.update();
+//        if (timeSinceUpdate > 300) {
+//            timeSinceUpdate = 0;
+//            rhythmGame.update();
+//        }
     }
 
     public boolean timeToUpdate() {

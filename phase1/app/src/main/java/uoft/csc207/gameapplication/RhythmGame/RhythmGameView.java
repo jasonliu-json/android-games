@@ -14,7 +14,7 @@ public class RhythmGameView extends View {
     }
 
     public RhythmGameView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+            super(context, attrs);
         this.rhythmGameDriver = new RhythmGameDriver();
     }
 
@@ -27,6 +27,9 @@ public class RhythmGameView extends View {
         rhythmGameDriver.draw(canvas);
     }
 
+    public void update() {
+        rhythmGameDriver.update();
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

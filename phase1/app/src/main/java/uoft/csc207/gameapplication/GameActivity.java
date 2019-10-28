@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameView;
@@ -30,6 +31,17 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         rhythmGameView.init(metrics);
+//        float startTime = System.currentTimeMillis();
+//        float timeSinceUpdate = System.currentTimeMillis();
+//
+//        while (true) {
+//            if (timeSinceUpdate > 5000) {
+//                rhythmGameView.invalidate();
+//                rhythmGameView.update();
+//                timeSinceUpdate = 0;
+//            }
+//        }
+
 
 
     }
