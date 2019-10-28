@@ -48,14 +48,12 @@ class BoardVersionWithPieceClass {
     }
 
     void clearRow(int n) {
-        for (int y = n; y > 2; y--) {   // updates rows 3-n
+        for (int y = n; y > 0; y--) {   // updates rows 1-n
             for (int x = 0; x < width; x++) {
                 board[y][x] = board[y - 1][x];
             }
         }
-        for (int y = 0; y < 3; y++) {
-            Arrays.fill(board[y], null);   // updates row 0, 1, 2
-        }
+        Arrays.fill(board[0], null);   // updates row 0
     }
 
     void clearRows() {
