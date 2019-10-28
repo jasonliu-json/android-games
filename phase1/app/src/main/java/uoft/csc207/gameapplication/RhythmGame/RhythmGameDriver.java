@@ -17,6 +17,7 @@ public class RhythmGameDriver extends GameDriver {
 
     private float startTime;
     private float elapsedTime;
+    private float timeSinceUpdate;
 
     private static float stats[] = new float[5];
     // stats: score, timer, level/difficulty etc.
@@ -50,6 +51,14 @@ public class RhythmGameDriver extends GameDriver {
 //        circlePaint.setStrokeWidth(10);
     }
 
+    public boolean timeToUpdate() {
+        if (timeSinceUpdate > 300) {
+            timeSinceUpdate = 0;
+            return true;
+        }
+        return false;
+    }
+
     public float getTime() {
         elapsedTime = elapsedTime + (System.currentTimeMillis() - startTime);
         return elapsedTime;
@@ -70,6 +79,7 @@ public class RhythmGameDriver extends GameDriver {
         // Do something when you cursor is moving around to x, y pos
         //X = (int) x;
 //        Y = (int) y;
+        rhythmGame.update();
     }
 
     public void touchUp() {
@@ -79,11 +89,15 @@ public class RhythmGameDriver extends GameDriver {
     public void draw(Canvas canvas) {
         newCanvas.save();
 
+        Paint tempPaint = new Paint();
+        tempPaint.setColor(Color.WHITE);
+        newCanvas.drawRect(0,0, screenWidth, screenHeight, tempPaint);
         // some sort of draw method here
         // rhythmGame.update();
         rhythmGame.draw(newCanvas, screenHeight, screenWidth, colUnitNoteShapes,
                 columnPaints, targetPaint);
         //newCanvas.drawCircle(X, Y, 20, circlePaint);
+
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
