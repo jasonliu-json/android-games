@@ -37,7 +37,7 @@ abstract class Piece {
         return rotation;
     }
 
-    boolean canMoveTo(BoardVersionWithPieceClass board, int adjX, int adjY) {
+    private boolean canMoveTo(BoardVersionWithPieceClass board, int adjX, int adjY) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (this.shape[this.rotation][y].charAt(x) == 'X') {
