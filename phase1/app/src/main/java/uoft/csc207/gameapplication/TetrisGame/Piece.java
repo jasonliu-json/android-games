@@ -21,7 +21,7 @@ abstract class Piece {
 
     Piece() {
         x = 3;   // these coordinates center the pieces on the grid
-        y = 1;
+        y = 0;
         rotation = 0;
     }
 
