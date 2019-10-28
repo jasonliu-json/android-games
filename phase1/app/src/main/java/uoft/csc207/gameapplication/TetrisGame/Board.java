@@ -6,6 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+/**
+ * The board class is specifically for the background and the
+ * static condition of the little pieces.
+ */
+
 public class Board {
     private int[][] b;
 
@@ -55,6 +60,13 @@ public class Board {
         return true;
     }
 
+    /**
+     * When detect that the there's a line is filled, then this line will be
+     * actually "replaced" by the next line of the pieces
+     *
+     * PS: I doubt the efficiency of this method, I will have a look on the recursion and
+     * the number orders later.
+     */
     public void delete() {
         for (int i = 0; i < 20; i++) {
             if (!is_fill(i)) {
