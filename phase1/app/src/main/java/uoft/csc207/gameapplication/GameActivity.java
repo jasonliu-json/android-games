@@ -30,5 +30,7 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         rhythmGameView.init(metrics);
+
+
     }
 }
