@@ -76,6 +76,9 @@ public class RhythmGameDriver extends GameDriver {
         // Do something to detect Touch given x, y pos
         int colNumber = (int) (4 * x / screenWidth);
         rhythmGame.tap(colNumber);
+        rhythmGame.update();
+
+
 //        System.out.println(screenWidth);
 //        System.out.println(x);
 //        System.out.println(colNumber);

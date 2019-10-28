@@ -62,7 +62,11 @@ class Column {
 
     public void tap() {
         // check to see if top note is in target
-        notes.add(new Note(50));
+
+        // adds new note
+//        notes.add(new Note(50));
+
+
         // if in target remove note and update points
 
         ArrayList<Note> notesCopy = new ArrayList<>(notes);

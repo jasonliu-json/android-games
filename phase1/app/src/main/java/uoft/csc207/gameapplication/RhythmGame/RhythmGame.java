@@ -14,7 +14,7 @@ import android.util.Pair;
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps a fixed note shadow. */
 public class RhythmGame {
-    private int numColumns;
+    private int numColumns = 4;
     private ArrayList<Column> columns;
 
     /**
@@ -40,7 +40,18 @@ public class RhythmGame {
      */
 
     public void update() {
-        for (Column col : columns) col.update();
+        // update columns
+        for (Column col : columns) {
+            col.update();
+        }
+
+        for (int i=0;i<numColumns;i++) {
+            // RNG notes for now lol. 25% chance for each column to generate note.
+            double randomNumber = Math.random();
+            if (randomNumber<0.25){
+                columns.get(i).generateNote();
+            }
+        }
 
         // update time
     }
