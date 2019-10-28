@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import android.util.Pair;
 
-// testing git 
+// testing git
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps a fixed note shadow. */

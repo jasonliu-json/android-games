@@ -8,48 +8,59 @@ import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.GameDriver;
 
-
 public class RhythmGameDriver extends GameDriver {
-    private Paint circlePaint = new Paint();
+  private Paint circlePaint = new Paint();
 
-    private int X;
-    private int Y;
+  private int X;
+  private int Y;
 
-    private RhythmGame rhythmGame;
+  private float startTime;
+  private float elapsedTime;
 
-    public RhythmGameDriver() {
-        //rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);
-        rhythmGame = new RhythmGame(1988, 1080, 4);
-//        circlePaint.setColor(Color.BLACK);
-//        circlePaint.setStyle(Paint.Style.FILL);
-//        circlePaint.setStrokeWidth(10);
-    }
+  private static float stats[] = new float[5];
+  // stats: score, timer, level/difficulty etc.
 
-    public void touchStart(float x, float y) {
-        // Do something to detect Touch given x, y pos
-        X = (int) x;
-        Y = (int) y;
-    }
+  private RhythmGame rhythmGame;
 
-    public void touchMove(float x, float y) {
-        // Do something when you cursor is moving around to x, y pos
-        //X = (int) x;
-        Y = (int) y;
-    }
+  public RhythmGameDriver() {
+    // rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);
+    rhythmGame = new RhythmGame(1988, 1080, 4);
+    //        circlePaint.setColor(Color.BLACK);
+    //        circlePaint.setStyle(Paint.Style.FILL);
+    //        circlePaint.setStrokeWidth(10);
+    startTime = System.currentTimeMillis();
+  }
 
-    public void touchUp() {
-        // nothing required here for screen movement
-    }
+  public float getTime() {
+    elapsedTime = elapsedTime + (System.currentTimeMillis() - startTime);
+    return elapsedTime;
+  }
 
-    public void draw(Canvas canvas) {
-        newCanvas.save();
+  public void touchStart(float x, float y) {
+    // Do something to detect Touch given x, y pos
+    X = (int) x;
+    Y = (int) y;
+  }
 
-        // some sort of draw method here
-        rhythmGame.update();
-        rhythmGame.draw(newCanvas);
-        newCanvas.drawCircle(X, Y, 20, circlePaint);
+  public void touchMove(float x, float y) {
+    // Do something when you cursor is moving around to x, y pos
+    // X = (int) x;
+    Y = (int) y;
+  }
 
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        newCanvas.restore();
-    }
+  public void touchUp() {
+    // nothing required here for screen movement
+  }
+
+  public void draw(Canvas canvas) {
+    newCanvas.save();
+
+    // some sort of draw method here
+    rhythmGame.update();
+    rhythmGame.draw(newCanvas);
+    newCanvas.drawCircle(X, Y, 20, circlePaint);
+
+    canvas.drawBitmap(bitmap, 0, 0, null);
+    newCanvas.restore();
+  }
 }
