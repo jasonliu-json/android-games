@@ -122,7 +122,8 @@ public class RhythmGameDriver extends GameDriver {
         rhythmGame.draw(newCanvas, screenHeight, screenWidth, colUnitNoteShapes,
                 columnPaints, targetPaint);
         //newCanvas.drawCircle(X, Y, 20, circlePaint);
-
+        String s = "Score:  ";
+        System.out.println(s + RhythmGameDriver.getScore());
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();

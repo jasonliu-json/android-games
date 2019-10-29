@@ -22,7 +22,7 @@ class Column {
     public Column(int height, int colNumber) {
 //        this.height = height;
         this.colNumber = colNumber;
-        this.target = new Target(5, 10);
+        this.target = new Target(10, 10);
         notes = new ArrayList<>();
     }
 
@@ -34,9 +34,9 @@ class Column {
       note.moveUp(1);
 
       // note: getY() > ... should be screen height?
-      if (note.getY() > 2 * height || note.getY() < 0) {
+      if (note.getY() > 2 * height || note.getY() < -18) {
         notes.remove(note);
-        RhythmGameDriver.changeScore(-5);
+        RhythmGameDriver.changeScore(-1);
 
       }
     }
@@ -83,10 +83,11 @@ class Column {
         for (int i=0; i<notesCopy.size(); i++){
             if(target.contains(notes.get(0).getY())){
                 // add points
-                notes.remove(0);
+
                 // score gained is based on the difference between hit position and target, for
                 // maximum of 10 points per hit.
-                int scoreGained = 10 * (notes.get(0).getY() - target.getY()) / target.getY();
+                int scoreGained = (notes.get(0).getY() - target.getY());
+                notes.remove(0);
 
 
 

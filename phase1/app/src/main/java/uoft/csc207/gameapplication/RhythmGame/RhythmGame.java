@@ -80,7 +80,8 @@ public class RhythmGame {
         circlePaint.setColor(Color.YELLOW);
         circlePaint.setStyle(Paint.Style.FILL);
         circlePaint.setStrokeWidth(10);
-        canvas.drawCircle(colSize * 2, screenHeight / 2, 20, circlePaint);
+
+//        canvas.drawCircle(colSize * 2, screenHeight / 2, 20, circlePaint);
 
 //        canvas.drawText(RhythmGameDriver.getScore(), 50, 100, circlePaint);
 //    System.out.println(RhythmGameDriver.getScore());
