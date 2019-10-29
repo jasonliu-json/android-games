@@ -42,10 +42,10 @@ public class RhythmGame {
 
     public static void setDifficulty(String diff) {
         difficulty = diff;
-        if (diff == "EASY") {
+        if (diff.equals("EASY")) {
             updateInterval = 200;
             notesFrequency = 0.01;
-        } else if (diff == "HARD") {
+        } else if (diff.equals("HARD")) {
             updateInterval = 50;
             notesFrequency = 0.1;
         } else {
