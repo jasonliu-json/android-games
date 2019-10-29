@@ -7,35 +7,22 @@
     tools:context=".GameActivity">
 
 
-<!--    <uoft.csc207.gameapplication.MazeGame.MazeGameView-->
-<!--        android:id="@+id/MazeGameView"-->
+    <uoft.csc207.gameapplication.MazeGame.MazeGameView
+        android:id="@+id/MazeGameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+<!--    <uoft.csc207.gameapplication.RhythmGame.RhythmGameView-->
+<!--        android:id="@+id/RhythmGameView"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
-    <uoft.csc207.gameapplication.RhythmGame.RhythmGameView
-        android:id="@+id/RhythmGameView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-2dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="43dp"
-        android:text="@string/game_score" />
+<!--    <uoft.csc207.gameapplication.TetrisGame.TetrisGameView-->
+<!--        android:id="@+id/TetrisGameView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
 </RelativeLayout>
+
+
+

@@ -24,6 +24,8 @@ public class MazeGame {
 
     private Context gameActivityContext;
 
+    private boolean gameIsOver;
+
     public MazeGame(Context context) {
         gameActivityContext = context;
         mazeWidth = 2 * 7 + 1;
@@ -34,7 +36,8 @@ public class MazeGame {
         xCharacter = 1;
         yCharacter = 1;
 
-        currentLevel = 0;
+        currentLevel = 1;
+        gameIsOver = false;
     }
 
     void moveDown() {
@@ -73,20 +76,21 @@ public class MazeGame {
             checkEndpointReached();
         }
     }
+
+    boolean getGameIsOver() {
+        return gameIsOver;
+    }
+
     private void checkEndpointReached() {
-        System.out.println(xCharacter);
-        System.out.println(yCharacter);
-        System.out.println(xEndPos);
-        System.out.println(yEndPos);
         if (xCharacter == xEndPos && yCharacter == yEndPos) {
             System.out.println("goal reached");
-            currentLevel += 1;
-            if (currentLevel == 3) {
-                // should return to main menu this should not be here in the future
-                // this is simply for current testing purposes to see how to move states
-                gameActivityContext.startActivity(new Intent(gameActivityContext, Login.class));
+            if (currentLevel == 1) {
+                gameIsOver = true;
+                // temporarily print game is over
+                System.out.println("Game is over");
             }
             else {
+                currentLevel += 1;
                 xCharacter = 1;
                 yCharacter = 1;
                 xEndPos = 0;

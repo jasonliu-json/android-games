@@ -4,10 +4,10 @@ class O extends Piece {
 
     O() {
         super();
-        shape = new String[][]{{".....",
-                                ".....",
-                                ".OO..",
-                                ".OO..",
-                                "....."}};
+        states = new String[][]{{".....",
+                                 ".....",
+                                 ".OO..",
+                                 ".OO..",
+                                 "....."}};
     }
 }

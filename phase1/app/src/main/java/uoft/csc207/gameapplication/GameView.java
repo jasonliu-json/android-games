@@ -24,7 +24,7 @@ public class GameView extends View {
         this.mazeGameDriver = new MazeGameDriver(context);
     }
 
-    public void init(DisplayMetrics metrics, Intent test) {
+    public void init(DisplayMetrics metrics) {
         mazeGameDriver.init(metrics);
     }
 

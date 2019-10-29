@@ -30,29 +30,27 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_game);
-//        mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
-//        mazeView.init(metrics, returnToMenu);
-
         super.onCreate(savedInstanceState);
+//        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
+
         setContentView(R.layout.activity_game);
-        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
+        mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        rhythmGameView.init(metrics);
-//<<<<<<< HEAD
+        mazeView.init(metrics);
 
-//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_game);
+//        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        rhythmGameView.init(metrics);
+
 //        setContentView(R.layout.activity_game);
 //        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //        tetrisGameView.init(metrics);
-               // =======
+
 //        float startTime = System.currentTimeMillis();
 //        float timeSinceUpdate = System.currentTimeMillis();
 //
@@ -65,7 +63,5 @@ public class GameActivity extends AppCompatActivity {
 //        }
 
 
-
-//>>>>>>> 432dcec15468ed3a58b8f81be5d9c7be6a4874cd
     }
 }
