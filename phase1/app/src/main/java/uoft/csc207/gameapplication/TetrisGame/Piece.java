@@ -9,7 +9,7 @@ abstract class Piece {
 
     Piece() {
         x = 3;   // center piece on x-axis of grid
-        y = -2;   // fix piece on top of grid (actual coordinates are out of bounds)
+        y = -1;   // fix piece on top of grid (actual coordinates are out of bounds)
         rotation = 0;
     }
 
