@@ -84,6 +84,8 @@ public class MazeGame {
     private void checkEndpointReached() {
         if (xCharacter == xEndPos && yCharacter == yEndPos) {
             System.out.println("goal reached");
+            xEndPos = 0;
+            yEndPos = 0;
             if (currentLevel == 1) {
                 gameIsOver = true;
                 // temporarily print game is over
@@ -93,8 +95,6 @@ public class MazeGame {
                 currentLevel += 1;
                 xCharacter = 1;
                 yCharacter = 1;
-                xEndPos = 0;
-                yEndPos = 0;
                 this.maze = generateMaze(mazeWidth, mazeHeight);
             }
         }
