@@ -4,9 +4,9 @@ import java.util.*;
 public class RunWithTimer extends Thread{
 
     private RhythmGameView rhythmGameView;
-    private long startTime = System.currentTimeMillis();
-    private long runTime = 20000;
-    private long updateInterval = 100;
+    private static long startTime = System.currentTimeMillis();
+    private static long runTime = 200000;
+    private static long updateInterval = 100;
 
     public RunWithTimer(RhythmGameView rhythmGameDriver) {
         this.rhythmGameView = rhythmGameDriver;

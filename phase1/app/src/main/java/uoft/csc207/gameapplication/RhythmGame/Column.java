@@ -47,6 +47,17 @@ class Column {
     // check to see if any notes are off screen and remove them
   }
 
+  public boolean checkLowestNote() {
+        int lowest = 0;
+        for (Note note: notes) {
+            if (note.getY() > lowest) {
+                lowest = note.getY();
+            }
+        }
+        // screen height = 100, note height = 20??
+        return 100 - lowest > 20;
+  }
+
   public void draw(
       Canvas canvas,
       int screenHeight,
@@ -69,7 +80,9 @@ class Column {
   }
 
   public void generateNote() {
-    notes.add(new Note(height));
+      if (checkLowestNote()) {
+          notes.add(new Note(height));
+      }
   }
 
   public void tap() {

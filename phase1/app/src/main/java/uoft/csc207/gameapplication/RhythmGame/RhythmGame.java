@@ -38,15 +38,25 @@ public class RhythmGame {
     /**
      * Updates the state of the game for the next frame
      */
+//
+//    public void randomlyGenerateNotes(Column col) {
+//
+//        if (col.checkLowestNote()) {
+//            double randomNumber = Math.random();
+//            if (randomNumber < 0.1) {
+//                col.generateNote();
+//            }
+//        }
+//    }
 
     public void update() {
-        // update columns
-        double randomNumber = Math.random();
-        int i = 0;
+
         for (Column col : columns) {
             col.update();
-            if (i * 0.05 < randomNumber && randomNumber < (i+1)* 0.05) col.generateNote();
-            i++;
+            double randomNumber = Math.random();
+            if (randomNumber < 0.1) {
+                col.generateNote();
+            }
         }
 
 //    for (int i = 0; i < numColumns; i++) {

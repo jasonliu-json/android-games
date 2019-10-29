@@ -8,7 +8,7 @@ import android.graphics.RectF;
  * A note in the game.
  */
 public class Note {
-    // y indicates the height of the note
+    // y indicates the height (position) of the note
     private int y;
 
     public Note(int y) {

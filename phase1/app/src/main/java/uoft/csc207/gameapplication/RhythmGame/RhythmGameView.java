@@ -7,18 +7,38 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
+
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;
     private RunWithTimer thread;
+    private Timer timer;
     public RhythmGameView(Context context) {
         this(context, null);
     }
 
     public RhythmGameView(Context context, AttributeSet attrs) {
-            super(context, attrs);
+        super(context, attrs);
         this.rhythmGameDriver = new RhythmGameDriver();
-        thread = new RunWithTimer(this);
 
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                update();
+//                invalidate();
+//
+//                if (false) { // should be the condition that the game is over;
+//                    timer.cancel();
+//                    timer.purge();
+//                }
+//            }
+//        }, 100, 20000);
+
+        thread = new RunWithTimer(this);
     }
 
     public void startThread() {
