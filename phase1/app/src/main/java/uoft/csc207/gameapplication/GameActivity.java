@@ -20,27 +20,26 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_game);
-//        mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        super.onCreate(savedInstanceState);
 //        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
-//        mazeView.init(metrics, returnToMenu);
 
-//        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+        mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mazeView.init(metrics);
+
 //        setContentView(R.layout.activity_game);
 //        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //        rhythmGameView.init(metrics);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        tetrisGameView.init(metrics);
+//        setContentView(R.layout.activity_game);
+//        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        tetrisGameView.init(metrics);
 
 //        float startTime = System.currentTimeMillis();
 //        float timeSinceUpdate = System.currentTimeMillis();
