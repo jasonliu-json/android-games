@@ -9,6 +9,7 @@ import android.view.View;
 
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;
+    private MainThread thread;
     public RhythmGameView(Context context) {
         this(context, null);
     }
@@ -16,10 +17,18 @@ public class RhythmGameView extends View {
     public RhythmGameView(Context context, AttributeSet attrs) {
             super(context, attrs);
         this.rhythmGameDriver = new RhythmGameDriver();
+        thread = new MainThread(this);
+
+    }
+
+    public void startThread() {
+        thread.setRunning(true);
+        thread.start();
     }
 
     public void init(DisplayMetrics metrics) {
         rhythmGameDriver.init(metrics);
+        startThread();
     }
 
     @Override

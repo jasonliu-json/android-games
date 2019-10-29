@@ -41,17 +41,21 @@ public class RhythmGame {
 
     public void update() {
         // update columns
+        double randomNumber = Math.random();
+        int i = 0;
         for (Column col : columns) {
             col.update();
+            if (i * 0.05 < randomNumber && randomNumber < (i+1)* 0.05) col.generateNote();
+            i++;
         }
 
-        for (int i=0;i<numColumns;i++) {
-            // RNG notes for now lol. 25% chance for each column to generate note.
-            double randomNumber = Math.random();
-            if (randomNumber<0.25){
-                columns.get(i).generateNote();
-            }
-        }
+//    for (int i = 0; i < numColumns; i++) {
+//      // RNG notes for now lol. 25% chance for each column to generate note.
+//      //            double randomNumb     //            } = Math.random();
+//      ////            if (randomNumber<0.25){
+//      ////                columns.get(i).generateNote();
+//      ////            }
+//    }
 
         // update time
     }

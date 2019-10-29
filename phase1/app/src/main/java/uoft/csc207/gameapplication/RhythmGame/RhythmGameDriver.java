@@ -26,6 +26,8 @@ public class RhythmGameDriver extends GameDriver {
 
     private RhythmGame rhythmGame;
 
+//    private MainThread thread;
+
     public RhythmGameDriver() {
         //rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);
         rhythmGame = new RhythmGame(numColumns);
@@ -46,6 +48,8 @@ public class RhythmGameDriver extends GameDriver {
 
         }
         startTime = System.currentTimeMillis();
+
+//        thread = new MainThread(this);
 //        circlePaint.setColor(Color.BLACK);
 //        circlePaint.setStyle(Paint.Style.FILL);
 //        circlePaint.setStrokeWidth(10);
@@ -58,6 +62,8 @@ public class RhythmGameDriver extends GameDriver {
 //            rhythmGame.update();
 //        }
     }
+
+
 
     public boolean timeToUpdate() {
         if (timeSinceUpdate > 300) {
@@ -76,7 +82,7 @@ public class RhythmGameDriver extends GameDriver {
         // Do something to detect Touch given x, y pos
         int colNumber = (int) (4 * x / screenWidth);
         rhythmGame.tap(colNumber);
-        rhythmGame.update();
+        //rhythmGame.update();
 
 
 //        System.out.println(screenWidth);
@@ -90,7 +96,7 @@ public class RhythmGameDriver extends GameDriver {
         // Do something when you cursor is moving around to x, y pos
         //X = (int) x;
 //        Y = (int) y;
-        rhythmGame.update();
+       // rhythmGame.update();
     }
 
     public void touchUp() {
