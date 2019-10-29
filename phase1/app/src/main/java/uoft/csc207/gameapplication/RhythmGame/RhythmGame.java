@@ -17,6 +17,8 @@ public class RhythmGame {
     private int numColumns = 4;
     private ArrayList<Column> columns;
 
+    public static int score;
+
     /**
      * Constructs the Rhythm game
      *
@@ -69,6 +71,16 @@ public class RhythmGame {
 
         // update time
     }
+
+    public static void changeScore(int amount) {
+        score += amount;
+    }
+
+    public static String getScore(){
+        return Integer.toString(score);
+    }
+
+
 
     /**
      * Draws a frame of the game in the current state

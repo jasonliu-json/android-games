@@ -19,15 +19,6 @@ public class GameActivity extends AppCompatActivity {
     private RhythmGameView rhythmGameView;
     private TetrisGameView tetrisGameView;
 
-//    public void generateToast(String message) {
-//        Context context = getApplicationContext();
-//        CharSequence text = message;
-//        int duration = Toast.LENGTH_SHORT;
-//
-//        Toast toast = Toast.makeText(context, text, duration);
-//        toast.show();
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

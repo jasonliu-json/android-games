@@ -40,7 +40,7 @@ class Column {
       // note: getY() > ... should be screen height?
       if (note.getY() > 2 * height || note.getY() < -18) {
         notes.remove(note);
-        RhythmGameDriver.changeScore(-1);
+        RhythmGame.changeScore(-1);
 
       }
     }
@@ -108,7 +108,7 @@ class Column {
 
 
 
-                RhythmGameDriver.changeScore(scoreGained);
+                RhythmGame.changeScore(scoreGained);
             }
         }
     }

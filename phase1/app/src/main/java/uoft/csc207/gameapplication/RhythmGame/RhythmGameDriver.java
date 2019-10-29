@@ -19,13 +19,6 @@ public class RhythmGameDriver extends GameDriver {
     private int X;
     private int Y;
 
-    private float startTime;
-    private float elapsedTime;
-    private float timeSinceUpdate;
-
-    private static float stats[] = new float[5];
-    // stats: score, timer, level/difficulty etc.
-    public static int score;
 
     private int numColumns = 4;
 
@@ -50,7 +43,6 @@ public class RhythmGameDriver extends GameDriver {
             colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
 
         }
-        startTime = System.currentTimeMillis();
 //        circlePaint.setColor(Color.BLACK);
 //        circlePaint.setStyle(Paint.Style.FILL);
 //        circlePaint.setStrokeWidth(10);
@@ -73,14 +65,6 @@ public class RhythmGameDriver extends GameDriver {
 //        Toast toast = Toast.makeText(context, text, duration);
 //        toast.show();
 //    }
-
-    public boolean timeToUpdate() {
-        if (timeSinceUpdate > 300) {
-            timeSinceUpdate = 0;
-            return true;
-        }
-        return false;
-    }
 
 
 //    public float getTime() {
@@ -113,14 +97,6 @@ public class RhythmGameDriver extends GameDriver {
        // rhythmGame.update();
     }
 
-    public static void changeScore(int amount) {
-        score += amount;
-    }
-
-    public static String getScore(){
-        return Integer.toString(score);
-    }
-
 
     public void touchUp() {
         // nothing required here for screen movement
@@ -138,7 +114,7 @@ public class RhythmGameDriver extends GameDriver {
                 columnPaints, targetPaint);
         //newCanvas.drawCircle(X, Y, 20, circlePaint);
         String s = "Score:  ";
-        System.out.println(s + RhythmGameDriver.getScore());
+        System.out.println(s + RhythmGame.getScore());
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
