@@ -1,31 +1,28 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
-import android.graphics.Color;
-
-public class L extends Piece {
+class L extends Piece {
 
     L() {
         super();
-        color = Color.valueOf(255, 200, 100);
         String[][] shape = new String[][]{{".....",
-                                           "...X.",
-                                           ".XXX.",
+                                           "...L.",
+                                           ".LLL.",
                                            ".....",
                                            "....."},
                                           {".....",
-                                           "..X..",
-                                           "..X..",
-                                           "..XX.",
+                                           "..L..",
+                                           "..L..",
+                                           "..LL.",
                                            "....."},
                                           {".....",
                                            ".....",
-                                           ".XXX.",
-                                           ".X...",
+                                           ".LLL.",
+                                           ".L...",
                                            "....."},
                                           {".....",
-                                          ".XX..",
-                                          "..X..",
-                                          "..X..",
+                                          ".LL..",
+                                          "..L..",
+                                          "..L..",
                                           "....."}};
     }
 }

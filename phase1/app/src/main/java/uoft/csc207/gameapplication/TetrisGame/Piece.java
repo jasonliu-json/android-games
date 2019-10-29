@@ -16,11 +16,11 @@ abstract class Piece {
     private int x;
     private int y;
     private int rotation;
-    Color color;
+    private static Color color;
     String[][] shape;
 
     Piece() {
-        x = 3;   // these coordinates center the pieces on the grid
+        x = 3;   // center piece on grid
         y = 0;
         rotation = 0;
     }
@@ -37,12 +37,12 @@ abstract class Piece {
         return rotation;
     }
 
-    private boolean canMoveTo(BoardVersionWithPieceClass board, int adjX, int adjY) {
+    private boolean canMoveTo(BoardV2 board, int adjX, int adjY) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (this.shape[this.rotation][y].charAt(x) == 'X') {
                     try {
-                        if (board.board[this.y + y + adjY][this.x + x + adjX] != null) {
+                        if (board.board[this.y + y + adjY][this.x + x + adjX] != '.') {
                             return false;   // move results in collision
                         }
                     } catch (IndexOutOfBoundsException e) {
@@ -54,22 +54,22 @@ abstract class Piece {
         return true;
     }
 
-    private void tryMove(BoardVersionWithPieceClass board, int adjX, int adjY) {
+    private void tryMove(BoardV2 board, int adjX, int adjY) {
         if (this.canMoveTo(board, adjX, adjY)) {
             this.x += adjX;
             this.y += adjY;
         }
     }
 
-    void moveLeft(BoardVersionWithPieceClass board) {
+    void moveLeft(BoardV2 board) {
         this.tryMove(board, -1, 0);
     }
 
-    void moveRight(BoardVersionWithPieceClass board) {
+    void moveRight(BoardV2 board) {
         this.tryMove(board, 1, 0);
     }
 
-    void moveDown(BoardVersionWithPieceClass board) {
+    void moveDown(BoardV2 board) {
         this.tryMove(board, 0, 1);
     }
 
