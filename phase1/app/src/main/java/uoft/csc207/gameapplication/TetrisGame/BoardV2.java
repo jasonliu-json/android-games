@@ -71,6 +71,16 @@ class BoardV2 {
         }
         return rowsCleared;
     }
+
+    public boolean gameOver() {
+        for (int i = 0; i < 10; i++) {
+            if (board[0][i] == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void drawBoard(Canvas canvas) {
         float width = canvas.getWidth() / 12;
         float height = canvas.getWidth() / 12;

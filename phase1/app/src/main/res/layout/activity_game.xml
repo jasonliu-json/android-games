@@ -53,7 +53,7 @@
         android:orientation="horizontal">
 
         <uoft.csc207.gameapplication.TetrisGame.TetrisGameView
-            android:id="@+id/gmview"
+            android:id="@+id/TetrisGameView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="11"
