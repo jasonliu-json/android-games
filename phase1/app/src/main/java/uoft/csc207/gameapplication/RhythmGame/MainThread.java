@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import java.util.Timer;
+
 /**
  * Hacky way to manage threading and updates.
  */
@@ -33,6 +35,8 @@ public class MainThread extends Thread {
 
     @Override
     public void run() {
+
+
         while (isRunning) {
 //            canvas = null;
 
@@ -42,7 +46,6 @@ public class MainThread extends Thread {
 
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
             }
 
             try {

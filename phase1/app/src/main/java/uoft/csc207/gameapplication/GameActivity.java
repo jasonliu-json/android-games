@@ -19,31 +19,31 @@ public class GameActivity extends AppCompatActivity {
     private RhythmGameView rhythmGameView;
     private TetrisGameView tetrisGameView;
 
-    public void generateToast(String message) {
-        Context context = getApplicationContext();
-        CharSequence text = message;
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-    }
+//    public void generateToast(String message) {
+//        Context context = getApplicationContext();
+//        CharSequence text = message;
+//        int duration = Toast.LENGTH_SHORT;
+//
+//        Toast toast = Toast.makeText(context, text, duration);
+//        toast.show();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
-
-        setContentView(R.layout.activity_game);
-        mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        mazeView.init(metrics);
+        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
 
 //        setContentView(R.layout.activity_game);
-//        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
+//        mazeView = (MazeGameView) findViewById(R.id.MazeGameView);
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        rhythmGameView.init(metrics);
+//        mazeView.init(metrics);
+
+        setContentView(R.layout.activity_game);
+        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        rhythmGameView.init(metrics);
 
 //        setContentView(R.layout.activity_game);
 //        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);

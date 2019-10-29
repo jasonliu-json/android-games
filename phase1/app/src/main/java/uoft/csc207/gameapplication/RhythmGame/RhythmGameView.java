@@ -9,7 +9,7 @@ import android.view.View;
 
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;
-    private MainThread thread;
+    private RunWithTimer thread;
     public RhythmGameView(Context context) {
         this(context, null);
     }
@@ -17,12 +17,12 @@ public class RhythmGameView extends View {
     public RhythmGameView(Context context, AttributeSet attrs) {
             super(context, attrs);
         this.rhythmGameDriver = new RhythmGameDriver();
-        thread = new MainThread(this);
+        thread = new RunWithTimer(this);
 
     }
 
     public void startThread() {
-        thread.setRunning(true);
+//        thread.setRunning(true);
         thread.start();
     }
 
