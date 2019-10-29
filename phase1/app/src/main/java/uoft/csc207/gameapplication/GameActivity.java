@@ -2,10 +2,12 @@ package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameView;
 import uoft.csc207.gameapplication.RhythmGame.RhythmGameView;
@@ -17,6 +19,14 @@ public class GameActivity extends AppCompatActivity {
     private RhythmGameView rhythmGameView;
     private TetrisGameView tetrisGameView;
 
+    public void generateToast(String message) {
+        Context context = getApplicationContext();
+        CharSequence text = message;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

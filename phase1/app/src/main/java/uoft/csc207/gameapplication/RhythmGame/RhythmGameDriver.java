@@ -1,10 +1,14 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.widget.Toast;
+import android.os.Bundle;
 
 import uoft.csc207.gameapplication.GameDriver;
+import uoft.csc207.gameapplication.MainActivity;
 
 public class RhythmGameDriver extends GameDriver {
     // private Paint circlePaint = new Paint();
@@ -54,11 +58,21 @@ public class RhythmGameDriver extends GameDriver {
 
     public void update() {
         rhythmGame.update();
-//        if (timeSinceUpdate > 300) {
-//            timeSinceUpdate = 0;
-//            rhythmGame.update();
-//        }
     }
+
+    public static void popUpMessage() {
+
+//    Toast.makeText(,"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+    }
+//
+//    public static void popUpMessage() {
+//        Context context =
+//        CharSequence text = "Hello toast!";
+//        int duration = Toast.LENGTH_SHORT;
+//
+//        Toast toast = Toast.makeText(context, text, duration);
+//        toast.show();
+//    }
 
     public boolean timeToUpdate() {
         if (timeSinceUpdate > 300) {
@@ -68,10 +82,11 @@ public class RhythmGameDriver extends GameDriver {
         return false;
     }
 
-    public float getTime() {
-        elapsedTime = elapsedTime + (System.currentTimeMillis() - startTime);
-        return elapsedTime;
-    }
+
+//    public float getTime() {
+//        elapsedTime = elapsedTime + (System.currentTimeMillis() - startTime);
+//        return elapsedTime;
+//    }
 
     public void touchStart(float x, float y) {
 

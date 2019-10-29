@@ -1,9 +1,13 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import uoft.csc207.gameapplication.GameActivity;
 
 /**
  * A column of the rhythm, which consists of a shadow (the target)
