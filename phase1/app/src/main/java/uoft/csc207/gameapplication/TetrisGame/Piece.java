@@ -42,23 +42,29 @@ abstract class Piece {
         return true;
     }
 
-    private void tryMove(BoardV2 board, int adjX, int adjY) {
+    private boolean tryMove(BoardV2 board, int adjX, int adjY) {
         if (this.canMoveTo(board, adjX, adjY)) {
             this.x += adjX;
             this.y += adjY;
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    void moveLeft(BoardV2 board) {
-        this.tryMove(board, -1, 0);
+    // CALL THESE METHODS IN THE DRIVER
+    // returns true if the move was successful
+    boolean moveLeft(BoardV2 board) {
+        return this.tryMove(board, -1, 0);
     }
 
-    void moveRight(BoardV2 board) {
-        this.tryMove(board, 1, 0);
+    boolean moveRight(BoardV2 board) {
+        return this.tryMove(board, 1, 0);
     }
 
-    void moveDown(BoardV2 board) {
-        this.tryMove(board, 0, 1);
+    boolean moveDown(BoardV2 board) {
+        return this.tryMove(board, 0, 1);
     }
 
     // void drop(Board board) {}   // phase 2

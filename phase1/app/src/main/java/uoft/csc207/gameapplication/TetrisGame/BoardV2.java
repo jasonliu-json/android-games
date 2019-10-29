@@ -7,7 +7,7 @@ class BoardV2 {
     private int WIDTH = 10;
     private int HEIGHT = 20;
 
-    char[][] board;   // not private
+    char[][] board;
 
     BoardV2() {
         board = new char[WIDTH][HEIGHT];
@@ -56,14 +56,15 @@ class BoardV2 {
         Arrays.fill(board[0], '.');   // updates row 0
     }
 
-    void clearRows() {
+    boolean clearRows() {
+        boolean rowsCleared = false;
         for (int y = 0; y < HEIGHT; y++) {
             if (this.rowIsFull(y)) {
                 this.clearRow(y);
+                rowsCleared = true;
             }
         }
+        return rowsCleared;
     }
-
-
 }
 
