@@ -9,11 +9,14 @@ import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameView;
 import uoft.csc207.gameapplication.RhythmGame.RhythmGameView;
+import uoft.csc207.gameapplication.TetrisGame.TetrisGameView;
 
 public class GameActivity extends AppCompatActivity {
 
     private MazeGameView mazeView;
     private RhythmGameView rhythmGameView;
+    private TetrisGameView tetrisGameView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,15 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         rhythmGameView.init(metrics);
+<<<<<<< HEAD
+
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_game);
+//        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        tetrisGameView.init(metrics);
+                =======
 //        float startTime = System.currentTimeMillis();
 //        float timeSinceUpdate = System.currentTimeMillis();
 //
@@ -44,5 +56,6 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+>>>>>>> 432dcec15468ed3a58b8f81be5d9c7be6a4874cd
     }
 }
