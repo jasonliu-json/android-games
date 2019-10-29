@@ -7,9 +7,13 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MazeGameView extends View {
     private MazeGameDriver mazeGameDriver;
+    private Timer timer;
 
     public MazeGameView(Context context) {
         this(context, null);
@@ -18,6 +22,18 @@ public class MazeGameView extends View {
     public MazeGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mazeGameDriver = new MazeGameDriver(context);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidate();
+                if (false) { // should be the condition that the game is over;
+                    timer.cancel();
+                    timer.purge();
+                }
+            }
+        }, 0, 30);
+
     }
 
     public void init(DisplayMetrics metrics) {
