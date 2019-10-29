@@ -27,6 +27,10 @@ public class RhythmGameDriver extends GameDriver {
     public RhythmGameDriver() {
         //rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);
         rhythmGame = new RhythmGame(numColumns);
+
+        // default difficulty is normal
+        RhythmGame.setDifficulty("NORMAL");
+
         columnPaints = new Paint[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columnPaints[i] = new Paint();

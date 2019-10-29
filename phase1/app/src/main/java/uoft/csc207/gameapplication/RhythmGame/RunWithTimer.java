@@ -5,8 +5,8 @@ public class RunWithTimer extends Thread{
 
     private RhythmGameView rhythmGameView;
     private static long startTime = System.currentTimeMillis();
-    private static long runTime = 200000;
-    private static long updateInterval = 100;
+    private static long runTime = 500000;
+    private static long updateInterval = RhythmGame.updateInterval;
 
     public RunWithTimer(RhythmGameView rhythmGameDriver) {
         this.rhythmGameView = rhythmGameDriver;

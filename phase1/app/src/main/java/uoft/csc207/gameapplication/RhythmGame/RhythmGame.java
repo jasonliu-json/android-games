@@ -18,6 +18,10 @@ public class RhythmGame {
     private ArrayList<Column> columns;
 
     public static int score;
+    public static String difficulty;
+    public static long runTime = 200000;
+    public static long updateInterval = 100;
+    public static double notesFrequency = 0.05;
 
     /**
      * Constructs the Rhythm game
@@ -34,6 +38,21 @@ public class RhythmGame {
 
 //        setPointsGained(0);
 //        setNumDeaths(0);
+    }
+
+    public static void setDifficulty(String diff) {
+        difficulty = diff;
+        if (diff == "EASY") {
+            updateInterval = 200;
+            notesFrequency = 0.01;
+        } else if (diff == "HARD") {
+            updateInterval = 50;
+            notesFrequency = 0.1;
+        } else {
+            updateInterval = 100;
+            notesFrequency = 0.05;
+        }
+
     }
 
 
@@ -56,7 +75,7 @@ public class RhythmGame {
         for (Column col : columns) {
             col.update();
             double randomNumber = Math.random();
-            if (randomNumber < 0.1) {
+            if (randomNumber < notesFrequency) {
                 col.generateNote();
             }
         }
