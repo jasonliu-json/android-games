@@ -7,8 +7,12 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class TetrisGameView extends View {
     private TetrisGameDriver tetrisGameDriver;
+    private Timer timer;
 
     public TetrisGameView(Context context) {
         this(context, null);
@@ -17,6 +21,17 @@ public class TetrisGameView extends View {
     public TetrisGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.tetrisGameDriver = new TetrisGameDriver();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidate();
+                if (false) { // should be the condition that the game is over;
+                    timer.cancel();
+                    timer.purge();
+                }
+            }
+        }, 0, 30);
     }
 
     public void init(DisplayMetrics metrics) {
