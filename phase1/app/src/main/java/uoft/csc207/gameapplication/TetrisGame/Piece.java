@@ -1,5 +1,11 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+
 abstract class Piece {
 
     private int x;
@@ -74,4 +80,27 @@ abstract class Piece {
     // abstract void rotateCounterClockwise(Board board);   // phase 2
 
     // boolean canRotate(Board board)   // phase 2
+
+    public void drawPiece(Canvas canvas, Bitmap bitmap) {
+        Rect rect = new Rect();
+
+        Paint black_paint = new Paint();
+        black_paint.setStyle(Paint.Style.FILL);
+        black_paint.setColor(Color.BLACK);
+
+        int width = (canvas.getWidth() / 12);
+        int height = (canvas.getWidth() / 12);
+
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                x = x * width;
+                y = y * height;
+
+                if (this.states[this.rotation][y].charAt(x) != '.') {
+                    rect.set(x, y, x + width, y + height);
+                    canvas.drawBitmap(bitmap, null, rect, black_paint);
+                }
+            }
+        }
+    }
 }
