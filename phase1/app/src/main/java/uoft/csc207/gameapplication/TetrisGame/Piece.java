@@ -1,27 +1,15 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
-import android.graphics.Color;
-
-/**
- * This class currently relies on passing in a 10 x 22 array (+2 extra to allow pieces to 'fall in')
- * to detect collisions with other pieces and test boundaries.
- * I am using the array to store information about the location of each filled 'tile' that we can
- * use later to draw 'blocks' onto our activity.
- * <p>
- * Since this is inefficient, I will modify the implementation later so that we can get rid of the
- * 2D array.
- */
 abstract class Piece {
 
     private int x;
     private int y;
     private int rotation;
-    private static Color color;
-    String[][] shape;
+    String[][] states;
 
     Piece() {
-        x = 3;   // center piece on grid
-        y = 0;
+        x = 3;   // center piece on x-axis of grid
+        y = -2;   // fix piece on top of grid (actual coordinates are out of bounds)
         rotation = 0;
     }
 
@@ -40,7 +28,7 @@ abstract class Piece {
     private boolean canMoveTo(BoardV2 board, int adjX, int adjY) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                if (this.shape[this.rotation][y].charAt(x) == 'X') {
+                if (this.states[this.rotation][y].charAt(x) != '.') {
                     try {
                         if (board.board[this.y + y + adjY][this.x + x + adjX] != '.') {
                             return false;   // move results in collision
@@ -75,7 +63,7 @@ abstract class Piece {
 
     // void drop(Board board) {}   // phase 2
 
-    // abstract void rotateClockwise(Board board);   // phase 2 ~ something with modulo
+    // abstract void rotateClockwise(Board board);   // phase 2
 
     // abstract void rotateCounterClockwise(Board board);   // phase 2
 

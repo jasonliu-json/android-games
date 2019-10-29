@@ -5,9 +5,9 @@ import java.util.Arrays;
 class BoardV2 {
 
     private int WIDTH = 10;
-    private int HEIGHT = 22;
+    private int HEIGHT = 20;
 
-    char[][] board;   // not private because this is passed around to be modified frequently
+    char[][] board;   // not private
 
     BoardV2() {
         board = new char[WIDTH][HEIGHT];
@@ -16,11 +16,12 @@ class BoardV2 {
         }
     }
 
-    void drawPieceOnBoard(Piece piece) {
+    void addPiece(Piece piece) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                if (piece.shape[piece.getRotation()][y].charAt(x) != '.') {
-                    board[piece.getY() + y][piece.getX() + x] = piece.shape[piece.getRotation()][y].charAt(x);
+                char entry = piece.states[piece.getRotation()][y].charAt(x);
+                if (entry != '.') {
+                    board[piece.getY() + y][piece.getX() + x] = entry;
                 }
             }
         }
