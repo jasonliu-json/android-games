@@ -21,6 +21,7 @@ public class RhythmGameDriver extends GameDriver {
 
     private static float stats[] = new float[5];
     // stats: score, timer, level/difficulty etc.
+    public static int score;
 
     private int numColumns = 4;
 
@@ -73,10 +74,13 @@ public class RhythmGameDriver extends GameDriver {
     }
 
     public void touchStart(float x, float y) {
+
+        // note: touchStart brings next frame; still need to implement main game thread
+
         // Do something to detect Touch given x, y pos
         int colNumber = (int) (4 * x / screenWidth);
         rhythmGame.tap(colNumber);
-        rhythmGame.update();
+//        rhythmGame.update();
 
 
 //        System.out.println(screenWidth);
@@ -93,25 +97,46 @@ public class RhythmGameDriver extends GameDriver {
         rhythmGame.update();
     }
 
+    public static void changeScore(int amount) {
+        score += amount;
+    }
+
+    public static String getScore(){
+        return Integer.toString(score);
+    }
+
+
     public void touchUp() {
         // nothing required here for screen movement
     }
 
     public void draw(Canvas canvas) {
         newCanvas.save();
-
+//        rhythmGame.update();
         Paint tempPaint = new Paint();
         tempPaint.setColor(Color.WHITE);
         newCanvas.drawRect(0,0, screenWidth, screenHeight, tempPaint);
         // some sort of draw method here
-        // rhythmGame.update();
+
+
+//        rhythmGame.update();
+
+
+        canvas.drawRect(0,0, screenWidth, screenHeight, tempPaint);
         rhythmGame.draw(newCanvas, screenHeight, screenWidth, colUnitNoteShapes,
                 columnPaints, targetPaint);
+        tempPaint.setColor(Color.BLACK);
+        canvas.drawText(RhythmGameDriver.getScore(), 50, 100, tempPaint);
+        System.out.println(RhythmGameDriver.getScore());
+
+
         //newCanvas.drawCircle(X, Y, 20, circlePaint);
 
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
+
+
     }
 
 

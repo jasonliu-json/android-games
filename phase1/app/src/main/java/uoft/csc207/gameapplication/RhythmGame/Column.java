@@ -24,6 +24,7 @@ class Column {
         this.colNumber = colNumber;
         this.target = new Target(5, 10);
         notes = new ArrayList<>();
+        notes.add(new Note(80));
     }
 
     public void update() {
@@ -36,6 +37,8 @@ class Column {
             // note: getY() > ... should be screen height?
             if (note.getY() > 100 || note.getY() < 0) {
                 notes.remove(note);
+                RhythmGameDriver.changeScore(-5);
+
             }
         }
         // check to see if any notes are off screen and remove them
@@ -71,10 +74,19 @@ class Column {
 
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
 
+
+
         for (int i=0; i<notesCopy.size(); i++){
             if(target.contains(notes.get(0).getY())){
                 // add points
                 notes.remove(0);
+                // score gained is based on the difference between hit position and target, for
+                // maximum of 10 points per hit.
+                int scoreGained = 10 * (notes.get(0).getY() - target.getY()) / target.getY();
+
+
+
+                RhythmGameDriver.changeScore(scoreGained);
             }
         }
     }

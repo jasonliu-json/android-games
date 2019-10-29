@@ -25,11 +25,12 @@ public class RhythmGameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         rhythmGameDriver.draw(canvas);
+//        rhythmGameDriver.update();
     }
 
-    public void update() {
-        rhythmGameDriver.update();
-    }
+//    public void update() {
+//        rhythmGameDriver.update();
+//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -39,15 +40,15 @@ public class RhythmGameView extends View {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
                 rhythmGameDriver.touchStart(x, y);
-                invalidate();
+                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE :
                 rhythmGameDriver.touchMove(x, y);
-                invalidate();
+                 invalidate();
                 break;
             case MotionEvent.ACTION_UP :
                 rhythmGameDriver.touchUp();
-                invalidate();
+                 invalidate();
                 break;
         }
 
