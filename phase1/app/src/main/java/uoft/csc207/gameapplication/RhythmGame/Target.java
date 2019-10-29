@@ -19,4 +19,7 @@ class Target {
     public void draw(Canvas canvas, float x, float heightScale, NoteShape shape, Paint paint) {
         shape.draw(canvas, x, y * heightScale, paint);
     }
+
+    public int getY() {return y;}
+    public int getAllowedError(){return allowedError;}
 }

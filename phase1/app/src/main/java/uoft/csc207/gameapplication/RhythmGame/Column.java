@@ -6,29 +6,25 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 /**
- * A column of the rhythm, which consists of a shadow (the target) and the notes to hit within the
- * column.
+ * A column of the rhythm, which consists of a shadow (the target)
+ * and the notes to hit within the column.
  */
 class Column {
-  private int height = 100;
-  private int colNumber;
+    private int height = 100;
+    private int colNumber;
 
-  // the target, height from top
-  private Target target;
+    // the target, height from top
+    private Target target;
 
-  // the notes
-  private ArrayList<Note> notes;
+    // the notes
+    private ArrayList<Note> notes;
 
-  public Column(int height, int colNumber) {
-    //        this.height = height;
-    this.colNumber = colNumber;
-    this.target = new Target(5, 10);
-    notes = new ArrayList<>();
-
-    if (colNumber == 0) {
-      notes.add(new Note(70));
+    public Column(int height, int colNumber) {
+//        this.height = height;
+        this.colNumber = colNumber;
+        this.target = new Target(5, 10);
+        notes = new ArrayList<>();
     }
-  }
 
   public void update() {
     // move notes up
@@ -40,6 +36,8 @@ class Column {
       // note: getY() > ... should be screen height?
       if (note.getY() > 2 * height || note.getY() < 0) {
         notes.remove(note);
+        RhythmGameDriver.changeScore(-5);
+
       }
     }
     // check to see if any notes are off screen and remove them
@@ -80,11 +78,20 @@ class Column {
 
     ArrayList<Note> notesCopy = new ArrayList<>(notes);
 
-    for (int i = 0; i < notesCopy.size(); i++) {
-      if (target.contains(notes.get(0).getY())) {
-        // add points
-        notes.remove(0);
-      }
+
+
+        for (int i=0; i<notesCopy.size(); i++){
+            if(target.contains(notes.get(0).getY())){
+                // add points
+                notes.remove(0);
+                // score gained is based on the difference between hit position and target, for
+                // maximum of 10 points per hit.
+                int scoreGained = 10 * (notes.get(0).getY() - target.getY()) / target.getY();
+
+
+
+                RhythmGameDriver.changeScore(scoreGained);
+            }
+        }
     }
-  }
 }
