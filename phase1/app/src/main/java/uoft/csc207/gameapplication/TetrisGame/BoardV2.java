@@ -27,6 +27,17 @@ class BoardV2 {
         }
     }
 
+    void removePiece(Piece piece) {
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                char entry = piece.states[piece.getRotation()][y].charAt(x);
+                if (entry != '.') {
+                    board[piece.getY() + y][piece.getX() + x] = '.';
+                }
+            }
+        }
+    }
+
     private boolean rowIsFull(int n) {
         for (int x = 0; x < WIDTH; x++) {
             if (board[n][x] == '.') {
