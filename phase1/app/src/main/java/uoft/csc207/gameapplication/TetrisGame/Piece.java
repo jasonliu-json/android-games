@@ -54,9 +54,7 @@ abstract class Piece {
             this.y += adjY;
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     // CALL THESE METHODS IN THE DRIVER

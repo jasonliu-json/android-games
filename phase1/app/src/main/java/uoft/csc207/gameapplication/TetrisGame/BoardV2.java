@@ -97,8 +97,8 @@ class BoardV2 {
 
         int width = (canvas.getWidth() / 12);
         int height = (canvas.getWidth() / 12);
-        for (i = 0; i < 20; i++) {
-            for (k = 0; k < 10; k++) {
+        for (i = 0; i < HEIGHT; i++) {
+            for (k = 0; k < WIDTH; k++) {
                 x = k * width;
                 y = i * height;
                 if (board[i][k] != '.') {

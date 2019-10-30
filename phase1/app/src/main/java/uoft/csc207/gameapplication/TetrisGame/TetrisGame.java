@@ -42,15 +42,13 @@ class TetrisGame {
         TimerTask makePieceFall = new TimerTask() {
             @Override
             public void run() {
-                if (!board.clearRows()) {
-                    TetrisGame.this.moveFallingPieceDown();
-                }
+                TetrisGame.this.moveFallingPieceDown();
             }
         };
-        timer.schedule(makePieceFall, 500, 500);   // piece falls every 500 ms
+        timer.scheduleAtFixedRate(makePieceFall, 500, 500);   // piece falls every 500 ms
     }
 
-    public BoardV2 getBoard() {
+    BoardV2 getBoard() {
         return board;
     }
 
@@ -59,6 +57,7 @@ class TetrisGame {
         if (!fallingPiece.moveDown(board)) {   // cannot move down
             board.addPiece(fallingPiece);
             fallingPiece = pieceGenerator.nextPiece();
+            board.clearRows();
         }
         board.addPiece(fallingPiece);
     }

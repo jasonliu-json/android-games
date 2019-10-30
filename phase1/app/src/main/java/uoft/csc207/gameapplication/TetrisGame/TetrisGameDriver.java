@@ -36,8 +36,7 @@ public class TetrisGameDriver extends GameDriver {
                 tetrisGame.moveFallingPieceLeft();
             }
             else {
-                tetrisGame
-                        .moveFallingPieceRight();
+                tetrisGame.moveFallingPieceRight();
             }
         }
         else {
@@ -52,6 +51,9 @@ public class TetrisGameDriver extends GameDriver {
     }
 
     public void draw(Canvas canvas) {
+
+        // Just a note, unless we're already doing this, clear the canvas before drawing again
+
         newCanvas.save();
 
         float width = newCanvas.getWidth() / 12;
