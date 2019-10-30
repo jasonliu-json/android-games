@@ -1,6 +1,7 @@
 package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import uoft.csc207.gameapplication.RhythmGame.RhythmGame;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
             try {
+                int refreshTime = RhythmGame.getRefreshTime();
                 sleep(500);
             }
             catch (Exception e){

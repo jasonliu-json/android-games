@@ -10,6 +10,7 @@ import android.view.View;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
+import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
 
 public class GameView extends View {
 //    private MazeGameDriver mazeGameDriver;
@@ -36,7 +37,30 @@ public class GameView extends View {
 
 
 
-    @Override
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        float x = event.getX();
+//        float y = event.getY();
+//
+//        switch(event.getAction()) {
+//            case MotionEvent.ACTION_DOWN :
+//                rhythmGameDriver.touchStart(x, y);
+//                invalidate();
+//                break;
+//            case MotionEvent.ACTION_MOVE :
+//                rhythmGameDriver.touchMove(x, y);
+//                invalidate();
+//                break;
+//            case MotionEvent.ACTION_UP :
+//                rhythmGameDriver.touchUp();
+//                invalidate();
+//                break;
+//        }
+//
+//        return true;
+//    }
+
+        @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();

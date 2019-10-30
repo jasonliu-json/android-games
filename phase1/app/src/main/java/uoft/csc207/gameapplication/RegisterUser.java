@@ -10,12 +10,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class RegisterUser extends AppCompatActivity {
     private Button registerButton;
     private EditText emailInput;
     private EditText usernameInput;
     private EditText passwordInput;
     private EditText passwordConfirmationInput;
+
+    private static final String FILE = "UserData.json";
+    private JSONObject jsonObject;
 
     String registerEmail;
     String registerUsername;
@@ -31,6 +45,7 @@ public class RegisterUser extends AppCompatActivity {
         usernameInput = (EditText) findViewById(R.id.register_username);
         passwordInput = (EditText) findViewById(R.id.register_password);
         passwordConfirmationInput = (EditText) findViewById(R.id.register_password_confirmation);
+        load();
 
 
 
@@ -44,15 +59,103 @@ public class RegisterUser extends AppCompatActivity {
                 registerPasswordConfirmation = passwordConfirmationInput.getText().toString();
                 if (!registerPassword.equals(registerPasswordConfirmation)) {
                     showToast("The passwords do not match");
-                    return;
+
                 }
-                else {
+                else if (validUser()) {
+                    register();
                     Intent gameActivity = new Intent(RegisterUser.this,
-                                                     GameActivity.class);
+                                                     Login.class);
                     startActivity(gameActivity);
                 }
             }
         });
+    }
+    private void register() {
+        try {
+            JSONObject newUser = new JSONObject();
+            JSONArray userdata = jsonObject.getJSONArray("users");
+            Integer userId = userdata.length();
+            newUser.put("userId", userId.toString());
+            newUser.put("username", registerUsername);
+            newUser.put("password", Hashing.hash(registerPassword, "SHA-256"));
+            newUser.put("email", registerEmail);
+            userdata.put(newUser);
+            save();
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean validUser() {
+        JSONArray userdata;
+        try {
+            userdata = jsonObject.getJSONArray("users");
+            for (int i = 0; i < userdata.length(); i++) {
+                JSONObject user = userdata.getJSONObject(i);
+                boolean sameEmail = user.getString("email").equals(registerEmail);
+                boolean sameUser = user.getString("username").equals(registerUsername);
+                if (sameUser) {
+                    showToast("username is taken");
+                    return false;
+                }
+                else if (sameEmail) {
+                    showToast("email is taken");
+                    return false;
+                }
+            }
+            return true;
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void save() {
+        String jsonText = jsonObject.toString();
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(FILE, MODE_PRIVATE);
+            fileOutputStream.write(jsonText.getBytes());
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void load() {
+        try {
+            int i = 0;
+            String jsonString = "";
+            try {
+                FileInputStream fileInputStream = openFileInput(FILE);
+                while ((i = fileInputStream.read()) != -1) {
+                    jsonString += (char) i;
+                }
+            }
+            catch (FileNotFoundException e) {
+                BufferedReader bufferReader = new BufferedReader(
+                        new InputStreamReader(getAssets().open(FILE)));
+                while ((i = bufferReader.read()) != -1) {
+                    jsonString += (char) i;
+                }
+            }
+            jsonObject = new JSONObject(jsonString);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();;
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showToast(String text) {
