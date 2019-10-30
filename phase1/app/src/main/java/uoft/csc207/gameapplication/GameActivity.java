@@ -37,10 +37,10 @@ public class GameActivity extends AppCompatActivity {
 //        rhythmGameView.init(metrics);
 
         setContentView(R.layout.activity_game);
-        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
+        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        rhythmGameView.init(metrics);
+        tetrisGameView.init(metrics);
 
 //        float startTime = System.currentTimeMillis();
 //        float timeSinceUpdate = System.currentTimeMillis();

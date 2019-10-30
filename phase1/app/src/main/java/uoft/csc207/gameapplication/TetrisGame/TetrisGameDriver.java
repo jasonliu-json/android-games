@@ -66,6 +66,7 @@ public class TetrisGameDriver extends GameDriver {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.BLACK);
+        newCanvas.drawColor(Color.WHITE);
 
         for (i = 1; i <= 11; i++) {
             newCanvas.drawLine(x, 0, x, width * 20, paint);
@@ -75,14 +76,10 @@ public class TetrisGameDriver extends GameDriver {
             newCanvas.drawLine(0, y, height * 10, y, paint);
             y = y + height;
         }
-        tetrisGame.getBoard().drawBoard(newCanvas, bitmap);
+        tetrisGame.getBoard().drawBoard(newCanvas);
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
     }
-
-
-
-
 }
 
 

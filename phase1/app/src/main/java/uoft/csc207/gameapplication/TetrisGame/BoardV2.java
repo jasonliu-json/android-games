@@ -70,9 +70,7 @@ class BoardV2 {
         return false;
     }
 
-    public void drawBoard(Canvas canvas, Bitmap bitmap) {
-        Rect rect = new Rect();
-
+    public void drawBoard(Canvas canvas) {
         int i, k;
         int x, y;
 
@@ -87,8 +85,8 @@ class BoardV2 {
                 x = k * width;
                 y = i * height;
                 if (board[i][k] != '.') {
-                    rect.set(x, y, x + width, y + height);
-                    canvas.drawBitmap(bitmap, null, rect, paint);
+                    Rect rect = new Rect(x, y, x + width, y + width);
+                    canvas.drawRect(rect, paint);
                 }
             }
         }
