@@ -10,7 +10,6 @@ import android.util.SparseArray;
 import java.util.ArrayList;
 
 import uoft.csc207.gameapplication.GameDriver;
-import uoft.csc207.gameapplication.MainActivity;
 
 public class RhythmGameDriver extends GameDriver {
     private RhythmGame rhythmGame;
@@ -20,11 +19,17 @@ public class RhythmGameDriver extends GameDriver {
     private Paint[] columnPaints;
     private Paint targetPaint;
     private NoteShape[] colUnitNoteShapes;
+    private Paint textPaint;
+    private Paint missedTextPaint;
 
     public RhythmGameDriver(Context context) {
         super();
         rhythmGame = new RhythmGame(context, numColumns);
         setTheme();
+    }
+
+    public boolean getIsGameOver() {
+        return rhythmGame.getIsGameOver();
     }
 
     /**
@@ -50,6 +55,13 @@ public class RhythmGameDriver extends GameDriver {
             TetrominoShape tetrominoShape = new TetrominoShape(tetromino);
             colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
         }
+
+        textPaint = new Paint();
+        textPaint.setTextSize(100);
+
+        missedTextPaint = new Paint();
+        missedTextPaint.setTextSize(75);
+        missedTextPaint.setColor(Color.RED);
     }
 
     public void touchStart(float x, float y) {
@@ -102,6 +114,11 @@ public class RhythmGameDriver extends GameDriver {
                 scalableCopy.draw(newCanvas, xNote, note.getY() * heightRatio, columnPaints[i]);
             }
         }
+
+
+        newCanvas.drawText(String.valueOf(rhythmGame.getPoints()), 10, 80, textPaint);
+
+        newCanvas.drawText("Missed: " + String.valueOf(rhythmGame.getNumNotesMissed()), screenWidth /2, 80, missedTextPaint);
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();

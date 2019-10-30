@@ -16,7 +16,6 @@ import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;
-    private RunWithTimer thread;
     private Timer timer;
     public Context context;
 
@@ -28,51 +27,28 @@ public class RhythmGameView extends View {
     public RhythmGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.rhythmGameDriver = new RhythmGameDriver(context);
-//        timer = new Timer();
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                update();
-//                invalidate();
-//
-//                if (false) { // should be the condition that the game is over;
-//                    timer.cancel();
-//                    timer.purge();
-//                }
-//            }
-//        }, 100, 20000);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                rhythmGameDriver.update();
+                invalidate();
 
-        thread = new RunWithTimer(this);
-    }
-
-//    public static void displayMessage(String message) {
-//        // something about Toast should go here, will implement later
-//        displayText(message);
-//
-//    }
-//
-//    public static void displayText(String message) {
-//        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-//    }
-
-    public void startThread() {
-//        thread.setRunning(true);
-        thread.start();
+                if (rhythmGameDriver.getIsGameOver()) { // should be the condition that the game is over;
+                    timer.cancel();
+                    timer.purge();
+                }
+            }
+        }, 0, 60);
     }
 
     public void init(DisplayMetrics metrics) {
         rhythmGameDriver.init(metrics);
-        startThread();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         rhythmGameDriver.draw(canvas);
-//        rhythmGameDriver.update();
-    }
-
-    public void update() {
-        rhythmGameDriver.update();
     }
 
     @Override

@@ -1,8 +1,9 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
-import uoft.csc207.gameapplication.GameActivity;
 
 /**
  * A column of the rhythm, which consists of a shadow (the target)
@@ -20,17 +21,20 @@ class Column {
         notes = new ArrayList<>();
     }
 
-    void update() {
+    Pair<Integer, Integer> update() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
+        int numMissed = 0;
         for (Note note : notesCopy) {
             note.moveUp(1);
 
             // Removes off-screen notes
-            if (note.getY() > height || note.getY() < -height / 4) {
+            if (note.getY() > height || note.getY() < - height / 4) {
                 notes.remove(note);
-                RhythmGame.changeScore(-1);
+                numMissed += 1;
             }
         }
+
+        return new Pair(-numMissed, numMissed);
 
     }
 
@@ -53,38 +57,39 @@ class Column {
         }
     }
 
-    void tap() {
-        // check to see if top note is in target
-
-        // adds new note
-        //        notes.add(new Note(50));
-
-        // if in target remove note and update points
+    /**
+     * Checks if any notes are in the target.
+     * Pre-condition: the notes are sorted in ascending order of y-value.
+     * @return the number of points gained
+     */
+    int tap() {
+        int pointsGained = 0;
 
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         for (int i = 0; i < notesCopy.size(); i++) {
             if (target.contains(notes.get(i))) {
                 // score gained is based on the difference between hit position and target, for
                 // maximum of 10 points per hit.
-                double howClose = (notes.get(0).getY() - target.getY()) / target.getAllowedError();
-                int scoreGained = (int) (5 * howClose);
+                int distanceFromTarget = Math.abs(target.getY() - notes.get(i).getY());
 
-                if (howClose < 0.1) {
-                    RhythmGame.displayMessage("Perfect!");
-                } else if (howClose < 0.4) {
-                    RhythmGame.displayMessage("Great!");
-                } else {
-                    RhythmGame.displayMessage("Good!");
-                }
+                pointsGained += 2*(target.getAllowedError() - distanceFromTarget);
+
+//                if (howClose < 0.1) {
+//                    RhythmGame.displayMessage("Perfect!");
+//                } else if (howClose < 0.4) {
+//                    RhythmGame.displayMessage("Great!");
+//                } else {
+//                    RhythmGame.displayMessage("Good!");
+//                }
                 notes.remove(0);
-                RhythmGame.changeScore(scoreGained);
                 if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) break;
-            } else {
-                RhythmGame.displayMessage("Bad Hit!");
-                RhythmGame.changeScore(-5);
+            } else if (notes.get(i).getY() < target.getY()) {
+//                RhythmGame.displayMessage("Bad Hit!");
+                pointsGained -= 5;
                 // show miss message
             }
         }
+        return pointsGained;
     }
 
     Target getTarget() {
