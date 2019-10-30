@@ -6,24 +6,29 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import uoft.csc207.gameapplication.MainActivity;
+import uoft.csc207.gameapplication.MainView;
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;
     private RunWithTimer thread;
     private Timer timer;
+    public Context context;
+
+
     public RhythmGameView(Context context) {
         this(context, null);
     }
 
     public RhythmGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.rhythmGameDriver = new RhythmGameDriver();
-
+        this.rhythmGameDriver = new RhythmGameDriver(context);
 //        timer = new Timer();
 //        timer.scheduleAtFixedRate(new TimerTask() {
 //            @Override
@@ -40,6 +45,16 @@ public class RhythmGameView extends View {
 
         thread = new RunWithTimer(this);
     }
+
+//    public static void displayMessage(String message) {
+//        // something about Toast should go here, will implement later
+//        displayText(message);
+//
+//    }
+//
+//    public static void displayText(String message) {
+//        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+//    }
 
     public void startThread() {
 //        thread.setRunning(true);

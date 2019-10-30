@@ -16,7 +16,7 @@ public class RunWithTimer extends Thread{
 
     public void run() {
 
-        RhythmGame.setDifficulty("EASY");
+        RhythmGame.setDifficulty("NORMAL");
         while (System.currentTimeMillis() - startTime < RhythmGame.runTime ) {
 
             try {

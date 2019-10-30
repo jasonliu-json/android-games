@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -7,6 +8,9 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 import android.util.Pair;
+import android.widget.Toast;
+
+import uoft.csc207.gameapplication.MainView;
 
 
 // testing git
@@ -16,6 +20,7 @@ import android.util.Pair;
 public class RhythmGame {
     private int numColumns = 4;
     private ArrayList<Column> columns;
+    private Context context;
 
     public static int score;
     public static String difficulty;
@@ -23,12 +28,15 @@ public class RhythmGame {
     public static long updateInterval = 100;
     public static double notesFrequency = 0.05;
 
+
     /**
      * Constructs the Rhythm game
      *
      * @param numColumns number of columns of the game
      */
-    public RhythmGame(int numColumns) {
+    public RhythmGame(Context context, int numColumns) {
+
+        this.context = context;
         this.numColumns = numColumns;
 
         columns = new ArrayList<>(numColumns);
@@ -44,7 +52,7 @@ public class RhythmGame {
         difficulty = diff;
         if (diff.equals("EASY")) {
             updateInterval = 200;
-            notesFrequency = 0.01;
+            notesFrequency = 2;
         } else if (diff.equals("HARD")) {
             updateInterval = 50;
             notesFrequency = 0.1;
@@ -99,6 +107,13 @@ public class RhythmGame {
         return Integer.toString(score);
     }
 
+    public static void displayMessage(String message) {
+        // something about Toast should go here, will implement later
+//        RhythmGameView.displayMessage(message);
+        System.out.println(message);
+    }
+
+
 
 
     /**
@@ -121,11 +136,6 @@ public class RhythmGame {
         circlePaint.setColor(Color.YELLOW);
         circlePaint.setStyle(Paint.Style.FILL);
         circlePaint.setStrokeWidth(10);
-
-//        canvas.drawCircle(colSize * 2, screenHeight / 2, 20, circlePaint);
-
-//        canvas.drawText(RhythmGameDriver.getScore(), 50, 100, circlePaint);
-//    System.out.println(RhythmGameDriver.getScore());
 
         // draw statistics
         // draw time

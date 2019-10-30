@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import uoft.csc207.gameapplication.GameDriver;
 import uoft.csc207.gameapplication.MainActivity;
+import uoft.csc207.gameapplication.MainView;
 
 public class RhythmGameDriver extends GameDriver {
     // private Paint circlePaint = new Paint();
@@ -18,16 +19,18 @@ public class RhythmGameDriver extends GameDriver {
 
     private int X;
     private int Y;
-
+    private Context context;
 
     private int numColumns = 4;
 
     private RhythmGame rhythmGame;
 
-    public RhythmGameDriver() {
-        //rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);
-        rhythmGame = new RhythmGame(numColumns);
+//    public MainView mainView;
 
+    public RhythmGameDriver(Context context) {
+        //rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);
+        rhythmGame = new RhythmGame(context, numColumns);
+        this.context = context;
 
         columnPaints = new Paint[numColumns];
         for (int i = 0; i < numColumns; i++) {
@@ -52,12 +55,12 @@ public class RhythmGameDriver extends GameDriver {
 
     public void update() {
         rhythmGame.update();
-    }
 
-    public static void popUpMessage() {
+//        MainActivity.showMessage(rhythmGame.getScore());
+    }
 
 //    Toast.makeText(,"Hello Javatpoint",Toast.LENGTH_SHORT).show();
-    }
+
 //
 //    public static void popUpMessage() {
 //        Context context =
@@ -121,6 +124,5 @@ public class RhythmGameDriver extends GameDriver {
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
     }
-
 
 }

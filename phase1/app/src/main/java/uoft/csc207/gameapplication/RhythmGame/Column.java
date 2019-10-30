@@ -103,12 +103,22 @@ class Column {
 
                 // score gained is based on the difference between hit position and target, for
                 // maximum of 10 points per hit.
-                int scoreGained = (notes.get(0).getY() - target.getY());
+                double howClose = (notes.get(0).getY() - target.getY()) / target.getAllowedError();
+                int scoreGained = 5 * (int) howClose;
+
+                if (howClose < 0.1) {
+                    RhythmGame.displayMessage("Perfect!");
+                } else if (howClose < 0.4) {
+                    RhythmGame.displayMessage("Great!");
+                } else {
+                    RhythmGame.displayMessage("Good!");
+                }
                 notes.remove(0);
-
-
-
                 RhythmGame.changeScore(scoreGained);
+            } else {
+                RhythmGame.displayMessage("Bad Hit!");
+                RhythmGame.changeScore(-5);
+                // show miss message
             }
         }
     }
