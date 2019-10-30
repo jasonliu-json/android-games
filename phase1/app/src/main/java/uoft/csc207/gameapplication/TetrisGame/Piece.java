@@ -34,7 +34,7 @@ abstract class Piece {
     private boolean canMoveTo(BoardV2 board, int adjX, int adjY) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                if (this.states[this.rotation][y].charAt(x) != '.') {
+                if (states[rotation][y].charAt(x) != '.') {
                     try {
                         if (board.board[this.y + y + adjY][this.x + x + adjX] != '.') {
                             return false;   // move results in collision
@@ -50,13 +50,13 @@ abstract class Piece {
 
     private boolean tryMove(BoardV2 board, int adjX, int adjY) {
         this.removePieceFromBoard(board);
-        if (this.canMoveTo(board, adjX, adjY)) {
+        if (canMoveTo(board, adjX, adjY)) {
             this.x += adjX;
             this.y += adjY;
-            this.addPieceToBoard(board);
+            addPieceToBoard(board);
             return true;
         }
-        this.addPieceToBoard(board);
+        addPieceToBoard(board);
         return false;
     }
 
@@ -80,54 +80,77 @@ abstract class Piece {
         }
     }
 
-    // CALL THESE METHODS IN THE DRIVER
-    // returns true if the move was successful
     void moveLeft(BoardV2 board) {
-        this.tryMove(board, -1, 0);
+        tryMove(board, -1, 0);
     }
 
     void moveRight(BoardV2 board) {
-        this.tryMove(board, 1, 0);
+        tryMove(board, 1, 0);
     }
 
     boolean moveDown(BoardV2 board) {
-        return this.tryMove(board, 0, 1);
+        return tryMove(board, 0, 1);
     }
 
     void dropDown(BoardV2 board) {
-        while (this.tryMove(board, 0, 1)) {
-            this.moveDown(board);
+        while (tryMove(board, 0, 1)) {
+            moveDown(board);
         }
     }
 
-    // void drop(Board board) {}   // phase 2
-
-    // abstract void rotateClockwise(Board board);   // phase 2
-
-    // abstract void rotateCounterClockwise(Board board);   // phase 2
-
-    // boolean canRotate(Board board)   // phase 2
-
-    public void addPiece(Canvas canvas, Bitmap bitmap) {
-        Rect rect = new Rect();
-
-        Paint black_paint = new Paint();
-        black_paint.setStyle(Paint.Style.FILL);
-        black_paint.setColor(Color.BLACK);
-
-        int width = (canvas.getWidth() / 12);
-        int height = (canvas.getWidth() / 12);
-
+    private boolean canRotate(BoardV2 board, int direction) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                x = x * width;
-                y = y * height;
-
-                if (this.states[this.rotation][y].charAt(x) != '.') {
-                    rect.set(x, y, x + width, y + height);
-                    canvas.drawBitmap(bitmap, null, rect, black_paint);
+                if (states[(rotation + direction) % states.length][y].charAt(x) != '.') {
+                    try {
+                        if (board.board[this.y + y][this.x + x] != '.') {
+                            return false;   // rotation results in collision
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        return false;   // rotation is out of bounds
+                    }
                 }
             }
         }
+        return true;
     }
+
+    private void tryRotate(BoardV2 board, int direction) {
+        removePieceFromBoard(board);
+        if (canRotate(board, direction)) {
+            rotation = (rotation + direction) % states.length;
+        }
+        addPieceToBoard(board);
+    }
+
+    void rotateClockwise(BoardV2 board) {
+        tryRotate(board, 1);
+    }
+
+    void rotateCounterClockwise(BoardV2 board) {
+        tryRotate(board, -1);
+    }
+
+//    public void addPiece(Canvas canvas, Bitmap bitmap) {
+//        Rect rect = new Rect();
+//
+//        Paint black_paint = new Paint();
+//        black_paint.setStyle(Paint.Style.FILL);
+//        black_paint.setColor(Color.BLACK);
+//
+//        int width = (canvas.getWidth() / 12);
+//        int height = (canvas.getWidth() / 12);
+//
+//        for (int y = 0; y < 5; y++) {
+//            for (int x = 0; x < 5; x++) {
+//                x = x * width;
+//                y = y * height;
+//
+//                if (this.states[this.rotation][y].charAt(x) != '.') {
+//                    rect.set(x, y, x + width, y + height);
+//                    canvas.drawBitmap(bitmap, null, rect, black_paint);
+//                }
+//            }
+//        }
+//    }
 }
