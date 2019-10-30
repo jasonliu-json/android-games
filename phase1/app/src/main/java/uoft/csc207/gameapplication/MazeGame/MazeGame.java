@@ -1,17 +1,16 @@
 package uoft.csc207.gameapplication.MazeGame;
 
-import android.content.Context;
-import android.content.Intent;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-import uoft.csc207.gameapplication.Login;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 
 
 public class MazeGame {
+    private MazeGenerator mazeGenerator;
+
     public Character[][] maze;
-//    private Character[][] maze;
+
     private int xCharacter;
     private int yCharacter;
     private int xEndPos = 0;
@@ -19,22 +18,32 @@ public class MazeGame {
 
     private int currentLevel;
 
-    private int mazeWidth;
-    private int mazeHeight;
-
-    private Context gameActivityContext;
-
     private boolean gameIsOver;
 
-    public MazeGame(Context context) {
-        gameActivityContext = context;
-        mazeWidth = 2 * 7 + 1;
-        mazeHeight = 2 * 13 + 1;
+    private Paint wallPaint = new Paint();
+    private Paint endPaint = new Paint();
+    private Paint startPaint = new Paint();
 
-        this.maze = generateMaze(mazeWidth, mazeHeight);
+    public MazeGame() {
+        wallPaint.setColor(Color.BLACK);
+        wallPaint.setStyle(Paint.Style.FILL);
+        wallPaint.setStrokeWidth(1);
+        endPaint.setColor(Color.RED);
+        endPaint.setStyle(Paint.Style.FILL);
+        endPaint.setStrokeWidth(1);
+        startPaint.setColor(Color.GREEN);
+        startPaint.setStyle(Paint.Style.FILL);
+        startPaint.setStrokeWidth(1);
 
-        xCharacter = 1;
-        yCharacter = 1;
+        mazeGenerator = new MazeGenerator(7, 13);
+
+        xCharacter = mazeGenerator.getStartingPoint()[0];
+        yCharacter = mazeGenerator.getStartingPoint()[1];
+
+        xEndPos = mazeGenerator.getEndPoint()[0];
+        xEndPos = mazeGenerator.getEndPoint()[1];
+
+        maze = mazeGenerator.getMaze();
 
         currentLevel = 1;
         gameIsOver = false;
@@ -84,8 +93,8 @@ public class MazeGame {
     private void checkEndpointReached() {
         if (xCharacter == xEndPos && yCharacter == yEndPos) {
             System.out.println("goal reached");
-            xEndPos = 0;
-            yEndPos = 0;
+            xEndPos = -1;
+            yEndPos = -1;
             if (currentLevel == 1) {
                 gameIsOver = true;
                 // temporarily print game is over
@@ -93,99 +102,33 @@ public class MazeGame {
             }
             else {
                 currentLevel += 1;
-                xCharacter = 1;
-                yCharacter = 1;
-                this.maze = generateMaze(mazeWidth, mazeHeight);
-            }
-        }
-    }
-    private Character[][] generateMaze(int unitWidth, int unitHeight) {
-        Character[][] blocks = new Character[unitWidth][unitHeight];
-        for (int x = 0; x < blocks.length; x++) {
-            for (int y = 0; y < blocks[0].length; y++) {
-                blocks[x][y] = 'W';
-            }
-        }
-        recursiveMazeGeneration(blocks, 1, 1);
-        setEnd(blocks);
-        blocks[1][1] = 'S';
-        return blocks;
-    }
+                mazeGenerator.newMaze();
 
-    private void setEnd(Character[][] maze) {
-        for (int x = maze.length - 2; x > 0; x -= 2) {
-            int yCheck = maze[0].length - 2;
-            int xCheck = x;
-            boolean flag = false;
-            while (xCheck < maze.length - 1) {
-                if (checkSurrounding(maze, xCheck, yCheck)) {
-                    flag = true;
-                    maze[xCheck][yCheck] = 'E';
-                    this.xEndPos = xCheck;
-                    this.yEndPos = yCheck;
-                    break;
+                xCharacter = mazeGenerator.getStartingPoint()[0];
+                yCharacter = mazeGenerator.getStartingPoint()[1];
+                xEndPos = mazeGenerator.getEndPoint()[0];
+                yEndPos = mazeGenerator.getEndPoint()[1];
+            }
+        }
+    }
+    void draw(Canvas canvas, int screenWidth, int screenHeight) {
+        int blockWidth = screenWidth / maze.length;
+        int blockHeight = screenHeight / maze[0].length;
+
+        for (int x = 0; x < maze.length; x++) {
+            for (int y = 0; y < maze[0].length; y++) {
+                Rect rect = new Rect(x * blockWidth, y*blockHeight,
+                        (x + 1) * blockWidth, (y + 1)  * blockHeight);
+                if (maze[x][y].equals('W')) {
+                    canvas.drawRect(rect, wallPaint);
                 }
-                xCheck += 2;
-                yCheck -= 2;
-            }
-            if (flag) {
-                break;
-            }
-        }
-    }
-
-    private boolean checkSurrounding(Character[][] maze, int x, int y) {
-        int count = 0;
-        if (maze[x + 1][y].equals('W')) {
-            count += 1;
-        }
-        if (maze[x][y + 1].equals('W')) {
-            count += 1;
-        }
-        if (maze[x - 1][y].equals('W')) {
-            count += 1;
-        }
-        if (maze[x][y - 1].equals('W')) {
-            count += 1;
-        }
-        return count > 2;
-    }
-    private void recursiveMazeGeneration(Character[][] maze, int startX, int startY) {
-        maze[startX][startY] = 'P';
-        boolean flag = true;
-        while (flag) {
-            ArrayList<int[]> moveBranch = new ArrayList<>();
-            if (possiblePath(maze, startX, startY + 2)) {
-                moveBranch.add(new int[]{0, 2});
-            }
-            if (possiblePath(maze, startX + 2, startY)) {
-                moveBranch.add(new int[]{2, 0});
-            }
-            if (possiblePath(maze, startX - 2, startY)) {
-                moveBranch.add(new int[]{-2, 0});
-            }
-            if (possiblePath(maze, startX, startY - 2)) {
-                moveBranch.add(new int[]{0, -2});
-            }
-            if (moveBranch.size() == 0) {
-                flag = false;
-            }
-            else {
-                int randomNum = new Random().nextInt(moveBranch.size());
-                int dx = moveBranch.get(randomNum)[0];
-                int dy = moveBranch.get(randomNum)[1];
-                maze[startX + dx/2][startY + dy/2] = 'P';
-                recursiveMazeGeneration(maze, startX + dx, startY + dy);
+                else if (maze[x][y].equals('E')) {
+                    canvas.drawRect(rect, endPaint);
+                }
+                else if (maze[x][y].equals('S')) {
+                    canvas.drawRect(rect, startPaint);
+                }
             }
         }
-    }
-
-    private boolean possiblePath(Character[][] maze, int startX, int startY) {
-        if (0 < startX && startX < maze.length && 0 < startY && startY < maze[startX].length) {
-            if (maze[startX][startY].equals('W')) {
-                return true;
-            }
-        }
-        return false;
     }
 }

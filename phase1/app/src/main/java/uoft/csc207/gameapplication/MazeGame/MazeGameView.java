@@ -21,7 +21,7 @@ public class MazeGameView extends View {
 
     public MazeGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mazeGameDriver = new MazeGameDriver(context);
+        this.mazeGameDriver = new MazeGameDriver();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override

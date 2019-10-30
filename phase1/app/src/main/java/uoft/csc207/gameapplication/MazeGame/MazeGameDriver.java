@@ -1,38 +1,21 @@
 package uoft.csc207.gameapplication.MazeGame;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-
 
 import uoft.csc207.gameapplication.GameDriver;
 
 import static java.lang.Thread.sleep;
 
 public class MazeGameDriver extends GameDriver {
-    private Paint wallPaint = new Paint();
-    private Paint endPaint = new Paint();
-    private Paint startPaint = new Paint();
 
     private MazeGame mazeGame;
 
     private int xInit;
     private int yInit;
 
-    public MazeGameDriver(Context context) {
-        mazeGame = new MazeGame(context);
-        wallPaint.setColor(Color.BLACK);
-        wallPaint.setStyle(Paint.Style.FILL);
-        wallPaint.setStrokeWidth(1);
-        endPaint.setColor(Color.RED);
-        endPaint.setStyle(Paint.Style.FILL);
-        endPaint.setStrokeWidth(1);
-        startPaint.setColor(Color.GREEN);
-        startPaint.setStyle(Paint.Style.FILL);
-        startPaint.setStrokeWidth(1);
-
+    public MazeGameDriver() {
+        mazeGame = new MazeGame();
     }
 
     public void touchStart(float x, float y) {
@@ -78,26 +61,10 @@ public class MazeGameDriver extends GameDriver {
         newCanvas.drawColor(Color.WHITE);
         newCanvas.scale(1.01f, 1.01f);
 
-        int blockWidth = screenWidth / mazeGame.maze.length;
-        int blockHeight = screenHeight / mazeGame.maze[0].length;
-
-        for (int x = 0; x < mazeGame.maze.length; x++) {
-            for (int y = 0; y < mazeGame.maze[0].length; y++) {
-                Rect rect = new Rect(x * blockWidth, y*blockHeight,
-                        (x + 1) * blockWidth, (y + 1)  * blockHeight);
-                if (mazeGame.maze[x][y].equals('W')) {
-                    newCanvas.drawRect(rect, wallPaint);
-                }
-                else if (mazeGame.maze[x][y].equals('E')) {
-                    newCanvas.drawRect(rect, endPaint);
-                }
-                else if (mazeGame.maze[x][y].equals('S')) {
-                    newCanvas.drawRect(rect, startPaint);
-                }
-            }
-        }
+        mazeGame.draw(newCanvas, screenWidth, screenHeight);
 
         canvas.drawBitmap(bitmap, 0, 0, null);
+
         newCanvas.restore();
     }
 }
