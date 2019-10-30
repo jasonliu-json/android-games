@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "userId": "0",
+      "username": "testing",
+      "email": "test@gmail.com",
+      "password": "57da862ad2470151045a99c7e6247120b0b130722115222c31360ffa744b745d"
+    }
+  ],
+  "note": "this file is for phase1 only"
+}
