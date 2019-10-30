@@ -45,7 +45,7 @@ class TetrisGame {
                 TetrisGame.this.moveFallingPieceDown();
             }
         };
-        timer.scheduleAtFixedRate(makePieceFall, 500, 500);   // piece falls every 500 ms
+        timer.scheduleAtFixedRate(makePieceFall, 350, 350);   // piece falls every 500 ms
     }
 
     BoardV2 getBoard() {
@@ -53,24 +53,18 @@ class TetrisGame {
     }
 
     void moveFallingPieceDown() {
-        board.removePiece(fallingPiece);
         if (!fallingPiece.moveDown(board)) {   // cannot move down
-            board.addPiece(fallingPiece);
-            fallingPiece = pieceGenerator.nextPiece();
             board.clearRows();
+            fallingPiece = pieceGenerator.nextPiece();
+            fallingPiece.addPieceToBoard(board);
         }
-        board.addPiece(fallingPiece);
     }
 
     void moveFallingPieceLeft() {
-        board.removePiece(fallingPiece);
         fallingPiece.moveLeft(board);
-        board.addPiece(fallingPiece);
     }
 
     void moveFallingPieceRight() {
-        board.removePiece(fallingPiece);
         fallingPiece.moveRight(board);
-        board.addPiece(fallingPiece);
     }
 }

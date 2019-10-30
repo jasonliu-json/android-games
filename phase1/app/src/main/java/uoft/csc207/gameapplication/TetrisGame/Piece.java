@@ -49,26 +49,55 @@ abstract class Piece {
     }
 
     private boolean tryMove(BoardV2 board, int adjX, int adjY) {
+        this.removePieceFromBoard(board);
         if (this.canMoveTo(board, adjX, adjY)) {
             this.x += adjX;
             this.y += adjY;
+            this.addPieceToBoard(board);
             return true;
         }
+        this.addPieceToBoard(board);
         return false;
+    }
+
+    void addPieceToBoard(BoardV2 board) {
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (states[rotation][y].charAt(x) != '.') {
+                    board.getBoard()[this.y + y][this.x + x] = states[rotation][y].charAt(x);
+                }
+            }
+        }
+    }
+
+    void removePieceFromBoard(BoardV2 board) {
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (states[rotation][y].charAt(x) != '.') {
+                    board.getBoard()[this.y + y][this.x + x] = '.';
+                }
+            }
+        }
     }
 
     // CALL THESE METHODS IN THE DRIVER
     // returns true if the move was successful
-    boolean moveLeft(BoardV2 board) {
-        return this.tryMove(board, -1, 0);
+    void moveLeft(BoardV2 board) {
+        this.tryMove(board, -1, 0);
     }
 
-    boolean moveRight(BoardV2 board) {
-        return this.tryMove(board, 1, 0);
+    void moveRight(BoardV2 board) {
+        this.tryMove(board, 1, 0);
     }
 
     boolean moveDown(BoardV2 board) {
         return this.tryMove(board, 0, 1);
+    }
+
+    void dropDown(BoardV2 board) {
+        while (this.tryMove(board, 0, 1)) {
+            this.moveDown(board);
+        }
     }
 
     // void drop(Board board) {}   // phase 2
@@ -79,7 +108,7 @@ abstract class Piece {
 
     // boolean canRotate(Board board)   // phase 2
 
-    public void drawPiece(Canvas canvas, Bitmap bitmap) {
+    public void addPiece(Canvas canvas, Bitmap bitmap) {
         Rect rect = new Rect();
 
         Paint black_paint = new Paint();
