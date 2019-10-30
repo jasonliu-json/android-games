@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import uoft.csc207.gameapplication.GameDriver;
 import uoft.csc207.gameapplication.MainActivity;
-import uoft.csc207.gameapplication.MainView;
 
 public class RhythmGameDriver extends GameDriver {
     // private Paint circlePaint = new Paint();
@@ -24,8 +23,6 @@ public class RhythmGameDriver extends GameDriver {
     private int numColumns = 4;
 
     private RhythmGame rhythmGame;
-
-//    public MainView mainView;
 
     public RhythmGameDriver(Context context) {
         //rhythmGame = new RhythmGame(screenHeight, screenWidth, 4);

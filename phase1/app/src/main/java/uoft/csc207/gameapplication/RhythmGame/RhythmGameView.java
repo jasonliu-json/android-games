@@ -12,7 +12,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import uoft.csc207.gameapplication.MainActivity;
-import uoft.csc207.gameapplication.MainView;
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
 public class RhythmGameView extends View {

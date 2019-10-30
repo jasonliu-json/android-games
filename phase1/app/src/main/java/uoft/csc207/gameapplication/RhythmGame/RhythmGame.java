@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import android.util.Pair;
 import android.widget.Toast;
 
-import uoft.csc207.gameapplication.MainView;
-
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps a fixed note shadow. */
