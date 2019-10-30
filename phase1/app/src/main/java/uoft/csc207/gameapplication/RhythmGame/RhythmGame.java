@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import android.util.Pair;
 import android.util.SparseArray;
 
+import android.widget.Toast;
+
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
@@ -95,6 +97,7 @@ public class RhythmGame {
 
     static void displayMessage(String message) {
         // something about Toast should go here, will implement later
+//        RhythmGameView.displayMessage(message);
         System.out.println(message);
     }
 

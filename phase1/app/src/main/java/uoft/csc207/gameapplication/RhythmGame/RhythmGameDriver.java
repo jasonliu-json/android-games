@@ -10,6 +10,7 @@ import android.util.SparseArray;
 import java.util.ArrayList;
 
 import uoft.csc207.gameapplication.GameDriver;
+import uoft.csc207.gameapplication.MainActivity;
 
 public class RhythmGameDriver extends GameDriver {
     private RhythmGame rhythmGame;
@@ -68,7 +69,7 @@ public class RhythmGameDriver extends GameDriver {
     }
 
     public void draw(Canvas canvas) {
-        rhythmGame.update();
+    //    rhythmGame.update();
         newCanvas.save();
 
         int colSize = screenWidth / numColumns;
