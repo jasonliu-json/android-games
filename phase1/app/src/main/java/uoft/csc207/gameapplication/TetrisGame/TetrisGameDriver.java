@@ -8,6 +8,8 @@ import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.GameDriver;
 
+import static java.lang.Thread.sleep;
+
 public class TetrisGameDriver extends GameDriver {
 
     private Paint circlePaint = new Paint();
@@ -29,20 +31,28 @@ public class TetrisGameDriver extends GameDriver {
     }
 
     public void touchMove(float x, float y) {
-        int xDistance = (int) x - X;
-        int yDistance = (int) y - Y;
-        if (Math.abs(xDistance) > Math.abs(yDistance)) {
-            if (xDistance > 0) {
-                tetrisGame.moveFallingPieceLeft();
-            }
-            else {
-                tetrisGame.moveFallingPieceRight();
-            }
+        try {
+            sleep(40);
         }
-        else {
-            if (yDistance > 0) {
-                tetrisGame.moveFallingPieceDown();
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            int xDistance = (int) x - X;
+            int yDistance = (int) y - Y;
+            if (Math.abs(xDistance) > Math.abs(yDistance)) {
+                if (xDistance > 20) {
+                    tetrisGame.moveFallingPieceRight();
+                }
+                else if (xDistance < -20) {
+                    tetrisGame.moveFallingPieceLeft();
+                }
             }
+            else if (yDistance > 20) {
+                    tetrisGame.moveFallingPieceDown();
+            }
+            X = (int)x;
+            Y = (int)y;
         }
     }
 
