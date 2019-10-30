@@ -22,7 +22,7 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.rhythmGameDriver = new RhythmGameDriver();
+        this.rhythmGameDriver = new RhythmGameDriver(context);
     }
 
     public void init(DisplayMetrics metrics) {

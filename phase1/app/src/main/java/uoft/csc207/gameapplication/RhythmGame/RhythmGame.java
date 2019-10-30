@@ -13,8 +13,6 @@ import android.widget.Toast;
 import uoft.csc207.gameapplication.MainView;
 
 
-// testing git
-
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps a fixed note shadow. */
 public class RhythmGame {
