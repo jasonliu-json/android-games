@@ -8,16 +8,16 @@ import android.graphics.RectF;
  * A shape where (0, 0) is the top left corner, and is defined by unit lengths
  */
 class NoteShape {
-    TetrominoShape tetroShape;
+    private TetrominoShape tetroShape;
     private float scale;
     private RectF[] figure;
 
-    public NoteShape(TetrominoShape tetroShape) {
+    NoteShape(TetrominoShape tetroShape) {
         this.tetroShape = tetroShape;
         this.setScale(1);
     }
 
-    public NoteShape(TetrominoShape tetroShape, float scale) {
+    private NoteShape(TetrominoShape tetroShape, float scale) {
         this.tetroShape = tetroShape;
         this.setScale(scale);
     }
@@ -31,6 +31,11 @@ class NoteShape {
             RectF toDrawRect = new RectF(x + rect.left, y + rect.top,
                     x + rect.right, y + rect.bottom);
             canvas.drawRect(toDrawRect, paint);
+
+            Paint strokePaint = new Paint();
+            strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setStrokeWidth(2);
+            canvas.drawRect(toDrawRect, strokePaint);
         }
     }
 
@@ -39,7 +44,7 @@ class NoteShape {
      *
      * @param sc scaling factor
      */
-    public void setScale(float sc) {
+    void setScale(float sc) {
         this.scale = sc;
         RectF[] figureToRescale = tetroShape.getCopyOfUnitFigure();
         for (RectF r : figureToRescale) {
@@ -52,7 +57,7 @@ class NoteShape {
         return tetroShape.getHeight() * scale;
     }
 
-    public float getWidth() {
+    float getWidth() {
         return tetroShape.getWidth() * scale;
     }
 }

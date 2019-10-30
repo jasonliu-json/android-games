@@ -20,7 +20,7 @@ public class RunWithTimer extends Thread{
         while (System.currentTimeMillis() - startTime < RhythmGame.runTime ) {
 
             try {
-                this.rhythmGameView.update();
+                rhythmGameView.update();
                 rhythmGameView.invalidate();
 
             } catch (Exception e) {

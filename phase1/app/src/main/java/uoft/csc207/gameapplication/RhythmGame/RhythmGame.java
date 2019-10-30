@@ -1,24 +1,20 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 import java.util.ArrayList;
 
 import android.util.Pair;
-import android.widget.Toast;
-
-import uoft.csc207.gameapplication.MainView;
+import android.util.SparseArray;
 
 
 /* A game where notes ascend the screen and the player aims to tap the
- * note precisely when the note overlaps a fixed note shadow. */
+ * note precisely when the note overlaps the target. */
 public class RhythmGame {
-    private int numColumns = 4;
-    private ArrayList<Column> columns;
     private Context context;
+    private int gameHeight = 100;
+    private int numColumns = 4;
+    private Column[] columns;
 
     public static int score;
     public static String difficulty;
@@ -37,9 +33,9 @@ public class RhythmGame {
         this.context = context;
         this.numColumns = numColumns;
 
-        columns = new ArrayList<>(numColumns);
+        columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
-            columns.add(new Column(100, i));
+            columns[i] = new Column(gameHeight);
         }
 
 //        setPointsGained(0);
@@ -77,7 +73,6 @@ public class RhythmGame {
 //    }
 
     public void update() {
-
         for (Column col : columns) {
             col.update();
             double randomNumber = Math.random();
@@ -86,18 +81,10 @@ public class RhythmGame {
             }
         }
 
-//    for (int i = 0; i < numColumns; i++) {
-//      // RNG notes for now lol. 25% chance for each column to generate note.
-//      //            double randomNumb     //            } = Math.random();
-//      ////            if (randomNumber<0.25){
-//      ////                columns.get(i).generateNote();
-//      ////            }
-//    }
-
         // update time
     }
 
-    public static void changeScore(int amount) {
+    static void changeScore(int amount) {
         score += amount;
     }
 
@@ -106,42 +93,27 @@ public class RhythmGame {
         return s + Integer.toString(score);
     }
 
-    public static void displayMessage(String message) {
+    static void displayMessage(String message) {
         // something about Toast should go here, will implement later
-//        RhythmGameView.displayMessage(message);
         System.out.println(message);
     }
 
 
-
-
-    /**
-     * Draws a frame of the game in the current state
-     *
-     * @param canvas the graphics context to draw on
-     */
-
-    public void draw(Canvas canvas, int screenHeight, int screenWidth, NoteShape[] colUnitNoteShapes,
-                     Paint[] colPaints, Paint targetPaint) {
-        float colSize = screenWidth / (float) numColumns;
-
-        for (int i = 0; i < numColumns; i++) {
-            NoteShape colUnitNoteShape = colUnitNoteShapes[i];
-            Paint colPaint = colPaints[i];
-            columns.get(i).draw(canvas, screenHeight, colSize, colUnitNoteShape, colPaint, targetPaint);
-        }
-
-        Paint circlePaint = new Paint();
-        circlePaint.setColor(Color.YELLOW);
-        circlePaint.setStyle(Paint.Style.FILL);
-        circlePaint.setStrokeWidth(10);
-
-        // draw statistics
-        // draw time
+    void tap(int colNumber) {
+        columns[colNumber].tap();
     }
 
+    SparseArray<Pair<ArrayList<Note>, Target>> toDraw() {
+        SparseArray<Pair<ArrayList<Note>, Target>> map = new SparseArray<>();
+        for (int i = 0; i <numColumns; i++) {
+            Pair<ArrayList<Note>, Target> pair = new Pair<>(new ArrayList<>(columns[i].getNotes()),
+                    columns[i].getTarget());
+            map.put(i, pair);
+        }
+        return map;
+    }
 
-    public void tap(int colNumber) {
-        columns.get(colNumber).tap();
+    int getGameHeight() {
+        return gameHeight;
     }
 }
