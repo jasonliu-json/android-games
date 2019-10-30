@@ -3,6 +3,7 @@ package uoft.csc207.gameapplication.RhythmGame;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.media.MediaPlayer;
 import android.util.Pair;
@@ -14,7 +15,7 @@ import uoft.csc207.gameapplication.SubGame;
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
-public class RhythmGame extends SubGame {
+public class RhythmGame {
     private Context context;
     private int gameHeight = 100;
     private int numColumns = 4;
@@ -31,6 +32,14 @@ public class RhythmGame extends SubGame {
     private MediaPlayer mediaPlayer1;
     private MediaPlayer mediaPlayer2;
     private RhythmGameMessage rhythmGameMessage = new RhythmGameMessage("");
+
+    private int points = 0;
+    private int numDeaths = 0;
+    private HashMap<String, Integer> stats;
+    //TODO: Add third statistic
+
+    private boolean isGameOver = false;
+
 
     /**
      * Constructs the Rhythm game
@@ -53,6 +62,10 @@ public class RhythmGame extends SubGame {
         mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
         startTime = System.currentTimeMillis();
 
+        stats.put("PerfectHit", 0);
+        stats.put("GreatHit", 0);
+        stats.put("GoodHit", 0);
+        stats.put("BadHit", 0);
 
 //        setPointsGained(0);
 //        setNumDeaths(0);
@@ -111,6 +124,7 @@ public class RhythmGame extends SubGame {
 
     void tap(int colNumber) {
         if (!getIsGameOver()) {
+
             addPoints(columns[colNumber].tap());
         }
     }
@@ -148,5 +162,27 @@ public class RhythmGame extends SubGame {
 
     int getNumNotesMissed() {
         return numNotesMissed;
+    }
+
+    public boolean getIsGameOver() {
+        return isGameOver;
+    }
+
+    public void setIsGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void addPoints(int dPoints) {
+        // points cannot go below 0.
+        this.points = Math.max(this.points + dPoints, 0);
     }
 }
