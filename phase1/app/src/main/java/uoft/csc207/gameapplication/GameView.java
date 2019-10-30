@@ -10,11 +10,12 @@ import android.view.View;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
+import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
 
 public class GameView extends View {
 //    private MazeGameDriver mazeGameDriver;
-    private RhythmGameDriver rhythmGameDriver;
-//     private TetrisGameDriver tetrisGameDriver;
+//    private RhythmGameDriver rhythmGameDriver;
+     private TetrisGameDriver tetrisGameDriver;
     
     public GameView(Context context) {
         this(context, null);
@@ -22,36 +23,59 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.rhythmGameDriver = new RhythmGameDriver(context);
+        this.tetrisGameDriver = new TetrisGameDriver();
     }
 
     public void init(DisplayMetrics metrics) {
-        rhythmGameDriver.init(metrics);
+        tetrisGameDriver.init(metrics);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        rhythmGameDriver.draw(canvas);
+        tetrisGameDriver.draw(canvas);
     }
 
 
 
-    @Override
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        float x = event.getX();
+//        float y = event.getY();
+//
+//        switch(event.getAction()) {
+//            case MotionEvent.ACTION_DOWN :
+//                rhythmGameDriver.touchStart(x, y);
+//                invalidate();
+//                break;
+//            case MotionEvent.ACTION_MOVE :
+//                rhythmGameDriver.touchMove(x, y);
+//                invalidate();
+//                break;
+//            case MotionEvent.ACTION_UP :
+//                rhythmGameDriver.touchUp();
+//                invalidate();
+//                break;
+//        }
+//
+//        return true;
+//    }
+
+        @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
 
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
-                rhythmGameDriver.touchStart(x, y);
+                tetrisGameDriver.touchStart(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE :
-                rhythmGameDriver.touchMove(x, y);
+                tetrisGameDriver.touchMove(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP :
-                rhythmGameDriver.touchUp();
+                tetrisGameDriver.touchUp();
                 invalidate();
                 break;
         }
