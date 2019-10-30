@@ -102,7 +102,8 @@ public class RhythmGame {
     }
 
     public static String getScore(){
-        return Integer.toString(score);
+        String s = "Score:  ";
+        return s + Integer.toString(score);
     }
 
     public static void displayMessage(String message) {
