@@ -102,7 +102,7 @@ public class RhythmGameDriver extends GameDriver {
             NoteShape scalableCopy = colUnitNoteShapes[i].clone();
             float colWidthRatio = colSize / colUnitNoteShapes[i].getWidth();
 
-Target target = targets[i];
+        Target target = targets[i];
 //            Target target = pair.second;
             float targetWidthRatio = (float) 0.7;
             float targetScale = targetWidthRatio * colWidthRatio;
@@ -123,7 +123,10 @@ Target target = targets[i];
 
 //            float xMessage = i * colSize + colSize / 2;
             newCanvas.drawText(messages[i].getMessage(), xNote, target.getY() * heightRatio, messagePaint);
-
+            if (getIsGameOver()) {
+                String gameOverText = "Game Over :(  Score: " + rhythmGame.getPoints();
+                newCanvas.drawText(gameOverText, screenWidth/2, screenHeight/2, messagePaint);
+            }
         }
 
         newCanvas.drawText(String.valueOf(rhythmGame.getPoints()), 10, 80, textPaint);

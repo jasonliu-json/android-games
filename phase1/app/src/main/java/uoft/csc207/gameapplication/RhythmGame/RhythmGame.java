@@ -30,6 +30,7 @@ public class RhythmGame extends SubGame {
     private static int refreshTime = 500;
     private MediaPlayer mediaPlayer1;
     private MediaPlayer mediaPlayer2;
+    private RhythmGameMessage rhythmGameMessage = new RhythmGameMessage("");
 
     /**
      * Constructs the Rhythm game
@@ -97,15 +98,21 @@ public class RhythmGame extends SubGame {
         else if (getPoints() > 50) setDifficulty(Difficulty.NORMAL);
 
         if (numNotesMissed >= lives) {
-            setIsGameOver(true);
-            mediaPlayer1.stop();
-            mediaPlayer1.release();
-            mediaPlayer1 = null;
+            gameOver();
         }
     }
 
+    public void gameOver() {
+        setIsGameOver(true);
+        mediaPlayer1.stop();
+        mediaPlayer1.release();
+        mediaPlayer1 = null;
+    }
+
     void tap(int colNumber) {
-        addPoints(columns[colNumber].tap());
+        if (!getIsGameOver()) {
+            addPoints(columns[colNumber].tap());
+        }
     }
 
     RhythmGameMessage[] messagesToDraw() {
