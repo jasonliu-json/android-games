@@ -21,8 +21,9 @@ public class RhythmGameDriver extends GameDriver {
     private NoteShape[] colUnitNoteShapes;
     private Paint textPaint;
     private Paint missedTextPaint;
+    private Paint messagePaint;
 
-    public RhythmGameDriver(Context context) {
+    RhythmGameDriver(Context context) {
         super();
         rhythmGame = new RhythmGame(context, numColumns);
         setTheme();
@@ -62,6 +63,10 @@ public class RhythmGameDriver extends GameDriver {
         missedTextPaint = new Paint();
         missedTextPaint.setTextSize(75);
         missedTextPaint.setColor(Color.RED);
+
+        messagePaint = new Paint();
+        messagePaint.setTextSize(50);
+        messagePaint.setColor(Color.GREEN);
     }
 
     public void touchStart(float x, float y) {
@@ -81,31 +86,32 @@ public class RhythmGameDriver extends GameDriver {
     }
 
     public void draw(Canvas canvas) {
-    //    rhythmGame.update();
         newCanvas.save();
+        newCanvas.drawColor(Color.WHITE);
 
         int colSize = screenWidth / numColumns;
         float heightRatio = (float) screenHeight / rhythmGame.getGameHeight();
 
-        Paint tempPaint = new Paint();
-        tempPaint.setColor(Color.WHITE);
-        newCanvas.drawRect(0, 0, screenWidth, screenHeight, tempPaint);
+        Target[] targets = rhythmGame.targetsToDraw();
+        SparseArray<ArrayList<Note>> notesMap = rhythmGame.notesToDraw();
+        RhythmGameMessage[] messages = rhythmGame.messagesToDraw();
 
-        SparseArray<Pair<ArrayList<Note>, Target>> toDrawMap = rhythmGame.toDraw();
+//        SparseArray<Pair<ArrayList<Note>, Target>> toDrawMap = rhythmGame.toDraw();
         for (int i = 0; i < numColumns; i++) {
-            Pair<ArrayList<Note>, Target> pair = toDrawMap.get(i);
+//            Pair<ArrayList<Note>, Target> pair = toDrawMap.get(i);
             NoteShape scalableCopy = colUnitNoteShapes[i].clone();
             float colWidthRatio = colSize / colUnitNoteShapes[i].getWidth();
 
-
-            Target target = pair.second;
+Target target = targets[i];
+//            Target target = pair.second;
             float targetWidthRatio = (float) 0.7;
             float targetScale = targetWidthRatio * colWidthRatio;
             scalableCopy.setScale(targetScale);
             float xTarget = (1 - targetWidthRatio) * colWidthRatio / 2 + i * colSize;
             scalableCopy.draw(newCanvas, xTarget, target.getY() * heightRatio, targetPaint);
 
-            ArrayList<Note> notes = pair.first;
+            ArrayList<Note> notes = notesMap.get(i);
+//            ArrayList<Note> notes = pair.first;
             float noteWidthRatio = (float) 0.6;
             float noteScale = noteWidthRatio * colWidthRatio;
             float xNote = (1 - noteWidthRatio) * colWidthRatio / 2 + i * colSize;
@@ -113,12 +119,16 @@ public class RhythmGameDriver extends GameDriver {
             for (Note note : notes) {
                 scalableCopy.draw(newCanvas, xNote, note.getY() * heightRatio, columnPaints[i]);
             }
-        }
 
+
+//            float xMessage = i * colSize + colSize / 2;
+            newCanvas.drawText(messages[i].getMessage(), xNote, target.getY() * heightRatio, messagePaint);
+
+        }
 
         newCanvas.drawText(String.valueOf(rhythmGame.getPoints()), 10, 80, textPaint);
 
-        newCanvas.drawText("Missed: " + String.valueOf(rhythmGame.getNumNotesMissed()), screenWidth /2, 80, missedTextPaint);
+        newCanvas.drawText("Missed: " + rhythmGame.getNumNotesMissed(), screenWidth /2, 80, missedTextPaint);
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();

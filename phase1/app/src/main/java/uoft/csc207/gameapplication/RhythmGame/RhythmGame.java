@@ -30,7 +30,7 @@ public class RhythmGame extends SubGame {
 
     private long startTime;
 
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
 
     /**
      * Constructs the Rhythm game
@@ -56,7 +56,7 @@ public class RhythmGame extends SubGame {
 //        setNumDeaths(0);
     }
 
-    void setDifficulty(Difficulty diff) {
+    private void setDifficulty(Difficulty diff) {
         switch(diff) {
             case EASY:
                 noteGenerationPeriod = 900;
@@ -101,21 +101,38 @@ public class RhythmGame extends SubGame {
         addPoints(columns[colNumber].tap());
     }
 
-    SparseArray<Pair<ArrayList<Note>, Target>> toDraw() {
-        SparseArray<Pair<ArrayList<Note>, Target>> map = new SparseArray<>();
-        for (int i = 0; i <numColumns; i++) {
-            Pair<ArrayList<Note>, Target> pair = new Pair<>(new ArrayList<>(columns[i].getNotes()),
-                    columns[i].getTarget());
-            map.put(i, pair);
-        }
-        return map;
+    RhythmGameMessage[] messagesToDraw() {
+        RhythmGameMessage[] messages = new RhythmGameMessage[numColumns];
+        for (int i = 0; i < numColumns; i++) messages[i] = columns[i].getMessage();
+        return messages;
     }
+
+    Target[] targetsToDraw() {
+        Target[] targets = new Target[numColumns];
+        for (int i = 0; i < numColumns; i++) targets[i] = columns[i].getTarget();
+        return targets;
+    }
+
+    SparseArray<ArrayList<Note>> notesToDraw() {
+        SparseArray<ArrayList<Note>> notesMap = new SparseArray<>();
+        for (int i = 0; i < numColumns; i++) notesMap.put(i, columns[i].getNotes());
+        return notesMap;
+    }
+//    SparseArray<Pair<ArrayList<Note>, Target>> toDraw() {
+//        SparseArray<Pair<ArrayList<Note>, Target>> map = new SparseArray<>();
+//        for (int i = 0; i <numColumns; i++) {
+//            Pair<ArrayList<Note>, Target> pair = new Pair<>(new ArrayList<>(columns[i].getNotes()),
+//                    columns[i].getTarget());
+//            map.put(i, pair);
+//        }
+//        return map;
+//    }
 
     int getGameHeight() {
         return gameHeight;
     }
 
-    public int getNumNotesMissed() {
+    int getNumNotesMissed() {
         return numNotesMissed;
     }
 }

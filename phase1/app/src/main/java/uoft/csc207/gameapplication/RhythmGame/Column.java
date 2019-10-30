@@ -15,6 +15,8 @@ class Column {
     private Target target;
     private ArrayList<Note> notes;
 
+    private RhythmGameMessage message = new RhythmGameMessage("");
+
     Column(int height) {
         this.height = height;
         this.target = new Target(10, 5);
@@ -32,6 +34,11 @@ class Column {
                 notes.remove(note);
                 numMissed += 1;
             }
+        }
+
+        if (!message.getMessage().equals("")) {
+            message.incrementNumIterationsExisted();
+            if (message.getNumIterExisted() >= 10) message = new RhythmGameMessage("");
         }
 
         return new Pair(-numMissed, numMissed);
@@ -70,21 +77,21 @@ class Column {
             if (target.contains(notes.get(i))) {
                 // score gained is based on the difference between hit position and target, for
                 // maximum of 10 points per hit.
-                int distanceFromTarget = Math.abs(target.getY() - notes.get(i).getY());
+                int distFromTarget = Math.abs(target.getY() - notes.get(i).getY());
 
-                pointsGained += 2*(target.getAllowedError() - distanceFromTarget);
+                pointsGained += 2*(target.getAllowedError() - distFromTarget);
 
-//                if (howClose < 0.1) {
-//                    RhythmGame.displayMessage("Perfect!");
-//                } else if (howClose < 0.4) {
-//                    RhythmGame.displayMessage("Great!");
-//                } else {
-//                    RhythmGame.displayMessage("Good!");
-//                }
-                notes.remove(0);
+                if (distFromTarget < target.getAllowedError() / (float) 3) {
+                    this.message = new RhythmGameMessage("Pefect!");
+                } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
+                    this.message = new RhythmGameMessage("Great!");
+                } else {
+                    this.message = new RhythmGameMessage("Good!");
+                }
+                notes.remove(i);
                 if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) break;
-            } else if (notes.get(i).getY() < target.getY()) {
-//                RhythmGame.displayMessage("Bad Hit!");
+            } else if (notes.get(i).getY() > target.getY()) {
+                this.message = new RhythmGameMessage("Bad Hit!");
                 pointsGained -= 5;
                 // show miss message
             }
@@ -98,5 +105,9 @@ class Column {
 
     ArrayList<Note> getNotes() {
         return notes;
+    }
+
+    RhythmGameMessage getMessage() {
+        return message;
     }
 }
