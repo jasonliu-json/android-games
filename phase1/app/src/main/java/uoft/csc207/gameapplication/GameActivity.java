@@ -30,17 +30,17 @@ public class GameActivity extends AppCompatActivity {
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //        mazeView.init(metrics);
 
-        setContentView(R.layout.activity_game);
-        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        rhythmGameView.init(metrics);
-
 //        setContentView(R.layout.activity_game);
-//        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
+//        rhythmGameView = (RhythmGameView) findViewById(R.id.RhythmGameView);
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        tetrisGameView.init(metrics);
+//        rhythmGameView.init(metrics);
+
+        setContentView(R.layout.activity_game);
+        tetrisGameView = (TetrisGameView) findViewById(R.id.TetrisGameView);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        tetrisGameView.init(metrics);
 
 //        float startTime = System.currentTimeMillis();
 //        float timeSinceUpdate = System.currentTimeMillis();

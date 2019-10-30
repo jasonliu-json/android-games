@@ -74,7 +74,7 @@ public class TetrisGameDriver extends GameDriver {
             y = y + height;
         }
         tetrisGame.getBoard().drawBoard(newCanvas, bitmap);
-
+        canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
     }
 
