@@ -25,26 +25,8 @@ class BoardV2 {
         }
     }
 
-    void addPiece(Piece piece) {
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                char entry = piece.states[piece.getRotation()][y].charAt(x);
-                if (entry != '.') {
-                    board[piece.getY() + y][piece.getX() + x] = entry;
-                }
-            }
-        }
-    }
-
-    void removePiece(Piece piece) {
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                char entry = piece.states[piece.getRotation()][y].charAt(x);
-                if (entry != '.') {
-                    board[piece.getY() + y][piece.getX() + x] = '.';
-                }
-            }
-        }
+    char[][] getBoard() {
+        return board;
     }
 
     private boolean rowIsFull(int n) {
@@ -56,7 +38,7 @@ class BoardV2 {
         return true;
     }
 
-    void clearRow(int n) {
+    private void clearRow(int n) {
         for (int y = n; y > 0; y--) {   // updates rows 1-n
             for (int x = 0; x < WIDTH; x++) {
                 board[y][x] = board[y - 1][x];
@@ -65,16 +47,19 @@ class BoardV2 {
         Arrays.fill(board[0], '.');   // updates row 0
     }
 
-    boolean clearRows() {
-        boolean rowsCleared = false;
+    void clearRows() {
         for (int y = 0; y < HEIGHT; y++) {
             if (this.rowIsFull(y)) {
                 this.clearRow(y);
-                rowsCleared = true;
             }
         }
-        return rowsCleared;
     }
+
+
+
+
+
+
 
     public boolean gameOver() {
         for (int i = 0; i < 10; i++) {
