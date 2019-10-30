@@ -35,17 +35,16 @@ class Column {
     }
 
     private boolean checkLowestNote() {
-//        int lowest = 0;
-//        for (Note note : notes) {
-//            if (note.getY() > lowest) {
-//                lowest = note.getY();
-//            }
-//        }
-//        // screen height = 100, note height = 20??
+        int lowest = 0;
+        for (Note note : notes) {
+            if (note.getY() > lowest) {
+                lowest = note.getY();
+            }
+        }
+        // screen height = 100, note height = 20??
 
-//        return this.height - lowest > 30;
+        return this.height - lowest > this.height / 4;
 
-        return this.height - notes.get(notes.size() - 1).getY() > this.height / 4;
     }
 
     void generateNote() {
