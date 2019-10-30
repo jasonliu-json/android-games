@@ -45,7 +45,7 @@ class TetrisGame {
                 TetrisGame.this.moveFallingPieceDown();
             }
         };
-        timer.scheduleAtFixedRate(makePieceFall, 350, 350);   // piece falls every 500 ms
+        timer.scheduleAtFixedRate(makePieceFall, 350, 350);   // piece falls every 350 ms
     }
 
     BoardV2 getBoard() {
@@ -66,5 +66,17 @@ class TetrisGame {
 
     void moveFallingPieceRight() {
         fallingPiece.moveRight(board);
+    }
+
+    void rotateFallingPieceClockwise() {
+        fallingPiece.rotateClockwise(board);
+    }
+
+    void rotateFallingPieceCounterClockwise() {
+        fallingPiece.rotateCounterClockwise(board);
+    }
+
+    void dropFallingPieceDown() {   // hard drop
+        fallingPiece.dropDown(board);
     }
 }
