@@ -67,7 +67,7 @@ class Column {
                 // score gained is based on the difference between hit position and target, for
                 // maximum of 10 points per hit.
                 double howClose = (notes.get(0).getY() - target.getY()) / target.getAllowedError();
-                int scoreGained = 5 * (int) howClose;
+                int scoreGained = (int) (5 * howClose);
 
                 if (howClose < 0.1) {
                     RhythmGame.displayMessage("Perfect!");
