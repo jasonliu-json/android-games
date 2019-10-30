@@ -31,7 +31,6 @@ class Column {
                 RhythmGame.changeScore(-1);
             }
         }
-
     }
 
     private boolean checkLowestNote() {
