@@ -16,8 +16,12 @@ class BoardV2 {
 
     BoardV2() {
         board = new char[WIDTH][HEIGHT];
-        for (int i = 0; i < HEIGHT; i++) {
-            Arrays.fill(board[i], '.');
+        try {
+            for (int i = 0; i < HEIGHT; i++) {
+                Arrays.fill(board[i], '.');
+            }
+        }catch(IndexOutOfBoundsException e){
+            return;
         }
     }
 
