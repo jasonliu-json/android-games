@@ -15,7 +15,7 @@ class BoardV2 {
     char[][] board;
 
     BoardV2() {
-        board = new char[WIDTH][HEIGHT];
+        board = new char[HEIGHT][WIDTH];
         try {
             for (int i = 0; i < HEIGHT; i++) {
                 Arrays.fill(board[i], '.');
@@ -85,25 +85,27 @@ class BoardV2 {
         return false;
     }
 
-    public void drawBoard(Canvas canvas) {
-        float width = canvas.getWidth() / 12;
-        float height = canvas.getWidth() / 12;
-        int i, j;
-        float x, y;
+    public void drawBoard(Canvas canvas, Bitmap bitmap) {
+        Rect rect = new Rect();
 
-        x = 0;
-        y = 0;
+        int i, k;
+        int x, y;
+
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.BLACK);
 
-        for (i = 1; i <= 11; i++) {
-            canvas.drawLine(x, 0, x, width * 20, paint);
-            x = x + width;
-        }
-        for (j = 1; j <= 21; j++) {
-            canvas.drawLine(0, y, height * 10, y, paint);
-            y = y + height;
+        int width = (canvas.getWidth() / 12);
+        int height = (canvas.getWidth() / 12);
+        for (i = 0; i < 20; i++) {
+            for (k = 0; k < 10; k++) {
+                x = k * width;
+                y = i * height;
+                if (board[i][k] != '.') {
+                    rect.set(x, y, x + width, y + height);
+                    canvas.drawBitmap(bitmap, null, rect, paint);
+                }
+            }
         }
     }
 }
