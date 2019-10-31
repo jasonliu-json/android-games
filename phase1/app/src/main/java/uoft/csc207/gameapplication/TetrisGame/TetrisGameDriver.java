@@ -36,7 +36,7 @@ public class TetrisGameDriver extends GameDriver {
             e.printStackTrace();
         }
         finally {
-            if (tetrisGame.getIsRunning()) {
+            if (!tetrisGame.getGameIsOver()) {
                 int xDistance = (int) x - X;
                 int yDistance = (int) y - Y;
                 if (xDistance > 20) {
@@ -72,7 +72,7 @@ public class TetrisGameDriver extends GameDriver {
 
         Paint textPaint = new Paint();
         textPaint.setTextSize(100);
-        newCanvas.drawText(String.valueOf(tetrisGame.getScore()), 10, 80, textPaint);
+        newCanvas.drawText(String.valueOf(tetrisGame.getPoints()), 10, 80, textPaint);
 
         newCanvas.restore();
     }

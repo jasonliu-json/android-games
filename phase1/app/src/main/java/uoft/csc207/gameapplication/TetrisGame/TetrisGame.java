@@ -54,11 +54,11 @@ class TetrisGame {
         return board;
     }
 
-    boolean getIsRunning() {
-        return isRunning;
+    boolean getGameIsOver() {
+        return !isRunning;
     }
 
-    int getScore() {
+    int getPoints() {
         return score;
     }
 
