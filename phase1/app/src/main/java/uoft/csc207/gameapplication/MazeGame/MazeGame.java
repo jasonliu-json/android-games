@@ -24,6 +24,8 @@ public class MazeGame {
     private Paint endPaint = new Paint();
     private Paint startPaint = new Paint();
 
+    private long startTime;
+    private int points = 0;
     public MazeGame() {
         wallPaint.setColor(Color.BLACK);
         wallPaint.setStyle(Paint.Style.FILL);
@@ -41,12 +43,13 @@ public class MazeGame {
         yCharacter = mazeGenerator.getStartingPoint()[1];
 
         xEndPos = mazeGenerator.getEndPoint()[0];
-        xEndPos = mazeGenerator.getEndPoint()[1];
+        yEndPos = mazeGenerator.getEndPoint()[1];
 
         maze = mazeGenerator.getMaze();
 
         currentLevel = 1;
         gameIsOver = false;
+        startTime = System.currentTimeMillis();
     }
 
     void moveDown() {
@@ -90,12 +93,18 @@ public class MazeGame {
         return gameIsOver;
     }
 
+    int getPoints() {
+        return points;
+    }
+
     private void checkEndpointReached() {
         if (xCharacter == xEndPos && yCharacter == yEndPos) {
             System.out.println("goal reached");
             xEndPos = -1;
             yEndPos = -1;
-            if (currentLevel == 1) {
+            calculatePoints();
+            System.out.println(points);
+            if (currentLevel == 3) {
                 gameIsOver = true;
                 // temporarily print game is over
                 System.out.println("Game is over");
@@ -104,6 +113,7 @@ public class MazeGame {
                 currentLevel += 1;
                 mazeGenerator.newMaze();
 
+                maze = mazeGenerator.getMaze();
                 xCharacter = mazeGenerator.getStartingPoint()[0];
                 yCharacter = mazeGenerator.getStartingPoint()[1];
                 xEndPos = mazeGenerator.getEndPoint()[0];
@@ -130,5 +140,14 @@ public class MazeGame {
                 }
             }
         }
+    }
+
+    private void calculatePoints() {
+        long timeTaken = System.currentTimeMillis() - startTime;
+        int newPoints = (int)(2000 - (timeTaken / 1000 * 60));
+        if (newPoints > 0) {
+            points += newPoints;
+        }
+        startTime = System.currentTimeMillis();
     }
 }
