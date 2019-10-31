@@ -4,7 +4,7 @@
     <string name="title_activity_register_user">RegisterUser</string>
     <string name="game_score">0</string>
     <string name="play">Play</string>
-    <string name="leaderboard">Leaderboards</string>
+    <string name="leaderboard">Leaderboard</string>
     <string name="scores">Personal Scores</string>
     <string name="main_menu">Main Menu</string>
 </resources>
