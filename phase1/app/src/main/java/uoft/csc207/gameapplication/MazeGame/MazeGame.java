@@ -26,6 +26,8 @@ public class MazeGame {
 
     private long startTime;
     private int points = 0;
+    private int currentLevelPoints = 2000;
+
     public MazeGame() {
         wallPaint.setColor(Color.BLACK);
         wallPaint.setStyle(Paint.Style.FILL);
@@ -94,20 +96,22 @@ public class MazeGame {
     }
 
     int getPoints() {
-        return points;
+        if (currentLevelPoints > 0) {
+            return points + currentLevelPoints;
+        }
+        else {
+            return points;
+        }
     }
 
     private void checkEndpointReached() {
         if (xCharacter == xEndPos && yCharacter == yEndPos) {
-            System.out.println("goal reached");
             xEndPos = -1;
             yEndPos = -1;
             calculatePoints();
-            System.out.println(points);
             if (currentLevel == 3) {
                 gameIsOver = true;
                 // temporarily print game is over
-                System.out.println("Game is over");
             }
             else {
                 currentLevel += 1;
@@ -124,6 +128,9 @@ public class MazeGame {
     void draw(Canvas canvas, int screenWidth, int screenHeight) {
         int blockWidth = screenWidth / maze.length;
         int blockHeight = screenHeight / maze[0].length;
+
+        long timeTaken = System.currentTimeMillis() - startTime;
+        currentLevelPoints = (int)(2000 - (timeTaken / 1000 * 60));
 
         for (int x = 0; x < maze.length; x++) {
             for (int y = 0; y < maze[0].length; y++) {
@@ -144,9 +151,9 @@ public class MazeGame {
 
     private void calculatePoints() {
         long timeTaken = System.currentTimeMillis() - startTime;
-        int newPoints = (int)(2000 - (timeTaken / 1000 * 60));
-        if (newPoints > 0) {
-            points += newPoints;
+        currentLevelPoints = (int)(2000 - (timeTaken / 1000 * 60));
+        if (currentLevelPoints > 0) {
+            points += currentLevelPoints;
         }
         startTime = System.currentTimeMillis();
     }

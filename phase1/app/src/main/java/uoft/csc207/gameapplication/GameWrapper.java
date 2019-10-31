@@ -2,6 +2,8 @@ package uoft.csc207.gameapplication;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
@@ -11,6 +13,7 @@ import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
 public class GameWrapper {
     private GameDriver gameDriver;
 
+    private Paint textPaint = new Paint();
     private boolean gameIsOver;
     private int points;
     private int gamesPlayed;
@@ -22,6 +25,8 @@ public class GameWrapper {
         gameIsOver = false;
         gamesPlayed = 0;
         this.context = context;
+        textPaint.setColor(Color.rgb(255, 141, 54));
+        textPaint.setTextSize(60);
     }
 
     void setMetrics(DisplayMetrics metrics) {
@@ -42,9 +47,10 @@ public class GameWrapper {
     }
 
     void draw(Canvas canvas) {
-        points += gameDriver.getPoints();
+        int currentGamePoints = gameDriver.getPoints();
         if (gameDriver.getGameIsOver()) {
             gamesPlayed += 1;
+            points += currentGamePoints;
             if (gamesPlayed == 1) {
                 gameDriver = new RhythmGameDriver(context);
                 gameDriver.init(metrics);
@@ -58,6 +64,7 @@ public class GameWrapper {
             }
         }
         gameDriver.draw(canvas);
+        canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
     }
 
     boolean getGameIsOver() {

@@ -36,6 +36,7 @@ public class GameView extends View {
                     timer.purge();
                     Intent intent = new Intent(originalContext, Login.class);
                     originalContext.startActivity(intent);
+                    System.out.println(gameWrapperDriver.getPoints());
                 }
             }
         }, 0, 30);
