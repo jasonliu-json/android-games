@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity {
                 loginEmail = emailInput.getText().toString();
                 loginPassword = passwordInput.getText().toString();
                 if (verifyLogin(loginEmail, loginPassword)) {
-                    showToast("Login Successful");
                     Intent gameActivity = new Intent(Login.this, GameActivity.class);
                     startActivity(gameActivity);
                 }
@@ -110,6 +109,7 @@ public class Login extends AppCompatActivity {
                 boolean sameUser = user.getString("email").equals(email);
                 boolean samePass = user.getString("password").equals(passwordHash);
                 if (sameUser && samePass) {
+                    showToast("Welcome " + user.getString("username"));
                     return true;
                 }
             }
