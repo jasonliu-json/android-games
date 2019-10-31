@@ -94,6 +94,14 @@ public class TetrisGameDriver extends GameDriver {
         }
     }
 
+    public boolean getGameIsOver() {
+        return tetrisGame.getGameIsOver();
+    }
+
+    public int getPoints() {
+        return tetrisGame.getPoints();
+    }
+
     private void drawBoard(Canvas canvas, Board board) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
