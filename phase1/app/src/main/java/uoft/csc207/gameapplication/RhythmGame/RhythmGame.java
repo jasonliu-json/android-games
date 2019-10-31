@@ -10,7 +10,6 @@ import android.util.Pair;
 import android.util.SparseArray;
 
 import uoft.csc207.gameapplication.R;
-import uoft.csc207.gameapplication.SubGame;
 
 
 /* A game where notes ascend the screen and the player aims to tap the
@@ -36,7 +35,12 @@ public class RhythmGame {
     private int points = 0;
     private int numDeaths = 0;
     private HashMap<String, Integer> stats;
-    //TODO: Add third statistic
+    //  Add third statistic
+
+//    private int numPerfect = 0;
+//    private int numGreat = 0;
+//    private int numGood = 0;
+//    private int numBad = 0;
 
     private boolean isGameOver = false;
 
@@ -62,10 +66,11 @@ public class RhythmGame {
         mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
         startTime = System.currentTimeMillis();
 
-        stats.put("PerfectHit", 0);
-        stats.put("GreatHit", 0);
-        stats.put("GoodHit", 0);
-        stats.put("BadHit", 0);
+        stats = new HashMap<>();
+        stats.put("Perfect!", 0);
+        stats.put("Great!", 0);
+        stats.put("Good!", 0);
+        stats.put("Bad Hit!", 0);
 
 //        setPointsGained(0);
 //        setNumDeaths(0);
@@ -124,8 +129,13 @@ public class RhythmGame {
 
     void tap(int colNumber) {
         if (!getIsGameOver()) {
-
-            addPoints(columns[colNumber].tap());
+            String hitType = columns[colNumber].tap().first;
+            int scoreChange = columns[colNumber].tap().second;
+            int numberOfHits = stats.get(hitType);
+            stats.put(hitType, numberOfHits + 1);
+            addPoints(scoreChange);
+      System.out.println(hitType);
+      System.out.println(stats.get(hitType));
         }
     }
 
