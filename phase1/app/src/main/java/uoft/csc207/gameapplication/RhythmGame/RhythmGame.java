@@ -57,7 +57,7 @@ public class RhythmGame {
         setDifficulty(Difficulty.IMPOSSIBLE);
         mediaPlayer1 = MediaPlayer.create(context, R.raw.old_town_road);
         mediaPlayer1.start();
-        mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
+//        mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
         startTime = System.currentTimeMillis();
 
         stats = new HashMap<>();
@@ -93,7 +93,7 @@ public class RhythmGame {
 
     public static int getRefreshTime() {return refreshTime;}
 
-    public void update() {
+    void update() {
         double randomNumber = Math.random();
         for (int i = 0; i < numColumns; i++) {
             Pair<Integer, Integer> pair = columns[i].update();
@@ -114,7 +114,7 @@ public class RhythmGame {
         }
     }
 
-    public void gameOver() {
+    private void gameOver() {
         setIsGameOver(true);
         mediaPlayer1.stop();
         mediaPlayer1.release();
@@ -128,8 +128,8 @@ public class RhythmGame {
             String hitType = columns[colNumber].getMessage().getMessage();
             if (stats.get(hitType) != null) {
                 stats.put(hitType, stats.get(hitType) + 1);
-        System.out.println(hitType);
-        System.out.println(stats.get(hitType));
+//        System.out.println(hitType);
+//        System.out.println(stats.get(hitType));
             }
         }
     }
@@ -169,7 +169,7 @@ public class RhythmGame {
         return numNotesMissed;
     }
 
-    public boolean getIsGameOver() {
+    boolean getIsGameOver() {
         return isGameOver;
     }
 
@@ -178,7 +178,7 @@ public class RhythmGame {
     }
 
 
-    public int getPoints() {
+    int getPoints() {
         return points;
     }
 
@@ -186,7 +186,7 @@ public class RhythmGame {
         this.points = points;
     }
 
-    public void addPoints(int dPoints) {
+    private void addPoints(int dPoints) {
         // points cannot go below 0.
         this.points = Math.max(this.points + dPoints, 0);
     }
