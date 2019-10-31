@@ -33,6 +33,10 @@ public class RhythmGameDriver extends GameDriver {
         return rhythmGame.getIsGameOver();
     }
 
+    public int getPoints() {
+        return rhythmGame.getPoints();
+    }
+
     /**
      * Sets up the paints and the shapes of the notes.
      */
