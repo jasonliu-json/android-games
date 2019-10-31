@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,7 +18,7 @@ public class TetrisGameDriver extends GameDriver {
     private int Yinit;
     private TetrisGame tetrisGame;
 
-    public TetrisGameDriver() {
+    public TetrisGameDriver(Context context) {
         tetrisGame = new TetrisGame();
     }
 

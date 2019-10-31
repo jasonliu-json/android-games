@@ -20,7 +20,7 @@ public class TetrisGameView extends View {
 
     public TetrisGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.tetrisGameDriver = new TetrisGameDriver();
+        this.tetrisGameDriver = new TetrisGameDriver(context);
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override

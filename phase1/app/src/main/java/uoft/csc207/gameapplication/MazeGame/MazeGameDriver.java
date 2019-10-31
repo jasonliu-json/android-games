@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication.MazeGame;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
@@ -14,7 +15,7 @@ public class MazeGameDriver extends GameDriver {
     private int xInit;
     private int yInit;
 
-    public MazeGameDriver() {
+    public MazeGameDriver(Context context) {
         mazeGame = new MazeGame();
     }
 
