@@ -56,7 +56,7 @@ public class RhythmGame {
             columns[i] = new Column(gameHeight);
         }
 
-        setDifficulty(Difficulty.IMPOSSIBLE);
+        setDifficulty(Difficulty.EASY);
         mediaPlayer1 = MediaPlayer.create(context, R.raw.old_town_road);
         mediaPlayer1.start();
 

@@ -31,6 +31,22 @@ public class MainMenuActivity extends AppCompatActivity {
             }
 
         });
+
+        leaderboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                // show leaderboard
+            }
+
+        });
+
+        scoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//               // show personal scores
+            }
+
+        });
     }
 
 

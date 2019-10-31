@@ -49,8 +49,8 @@ public class Login extends AppCompatActivity {
                 loginEmail = emailInput.getText().toString();
                 loginPassword = passwordInput.getText().toString();
                 if (verifyLogin(loginEmail, loginPassword)) {
-                    Intent gameActivity = new Intent(Login.this, GameActivity.class);
-                    startActivity(gameActivity);
+                    Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
+                    startActivity(mainMenuActivity);
                 }
                 else {
                     showToast("Incorrect login credentials");
