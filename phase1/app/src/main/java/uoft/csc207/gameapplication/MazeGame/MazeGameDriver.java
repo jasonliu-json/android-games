@@ -67,4 +67,12 @@ public class MazeGameDriver extends GameDriver {
 
         newCanvas.restore();
     }
+
+    public boolean getGameIsOver() {
+        return mazeGame.getGameIsOver();
+    }
+
+    public int getPoints() {
+        return mazeGame.getPoints();
+    }
 }
