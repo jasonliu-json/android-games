@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.util.Pair;
 import android.util.SparseArray;
 
@@ -28,8 +29,9 @@ public class RhythmGame {
     private long startTime;
     private static int refreshTime = 500;
     private MediaPlayer mediaPlayer1;
-    private MediaPlayer mediaPlayer2;
-    private RhythmGameMessage rhythmGameMessage = new RhythmGameMessage("");
+//    private MediaPlayer mediaPlayer2;
+//    private RhythmGameMessage rhythmGameMessage = new RhythmGameMessage("");
+    private MediaPlayer hitSound;
 
     private int points = 0;
     private int numDeaths = 0;
@@ -57,7 +59,13 @@ public class RhythmGame {
         setDifficulty(Difficulty.IMPOSSIBLE);
         mediaPlayer1 = MediaPlayer.create(context, R.raw.old_town_road);
         mediaPlayer1.start();
+
 //        mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
+
+//        mediaPlayer2 = MediaPlayer.create(context, R.raw.old_town_road);
+//        hitSound = MediaPlayer.create(context, R.raw.note_hit_sound);
+
+
         startTime = System.currentTimeMillis();
 
         stats = new HashMap<>();
@@ -123,8 +131,12 @@ public class RhythmGame {
 
     void tap(int colNumber) {
         if (!getIsGameOver()) {
-            // tap() returns score to be changed
-            addPoints(columns[colNumber].tap());
+            int scoreChange = columns[colNumber].tap();
+            if (scoreChange > 0) {
+                hitSound.start();
+            }
+
+            addPoints(scoreChange);
             String hitType = columns[colNumber].getMessage().getMessage();
             if (stats.get(hitType) != null) {
                 stats.put(hitType, stats.get(hitType) + 1);
