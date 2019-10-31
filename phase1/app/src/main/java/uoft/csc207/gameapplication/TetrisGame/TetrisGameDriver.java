@@ -11,8 +11,6 @@ import static java.lang.Thread.sleep;
 
 public class TetrisGameDriver extends GameDriver {
 
-    private Paint circlePaint = new Paint();
-
     private int X;
     private int Y;
     private TetrisGame tetrisGame;
@@ -28,7 +26,7 @@ public class TetrisGameDriver extends GameDriver {
 
     public void touchMove(float x, float y) {
         try {
-            sleep(40);
+            sleep(200);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -46,7 +44,10 @@ public class TetrisGameDriver extends GameDriver {
                     }
                 }
                 else if (yDistance > 20) {
-                        tetrisGame.moveFallingPieceDown();
+                    tetrisGame.moveFallingPieceDown();
+                }
+                else if (yDistance < -20) {
+                    tetrisGame.rotateFallingPieceClockwise();   // this should be temporary
                 }
                 X = (int)x;
                 Y = (int)y;
@@ -61,30 +62,35 @@ public class TetrisGameDriver extends GameDriver {
     public void draw(Canvas canvas) {
         newCanvas.save();
         newCanvas.drawColor(Color.WHITE);
+
         drawGrid(newCanvas, tetrisGame.getBoard());
         drawBoard(newCanvas, tetrisGame.getBoard());
+
         canvas.drawBitmap(bitmap, 88, 88, null);
+
+        Paint textPaint = new Paint();
+        textPaint.setTextSize(100);
+        newCanvas.drawText(String.valueOf(tetrisGame.getScore()), 10, 80, textPaint);
+
         newCanvas.restore();
     }
 
     private void drawGrid(Canvas canvas, Board board) {
-        float width = newCanvas.getWidth() / 12;
-        float height = newCanvas.getWidth() / 12;
+        float length = canvas.getWidth() / (board.getWidth() + 2);   // side length of one tile
         float x = 0, y = 0;
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.LTGRAY);
         paint.setStrokeWidth(3);
         for (int i = 0; i < 11; i++) {
-            newCanvas.drawLine(x, 0, x, width * 20, paint);
-            x = x + width;
+            newCanvas.drawLine(x, 0, x, length * 20, paint);
+            x = x + length;
         }
         for (int j = 0; j < 21; j++) {
-            newCanvas.drawLine(0, y, height * 10, y, paint);
-            y = y + height;
+            newCanvas.drawLine(0, y, length * 10, y, paint);
+            y = y + length;
         }
     }
-
 
     private void drawBoard(Canvas canvas, Board board) {
         Paint paint = new Paint();

@@ -112,7 +112,9 @@ abstract class Piece {
     private void tryRotate(Board board, int direction) {
         removePieceFromBoard(board);
         if (canRotate(board, direction)) {
+            System.out.println("START" + rotation);
             rotation = (rotation + direction) % states.length;
+            System.out.println("END" + rotation);
         }
         addPieceToBoard(board);
     }
@@ -124,27 +126,4 @@ abstract class Piece {
     void rotateCounterClockwise(Board board) {
         tryRotate(board, -1);
     }
-
-//    public void addPiece(Canvas canvas, Bitmap bitmap) {
-//        Rect rect = new Rect();
-//
-//        Paint black_paint = new Paint();
-//        black_paint.setStyle(Paint.Style.FILL);
-//        black_paint.setColor(Color.BLACK);
-//
-//        int width = (canvas.getWidth() / 12);
-//        int height = (canvas.getWidth() / 12);
-//
-//        for (int y = 0; y < 5; y++) {
-//            for (int x = 0; x < 5; x++) {
-//                x = x * width;
-//                y = y * height;
-//
-//                if (this.states[this.rotation][y].charAt(x) != '.') {
-//                    rect.set(x, y, x + width, y + height);
-//                    canvas.drawBitmap(bitmap, null, rect, black_paint);
-//                }
-//            }
-//        }
-//    }
 }

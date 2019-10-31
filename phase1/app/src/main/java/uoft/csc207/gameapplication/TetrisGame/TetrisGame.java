@@ -74,7 +74,6 @@ class TetrisGame {
                 isRunning = false;
             }
         }
-        System.out.println(score);
     }
 
     void moveFallingPieceLeft() {
