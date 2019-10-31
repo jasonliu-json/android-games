@@ -1,22 +1,17 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
 import java.util.Arrays;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 
 class Board {
 
-    private int WIDTH = 10;
-    private int HEIGHT = 20;
+    private int width = 10;
+    private int height = 20;
 
     private char[][] board;
 
     Board() {
-        board = new char[HEIGHT][WIDTH];
-        for (int i = 0; i < HEIGHT; i++) {
+        board = new char[height][width];
+        for (int i = 0; i < height; i++) {
             Arrays.fill(board[i], '.');
         }
     }
@@ -25,8 +20,16 @@ class Board {
         return board;
     }
 
+    int getWidth() {
+        return width;
+    }
+
+    int getHeight() {
+        return height;
+    }
+
     private boolean rowIsFull(int n) {
-        for (int x = 0; x < WIDTH; x++) {
+        for (int x = 0; x < width; x++) {
             if (board[n][x] == '.') {
                 return false;
             }
@@ -36,7 +39,7 @@ class Board {
 
     private void clearRow(int n) {
         for (int y = n; y > 0; y--) {   // updates rows 1-n
-            for (int x = 0; x < WIDTH; x++) {
+            for (int x = 0; x < width; x++) {
                 board[y][x] = board[y - 1][x];
             }
         }
@@ -45,35 +48,13 @@ class Board {
 
     int clearRows() {
         int score = 0;
-        for (int y = 0; y < HEIGHT; y++) {
+        for (int y = 0; y < height; y++) {
             if (this.rowIsFull(y)) {
                 this.clearRow(y);
                 score += 100;
             }
         }
         return score;
-    }
-
-    public void drawBoard(Canvas canvas) {
-        int i, k;
-        int x, y;
-
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.BLACK);
-
-        int width = (canvas.getWidth() / 12);
-        int height = (canvas.getWidth() / 12);
-        for (i = 0; i < HEIGHT; i++) {
-            for (k = 0; k < WIDTH; k++) {
-                x = k * width;
-                y = i * height;
-                if (board[i][k] != '.') {
-                    Rect rect = new Rect(x, y, x + width, y + width);
-                    canvas.drawRect(rect, paint);
-                }
-            }
-        }
     }
 }
 
