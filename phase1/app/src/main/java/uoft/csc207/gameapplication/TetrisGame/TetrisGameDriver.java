@@ -71,9 +71,10 @@ public class TetrisGameDriver extends GameDriver {
 
         canvas.drawBitmap(bitmap, 88, 88, null);
 
-        Paint textPaint = new Paint();
-        textPaint.setTextSize(100);
-        newCanvas.drawText(String.valueOf(tetrisGame.getPoints()), 10, 80, textPaint);
+//        // draw points
+//        Paint textPaint = new Paint();
+//        textPaint.setTextSize(100);
+//        newCanvas.drawText(String.valueOf(tetrisGame.getPoints()), 10, 80, textPaint);
 
         newCanvas.restore();
     }
