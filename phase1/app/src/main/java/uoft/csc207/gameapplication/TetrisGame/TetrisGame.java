@@ -58,6 +58,10 @@ class TetrisGame {
         return isRunning;
     }
 
+    int getScore() {
+        return score;
+    }
+
     void moveFallingPieceDown() {
         if (!fallingPiece.moveDown(board)) {   // cannot move down
             score += board.clearRows();
