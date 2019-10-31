@@ -20,9 +20,6 @@ public class TetrisGameDriver extends GameDriver {
 
     public TetrisGameDriver() {
         tetrisGame = new TetrisGame();
-//        circlePaint.setColor(Color.BLACK);
-//        circlePaint.setStyle(Paint.Style.FILL);
-//        circlePaint.setStrokeWidth(10);
     }
 
     public void touchStart(float x, float y) {
@@ -38,21 +35,23 @@ public class TetrisGameDriver extends GameDriver {
             e.printStackTrace();
         }
         finally {
-            int xDistance = (int) x - X;
-            int yDistance = (int) y - Y;
-            if (Math.abs(xDistance) > Math.abs(yDistance)) {
-                if (xDistance > 20) {
-                    tetrisGame.moveFallingPieceRight();
+            if (tetrisGame.getIsRunning()) {
+                int xDistance = (int) x - X;
+                int yDistance = (int) y - Y;
+                if (Math.abs(xDistance) > Math.abs(yDistance)) {
+                    if (xDistance > 20) {
+                        tetrisGame.moveFallingPieceRight();
+                    }
+                    else if (xDistance < -20) {
+                        tetrisGame.moveFallingPieceLeft();
+                    }
                 }
-                else if (xDistance < -20) {
-                    tetrisGame.moveFallingPieceLeft();
+                else if (yDistance > 20) {
+                        tetrisGame.moveFallingPieceDown();
                 }
+                X = (int)x;
+                Y = (int)y;
             }
-            else if (yDistance > 20) {
-                    tetrisGame.moveFallingPieceDown();
-            }
-            X = (int)x;
-            Y = (int)y;
         }
     }
 
@@ -61,11 +60,7 @@ public class TetrisGameDriver extends GameDriver {
     }
 
     public void draw(Canvas canvas) {
-
-        // Just a note, unless we're already doing this, clear the canvas before drawing again
-
         newCanvas.save();
-
         float width = newCanvas.getWidth() / 12;
         float height = newCanvas.getWidth() / 12;
         int i, j;
@@ -87,7 +82,6 @@ public class TetrisGameDriver extends GameDriver {
             newCanvas.drawLine(0, y, height * 10, y, paint);
             y = y + height;
         }
-
         tetrisGame.getBoard().drawBoard(newCanvas);
         canvas.drawBitmap(bitmap, 88, 88, null);
         newCanvas.restore();

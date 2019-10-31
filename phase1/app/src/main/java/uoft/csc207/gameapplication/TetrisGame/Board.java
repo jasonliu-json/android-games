@@ -1,88 +1,79 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
+import java.util.Arrays;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-/**
- * The board class is specifically for the background and the
- * static condition of the little pieces.
- */
+class Board {
 
-public class Board {
-    private int[][] b;
+    private int WIDTH = 10;
+    private int HEIGHT = 20;
 
-    public Board() {
-        this.b = new int[20][10];
-    }
+    private char[][] board;
 
-    public void drawBoard(Canvas canvas, Bitmap bitmap) {
-        Rect rect = new Rect();
-
-        int i, j;
-        int x, y;
-
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.BLACK);
-        int width = (canvas.getWidth() / 12);
-        int height = (canvas.getWidth() / 12); // since they are little squares
-        for (i = 0; i < 20; i++) {
-            for (j = 0; j < 10; j++) {
-                x = j * width;
-                y = i * height;
-                if (b[i][j] == 1) {
-                    rect.set(x, y, x + width, y + height);
-                    canvas.drawBitmap(bitmap, null, rect, paint);
-                }
-            }
+    Board() {
+        board = new char[HEIGHT][WIDTH];
+        for (int i = 0; i < HEIGHT; i++) {
+            Arrays.fill(board[i], '.');
         }
     }
 
-    public boolean gameOver() {
-        for (int i = 0; i < 10; i++) {
-            if (b[0][i] == 1) {
-                return true;
-            }
-        }
-        return false;
+    char[][] getBoard() {
+        return board;
     }
 
-
-    public boolean is_fill(int line) {
-        for (int i = 0; i < 10; i++) {
-            if (b[line][i] == 0) {
+    private boolean rowIsFull(int n) {
+        for (int x = 0; x < WIDTH; x++) {
+            if (board[n][x] == '.') {
                 return false;
             }
         }
         return true;
     }
 
-    /**
-     * When detect that the there's a line is filled, then this line will be
-     * actually "replaced" by the next line of the pieces
-     *
-     * PS: I doubt the efficiency of this method, I will have a look on the recursion and
-     * the number orders later.
-     */
-    public void delete() {
-        for (int i = 0; i < 20; i++) {
-            if (!is_fill(i)) {
-                break;
-            } else {
-                for (int l = i; l > 0; l--) {
-                    for (int j = 0; j < 10; j++) {
-                        b[l][j] = b[l - 1][j];
-                    }
+    private void clearRow(int n) {
+        for (int y = n; y > 0; y--) {   // updates rows 1-n
+            for (int x = 0; x < WIDTH; x++) {
+                board[y][x] = board[y - 1][x];
+            }
+        }
+        Arrays.fill(board[0], '.');   // updates row 0
+    }
+
+    int clearRows() {
+        int score = 0;
+        for (int y = 0; y < HEIGHT; y++) {
+            if (this.rowIsFull(y)) {
+                this.clearRow(y);
+                score += 100;
+            }
+        }
+        return score;
+    }
+
+    public void drawBoard(Canvas canvas) {
+        int i, k;
+        int x, y;
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+
+        int width = (canvas.getWidth() / 12);
+        int height = (canvas.getWidth() / 12);
+        for (i = 0; i < HEIGHT; i++) {
+            for (k = 0; k < WIDTH; k++) {
+                x = k * width;
+                y = i * height;
+                if (board[i][k] != '.') {
+                    Rect rect = new Rect(x, y, x + width, y + width);
+                    canvas.drawRect(rect, paint);
                 }
             }
         }
-
     }
-    // well I have to specify that this is the simplest edition of deletion.
-
-
 }
 

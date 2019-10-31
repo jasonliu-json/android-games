@@ -25,17 +25,19 @@ class TetrisGame {
 
     private Piece fallingPiece;
 
-    private BoardV2 board;
+    private Board board;
     private Randomizer pieceGenerator;
+    private boolean isRunning;
 
     private Timer timer;
 
     private int score;   // not used at the moment
 
     TetrisGame() {
-        board = new BoardV2();
+        board = new Board();
         pieceGenerator = new Randomizer();
         fallingPiece = pieceGenerator.nextPiece();
+        isRunning = true;
 
         // setup timer
         timer = new Timer();
@@ -48,16 +50,31 @@ class TetrisGame {
         timer.scheduleAtFixedRate(makePieceFall, 350, 350);   // piece falls every 350 ms
     }
 
-    BoardV2 getBoard() {
+    Board getBoard() {
         return board;
+    }
+
+    boolean getIsRunning() {
+        return isRunning;
+    }
+
+    int getScore() {
+        return score;
     }
 
     void moveFallingPieceDown() {
         if (!fallingPiece.moveDown(board)) {   // cannot move down
-            board.clearRows();
+            score += board.clearRows();
             fallingPiece = pieceGenerator.nextPiece();
-            fallingPiece.addPieceToBoard(board);
+            if (fallingPiece.canMoveTo(board, 0, 0)) {
+                fallingPiece.addPieceToBoard(board);
+            }
+            else {
+                timer.cancel();
+                isRunning = false;
+            }
         }
+        System.out.println(score);
     }
 
     void moveFallingPieceLeft() {
