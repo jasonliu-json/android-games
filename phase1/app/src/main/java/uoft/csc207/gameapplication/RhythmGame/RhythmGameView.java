@@ -34,7 +34,7 @@ public class RhythmGameView extends View {
                 rhythmGameDriver.update();
                 invalidate();
 
-                if (rhythmGameDriver.getIsGameOver()) { // should be the condition that the game is over;
+                if (rhythmGameDriver.getGameIsOver()) { // should be the condition that the game is over;
                     timer.cancel();
                     timer.purge();
                 }

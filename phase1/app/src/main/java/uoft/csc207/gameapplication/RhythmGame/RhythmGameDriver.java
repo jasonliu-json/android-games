@@ -29,7 +29,7 @@ public class RhythmGameDriver extends GameDriver {
         setTheme();
     }
 
-    public boolean getIsGameOver() {
+    public boolean getGameIsOver() {
         return rhythmGame.getIsGameOver();
     }
 
@@ -123,7 +123,7 @@ public class RhythmGameDriver extends GameDriver {
 
 //            float xMessage = i * colSize + colSize / 2;
             newCanvas.drawText(messages[i].getMessage(), xNote, target.getY() * heightRatio, messagePaint);
-            if (getIsGameOver()) {
+            if (getGameIsOver()) {
                 String gameOverText = "Game Over :(  Score: " + rhythmGame.getPoints();
                 newCanvas.drawText(gameOverText, screenWidth/2, screenHeight/2, messagePaint);
             }
