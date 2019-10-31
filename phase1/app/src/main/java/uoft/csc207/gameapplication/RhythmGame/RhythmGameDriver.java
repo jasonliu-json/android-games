@@ -134,7 +134,7 @@ public class RhythmGameDriver extends GameDriver {
             }
         }
 
-        newCanvas.drawText(String.valueOf(rhythmGame.getPoints()), 10, 80, textPaint);
+//        newCanvas.drawText(String.valueOf(rhythmGame.getPoints()), 10, 80, textPaint);
 
         newCanvas.drawText("Missed: " + rhythmGame.getNumNotesMissed(), screenWidth /2, 80, missedTextPaint);
 
