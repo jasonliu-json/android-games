@@ -18,8 +18,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent returnToMenu = new Intent(GameActivity.this, Login.class);
-
+        // Intent returnToMenu = new Intent(GameActivity.this, Login.class);
         setContentView(R.layout.activity_game);
         gameView = (GameView) findViewById(R.id.GameView);
         DisplayMetrics metrics = new DisplayMetrics();
