@@ -16,22 +16,26 @@ import java.util.TimerTask;
 public class GameView extends View {
     private GameWrapperDriver gameWrapperDriver;
     private Timer timer;
-    
+    private Context originalContext;
     public GameView(Context context) {
         this(context, null);
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        originalContext = context;
         this.gameWrapperDriver = new GameWrapperDriver(context);
+
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 invalidate();
-                if (false) { // should be the condition that the game is over;
+                if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
                     timer.cancel();
                     timer.purge();
+                    Intent intent = new Intent(originalContext, Login.class);
+                    originalContext.startActivity(intent);
                 }
             }
         }, 0, 30);

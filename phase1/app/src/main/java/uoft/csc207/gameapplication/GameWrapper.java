@@ -42,6 +42,7 @@ public class GameWrapper {
     }
 
     void draw(Canvas canvas) {
+        points += gameDriver.getPoints();
         if (gameDriver.getGameIsOver()) {
             gamesPlayed += 1;
             if (gamesPlayed == 1) {
@@ -53,7 +54,7 @@ public class GameWrapper {
                 gameDriver.init(metrics);
             }
             else {
-                // use intent to send back to login should be main menu in future
+                gameIsOver = true;
             }
         }
         gameDriver.draw(canvas);
