@@ -10,8 +10,6 @@ import android.util.Pair;
 import android.util.SparseArray;
 
 import uoft.csc207.gameapplication.R;
-import uoft.csc207.gameapplication.SubGame;
-
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
@@ -22,7 +20,7 @@ public class RhythmGame {
     private Column[] columns;
 
     private int numNotesMissed = 0;
-    private int lives = 5;
+    private int lives = 5000;
     private int noteGenerationPeriod = 1000;
 
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
@@ -36,7 +34,7 @@ public class RhythmGame {
     private int points = 0;
     private int numDeaths = 0;
     private HashMap<String, Integer> stats;
-    //TODO: Add third statistic
+    // keys: hit type, values: number of times
 
     private boolean isGameOver = false;
 
@@ -128,7 +126,11 @@ public class RhythmGame {
             // tap() returns score to be changed
             addPoints(columns[colNumber].tap());
             String hitType = columns[colNumber].getMessage().getMessage();
-            stats.put(hitType, stats.get(hitType) + 1);
+            if (stats.get(hitType) != null) {
+                stats.put(hitType, stats.get(hitType) + 1);
+        System.out.println(hitType);
+        System.out.println(stats.get(hitType));
+            }
         }
     }
 

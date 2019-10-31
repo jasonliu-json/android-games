@@ -72,6 +72,7 @@ class Column {
     int tap() {
         int pointsGained = 0;
         if (notes.size() == 0) {
+            this.message = new RhythmGameMessage("Bad Hit!");
             pointsGained = -5;
             return pointsGained;
         }
