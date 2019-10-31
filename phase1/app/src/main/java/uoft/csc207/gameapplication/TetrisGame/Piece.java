@@ -1,11 +1,5 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-
 abstract class Piece {
 
     private int x;
@@ -31,12 +25,12 @@ abstract class Piece {
         return rotation;
     }
 
-    private boolean canMoveTo(BoardV2 board, int adjX, int adjY) {
+    boolean canMoveTo(Board board, int adjX, int adjY) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (states[rotation][y].charAt(x) != '.') {
                     try {
-                        if (board.board[this.y + y + adjY][this.x + x + adjX] != '.') {
+                        if (board.getBoard()[this.y + y + adjY][this.x + x + adjX] != '.') {
                             return false;   // move results in collision
                         }
                     } catch (IndexOutOfBoundsException e) {
@@ -48,7 +42,7 @@ abstract class Piece {
         return true;
     }
 
-    private boolean tryMove(BoardV2 board, int adjX, int adjY) {
+    private boolean tryMove(Board board, int adjX, int adjY) {
         this.removePieceFromBoard(board);
         if (canMoveTo(board, adjX, adjY)) {
             this.x += adjX;
@@ -60,7 +54,7 @@ abstract class Piece {
         return false;
     }
 
-    void addPieceToBoard(BoardV2 board) {
+    void addPieceToBoard(Board board) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (states[rotation][y].charAt(x) != '.') {
@@ -70,7 +64,7 @@ abstract class Piece {
         }
     }
 
-    void removePieceFromBoard(BoardV2 board) {
+    private void removePieceFromBoard(Board board) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (states[rotation][y].charAt(x) != '.') {
@@ -80,30 +74,30 @@ abstract class Piece {
         }
     }
 
-    void moveLeft(BoardV2 board) {
+    void moveLeft(Board board) {
         tryMove(board, -1, 0);
     }
 
-    void moveRight(BoardV2 board) {
+    void moveRight(Board board) {
         tryMove(board, 1, 0);
     }
 
-    boolean moveDown(BoardV2 board) {
+    boolean moveDown(Board board) {
         return tryMove(board, 0, 1);
     }
 
-    void dropDown(BoardV2 board) {
+    void dropDown(Board board) {
         while (tryMove(board, 0, 1)) {
             moveDown(board);
         }
     }
 
-    private boolean canRotate(BoardV2 board, int direction) {
+    private boolean canRotate(Board board, int direction) {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (states[(rotation + direction) % states.length][y].charAt(x) != '.') {
                     try {
-                        if (board.board[this.y + y][this.x + x] != '.') {
+                        if (board.getBoard()[this.y + y][this.x + x] != '.') {
                             return false;   // rotation results in collision
                         }
                     } catch (IndexOutOfBoundsException e) {
@@ -115,7 +109,7 @@ abstract class Piece {
         return true;
     }
 
-    private void tryRotate(BoardV2 board, int direction) {
+    private void tryRotate(Board board, int direction) {
         removePieceFromBoard(board);
         if (canRotate(board, direction)) {
             rotation = (rotation + direction) % states.length;
@@ -123,11 +117,11 @@ abstract class Piece {
         addPieceToBoard(board);
     }
 
-    void rotateClockwise(BoardV2 board) {
+    void rotateClockwise(Board board) {
         tryRotate(board, 1);
     }
 
-    void rotateCounterClockwise(BoardV2 board) {
+    void rotateCounterClockwise(Board board) {
         tryRotate(board, -1);
     }
 
