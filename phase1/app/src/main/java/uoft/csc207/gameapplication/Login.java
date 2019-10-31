@@ -101,7 +101,7 @@ public class Login extends AppCompatActivity {
     }
 
     public boolean verifyLogin(String email, String password) {
-        String passwordHash = Hashing.hash(password, "SHA-256");
+        String passwordHash = RegisterUtility.hash(password, "SHA-256");
         JSONArray userdata;
         try {
             userdata = jsonObject.getJSONArray("users");

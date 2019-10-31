@@ -59,7 +59,14 @@ public class RegisterUser extends AppCompatActivity {
                 registerPasswordConfirmation = passwordConfirmationInput.getText().toString();
                 if (!registerPassword.equals(registerPasswordConfirmation)) {
                     showToast("The passwords do not match");
-
+                }
+                else if (!RegisterUtility.validEmail(registerEmail)) {
+                    showToast("The email you entered does not seem to be valid");
+                }
+                else if (!RegisterUtility.strongPassword(registerPassword)) {
+                    showToast("Your password should be at least 8 character long " +
+                            "contains at least 1 \"@#$%-_=+!^&*\\\", 1 lower and upper case and" +
+                            " 1 number ");
                 }
                 else if (validUser()) {
                     register();
@@ -77,10 +84,11 @@ public class RegisterUser extends AppCompatActivity {
             Integer userId = userdata.length();
             newUser.put("userId", userId.toString());
             newUser.put("username", registerUsername);
-            newUser.put("password", Hashing.hash(registerPassword, "SHA-256"));
+            newUser.put("password", RegisterUtility.hash(registerPassword, "SHA-256"));
             newUser.put("email", registerEmail);
             userdata.put(newUser);
             save();
+            showToast("Successfully Registered");
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -159,6 +167,6 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     private void showToast(String text) {
-        Toast.makeText(RegisterUser.this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterUser.this, text, Toast.LENGTH_LONG).show();
     }
 }
