@@ -71,6 +71,10 @@ class Column {
      */
     int tap() {
         int pointsGained = 0;
+        if (notes.size() == 0) {
+            pointsGained = -5;
+            return pointsGained;
+        }
 
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         for (int i = 0; i < notesCopy.size(); i++) {
@@ -82,7 +86,7 @@ class Column {
                 pointsGained += 2*(target.getAllowedError() - distFromTarget);
 
                 if (distFromTarget < target.getAllowedError() / (float) 3) {
-                    this.message = new RhythmGameMessage("Pefect!");
+                    this.message = new RhythmGameMessage("Perfect!");
                 } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
                     this.message = new RhythmGameMessage("Great!");
                 } else {

@@ -62,10 +62,11 @@ public class RhythmGame {
         mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
         startTime = System.currentTimeMillis();
 
-        stats.put("PerfectHit", 0);
-        stats.put("GreatHit", 0);
-        stats.put("GoodHit", 0);
-        stats.put("BadHit", 0);
+        stats = new HashMap<>();
+        stats.put("Perfect!", 0);
+        stats.put("Great!", 0);
+        stats.put("Good!", 0);
+        stats.put("Bad Hit!", 0);
 
 //        setPointsGained(0);
 //        setNumDeaths(0);
@@ -124,8 +125,10 @@ public class RhythmGame {
 
     void tap(int colNumber) {
         if (!getIsGameOver()) {
-
+            // tap() returns score to be changed
             addPoints(columns[colNumber].tap());
+            String hitType = columns[colNumber].getMessage().getMessage();
+            stats.put(hitType, stats.get(hitType) + 1);
         }
     }
 
