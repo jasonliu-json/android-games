@@ -133,7 +133,7 @@ public class RhythmGame {
         if (!getIsGameOver()) {
             int scoreChange = columns[colNumber].tap();
             if (scoreChange > 0) {
-                hitSound.start();
+//                 hitSound.start();
             }
 
             addPoints(scoreChange);
