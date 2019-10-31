@@ -27,4 +27,7 @@ public abstract class GameDriver {
 
     public abstract void draw(Canvas canvas);
 
+    public abstract boolean getGameIsOver();
+
+    public abstract int getPoints();
 }
