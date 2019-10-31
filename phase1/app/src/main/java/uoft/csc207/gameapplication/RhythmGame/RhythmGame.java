@@ -21,7 +21,7 @@ public class RhythmGame {
     private Column[] columns;
 
     private int numNotesMissed = 0;
-    private int lives = 5000;
+    private int lives = 10;
     private int noteGenerationPeriod = 1000;
 
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}

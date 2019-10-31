@@ -8,14 +8,14 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
-import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
-import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 
 public class GameView extends View {
-//    private MazeGameDriver mazeGameDriver;
-    private RhythmGameDriver rhythmGameDriver;
-//     private TetrisGameDriver tetrisGameDriver;
+    private GameWrapperDriver gameWrapperDriver;
+    private Timer timer;
     
     public GameView(Context context) {
         this(context, null);
@@ -23,88 +23,52 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.rhythmGameDriver = new RhythmGameDriver(context);
+        this.gameWrapperDriver = new GameWrapperDriver(context);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidate();
+                if (false) { // should be the condition that the game is over;
+                    timer.cancel();
+                    timer.purge();
+                }
+            }
+        }, 0, 30);
     }
 
     public void init(DisplayMetrics metrics) {
-        rhythmGameDriver.init(metrics);
+        gameWrapperDriver.init(metrics);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        rhythmGameDriver.draw(canvas);
+        gameWrapperDriver.draw(canvas);
     }
 
 
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        float x = event.getX();
-//        float y = event.getY();
-//
-//        switch(event.getAction()) {
-//            case MotionEvent.ACTION_DOWN :
-//                rhythmGameDriver.touchStart(x, y);
-//                invalidate();
-//                break;
-//            case MotionEvent.ACTION_MOVE :
-//                rhythmGameDriver.touchMove(x, y);
-//                invalidate();
-//                break;
-//            case MotionEvent.ACTION_UP :
-//                rhythmGameDriver.touchUp();
-//                invalidate();
-//                break;
-//        }
-//
-//        return true;
-//    }
-
-        @Override
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
 
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
-                rhythmGameDriver.touchStart(x, y);
+                gameWrapperDriver.touchStart(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE :
-                rhythmGameDriver.touchMove(x, y);
+                gameWrapperDriver.touchMove(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP :
-                rhythmGameDriver.touchUp();
+                gameWrapperDriver.touchUp();
                 invalidate();
                 break;
         }
 
         return true;
     }
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        float x = event.getX();
-//        float y = event.getY();
-//
-//        switch(event.getAction()) {
-//            case MotionEvent.ACTION_DOWN :
-//                mazeGameDriver.touchStart(x, y);
-//                invalidate();
-//                break;
-//            case MotionEvent.ACTION_MOVE :
-//                mazeGameDriver.touchMove(x, y);
-//                invalidate();
-//                break;
-//            case MotionEvent.ACTION_UP :
-//                mazeGameDriver.touchUp();
-//                invalidate();
-//                break;
-//        }
-//
-//        return true;
-//    }
 }
 
 

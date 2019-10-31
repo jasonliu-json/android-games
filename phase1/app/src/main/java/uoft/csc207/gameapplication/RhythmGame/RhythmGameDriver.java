@@ -90,6 +90,7 @@ public class RhythmGameDriver extends GameDriver {
     }
 
     public void draw(Canvas canvas) {
+        rhythmGame.update();
         newCanvas.save();
         newCanvas.drawColor(Color.WHITE);
 
