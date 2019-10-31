@@ -13,6 +13,8 @@ public class TetrisGameDriver extends GameDriver {
 
     private int X;
     private int Y;
+    private int Xinit;
+    private int Yinit;
     private TetrisGame tetrisGame;
 
     public TetrisGameDriver() {
@@ -22,11 +24,13 @@ public class TetrisGameDriver extends GameDriver {
     public void touchStart(float x, float y) {
         X = (int) x;
         Y = (int) y;
+        Xinit = (int) x;
+        Yinit = (int) y;
     }
 
     public void touchMove(float x, float y) {
         try {
-            sleep(200);
+            sleep(40);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -35,19 +39,14 @@ public class TetrisGameDriver extends GameDriver {
             if (tetrisGame.getIsRunning()) {
                 int xDistance = (int) x - X;
                 int yDistance = (int) y - Y;
-                if (Math.abs(xDistance) > Math.abs(yDistance)) {
-                    if (xDistance > 20) {
-                        tetrisGame.moveFallingPieceRight();
-                    }
-                    else if (xDistance < -20) {
-                        tetrisGame.moveFallingPieceLeft();
-                    }
+                if (xDistance > 20) {
+                    tetrisGame.moveFallingPieceRight();
+                }
+                else if (xDistance < -20) {
+                    tetrisGame.moveFallingPieceLeft();
                 }
                 else if (yDistance > 20) {
                     tetrisGame.moveFallingPieceDown();
-                }
-                else if (yDistance < -20) {
-                    tetrisGame.rotateFallingPieceClockwise();   // this should be temporary
                 }
                 X = (int)x;
                 Y = (int)y;
@@ -57,6 +56,9 @@ public class TetrisGameDriver extends GameDriver {
 
     public void touchUp() {
         // nothing required here for screen movement
+        if (Math.abs(X - Xinit) < 10 && Math.abs(Y - Yinit) < 10) {
+            tetrisGame.rotateFallingPieceClockwise();
+        }
     }
 
     public void draw(Canvas canvas) {
