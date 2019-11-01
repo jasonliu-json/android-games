@@ -4,12 +4,75 @@
       "userId": "0",
       "username": "testing",
       "email": "test@gmail.com",
-      "password": "57da862ad2470151045a99c7e6247120b0b130722115222c31360ffa744b745d",
-      "top10": [
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "topPlays": [
         {"top0": "0"},
         {"top1": "0"},
         {"top2": "0"},
         {"top3": "0"},
+        {"top4": "0"},
+        {"top5": "0"},
+        {"top6": "0"},
+        {"top7": "0"},
+        {"top8": "0"},
+        {"top9": "0"}
+      ],
+      "savedStage": "0",
+      "savedPoints": "0"
+    },
+
+    {
+      "userId": "0",
+      "username": "koala",
+      "email": "koala@gmail.com",
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "topPlays": [
+        {"top0": "20"},
+        {"top1": "15"},
+        {"top2": "10"},
+        {"top3": "3"},
+        {"top4": "2"},
+        {"top5": "0"},
+        {"top6": "0"},
+        {"top7": "0"},
+        {"top8": "0"},
+        {"top9": "0"}
+      ],
+      "savedStage": "0",
+      "savedPoints": "0"
+    },
+
+    {
+      "userId": "0",
+      "username": "bear",
+      "email": "bear@gmail.com",
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "topPlays": [
+        {"top0": "9999999"},
+        {"top1": "22222"},
+        {"top2": "333"},
+        {"top3": "11"},
+        {"top4": "0"},
+        {"top5": "0"},
+        {"top6": "0"},
+        {"top7": "0"},
+        {"top8": "0"},
+        {"top9": "0"}
+      ],
+      "savedStage": "0",
+      "savedPoints": "0"
+    },
+
+    {
+      "userId": "0",
+      "username": "yeaaaboiiiiiiii",
+      "email": "yeaaaboiiiiiiii@gmail.com",
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "topPlays": [
+        {"top0": "40000"},
+        {"top1": "1"},
+        {"top2": "1"},
+        {"top3": "1"},
         {"top4": "0"},
         {"top5": "0"},
         {"top6": "0"},

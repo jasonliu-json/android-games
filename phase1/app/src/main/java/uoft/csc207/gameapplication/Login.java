@@ -48,8 +48,10 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 loginEmail = emailInput.getText().toString();
                 loginPassword = passwordInput.getText().toString();
-                if (verifyLogin(loginEmail, loginPassword)) {
+                String userName = verifyLogin(loginEmail, loginPassword);
+                if (userName != null) {
                     Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
+                    mainMenuActivity.putExtra("username", userName);
                     startActivity(mainMenuActivity);
                 }
                 else {
@@ -99,7 +101,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public boolean verifyLogin(String email, String password) {
+    public String verifyLogin(String email, String password) {
         String passwordHash = RegisterUtility.hash(password, "SHA-256");
         JSONArray userdata;
         try {
@@ -110,15 +112,15 @@ public class Login extends AppCompatActivity {
                 boolean samePass = user.getString("password").equals(passwordHash);
                 if (sameUser && samePass) {
                     showToast("Welcome " + user.getString("username"));
-                    return true;
+                    return user.getString("username");
                 }
             }
-            return false;
+            return null;
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     private void showToast(String text) {

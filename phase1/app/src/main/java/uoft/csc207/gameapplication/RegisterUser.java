@@ -84,11 +84,23 @@ public class RegisterUser extends AppCompatActivity {
         try {
             JSONObject newUser = new JSONObject();
             JSONArray userdata = jsonObject.getJSONArray("users");
+            // sets the user data
             Integer userId = userdata.length();
             newUser.put("userId", userId.toString());
             newUser.put("username", registerUsername);
             newUser.put("password", RegisterUtility.hash(registerPassword, "SHA-256"));
             newUser.put("email", registerEmail);
+
+            // sets local score
+            JSONArray scores = new JSONArray();
+            for (int i = 0; i < 10; i++) {
+                scores.put(new JSONObject().put(String.format("top%d", i), "0"));
+            }
+            newUser.put("topPlays", scores);
+            // sets previous gameStates
+            newUser.put("savedStage", "0");
+            newUser.put("savedPoints", "0");
+            // finally logs data
             userdata.put(newUser);
             save();
             showToast("Successfully Registered");

@@ -15,10 +15,14 @@ import uoft.csc207.gameapplication.TetrisGame.TetrisGameView;
 
 public class GameActivity extends AppCompatActivity {
     GameView gameView;
+
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Intent returnToMenu = new Intent(GameActivity.this, Login.class);
+        username = getIntent().getExtras().getString("username");
+        // implement feature to pass to user to enter password
         setContentView(R.layout.activity_game);
         gameView = (GameView) findViewById(R.id.GameView);
         DisplayMetrics metrics = new DisplayMetrics();

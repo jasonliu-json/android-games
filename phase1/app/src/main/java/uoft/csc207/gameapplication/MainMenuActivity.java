@@ -15,6 +15,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button leaderboardButton;
     private Button scoreButton;
 
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,11 +23,13 @@ public class MainMenuActivity extends AppCompatActivity {
         playButton = (Button) findViewById(R.id.play_button);
         leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         scoreButton = (Button) findViewById(R.id.score_button);
+        username = getIntent().getExtras().getString("username");
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent gameActivity = new Intent(MainMenuActivity.this, GameActivity.class);
+                gameActivity.putExtra("username", username);
                 startActivity(gameActivity);
             }
 
@@ -45,9 +48,9 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent personalScoresActivity = new Intent(MainMenuActivity.this, PersonalScoresActivity.class);
+                personalScoresActivity.putExtra("username", username);
                 startActivity(personalScoresActivity);
             }
-
         });
     }
 

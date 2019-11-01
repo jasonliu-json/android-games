@@ -109,7 +109,7 @@ public class MazeGame {
             xEndPos = -1;
             yEndPos = -1;
             calculatePoints();
-            if (currentLevel == 3) {
+            if (currentLevel == 1) {
                 gameIsOver = true;
                 // temporarily print game is over
             }
