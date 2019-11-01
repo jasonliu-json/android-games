@@ -45,4 +45,12 @@ public class GameWrapperDriver extends GameDriver {
     public int getPoints() {
         return gameWrapper.getPoints();
     }
+
+    public int getGameState() {
+        return gameWrapper.getGamesPlayed();
+    }
+    public void setGameState(int setPoints, int gameState) {
+        gameWrapper.setPoints(setPoints);
+        gameWrapper.setGameState(gameState);
+    }
 }

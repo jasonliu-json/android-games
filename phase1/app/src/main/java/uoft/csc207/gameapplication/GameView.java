@@ -16,14 +16,12 @@ import java.util.TimerTask;
 public class GameView extends View {
     private GameWrapperDriver gameWrapperDriver;
     private Timer timer;
-    private Context originalContext;
     public GameView(Context context) {
         this(context, null);
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        originalContext = context;
         this.gameWrapperDriver = new GameWrapperDriver(context);
 
         timer = new Timer();
@@ -34,9 +32,6 @@ public class GameView extends View {
                 if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
                     timer.cancel();
                     timer.purge();
-                    Intent intent = new Intent(originalContext, MainMenuActivity.class);
-                    originalContext.startActivity(intent);
-                    System.out.println(gameWrapperDriver.getPoints());
                 }
             }
         }, 0, 30);
@@ -73,6 +68,10 @@ public class GameView extends View {
         }
 
         return true;
+    }
+
+    public GameWrapperDriver getGameWrapperDriver() {
+        return gameWrapperDriver;
     }
 }
 

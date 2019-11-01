@@ -155,6 +155,7 @@ public class MazeGame {
         if (currentLevelPoints > 0) {
             points += currentLevelPoints;
         }
+        currentLevelPoints = 0;
         startTime = System.currentTimeMillis();
     }
 }

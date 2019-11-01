@@ -31,8 +31,6 @@ public class GameWrapper {
 
     void setMetrics(DisplayMetrics metrics) {
         this.metrics = metrics;
-        gameDriver = new TetrisGameDriver(context);
-        gameDriver.init(this.metrics);
     }
     void touchStart(float x, float y) {
         gameDriver.touchStart(x, y);
@@ -63,8 +61,10 @@ public class GameWrapper {
                 gameIsOver = true;
             }
         }
-        gameDriver.draw(canvas);
-        canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
+        else {
+            gameDriver.draw(canvas);
+            canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
+        }
     }
 
     boolean getGameIsOver() {
@@ -73,5 +73,29 @@ public class GameWrapper {
 
     int getPoints() {
         return points;
+    }
+
+    int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    void setPoints(int setPoints) {
+        points = setPoints;
+    }
+
+    void setGameState(int gameState) {
+        gamesPlayed = gameState;
+        if (gameState == 0) {
+            gameDriver = new TetrisGameDriver(context);
+            gameDriver.init(this.metrics);
+        }
+        if (gameState == 1) {
+            gameDriver = new RhythmGameDriver(context);
+            gameDriver.init(metrics);
+        }
+        else if (gameState == 2) {
+            gameDriver = new MazeGameDriver(context);
+            gameDriver.init(metrics);
+        }
     }
 }

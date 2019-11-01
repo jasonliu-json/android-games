@@ -88,6 +88,7 @@ public class Login extends AppCompatActivity {
                 }
                 bufferReader.close();
             }
+            System.out.println(jsonString);
             jsonObject = new JSONObject(jsonString);
         }
         catch (FileNotFoundException e) {
