@@ -181,4 +181,30 @@ public class GameActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveState();
+        writeState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setState();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveState();
+        writeState();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setState();
+    }
 }
