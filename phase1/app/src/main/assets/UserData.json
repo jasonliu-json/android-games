@@ -18,7 +18,9 @@
         {"top9": "0"}
       ],
       "savedStage": "0",
-      "savedPoints": "0"
+      "savedPoints": "0",
+      "totalPoints": "0",
+      "timePlayed": "0"
     },
 
     {
@@ -39,7 +41,9 @@
         {"top9": "0"}
       ],
       "savedStage": "0",
-      "savedPoints": "0"
+      "savedPoints": "0",
+      "totalPoints": "50",
+      "timePlayed": "0"
     },
 
     {
@@ -60,7 +64,9 @@
         {"top9": "0"}
       ],
       "savedStage": "0",
-      "savedPoints": "0"
+      "savedPoints": "0",
+      "totalPoints": "10022565",
+      "timePlayed": "0"
     },
 
     {
@@ -81,7 +87,9 @@
         {"top9": "0"}
       ],
       "savedStage": "0",
-      "savedPoints": "0"
+      "savedPoints": "0",
+      "totalPoints": "100000002",
+      "timePlayed": "0"
     }
   ],
   "note": "this file is for phase1 only"

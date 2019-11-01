@@ -39,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
     private static final String FILE = "UserData.json";
     private JSONObject database;
     private JSONObject userdata;
-
+    private long gameSessionStart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,6 @@ public class GameActivity extends AppCompatActivity {
         gameView.init(metrics);
 
         gameWrapperDriver = gameView.getGameWrapperDriver();
-
         loadJson();
         setState();
 
@@ -66,6 +65,7 @@ public class GameActivity extends AppCompatActivity {
                     timer.cancel();
                     timer.purge();
                     updateScores();
+                    updateTimePlayed();
                     writeState();
                     Intent intent = new Intent(GameActivity.this, MainMenuActivity.class);
                     intent.putExtra("username", username);
@@ -73,6 +73,17 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }, 0, 100);
+        gameSessionStart = System.currentTimeMillis();
+    }
+
+    private void updateTimePlayed() {
+        try {
+            int timePlayed = Integer.valueOf(userdata.getString("timePlayed"));
+            timePlayed += ((System.currentTimeMillis() - gameSessionStart)/1000);
+            userdata.put("timePlayed", String.valueOf(timePlayed));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateScores() {
@@ -100,6 +111,9 @@ public class GameActivity extends AppCompatActivity {
                 JSONObject scorePosition = userScore.getJSONObject(i);
                 scorePosition.put(String.format("top%d", i), scores[i]);
             }
+            int points = Integer.valueOf(userdata.getString("totalPoints"));
+            points += gameWrapperDriver.getPoints();
+            userdata.put("totalPoints", String.valueOf(points));
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -123,8 +137,14 @@ public class GameActivity extends AppCompatActivity {
 
     private void saveState() {
         try {
-            userdata.put("savedStage", String.valueOf(gameWrapperDriver.getGameState()));
-            userdata.put("savedPoints", String.valueOf(gameWrapperDriver.getPoints()));
+            if (gameWrapperDriver.getGameIsOver()) {
+                userdata.put("savedStage", "0");
+                userdata.put("savedPoints", "0");
+            }
+            else {
+                userdata.put("savedStage", String.valueOf(gameWrapperDriver.getGameState()));
+                userdata.put("savedPoints", String.valueOf(gameWrapperDriver.getPoints()));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -186,6 +206,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         saveState();
+        updateTimePlayed();
         writeState();
         timer.cancel();
         timer.purge();
@@ -210,12 +231,14 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }, 0, 100);
+        gameSessionStart = System.currentTimeMillis();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         saveState();
+        updateTimePlayed();
         writeState();
     }
 
@@ -223,5 +246,21 @@ public class GameActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         setState();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                saveState();
+                if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
+                    timer.cancel();
+                    timer.purge();
+                    updateScores();
+                    writeState();
+                    Intent intent = new Intent(GameActivity.this, MainMenuActivity.class);
+                    intent.putExtra("username", username);
+                    startActivity(intent);
+                }
+            }
+        }, 0, 100);
+        gameSessionStart = System.currentTimeMillis();
     }
 }

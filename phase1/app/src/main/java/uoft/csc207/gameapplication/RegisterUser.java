@@ -100,6 +100,9 @@ public class RegisterUser extends AppCompatActivity {
             // sets previous gameStates
             newUser.put("savedStage", "0");
             newUser.put("savedPoints", "0");
+            // set some extra user data
+            newUser.put("totalPoints", "0");
+            newUser.put("timePlayed", "0");
             // finally logs data
             userdata.put(newUser);
             save();
