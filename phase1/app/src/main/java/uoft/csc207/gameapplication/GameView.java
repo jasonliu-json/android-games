@@ -34,7 +34,7 @@ public class GameView extends View {
                 if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
                     timer.cancel();
                     timer.purge();
-                    Intent intent = new Intent(originalContext, Login.class);
+                    Intent intent = new Intent(originalContext, MainMenuActivity.class);
                     originalContext.startActivity(intent);
                     System.out.println(gameWrapperDriver.getPoints());
                 }
