@@ -3,96 +3,112 @@ package uoft.csc207.gameapplication.TetrisGame;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * IMPORTANT MESSAGE:
- *
- * Basically, all you have to do is create an instance of TetrisGame in TetrisGameDriver and hook
- * up moveFallingPieceDown, moveFallingPieceLeft, moveFallingPieceRight to their respective
- * user inputs in TetrisGameDriver.touchMove.
- *
- * This class, whether directly or indirectly, calculates everything regarding piece collision,
- * clearing lines whenever necessary, moving fallingPiece down at constant time intervals, etc.
- *
- * The only information you need to draw the game onto the screen is contained in the attribute
- * board, which you can call using getBoard (I think this should be done in the
- * TetrisGameDriver.draw method, which is called every 30 ms).
- *
- * All you have to do is parse this 2D array and draw the shapes based on the entries, i.e. '.' is
- * empty, 'I' should be a cyan tile, 'O' should be a yellow tile, etc.
- *
- */
+/** A TetrisGame class controlling game logic. */
 class TetrisGame {
 
-    private Piece fallingPiece;
+  /** The current piece being played. */
+  private Piece fallingPiece;
 
-    private Board board;
-    private Randomizer pieceGenerator;
-    private boolean isRunning;
+  /** The board containing information about the location of pieces on the board. */
+  private Board board;
 
-    private Timer timer;
+  /** A random piece generator using the 7-Bag-Randomization algorithm. */
+  private Randomizer pieceGenerator;
 
-    private int score;   // not used at the moment
+  /** Whether this game is running. */
+  private boolean isRunning;
 
-    TetrisGame() {
-        board = new Board();
-        pieceGenerator = new Randomizer();
-        fallingPiece = pieceGenerator.nextPiece();
-        isRunning = true;
+  /** Timer object used to make the current piece being played fall down 1 tile every 350 ms. */
+  private Timer timer;
 
-        // setup timer
-        timer = new Timer();
-        TimerTask makePieceFall = new TimerTask() {
-            @Override
-            public void run() {
-                TetrisGame.this.moveFallingPieceDown();
-            }
+  /** Current score for this game. */
+  private int score;
+
+  /** Constructs a new TetrisGame object. */
+  TetrisGame() {
+    board = new Board();
+    pieceGenerator = new Randomizer();
+    fallingPiece = pieceGenerator.nextPiece();
+    isRunning = true;
+
+    // setup timer
+    timer = new Timer();
+    TimerTask makePieceFall =
+        new TimerTask() {
+          @Override
+          public void run() {
+            TetrisGame.this.moveFallingPieceDown();
+          }
         };
-        timer.scheduleAtFixedRate(makePieceFall, 350, 350);   // piece falls every 350 ms
-    }
+    timer.scheduleAtFixedRate(makePieceFall, 350, 350); // piece falls every 350 ms
+  }
 
-    Board getBoard() {
-        return board;
-    }
+  /**
+   * Returns the board containing inforation about this game.
+   *
+   * @return The board for this instance of the game.
+   */
+  Board getBoard() {
+    return board;
+  }
 
-    boolean getGameIsOver() {
-        return !isRunning;
-    }
+  /**
+   * Returns whether this game is over.
+   *
+   * @return True if the game is over, false otherwise.
+   */
+  boolean getGameIsOver() {
+    return !isRunning;
+  }
 
-    int getPoints() {
-        return score;
-    }
+  /**
+   * Return the total points scored by the player.
+   *
+   * @return The total points scored by the player.
+   */
+  int getPoints() {
+    return score;
+  }
 
-    void moveFallingPieceDown() {
-        if (!fallingPiece.moveDown(board)) {   // cannot move down
-            score += board.clearRows();
-            fallingPiece = pieceGenerator.nextPiece();
-            if (fallingPiece.canMoveTo(board, 0, 0)) {
-                fallingPiece.addPieceToBoard(board);
-            }
-            else {
-                timer.cancel();
-                isRunning = false;
-            }
-        }
+  /**
+   * Moves the current piece being played down 1 tile if possible. Otherwise, generates a new piece
+   * at the top of the screen.
+   */
+  void moveFallingPieceDown() {
+    if (!fallingPiece.moveDown(board)) { // cannot move down
+      score += board.clearRows();
+      fallingPiece = pieceGenerator.nextPiece();
+      if (fallingPiece.canMoveTo(board, 0, 0)) {
+        fallingPiece.addPieceToBoard(board);
+      } else {
+        timer.cancel();
+        isRunning = false;
+      }
     }
+  }
 
-    void moveFallingPieceLeft() {
-        fallingPiece.moveLeft(board);
-    }
+  /** Moves the current piece being payer 1 tile left if possible. */
+  void moveFallingPieceLeft() {
+    fallingPiece.moveLeft(board);
+  }
 
-    void moveFallingPieceRight() {
-        fallingPiece.moveRight(board);
-    }
+  /** Moves the current piece being payer 1 tile right if possible. */
+  void moveFallingPieceRight() {
+    fallingPiece.moveRight(board);
+  }
 
-    void rotateFallingPieceClockwise() {
-        fallingPiece.rotateClockwise(board);
-    }
+  /** Rotates the current piece clockwise if possible. */
+  void rotateFallingPieceClockwise() {
+    fallingPiece.rotateClockwise(board);
+  }
 
-    void rotateFallingPieceCounterClockwise() {
-        fallingPiece.rotateCounterClockwise(board);
-    }
+  /** Rotates the current piece counterclockwise if possible. */
+  void rotateFallingPieceCounterClockwise() {
+    fallingPiece.rotateCounterClockwise(board);
+  }
 
-    void dropFallingPieceDown() {   // hard drop
-        fallingPiece.dropDown(board);
-    }
+  /** Hard drops the current piece down if possible. */
+  void dropFallingPieceDown() { // hard drop
+    fallingPiece.dropDown(board);
+  }
 }
