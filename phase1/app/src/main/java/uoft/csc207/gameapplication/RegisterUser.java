@@ -66,7 +66,10 @@ public class RegisterUser extends AppCompatActivity {
                 else if (!RegisterUtility.strongPassword(registerPassword)) {
                     showToast("Your password should be at least 8 character long " +
                             "contains at least 1 \"@#$%-_=+!^&*\\\", 1 lower and upper case and" +
-                            " 1 number ");
+                            " 1 number and no spaces are allowed. ");
+                }
+                else if (registerUsername.length() > 15) {
+                    showToast("Your username is too long");
                 }
                 else if (validUser()) {
                     register();
