@@ -187,12 +187,29 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
         saveState();
         writeState();
+        timer.cancel();
+        timer.purge();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setState();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                saveState();
+                if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
+                    timer.cancel();
+                    timer.purge();
+                    updateScores();
+                    writeState();
+                    Intent intent = new Intent(GameActivity.this, MainMenuActivity.class);
+                    intent.putExtra("username", username);
+                    startActivity(intent);
+                }
+            }
+        }, 0, 100);
     }
 
     @Override
