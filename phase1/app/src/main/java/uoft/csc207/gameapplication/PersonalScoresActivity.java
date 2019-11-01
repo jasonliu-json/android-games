@@ -33,9 +33,15 @@ public class PersonalScoresActivity extends AppCompatActivity {
         username = getIntent().getExtras().getString("username");
         loadPersonalScores();
 
-//        personalScores.add("1");
-//        personalScores.add("2");
-//        personalScores.add("9000");
+        // hard coded for now
+        totalPointsText = "9000";
+        totalPointsText = "Total Points: \n" + totalPointsText;
+
+        timePlayedText = "09789097";
+        int minutesPlayed = Integer.valueOf(timePlayedText) / 60;
+        int extraSeconds = Integer.valueOf(timePlayedText) % 60;
+        timePlayedText = "Time Played: \n" + minutesPlayed + "m " + extraSeconds + "s";
+
 
 
         String scores = "";
@@ -51,18 +57,14 @@ public class PersonalScoresActivity extends AppCompatActivity {
         scoreList.setTextSize(20);
         scoreList.setText(scores);
 
-        // hard coded for now
-        timePlayedText = "100";
-        totalPointsText = "9000";
+
 
         TextView timePlayed = (TextView) findViewById(R.id.time_played);
         timePlayed.setTextSize(20);
-        timePlayedText = "Time Played: " + timePlayedText;
         timePlayed.setText(timePlayedText);
 
         TextView totalPoints = (TextView) findViewById(R.id.total_points);
         totalPoints.setTextSize(20);
-        totalPointsText = "Time Played: " + totalPointsText;
         totalPoints.setText(totalPointsText);
 
 
