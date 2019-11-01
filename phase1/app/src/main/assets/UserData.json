@@ -3,8 +3,8 @@
     {
       "userId": "0",
       "username": "testing",
-      "email": "test@gmail.com",
-      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "email": "",
+      "password": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "topPlays": [
         {"top0": "0"},
         {"top1": "0"},
@@ -22,7 +22,7 @@
     },
 
     {
-      "userId": "0",
+      "userId": "1",
       "username": "koala",
       "email": "koala@gmail.com",
       "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
@@ -43,7 +43,7 @@
     },
 
     {
-      "userId": "0",
+      "userId": "2",
       "username": "bear",
       "email": "bear@gmail.com",
       "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
@@ -64,12 +64,12 @@
     },
 
     {
-      "userId": "0",
-      "username": "yeaaaboiiiiiiii",
+      "userId": "3",
+      "username": "CODEWORKS_OwO",
       "email": "yeaaaboiiiiiiii@gmail.com",
       "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
       "topPlays": [
-        {"top0": "40000"},
+        {"top0": "99999999"},
         {"top1": "1"},
         {"top2": "1"},
         {"top3": "1"},
