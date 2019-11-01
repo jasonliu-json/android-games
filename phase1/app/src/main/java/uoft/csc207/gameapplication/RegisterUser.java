@@ -68,6 +68,9 @@ public class RegisterUser extends AppCompatActivity {
                             "contains at least 1 \"@#$%-_=+!^&*\\\", 1 lower and upper case and" +
                             " 1 number and no spaces are allowed. ");
                 }
+                else if (registerUsername.length() > 15) {
+                    showToast("Your username is too long");
+                }
                 else if (validUser()) {
                     register();
                     Intent gameActivity = new Intent(RegisterUser.this,
