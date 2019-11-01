@@ -8,6 +8,7 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -23,7 +24,9 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     private String[] topTenPlayers = new String[10];
     private String[] topTenScores = new String[10];
-//    private String leaderboard = "Player          Score \n";
+    private String[] topTenLinesCleared = new String[10];
+    private String[] toptenTimes = new String[10];
+
     private static final String FILE = "UserData.json";
     private JSONArray database;
     @Override
@@ -35,20 +38,42 @@ public class LeaderboardActivity extends AppCompatActivity {
         topTenPlayers = topPlays[1];
         topTenScores = topPlays[0];
 
+
         int[] playerTextViewIds = {R.id.player1, R.id.player2, R.id.player3, R.id.player4,
                 R.id.player5, R.id.player6, R.id.player7, R.id.player8, R.id.player9,
                 R.id.player10};
+        int[] linesClearedTextViewIds = {R.id.linescleared1, R.id.linescleared2, R.id.linescleared3,
+                R.id.linescleared4, R.id.linescleared5, R.id.linescleared6, R.id.linescleared7,
+                R.id.linescleared8, R.id.linescleared9, R.id.linescleared10};
+        int[] timeTextViewIds = {R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5, R.id.time6,
+                R.id.time7, R.id.time8, R.id.time9, R.id.time10};
         int[] scoreTextViewIds = {R.id.score1, R.id.score2, R.id.score3, R.id.score4, R.id.score5,
                 R.id.score6, R.id.score7, R.id.score8, R.id.score9, R.id.score10};
 
+
+
+
         for (int i=0; i<10; i++) {
+
+
             TextView playerTextView = (TextView) findViewById(playerTextViewIds[i]);
-            playerTextView.setTextSize(20);
+            playerTextView.setTextSize(15);
             playerTextView.setText(topTenPlayers[i]);
 
+            TextView linesClearedTextView = (TextView) findViewById(linesClearedTextViewIds[i]);
+            linesClearedTextView.setTextSize(15);
+//            linesClearedTextView.setText(topTenLinesCleared[i]);
+            linesClearedTextView.setText("0");
+
+            TextView timeTextView = (TextView) findViewById(timeTextViewIds[i]);
+            timeTextView.setTextSize(15);
+//            timeTextView.setText(topTenLinesCleared[i]);
+            timeTextView.setText("time");
+
             TextView scoreTextView = (TextView) findViewById(scoreTextViewIds[i]);
-            scoreTextView.setTextSize(20);
+            scoreTextView.setTextSize(15);
             scoreTextView.setText(topTenScores[i]);
+
 //            String row = topTenPlayers[i];
 //            while (row.length() < 16) {
 //                row += " ";

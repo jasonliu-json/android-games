@@ -19,6 +19,9 @@ import java.util.ArrayList;
 public class PersonalScoresActivity extends AppCompatActivity {
 
     ArrayList<String> personalScores = new ArrayList<>();
+    String timePlayedText;
+    String totalPointsText;
+
     private static final String FILE = "UserData.json";
 
     private String username;
@@ -39,9 +42,35 @@ public class PersonalScoresActivity extends AppCompatActivity {
         for (int i=0; i<personalScores.size(); i++) {
             scores += personalScores.get(i) + " \n";
         }
-        TextView textView = (TextView) findViewById(R.id.scores);
-        textView.setTextSize(20);
-        textView.setText(scores);
+
+        TextView title = (TextView) findViewById(R.id.score_title);
+        title.setTextSize(30);
+        title.setText("Personal Scores");
+
+        TextView scoreList = (TextView) findViewById(R.id.scores);
+        scoreList.setTextSize(20);
+        scoreList.setText(scores);
+
+        // hard coded for now
+        timePlayedText = "100";
+        totalPointsText = "9000";
+
+        TextView timePlayed = (TextView) findViewById(R.id.time_played);
+        timePlayed.setTextSize(20);
+        timePlayedText = "Time Played: " + timePlayedText;
+        timePlayed.setText(timePlayedText);
+
+        TextView totalPoints = (TextView) findViewById(R.id.total_points);
+        totalPoints.setTextSize(20);
+        totalPointsText = "Time Played: " + totalPointsText;
+        totalPoints.setText(totalPointsText);
+
+
+
+
+
+
+
     }
 
     private void loadPersonalScores() {

@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:gravity="start"
                 android:text="Rank" />
 
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:gravity="start"
                 android:text="Player" />
 
@@ -57,9 +57,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textSize="20sp"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:text="Lines\nCleared" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:text="Time" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:textSize="16sp"
                 android:gravity="start"
                 android:text="Score" />
+
         </TableRow>
 
         <TableRow>
@@ -74,6 +91,20 @@
 
             <TextView
                 android:id="@+id/player1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/linescleared1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -105,6 +136,20 @@
                 android:gravity="start" />
 
             <TextView
+                android:id="@+id/linescleared2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
                 android:id="@+id/score2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,6 +169,20 @@
 
             <TextView
                 android:id="@+id/player3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/linescleared3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -155,6 +214,20 @@
                 android:gravity="start" />
 
             <TextView
+                android:id="@+id/linescleared4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
                 android:id="@+id/score4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,6 +247,20 @@
 
             <TextView
                 android:id="@+id/player5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/linescleared5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -205,6 +292,20 @@
                 android:gravity="start" />
 
             <TextView
+                android:id="@+id/linescleared6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
                 android:id="@+id/score6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -224,6 +325,20 @@
 
             <TextView
                 android:id="@+id/player7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/linescleared7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -255,6 +370,20 @@
                 android:gravity="start" />
 
             <TextView
+                android:id="@+id/linescleared8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
                 android:id="@+id/score8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -280,6 +409,20 @@
                 android:gravity="start" />
 
             <TextView
+                android:id="@+id/linescleared9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
                 android:id="@+id/score9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -299,6 +442,20 @@
 
             <TextView
                 android:id="@+id/player10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/linescleared10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/time10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
