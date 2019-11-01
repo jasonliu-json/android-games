@@ -4,7 +4,21 @@
       "userId": "0",
       "username": "testing",
       "email": "test@gmail.com",
-      "password": "57da862ad2470151045a99c7e6247120b0b130722115222c31360ffa744b745d"
+      "password": "57da862ad2470151045a99c7e6247120b0b130722115222c31360ffa744b745d",
+      "top10": [
+        {"top0": "0"},
+        {"top1": "0"},
+        {"top2": "0"},
+        {"top3": "0"},
+        {"top4": "0"},
+        {"top5": "0"},
+        {"top6": "0"},
+        {"top7": "0"},
+        {"top8": "0"},
+        {"top9": "0"}
+      ],
+      "savedStage": "0",
+      "savedPoints": "0"
     }
   ],
   "note": "this file is for phase1 only"
