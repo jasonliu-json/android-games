@@ -44,7 +44,8 @@ public class MainMenuActivity extends AppCompatActivity {
         scoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//               // show personal scores
+                Intent personalScoresActivity = new Intent(MainMenuActivity.this, PersonalScoresActivity.class);
+                startActivity(personalScoresActivity);
             }
 
         });
