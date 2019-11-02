@@ -49,7 +49,7 @@ public class RegisterUser extends AppCompatActivity {
 
 
 
-
+        // The on register button
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +80,10 @@ public class RegisterUser extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Registers the user and adds it to the user data base
+     */
     private void register() {
         try {
             JSONObject newUser = new JSONObject();
@@ -113,6 +117,9 @@ public class RegisterUser extends AppCompatActivity {
         }
     }
 
+    /**
+     * @return True if this username and email is unique
+     */
     private boolean validUser() {
         JSONArray userdata;
         try {
@@ -138,6 +145,9 @@ public class RegisterUser extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Writes the new modified json to android memory
+     */
     private void save() {
         String jsonText = jsonObject.toString();
         try {
@@ -153,6 +163,9 @@ public class RegisterUser extends AppCompatActivity {
         }
     }
 
+    /**
+     * loads the json file from memory or from assets
+     */
     private void load() {
         try {
             int i = 0;
@@ -183,6 +196,10 @@ public class RegisterUser extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays the text on screen
+     * @param text a text to be displayed on screen
+     */
     private void showToast(String text) {
         Toast.makeText(RegisterUser.this, text, Toast.LENGTH_LONG).show();
     }
