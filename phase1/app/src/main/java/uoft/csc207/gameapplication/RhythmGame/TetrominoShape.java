@@ -3,7 +3,7 @@ package uoft.csc207.gameapplication.RhythmGame;
 import android.graphics.RectF;
 
 /**
- * Consists of a tetromino and height and width
+ * Consists of a tetromino and a height and width
  */
 public class TetrominoShape {
 
@@ -18,6 +18,11 @@ public class TetrominoShape {
         this.width = tetromino.getWidth();
     }
 
+    /**
+     * Generates the figure based on the tetromino
+     * @param coords the coorinates of the tetromino
+     * @return an array of squares that corresponds to the shape of the tetromino
+     */
     public static RectF[] generateFigure(int[][] coords) {
         RectF[] fourBlocks = new RectF[4];
         for (int i = 0; i < 4; i++) {
@@ -28,6 +33,10 @@ public class TetrominoShape {
         return fourBlocks;
     }
 
+    /**
+     * Performs a deep copy of the figure
+     * @return an array of squares that corresponds to the shape of the tetromino
+     */
     public RectF[] getCopyOfUnitFigure() {
         RectF[] copy = new RectF[unitFigure.length];
         for (int i = 0; i < unitFigure.length; i++)

@@ -23,9 +23,15 @@ class Column {
         notes = new ArrayList<>();
     }
 
+    /**
+     * Updates the state of the game.
+     * @return the amount of points to change (first) and number of notes missed (second)
+     */
     Pair<Integer, Integer> update() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         int numMissed = 0;
+
+        // moves each not up by one
         for (Note note : notesCopy) {
             note.moveUp(1);
 
@@ -58,6 +64,9 @@ class Column {
 
     }
 
+    /**
+     * Generates a note at the bottom of the column.
+     */
     void generateNote() {
         if (checkLowestNote()) {
             notes.add(new Note(height));
@@ -86,6 +95,7 @@ class Column {
 
                 pointsGained += 2*(target.getAllowedError() - distFromTarget);
 
+                // Determines the precision of the tap
                 if (distFromTarget < target.getAllowedError() / (float) 3) {
                     this.message = new RhythmGameMessage("Perfect!");
                 } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
@@ -93,7 +103,11 @@ class Column {
                 } else {
                     this.message = new RhythmGameMessage("Good!");
                 }
+
+                // Removes the note contained
                 notes.remove(i);
+
+                // Does not check any other note in the column
                 if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) break;
             } else if (notes.get(i).getY() > target.getY()) {
                 this.message = new RhythmGameMessage("Bad Hit!");

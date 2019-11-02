@@ -4,13 +4,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Pair;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
 
 import uoft.csc207.gameapplication.GameDriver;
 
+/**
+ * The driver for Rhythm Game.
+ */
 public class RhythmGameDriver extends GameDriver {
     private RhythmGame rhythmGame;
     private int numColumns = 4;
@@ -19,7 +21,7 @@ public class RhythmGameDriver extends GameDriver {
     private Paint[] columnPaints;
     private Paint targetPaint;
     private NoteShape[] colUnitNoteShapes;
-    private Paint textPaint;
+//    private Paint textPaint;
     private Paint missedTextPaint;
     private Paint messagePaint;
 
@@ -27,14 +29,6 @@ public class RhythmGameDriver extends GameDriver {
         super();
         rhythmGame = new RhythmGame(context, numColumns);
         setTheme();
-    }
-
-    public boolean getGameIsOver() {
-        return rhythmGame.getIsGameOver();
-    }
-
-    public int getPoints() {
-        return rhythmGame.getPoints();
     }
 
     /**
@@ -61,8 +55,8 @@ public class RhythmGameDriver extends GameDriver {
             colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
         }
 
-        textPaint = new Paint();
-        textPaint.setTextSize(100);
+//        textPaint = new Paint();
+//        textPaint.setTextSize(100);
 
         missedTextPaint = new Paint();
         missedTextPaint.setTextSize(75);
@@ -73,6 +67,11 @@ public class RhythmGameDriver extends GameDriver {
         messagePaint.setColor(Color.GREEN);
     }
 
+    /**
+     * Taps the game.
+     * @param x the x-coordinate of the event on the screen.
+     * @param y the y-coordinate of the event on the screen.
+     */
     public void touchStart(float x, float y) {
         // Determines the column number based on the screen width
         int colNumber = (int) (4 * x / screenWidth);
@@ -85,10 +84,17 @@ public class RhythmGameDriver extends GameDriver {
     public void touchUp() {
     }
 
+    /**
+     * Update the game state.
+     */
     void update() {
         rhythmGame.update();
     }
 
+    /**
+     * Draws the game to canvas.
+     * @param canvas the canvas to draw on.
+     */
     public void draw(Canvas canvas) {
         rhythmGame.update();
         newCanvas.save();
@@ -101,14 +107,11 @@ public class RhythmGameDriver extends GameDriver {
         SparseArray<ArrayList<Note>> notesMap = rhythmGame.notesToDraw();
         RhythmGameMessage[] messages = rhythmGame.messagesToDraw();
 
-//        SparseArray<Pair<ArrayList<Note>, Target>> toDrawMap = rhythmGame.toDraw();
         for (int i = 0; i < numColumns; i++) {
-//            Pair<ArrayList<Note>, Target> pair = toDrawMap.get(i);
             NoteShape scalableCopy = colUnitNoteShapes[i].clone();
             float colWidthRatio = colSize / colUnitNoteShapes[i].getWidth();
 
-        Target target = targets[i];
-//            Target target = pair.second;
+            Target target = targets[i];
             float targetWidthRatio = (float) 0.7;
             float targetScale = targetWidthRatio * colWidthRatio;
             scalableCopy.setScale(targetScale);
@@ -116,7 +119,6 @@ public class RhythmGameDriver extends GameDriver {
             scalableCopy.draw(newCanvas, xTarget, target.getY() * heightRatio, targetPaint);
 
             ArrayList<Note> notes = notesMap.get(i);
-//            ArrayList<Note> notes = pair.first;
             float noteWidthRatio = (float) 0.6;
             float noteScale = noteWidthRatio * colWidthRatio;
             float xNote = (1 - noteWidthRatio) * colWidthRatio / 2 + i * colSize;
@@ -125,21 +127,26 @@ public class RhythmGameDriver extends GameDriver {
                 scalableCopy.draw(newCanvas, xNote, note.getY() * heightRatio, columnPaints[i]);
             }
 
-
-//            float xMessage = i * colSize + colSize / 2;
             newCanvas.drawText(messages[i].getMessage(), xNote, target.getY() * heightRatio, messagePaint);
-            if (getGameIsOver()) {
-                String gameOverText = "Game Over :(  Score: " + rhythmGame.getPoints();
-                newCanvas.drawText(gameOverText, screenWidth/2, screenHeight/2, messagePaint);
-            }
+//            if (getGameIsOver()) {
+//                String gameOverText = "Game Over :(  Score: " + rhythmGame.getPoints();
+//                newCanvas.drawText(gameOverText, screenWidth/2, screenHeight/2, messagePaint);
+//            }
         }
 
-//        newCanvas.drawText(String.valueOf(rhythmGame.getPoints()), 10, 80, textPaint);
 
         newCanvas.drawText("Missed: " + rhythmGame.getNumNotesMissed(), screenWidth /2, 80, missedTextPaint);
 
         canvas.drawBitmap(bitmap, 0, 0, null);
         newCanvas.restore();
+    }
+
+    public boolean getGameIsOver() {
+        return rhythmGame.getGameIsOver();
+    }
+
+    public int getPoints() {
+        return rhythmGame.getPoints();
     }
 
 }

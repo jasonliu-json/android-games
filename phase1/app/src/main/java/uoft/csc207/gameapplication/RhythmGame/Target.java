@@ -1,5 +1,8 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
+/**
+ * The target of a column.
+ */
 class Target {
     private int y;
     private int allowedError;

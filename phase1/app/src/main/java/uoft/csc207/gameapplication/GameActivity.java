@@ -2,12 +2,9 @@ package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,28 +21,30 @@ import java.util.Comparator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import uoft.csc207.gameapplication.MazeGame.MazeGameView;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGameView;
-import uoft.csc207.gameapplication.TetrisGame.TetrisGameView;
-
-import static java.lang.Thread.sleep;
 
 public class GameActivity extends AppCompatActivity {
     GameView gameView;
-
-    private String username;
     private GameWrapperDriver gameWrapperDriver;
-    private Timer timer;
+
+    // File reading and writing
+    private String username;
     private static final String FILE = "UserData.json";
     private JSONObject database;
     private JSONObject userdata;
+
     private long gameSessionStart;
+    private Timer timer;
+
+    /**
+     * Initializes the game on create.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Intent returnToMenu = new Intent(GameActivity.this, Login.class);
         username = getIntent().getExtras().getString("username");
-        // implement feature to pass to user to enter password
+
+        // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
         gameView = (GameView) findViewById(R.id.GameView);
         DisplayMetrics metrics = new DisplayMetrics();
@@ -53,9 +52,11 @@ public class GameActivity extends AppCompatActivity {
         gameView.init(metrics);
 
         gameWrapperDriver = gameView.getGameWrapperDriver();
+        // Initialize from files, for state saving
         loadJson();
         setState();
 
+        // At regular intervals, check if the game is over and save the state of the game
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -76,6 +77,9 @@ public class GameActivity extends AppCompatActivity {
         gameSessionStart = System.currentTimeMillis();
     }
 
+    /**
+     * Updates time.
+     */
     private void updateTimePlayed() {
         try {
             int timePlayed = Integer.valueOf(userdata.getString("timePlayed"));
@@ -86,6 +90,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates score.
+     */
     private void updateScores() {
         Comparator<String> byValue = new Comparator<String>() {
             @Override
@@ -103,7 +110,7 @@ public class GameActivity extends AppCompatActivity {
                 scores[i] = userScore.getJSONObject(i).getString(String.format("top%d", i));
             }
             if (Integer.valueOf(scores[9]) < gameWrapperDriver.getPoints()) {
-                System.out.println(gameWrapperDriver.getPoints());
+//                System.out.println(gameWrapperDriver.getPoints());
                 scores[9] = String.valueOf(gameWrapperDriver.getPoints());
             }
             Arrays.sort(scores, byValue);
@@ -120,6 +127,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Writes the changes to file.
+     */
     private void writeState() {
         String jsonText = database.toString();
         try {
@@ -135,6 +145,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Saves the state and the points.
+     */
     private void saveState() {
         try {
             if (gameWrapperDriver.getGameIsOver()) {
@@ -150,6 +163,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets the state of the game, based on previous values.
+     */
     private void setState() {
         int gameState;
         int savedScore;
@@ -163,6 +179,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Loads the user's data.
+     */
     private void loadJson() {
         try {
             int i = 0;
@@ -202,6 +221,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pauses the game and writes changes.
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -212,6 +234,9 @@ public class GameActivity extends AppCompatActivity {
         timer.purge();
     }
 
+    /**
+     * Resumes the game.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -234,6 +259,9 @@ public class GameActivity extends AppCompatActivity {
         gameSessionStart = System.currentTimeMillis();
     }
 
+    /**
+     * Stops the game and saves changes.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -242,6 +270,9 @@ public class GameActivity extends AppCompatActivity {
         writeState();
     }
 
+    /**
+     * Resumes the game.
+     */
     @Override
     protected void onRestart() {
         super.onRestart();

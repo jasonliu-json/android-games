@@ -14,6 +14,8 @@ import java.util.TimerTask;
 import uoft.csc207.gameapplication.MainActivity;
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
 
+/************************** NOT USED ************************************/
+
 public class RhythmGameView extends View {
     private RhythmGameDriver rhythmGameDriver;
     private Timer timer;

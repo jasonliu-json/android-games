@@ -13,6 +13,7 @@
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".GameActivity" />
+        <activity android:name=".CustomizeActivity" />
         <activity
             android:name=".RegisterUser"
             android:label="@string/title_activity_register_user"

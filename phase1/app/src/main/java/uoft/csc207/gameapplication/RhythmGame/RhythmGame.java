@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.util.Pair;
 import android.util.SparseArray;
 
@@ -20,26 +19,19 @@ public class RhythmGame {
     private int numColumns = 4;
     private Column[] columns;
 
+    private long startTime;
+    private static int refreshTime = 500;
+    private MediaPlayer mediaPlayer;
+
+    // Key: hit type, Value: number of times
+    private HashMap<String, Integer> stats;
+    private int points = 0;
     private int numNotesMissed = 0;
     private int lives = 10;
     private int noteGenerationPeriod = 1000;
-
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
 
-    private long startTime;
-    private static int refreshTime = 500;
-    private MediaPlayer mediaPlayer1;
-//    private MediaPlayer mediaPlayer2;
-//    private RhythmGameMessage rhythmGameMessage = new RhythmGameMessage("");
-    private MediaPlayer hitSound;
-
-    private int points = 0;
-    private int numDeaths = 0;
-    private HashMap<String, Integer> stats;
-    // keys: hit type, values: number of times
-
-    private boolean isGameOver = false;
-
+    private boolean gameIsOver = false;
 
     /**
      * Constructs the Rhythm game
@@ -47,24 +39,19 @@ public class RhythmGame {
      * @param numColumns number of columns of the game
      */
     public RhythmGame(Context context, int numColumns) {
-
         this.context = context;
         this.numColumns = numColumns;
 
+        // Creates each column of the game
         columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columns[i] = new Column(gameHeight);
         }
 
         setDifficulty(Difficulty.EASY);
-        mediaPlayer1 = MediaPlayer.create(context, R.raw.old_town_road);
-        mediaPlayer1.start();
-
-//        mediaPlayer2 = MediaPlayer.create(context, R.raw.ussr_anthem);
-
-//        mediaPlayer2 = MediaPlayer.create(context, R.raw.old_town_road);
-//        hitSound = MediaPlayer.create(context, R.raw.note_hit_sound);
-
+        // Starts song
+        mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+        mediaPlayer.start();
 
         startTime = System.currentTimeMillis();
 
@@ -73,11 +60,12 @@ public class RhythmGame {
         stats.put("Great!", 0);
         stats.put("Good!", 0);
         stats.put("Bad Hit!", 0);
-
-//        setPointsGained(0);
-//        setNumDeaths(0);
     }
 
+    /**
+     * Sets the difficulty of the game by generating notes more or less frequently
+     * @param diff enum RhythmGame.Difficulty
+     */
     private void setDifficulty(Difficulty diff) {
         switch(diff) {
             case EASY:
@@ -94,26 +82,31 @@ public class RhythmGame {
                 refreshTime = 100;
                 break;
             default:
-                noteGenerationPeriod = 900;
+                noteGenerationPeriod = 1000;
                 break;
         }
     }
 
-    public static int getRefreshTime() {return refreshTime;}
-
+    /**
+     * Updates the game
+     */
     void update() {
-        double randomNumber = Math.random();
+
+        // Updates points based on missed notes
         for (int i = 0; i < numColumns; i++) {
             Pair<Integer, Integer> pair = columns[i].update();
             addPoints(pair.first);
             numNotesMissed += pair.second;
         }
 
+        // Every period generate a note at a random column
+        double randomNumber = Math.random();
         if (System.currentTimeMillis() - startTime >= noteGenerationPeriod) {
             columns[(int) (4 * randomNumber)].generateNote();
             startTime = System.currentTimeMillis();
         }
 
+        // Changes difficulty based on points
         if (getPoints() > 100) setDifficulty(Difficulty.HARD);
         else if (getPoints() > 50) setDifficulty(Difficulty.NORMAL);
 
@@ -122,56 +115,62 @@ public class RhythmGame {
         }
     }
 
+    /**
+     * Ends the game.
+     */
     private void gameOver() {
-        setIsGameOver(true);
-        mediaPlayer1.stop();
-        mediaPlayer1.release();
-        mediaPlayer1 = null;
+        setGameIsOver(true);
+        // Ensures memory is released
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 
+    /**
+     * Taps the column and updates statistics the games' statistics.
+     * @param colNumber the number of the column
+     */
     void tap(int colNumber) {
-        if (!getIsGameOver()) {
+        if (!getGameIsOver()) {
             int scoreChange = columns[colNumber].tap();
-            if (scoreChange > 0) {
-//                 hitSound.start();
-            }
 
             addPoints(scoreChange);
             String hitType = columns[colNumber].getMessage().getMessage();
             if (stats.get(hitType) != null) {
                 stats.put(hitType, stats.get(hitType) + 1);
-//        System.out.println(hitType);
-//        System.out.println(stats.get(hitType));
             }
         }
     }
 
+    /**
+     * Returns a list of messages, one in each column
+     * @return a list of RhythmGameMessages where the index is the column number
+     */
     RhythmGameMessage[] messagesToDraw() {
         RhythmGameMessage[] messages = new RhythmGameMessage[numColumns];
         for (int i = 0; i < numColumns; i++) messages[i] = columns[i].getMessage();
         return messages;
     }
 
+    /**
+     * Returns a list of targets, one in each column
+     * @return a list of Targets where the index is the column number
+     */
     Target[] targetsToDraw() {
         Target[] targets = new Target[numColumns];
         for (int i = 0; i < numColumns; i++) targets[i] = columns[i].getTarget();
         return targets;
     }
 
+    /**
+     * Returns a list of a list of notes, one list in each column
+     * @return a sparseArray, where the key is the column number
+     */
     SparseArray<ArrayList<Note>> notesToDraw() {
         SparseArray<ArrayList<Note>> notesMap = new SparseArray<>();
         for (int i = 0; i < numColumns; i++) notesMap.put(i, columns[i].getNotes());
         return notesMap;
     }
-//    SparseArray<Pair<ArrayList<Note>, Target>> toDraw() {
-//        SparseArray<Pair<ArrayList<Note>, Target>> map = new SparseArray<>();
-//        for (int i = 0; i <numColumns; i++) {
-//            Pair<ArrayList<Note>, Target> pair = new Pair<>(new ArrayList<>(columns[i].getNotes()),
-//                    columns[i].getTarget());
-//            map.put(i, pair);
-//        }
-//        return map;
-//    }
 
     int getGameHeight() {
         return gameHeight;
@@ -181,14 +180,13 @@ public class RhythmGame {
         return numNotesMissed;
     }
 
-    boolean getIsGameOver() {
-        return isGameOver;
+    boolean getGameIsOver() {
+        return gameIsOver;
     }
 
-    public void setIsGameOver(boolean gameOver) {
-        isGameOver = gameOver;
+    public void setGameIsOver(boolean gameOver) {
+        gameIsOver = gameOver;
     }
-
 
     int getPoints() {
         return points;
@@ -202,4 +200,6 @@ public class RhythmGame {
         // points cannot go below 0.
         this.points = Math.max(this.points + dPoints, 0);
     }
+
+    public static int getRefreshTime() {return refreshTime;}
 }

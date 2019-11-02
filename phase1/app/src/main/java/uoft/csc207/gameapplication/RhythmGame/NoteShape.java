@@ -5,18 +5,27 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
- * A shape where (0, 0) is the top left corner, and is defined by unit lengths
+ * A shape where (0, 0) is the top left corner
  */
 class NoteShape {
     private TetrominoShape tetroShape;
     private float scale;
     private RectF[] figure;
 
+    /**
+     * Constructs a note shape based on a tetromino
+     * @param tetroShape the tetromine shape
+     */
     NoteShape(TetrominoShape tetroShape) {
         this.tetroShape = tetroShape;
         this.setScale(1);
     }
 
+    /**
+     * Constructs a note shape based on a tetromino and scaling factor
+     * @param tetroShape the tetromine shape
+     * @param scale the scaling factor - new size of a unit length
+     */
     private NoteShape(TetrominoShape tetroShape, float scale) {
         this.tetroShape = tetroShape;
         this.setScale(scale);
@@ -26,12 +35,20 @@ class NoteShape {
         return new NoteShape(this.tetroShape, this.scale);
     }
 
+    /**
+     * Draws the note shape on the given canvas.
+     * @param canvas to draw on
+     * @param x position of the left corner on the canvas
+     * @param y position of the top corner on the canvas
+     * @param paint of shape
+     */
     public void draw(Canvas canvas, float x, float y, Paint paint) {
         for (RectF rect : figure) {
             RectF toDrawRect = new RectF(x + rect.left, y + rect.top,
                     x + rect.right, y + rect.bottom);
             canvas.drawRect(toDrawRect, paint);
 
+            // Draws the outline
             Paint strokePaint = new Paint();
             strokePaint.setStyle(Paint.Style.STROKE);
             strokePaint.setStrokeWidth(2);

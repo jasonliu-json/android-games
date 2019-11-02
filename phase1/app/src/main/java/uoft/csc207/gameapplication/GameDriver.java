@@ -4,11 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 
+/**
+ * Takes in touch inputs for a game.
+ * Draws the game to canvas.
+ */
 public abstract class GameDriver {
+    // To draw on
     public Bitmap bitmap;
-
     public Canvas newCanvas;
 
+    // Screen Dimensions
     public int screenHeight;
     public int screenWidth;
 
@@ -19,12 +24,29 @@ public abstract class GameDriver {
         newCanvas = new Canvas(bitmap);
     }
 
+    /**
+     * When the touch first encounters the screen.
+     * @param x the x-coordinate of the event on the screen.
+     * @param y the y-coordinate of the event on the screen.
+     */
     public abstract void touchStart(float x, float y);
 
+    /**
+     * As the touch moves around still in contact with the screen.
+     * @param x the x-coordinate of the event on the screen.
+     * @param y the y-coordinate of the event on the screen.
+     */
     public abstract void touchMove(float x, float y);
 
+    /**
+     * When the touch is lifted off the screen.
+     */
     public abstract void touchUp();
 
+    /**
+     * Draws the game to canvas.
+     * @param canvas the canvas to draw on.
+     */
     public abstract void draw(Canvas canvas);
 
     public abstract boolean getGameIsOver();
