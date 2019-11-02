@@ -90,6 +90,9 @@ public class LeaderboardActivity extends AppCompatActivity {
 //    System.out.println(leaderboard);
     }
 
+    /**
+     * loads the data base from assets or from android memory
+     */
     private void loadDatabase() {
         try {
             int i = 0;
@@ -123,6 +126,11 @@ public class LeaderboardActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * gets the top plays from the data base
+     * @return a 2 nested list that contains 10 usernames (index 1) and 10 scores (index 0) with
+     *         name corresponding to score respectively
+     */
     public String[][] getTopPlayers() {
         String[][] topScores = {{"0", "0"}, {"0", "0"}, {"0", "0"}, {"0", "0"}, {"0", "0"},
                                 {"0", "0"}, {"0", "0"}, {"0", "0"}, {"0", "0"}, {"0", "0"}};
@@ -133,8 +141,6 @@ public class LeaderboardActivity extends AppCompatActivity {
                 return Integer.parseInt(o2[0]) - Integer.parseInt(o1[0]);
             }
         };
-
-        HashMap<String, String[]> scoreMapping = new HashMap();
 
         for (int i = 0; i < database.length(); i++) {
             try {

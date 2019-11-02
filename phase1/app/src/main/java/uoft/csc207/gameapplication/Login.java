@@ -69,6 +69,9 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    /**
+     * load the json from assets or from the android memory
+     */
     private void load() {
         try {
             int i = 0;
@@ -102,6 +105,12 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /**
+     * Hashes the password and compares to the hash
+     * @param email user email used to login
+     * @param password user password used to login
+     * @return the username if the email and password is valid or else return null
+     */
     public String verifyLogin(String email, String password) {
         String passwordHash = RegisterUtility.hash(password, "SHA-256");
         JSONArray userdata;
@@ -124,6 +133,10 @@ public class Login extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Displays the text on screen
+     * @param text a text to be displayed on screen
+     */
     private void showToast(String text) {
         Toast.makeText(Login.this, text, Toast.LENGTH_SHORT).show();
     }
