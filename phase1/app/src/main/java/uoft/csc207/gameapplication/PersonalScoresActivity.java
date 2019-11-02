@@ -85,7 +85,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
     }
 
     /**
-     * get the total points this user accumulated 
+     * return the total amount of points accumulated by this user
      * @return the users total points scored in the lifetime
      */
     private String getTotalPoints() {
