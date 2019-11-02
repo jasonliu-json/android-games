@@ -10,7 +10,9 @@ import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * THIS IS A TESTING VIEW CLASS THIS IS NOT USED FOR THE ASSIGNMENT
+ */
 public class MazeGameView extends View {
     private MazeGameDriver mazeGameDriver;
     private Timer timer;
