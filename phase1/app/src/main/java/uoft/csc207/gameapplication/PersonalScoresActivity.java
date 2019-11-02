@@ -25,6 +25,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
     private static final String FILE = "UserData.json";
 
     private String username;
+    private JSONObject jsonUserObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
         loadPersonalScores();
 
         // hard coded for now
-        totalPointsText = "9000";
+        totalPointsText = getTotalPoints();
         totalPointsText = "Total Points: \n" + totalPointsText;
 
-        timePlayedText = "09789097";
+        timePlayedText = getTimePlayed();
         int minutesPlayed = Integer.valueOf(timePlayedText) / 60;
         int extraSeconds = Integer.valueOf(timePlayedText) % 60;
         timePlayedText = "Time Played: \n" + minutesPlayed + "m " + extraSeconds + "s";
@@ -68,11 +69,24 @@ public class PersonalScoresActivity extends AppCompatActivity {
         totalPoints.setText(totalPointsText);
 
 
+    }
 
+    private String getTimePlayed() {
+        try {
+            return jsonUserObject.getString("timePlayed");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-
-
-
+    private String getTotalPoints() {
+        try {
+            return jsonUserObject.getString("totalPoints");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void loadPersonalScores() {
@@ -115,7 +129,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
             for (int i = 0; i < users.length(); i++) {
                 JSONObject user = users.getJSONObject(i);
                 if (user.getString("username").equals(username)) {
-                    System.out.println(user.getString("username"));
+                    jsonUserObject = user;
 
                     JSONArray scores = user.getJSONArray("topPlays");
 
