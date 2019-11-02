@@ -4,12 +4,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MazeGenerator {
+    /**
+     * the maze game data points
+     */
     private Character[][] maze;
     private int[] startingPoint;
     private int[] endPoint;
+
+    /**
+     * the height and width of the maze
+     */
     private int width;
     private int height;
 
+    /**
+     * creates the mazeGenerator
+     *
+     * @param width how many columns the user wants
+     * @param height how many rows the the user wants
+     */
     public MazeGenerator(int width, int height) {
         this.width = 2 * width + 1;
         this.height = 2 * height + 1;
@@ -22,22 +35,43 @@ public class MazeGenerator {
         newMaze();
     }
 
+    /**
+     *
+     * @return the starting point of the character
+     */
     public int[] getStartingPoint() {
         return startingPoint;
     }
 
+    /**
+     *
+     * @return the end point of the maze
+     */
     public int[] getEndPoint() {
         return endPoint;
     }
 
+    /**
+     *
+     * @return returns the maze board for drawing
+     */
     public Character[][] getMaze() {
         return maze;
     }
 
+    /**
+     * creates a new maze and creates a new endpoint and starting point
+     */
     public void newMaze() {
         maze = generateMaze(width, height);
     }
 
+    /**
+     *
+     * @param unitWidth how many pixels wide the maze is
+     * @param unitHeight how many pixels tall the maze is
+     * @return the 2d array representation of the maze
+     */
     private Character[][] generateMaze(int unitWidth, int unitHeight) {
         Character[][] blocks = new Character[unitWidth][unitHeight];
         for (int x = 0; x < blocks.length; x++) {
@@ -51,6 +85,12 @@ public class MazeGenerator {
         return blocks;
     }
 
+    /**
+     * a recursive back tracking maze algorithm to mutate the maze
+     * @param maze a 2d maze still being generated
+     * @param startX x coordinate to branch from
+     * @param startY y coordinate to branch from
+     */
     private void recursiveMazeGeneration(Character[][] maze, int startX, int startY) {
         maze[startX][startY] = 'P';
         boolean flag = true;
@@ -81,6 +121,13 @@ public class MazeGenerator {
         }
     }
 
+    /**
+     * determines whether if we can create a path to this startX and startY coordinate
+     * @param maze a 2d maze still being generated
+     * @param startX x coordinate to check
+     * @param startY y coordinate to check
+     * @return true if we can create a path to this node
+     */
     private boolean possiblePath(Character[][] maze, int startX, int startY) {
         if (0 < startX && startX < maze.length && 0 < startY && startY < maze[startX].length) {
             if (maze[startX][startY].equals('W')) {
@@ -90,6 +137,11 @@ public class MazeGenerator {
         return false;
     }
 
+    /**
+     * Searches for a spot in the bottom corner of the screen that is tucked into a corner to set
+     * as the end point
+     * @param maze a maze with the path finished generating
+     */
     private void setEnd(Character[][] maze) {
         for (int x = maze.length - 2; x > 0; x -= 2) {
             int yCheck = maze[0].length - 2;
@@ -112,6 +164,13 @@ public class MazeGenerator {
         }
     }
 
+    /**
+     * checks to see if there only exists one path to reach this node by its adjacent nodes
+     * @param maze a maze with the paths finished generating
+     * @param x the x coordinate to check
+     * @param y the y coordinate to check
+     * @return whether if there only exists one path to this node form the adjacent nodes
+     */
     private boolean checkSurrounding(Character[][] maze, int x, int y) {
         int count = 0;
         if (maze[x + 1][y].equals('W')) {

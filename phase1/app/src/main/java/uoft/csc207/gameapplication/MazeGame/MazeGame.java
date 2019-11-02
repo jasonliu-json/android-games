@@ -7,27 +7,53 @@ import android.graphics.Rect;
 
 
 public class MazeGame {
+    /**
+     * the maze generator used to create a new maze
+     */
     private MazeGenerator mazeGenerator;
 
+    /**
+     * the 2d array representing the mapping of the maze
+     */
     public Character[][] maze;
 
+    /**
+     * user position
+     */
     private int xCharacter;
     private int yCharacter;
+
+    /**
+     * end point position
+     */
     private int xEndPos = 0;
     private int yEndPos = 0;
+
+    /**
+     * current game status
+     */
 
     private int currentLevel;
 
     private boolean gameIsOver;
 
+    /**
+     * the paint used to draw the maze
+     */
     private Paint wallPaint = new Paint();
     private Paint endPaint = new Paint();
     private Paint startPaint = new Paint();
 
+    /**
+     * game stats to keep track of
+     */
     private long startTime;
     private int points = 0;
     private int currentLevelPoints = 2000;
 
+    /**
+     * Constructs the maze game
+     */
     public MazeGame() {
         wallPaint.setColor(Color.BLACK);
         wallPaint.setStyle(Paint.Style.FILL);
@@ -53,7 +79,9 @@ public class MazeGame {
         gameIsOver = false;
         startTime = System.currentTimeMillis();
     }
-
+    /**
+     * Checks to see if the user can move down if movement is possible complete it
+     */
     void moveDown() {
 
         if (!maze[xCharacter][yCharacter + 1].equals('W')) {
@@ -64,6 +92,9 @@ public class MazeGame {
         }
     }
 
+    /**
+     * Checks to see if the user can move up if movement is possible complete it
+     */
     void moveUp() {
         if (!maze[xCharacter][yCharacter - 1].equals('W')) {
             maze[xCharacter][yCharacter - 1] = maze[xCharacter][yCharacter];
@@ -73,6 +104,9 @@ public class MazeGame {
         }
     }
 
+    /**
+     * Checks to see if the user can move left if movement is possible complete it
+     */
     void moveLeft() {
         if (!maze[xCharacter - 1][yCharacter].equals('W')) {
             maze[xCharacter - 1][yCharacter] = maze[xCharacter][yCharacter];
@@ -82,6 +116,9 @@ public class MazeGame {
         }
     }
 
+    /**
+     * Checks to see if the user can move right if movement is possible complete it
+     */
     void moveRight() {
         if (!maze[xCharacter + 1][yCharacter].equals('W')) {
             maze[xCharacter + 1][yCharacter] = maze[xCharacter][yCharacter];
@@ -91,10 +128,16 @@ public class MazeGame {
         }
     }
 
+    /**
+     * @return the status of this game if it is over or not
+     */
     boolean getGameIsOver() {
         return gameIsOver;
     }
 
+    /**
+     * @return the current sessions points and the points accumulated over each level
+     */
     int getPoints() {
         if (currentLevelPoints > 0) {
             return points + currentLevelPoints;
@@ -104,6 +147,10 @@ public class MazeGame {
         }
     }
 
+    /**
+     * checks to see if the user reached the end point if reached either the game ends
+     * or we play again
+     */
     private void checkEndpointReached() {
         if (xCharacter == xEndPos && yCharacter == yEndPos) {
             xEndPos = -1;
@@ -125,6 +172,14 @@ public class MazeGame {
             }
         }
     }
+
+    /**
+     * draws the maze game
+     *
+     * @param canvas the graphics canvas where we draw on
+     * @param screenWidth the screen width
+     * @param screenHeight the screen height
+     */
     void draw(Canvas canvas, int screenWidth, int screenHeight) {
         int blockWidth = screenWidth / maze.length;
         int blockHeight = screenHeight / maze[0].length;
@@ -149,6 +204,9 @@ public class MazeGame {
         }
     }
 
+    /**
+     * adds the current level points to the total accumulated points and resets level points
+     */
     private void calculatePoints() {
         long timeTaken = System.currentTimeMillis() - startTime;
         currentLevelPoints = (int)(2000 - (timeTaken / 1000 * 60));
