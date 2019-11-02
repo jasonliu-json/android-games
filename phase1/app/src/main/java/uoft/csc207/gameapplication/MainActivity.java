@@ -13,11 +13,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // temporary sleep method in case we need to do some computations before game start
         Thread thread = new Thread() {
             @Override
             public void run() {
             try {
-                int refreshTime = RhythmGame.getRefreshTime();
                 sleep(500);
             }
             catch (Exception e){
