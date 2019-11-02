@@ -71,6 +71,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * gets the time played by this user
+     * @return the total time played by this user
+     */
     private String getTimePlayed() {
         try {
             return jsonUserObject.getString("timePlayed");
@@ -80,6 +84,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * get the total points this user accumulated 
+     * @return the users total points scored in the lifetime
+     */
     private String getTotalPoints() {
         try {
             return jsonUserObject.getString("totalPoints");
@@ -89,6 +97,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Creates the jsonObject by reading the data base off assets or memory and loads the
+     * players top 10 scores
+     */
     private void loadPersonalScores() {
         JSONObject jsonObject;
         try {
@@ -123,6 +135,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * helper that loads up this current users top 10 best scores
+     * @param jsonObject the json data base for the users
+     */
     private void loadUserScore(JSONObject jsonObject) {
         try {
             JSONArray users = jsonObject.getJSONArray("users");
