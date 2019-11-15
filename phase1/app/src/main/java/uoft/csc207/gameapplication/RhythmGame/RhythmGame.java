@@ -24,9 +24,10 @@ public class RhythmGame {
     private MediaPlayer mediaPlayer;
 
     // Key: hit type, Value: number of times
-    private HashMap<String, Integer> stats;
-    private int points = 0;
-    private int numNotesMissed = 0;
+    private RhythmGamePointsSystem pointsSystem;
+//    private HashMap<String, Integer> stats;
+//    private int points = 0;
+//    private int numNotesMissed = 0;
     private int lives = 10;
     private int noteGenerationPeriod = 1000;
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
@@ -41,11 +42,12 @@ public class RhythmGame {
     public RhythmGame(Context context, int numColumns) {
         this.context = context;
         this.numColumns = numColumns;
+        pointsSystem = new RhythmGamePointsSystem();
 
         // Creates each column of the game
         columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
-            columns[i] = new Column(gameHeight);
+            columns[i] = new Column(gameHeight, i, pointsSystem);
         }
 
         setDifficulty(Difficulty.EASY);
@@ -55,11 +57,13 @@ public class RhythmGame {
 
         startTime = System.currentTimeMillis();
 
-        stats = new HashMap<>();
-        stats.put("Perfect!", 0);
-        stats.put("Great!", 0);
-        stats.put("Good!", 0);
-        stats.put("Bad Hit!", 0);
+
+
+//        stats = new HashMap<>();
+//        stats.put("Perfect!", 0);
+//        stats.put("Great!", 0);
+//        stats.put("Good!", 0);
+//        stats.put("Bad Hit!", 0);
     }
 
     /**
@@ -94,9 +98,7 @@ public class RhythmGame {
 
         // Updates points based on missed notes
         for (int i = 0; i < numColumns; i++) {
-            Pair<Integer, Integer> pair = columns[i].update();
-            addPoints(pair.first);
-            numNotesMissed += pair.second;
+            columns[i].update();
         }
 
         // Every period generate a note at a random column
@@ -110,7 +112,7 @@ public class RhythmGame {
         if (getPoints() > 100) setDifficulty(Difficulty.HARD);
         else if (getPoints() > 50) setDifficulty(Difficulty.NORMAL);
 
-        if (numNotesMissed >= lives) {
+        if (getNumMissed() >= lives) {
             gameOver();
         }
     }
@@ -132,13 +134,7 @@ public class RhythmGame {
      */
     void tap(int colNumber) {
         if (!getGameIsOver()) {
-            int scoreChange = columns[colNumber].tap();
-
-            addPoints(scoreChange);
-            String hitType = columns[colNumber].getMessage().getMessage();
-            if (stats.get(hitType) != null) {
-                stats.put(hitType, stats.get(hitType) + 1);
-            }
+            columns[colNumber].tap();
         }
     }
 
@@ -176,8 +172,8 @@ public class RhythmGame {
         return gameHeight;
     }
 
-    int getNumNotesMissed() {
-        return numNotesMissed;
+    int getNumMissed() {
+        return pointsSystem.getNumMissed();
     }
 
     boolean getGameIsOver() {
@@ -189,17 +185,12 @@ public class RhythmGame {
     }
 
     int getPoints() {
-        return points;
+        return pointsSystem.getPoints();
     }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    private void addPoints(int dPoints) {
-        // points cannot go below 0.
-        this.points = Math.max(this.points + dPoints, 0);
-    }
+//    public void setPoints(int points) {
+//        this.pointsSystem.setPoints(points);
+//    }
 
     public static int getRefreshTime() {return refreshTime;}
 }

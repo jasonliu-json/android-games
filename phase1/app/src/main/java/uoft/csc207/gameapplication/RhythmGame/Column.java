@@ -3,42 +3,49 @@ package uoft.csc207.gameapplication.RhythmGame;
 import android.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * A column of the rhythm, which consists of a shadow (the target)
  * and the notes to hit within the column.
  */
-class Column {
+class Column extends Observable {
     private int height = 100;
+    private int id;
 
     private Target target;
     private ArrayList<Note> notes;
 
     private RhythmGameMessage message = new RhythmGameMessage("");
 
-    Column(int height) {
+    Column(int height, int id, Observer observer) {
         this.height = height;
+        this.id = id;
         this.target = new Target(20, 5);
         notes = new ArrayList<>();
+
+//        for (Observer observer : observers) {
+            this.addObserver(observer);
+//        }
     }
 
     /**
      * Updates the state of the game.
      * @return the amount of points to change (first) and number of notes missed (second)
      */
-    Pair<Integer, Integer> update() {
+    void update() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
-        int numMissed = 0;
 
         // moves each not up by one
         for (Note note : notesCopy) {
             note.moveUp(1);
 
             // Removes off-screen notes
-            if (note.getY() > height || note.getY() < 0) {
+            if (note.getY() < 0) {
                 notes.remove(note);
-                numMissed += 1;
+                notifyObservers(RhythmGamePointsSystem.NoteEvent.MISSED);
             }
         }
 
@@ -46,9 +53,6 @@ class Column {
             message.incrementNumIterationsExisted();
             if (message.getNumIterExisted() >= 10) message = new RhythmGameMessage("");
         }
-
-        return new Pair(-numMissed, numMissed);
-
     }
 
     private boolean checkLowestNote() {
@@ -59,7 +63,7 @@ class Column {
             }
         }
 
-        return this.height - lowest > this.height / 4;
+        return this.height - lowest > 2 * target.getAllowedError();
 
     }
 
@@ -77,29 +81,24 @@ class Column {
      * Pre-condition: the notes are sorted in ascending order of y-value.
      * @return the number of points gained
      */
-    int tap() {
-        int pointsGained = 0;
-        if (notes.size() == 0) {
-            this.message = new RhythmGameMessage("Bad Hit!");
-            pointsGained = -5;
-            return pointsGained;
-        }
-
+    void tap() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         for (int i = 0; i < notesCopy.size(); i++) {
+            if (notes.get(i).getY() > target.getY() + target.getAllowedError()) break;
             if (target.contains(notes.get(i))) {
                 // score gained is based on the difference between hit position and target, for
                 // maximum of 10 points per hit.
                 int distFromTarget = Math.abs(target.getY() - notes.get(i).getY());
 
-                pointsGained += 2*(target.getAllowedError() - distFromTarget);
-
                 // Determines the accuracy of the tap
                 if (distFromTarget < target.getAllowedError() / (float) 3) {
+                    notifyObservers(RhythmGamePointsSystem.NoteEvent.PERFECT);
                     this.message = new RhythmGameMessage("Perfect!");
                 } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
+                    notifyObservers(RhythmGamePointsSystem.NoteEvent.GREAT);
                     this.message = new RhythmGameMessage("Great!");
                 } else {
+                    notifyObservers(RhythmGamePointsSystem.NoteEvent.GOOD);
                     this.message = new RhythmGameMessage("Good!");
                 }
 
@@ -107,14 +106,11 @@ class Column {
                 notes.remove(i);
 
                 // Does not check any other note in the column
-                if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) break;
-            } else if (notes.get(i).getY() > target.getY()) {
-                this.message = new RhythmGameMessage("Bad Hit!");
-                pointsGained -= 5;
-                // show miss message
+                if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) return;
             }
         }
-        return pointsGained;
+
+        notifyObservers(RhythmGamePointsSystem.NoteEvent.BAD);
     }
 
     Target getTarget() {
@@ -127,5 +123,9 @@ class Column {
 
     RhythmGameMessage getMessage() {
         return message;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import uoft.csc207.gameapplication.GameDriver;
 
@@ -26,6 +28,8 @@ public class RhythmGameDriver extends GameDriver {
 //    private Paint textPaint;
     private Paint missedTextPaint;
     private Paint messagePaint;
+
+    private String[] colMessages = new String[numColumns];
 
     float colSize;
     float colWidthRatio;
@@ -99,6 +103,9 @@ public class RhythmGameDriver extends GameDriver {
         messagePaint = new Paint();
         messagePaint.setTextSize(50);
         messagePaint.setColor(Color.GREEN);
+
+        for (int i = 0; i < numColumns; i++)
+            colMessages[i] = "";
     }
 
     /**
@@ -165,7 +172,7 @@ public class RhythmGameDriver extends GameDriver {
         }
 
 
-        newCanvas.drawText("Missed: " + rhythmGame.getNumNotesMissed(), screenWidth /2,
+        newCanvas.drawText("Missed: " + rhythmGame.getNumMissed(), screenWidth /2,
                 80+ 3 *noteScale, missedTextPaint);
 
         canvas.drawBitmap(bitmap, 0, -3*noteScale, null);
@@ -180,4 +187,8 @@ public class RhythmGameDriver extends GameDriver {
         return rhythmGame.getPoints();
     }
 
+//    @Override
+//    public void update(Observable observable, Object o) {
+////        ((Column)o).
+//    }
 }
