@@ -1,9 +1,11 @@
 package uoft.csc207.gameapplication.RhythmGame;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -25,10 +27,42 @@ public class RhythmGameDriver extends GameDriver {
     private Paint missedTextPaint;
     private Paint messagePaint;
 
+    float colSize;
+    float colWidthRatio;
+    float targetWidthRatio;
+    float targetScale;
+    float noteWidthRatio;
+    float noteScale;
+    float heightRatio;
+
     public RhythmGameDriver(Context context) {
         super();
         rhythmGame = new RhythmGame(context, numColumns);
         setTheme();
+    }
+
+
+    @Override
+    public void init(DisplayMetrics metrics) {
+        super.init(metrics);
+
+        colSize = screenWidth / (float) numColumns;
+        colWidthRatio = colSize / 2;
+
+        // target width is 70% the width of the column
+        targetWidthRatio = (float) 0.7;
+        targetScale = (float) 0.7 * colWidthRatio;      // the new size of one unit length for target
+
+        // note width is 60% the width of the column
+        noteWidthRatio = (float) 0.6;
+        noteScale = (float) 0.6 * colWidthRatio;    // the new size of one unit length for note
+
+        // add 3 times note scale, so when the note reaches 0,
+        // the graphic representation of the note is completely offscreen
+        heightRatio = (float) (screenHeight + 3 * noteScale) / rhythmGame.getGameHeight();
+        bitmap = Bitmap.createBitmap(screenWidth,
+                screenHeight + 3 * (int) Math.ceil(noteScale), Bitmap.Config.ARGB_8888);
+        newCanvas = new Canvas(bitmap);
     }
 
     /**
@@ -100,29 +134,25 @@ public class RhythmGameDriver extends GameDriver {
         newCanvas.save();
         newCanvas.drawColor(Color.WHITE);
 
-        int colSize = screenWidth / numColumns;
-        float heightRatio = (float) screenHeight / rhythmGame.getGameHeight();
-
         Target[] targets = rhythmGame.targetsToDraw();
         SparseArray<ArrayList<Note>> notesMap = rhythmGame.notesToDraw();
         RhythmGameMessage[] messages = rhythmGame.messagesToDraw();
 
         for (int i = 0; i < numColumns; i++) {
             NoteShape scalableCopy = colUnitNoteShapes[i].clone();
-            float colWidthRatio = colSize / colUnitNoteShapes[i].getWidth();
 
             Target target = targets[i];
-            float targetWidthRatio = (float) 0.7;
-            float targetScale = targetWidthRatio * colWidthRatio;
             scalableCopy.setScale(targetScale);
+            // centre the target in the column
             float xTarget = (1 - targetWidthRatio) * colWidthRatio / 2 + i * colSize;
+            xTarget = i * colSize + (float) 0.5 * colSize - targetScale;
             scalableCopy.draw(newCanvas, xTarget, target.getY() * heightRatio, targetPaint);
 
             ArrayList<Note> notes = notesMap.get(i);
-            float noteWidthRatio = (float) 0.6;
-            float noteScale = noteWidthRatio * colWidthRatio;
-            float xNote = (1 - noteWidthRatio) * colWidthRatio / 2 + i * colSize;
             scalableCopy.setScale(noteScale);
+            // centre the target in the column
+            float xNote = (1 - noteWidthRatio) * colWidthRatio / 2 + i * colSize;
+            xNote = i * colSize + (float) 0.5 * colSize - noteScale;
             for (Note note : notes) {
                 scalableCopy.draw(newCanvas, xNote, note.getY() * heightRatio, columnPaints[i]);
             }
@@ -135,9 +165,10 @@ public class RhythmGameDriver extends GameDriver {
         }
 
 
-        newCanvas.drawText("Missed: " + rhythmGame.getNumNotesMissed(), screenWidth /2, 80, missedTextPaint);
+        newCanvas.drawText("Missed: " + rhythmGame.getNumNotesMissed(), screenWidth /2,
+                80+ 3 *noteScale, missedTextPaint);
 
-        canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(bitmap, 0, -3*noteScale, null);
         newCanvas.restore();
     }
 

@@ -19,7 +19,7 @@ class Column {
 
     Column(int height) {
         this.height = height;
-        this.target = new Target(10, 5);
+        this.target = new Target(20, 5);
         notes = new ArrayList<>();
     }
 
@@ -36,7 +36,7 @@ class Column {
             note.moveUp(1);
 
             // Removes off-screen notes
-            if (note.getY() > height || note.getY() < - height / 4) {
+            if (note.getY() > height || note.getY() < 0) {
                 notes.remove(note);
                 numMissed += 1;
             }
@@ -58,7 +58,6 @@ class Column {
                 lowest = note.getY();
             }
         }
-        // screen height = 100, note height = 20??
 
         return this.height - lowest > this.height / 4;
 
@@ -95,7 +94,7 @@ class Column {
 
                 pointsGained += 2*(target.getAllowedError() - distFromTarget);
 
-                // Determines the precision of the tap
+                // Determines the accuracy of the tap
                 if (distFromTarget < target.getAllowedError() / (float) 3) {
                     this.message = new RhythmGameMessage("Perfect!");
                 } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
