@@ -1,21 +1,13 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
 /** A class representing a piece in a game of Tetris. . */
-public class Piece {
+class Piece {
 
   /** The x coordinate of this piece. */
   private int x;
 
   /** The y coordinate of this piece. */
   private int y;
-
-  int getRotation() {
-    return rotation;
-  }
-
-  String[][] getStates() {
-    return states;
-  }
 
   /** The index of the current rotated state of this piece. */
   private int rotation;
@@ -29,6 +21,14 @@ public class Piece {
     this.y = y;
     this.rotation = rotation;
     this.states = states;
+  }
+
+  int getRotation() {
+    return rotation;
+  }
+
+  String[][] getStates() {
+    return states;
   }
 
   /**

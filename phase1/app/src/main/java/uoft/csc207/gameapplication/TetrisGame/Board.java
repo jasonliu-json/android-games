@@ -53,8 +53,8 @@ class Board {
 
   /** Clears all pieces in row n and shifts all entries above down by one row. */
   private void clearRow(int n) {
-    if (n >= 0) {
-      System.arraycopy(grid, 0, grid, 1, n); // updates rows 1-n
+    for (int y = n; y > 0; y--) { // updates rows 1-n
+      grid[y] = grid[y - 1].clone();
     }
     Arrays.fill(grid[0], '.'); // updates row 0
   }
@@ -122,7 +122,9 @@ class Board {
       for (int x = 0; x < length; x++) {
         if (piece.getStates()[piece.getRotation()][y].charAt(x) != '.') {
           try {
-            if (grid[piece.getY() + y + adjY][piece.getX() + x + adjX] != '.') {
+            int newX = piece.getX() + x + adjX;
+            int newY = piece.getY() + y + adjY;
+            if (grid[newY][newX] != '.') {
               return false; // move results in collision
             }
           } catch (IndexOutOfBoundsException e) {
@@ -139,9 +141,8 @@ class Board {
     int length = piece.getStates()[0][0].length();
     for (int y = 0; y < length; y++) {
       for (int x = 0; x < length; x++) {
-        if (piece.getStates()[(piece.getRotation() + direction) % piece.getStates().length][y]
-                .charAt(x)
-            != '.') {
+        int newRotation = (piece.getRotation() + direction) % piece.getStates().length;
+        if (piece.getStates()[newRotation][y].charAt(x) != '.') {
           try {
             if (grid[piece.getY() + y][piece.getX() + x] != '.') {
               return false; // rotation results in collision

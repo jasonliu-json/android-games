@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -7,17 +8,26 @@ class TetrisGame {
 
   /** The current falling piece. */
   private Piece fallingPiece;
-
-  Board getBoard() {
-    return board;
-  }
-
   private Board board;
   private Timer timer;
   private Randomizer randomizer;
   private boolean gameIsOver;
   private int delay;
   private int points;
+
+  TetrisGame(Board board, Randomizer randomizer) {
+    this.board = board;
+    this.randomizer = randomizer;
+    fallingPiece = randomizer.nextPiece();
+    gameIsOver = false;
+    delay = 800; // piece falls every 800 ms at first
+    points = 0;
+    initializeTimer();
+  }
+
+  Board getBoard() {
+    return board;
+  }
 
   /**
    * Returns whether this game is over.
@@ -37,53 +47,40 @@ class TetrisGame {
     return points;
   }
 
-  TetrisGame(Board board, Randomizer randomizer) {
-    this.board = board;
-    this.randomizer = randomizer;
-    gameIsOver = false;
-    delay = 800; // piece falls every 800 ms at first
-    points = 0;
-    nextFallingPiece();
-    beginTimer();
-  }
-
-  private boolean move(int adjX, int adjY) {
-    boolean hasMoved = false;
+  private boolean tryMove(int adjX, int adjY) {
     board.removePieceFromBoard(fallingPiece);
     if (board.canMove(fallingPiece, adjX, adjY)) {
       fallingPiece.move(adjX, adjY);
-      hasMoved = true;
+      board.addPieceToBoard(fallingPiece);
+      return true;
     }
     board.addPieceToBoard(fallingPiece);
-    return hasMoved;
+    return false;
   }
 
   void moveLeft() {
-    move(-1, 0);
+    tryMove(-1, 0);
   }
 
   void moveRight() {
-    move(1, 0);
+    tryMove(1, 0);
   }
 
   void moveDown() {
-    boolean hasMoved = move(0, 1);
-    if (!hasMoved) {
-      points += board.clearRows();
-      if (points % 1500 == 0) { // increase acceleration every 1500 points
-        accelerateTimer();
-      }
-      nextFallingPiece();
+    if (!tryMove(0, 1)) {
+      reset();
     }
   }
 
   void dropDown() {
-    while (board.canMove(fallingPiece, 0, 1)) {
-      moveDown();
+    boolean isFalling = true;
+    while (isFalling) {
+      isFalling = tryMove(0, 1);
     }
+    reset();
   }
 
-  private void rotate(int direction) {
+  private void tryRotate(int direction) {
     board.removePieceFromBoard(fallingPiece);
     if (board.canRotate(fallingPiece, direction)) {
       fallingPiece.rotate(direction);
@@ -92,24 +89,28 @@ class TetrisGame {
   }
 
   void rotateClockwise() {
-    rotate(1);
+    tryRotate(1);
   }
 
   void rotateCounterClockwise() {
-    rotate(-1);
+    tryRotate(-1);
   }
 
-  private void nextFallingPiece() {
+  private void reset() {
+    points += board.clearRows();
+//    if (points % 1500 == 0) { // increase acceleration every 1500 points
+//      accelerateTimer();
+//    }
     fallingPiece = randomizer.nextPiece();
     if (board.canMove(fallingPiece, 0, 0)) {
       board.addPieceToBoard(fallingPiece);
-    } else {
+    } else { // game over
       timer.cancel();
       gameIsOver = true;
     }
   }
 
-  private void beginTimer() {
+  private void initializeTimer() {
     timer = new Timer();
     TimerTask makePieceFall =
         new TimerTask() {
@@ -118,18 +119,14 @@ class TetrisGame {
             TetrisGame.this.moveDown();
           }
         };
-    timer.scheduleAtFixedRate(makePieceFall, 2 * delay, delay);
-  }
-
-  private void endTimer() {
-    timer.cancel();
+    timer.scheduleAtFixedRate(makePieceFall, delay, delay);
   }
 
   private void accelerateTimer() {
-    endTimer();
+    timer.cancel();
     if (delay > 50) {
       delay -= 50;
     }
-    beginTimer();
+    initializeTimer();
   }
 }
