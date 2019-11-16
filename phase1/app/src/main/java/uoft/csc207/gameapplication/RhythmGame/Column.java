@@ -45,6 +45,7 @@ class Column extends Observable {
             // Removes off-screen notes
             if (note.getY() < 0) {
                 notes.remove(note);
+                setChanged();
                 notifyObservers(RhythmGamePointsSystem.NoteEvent.MISSED);
             }
         }
@@ -82,6 +83,7 @@ class Column extends Observable {
      * @return the number of points gained
      */
     void tap() {
+        setChanged();
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         for (int i = 0; i < notesCopy.size(); i++) {
             if (notes.get(i).getY() > target.getY() + target.getAllowedError()) break;

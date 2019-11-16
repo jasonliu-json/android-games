@@ -35,7 +35,8 @@ public class PersonalScoresActivity extends AppCompatActivity {
         loadPersonalScores();
 
         // hard coded for now
-        totalPointsText = getTotalPoints();
+//        totalPointsText = getTotalPoints();
+        totalPointsText = "";
         totalPointsText = "Total Points: \n" + totalPointsText;
 
         timePlayedText = getTimePlayed();
