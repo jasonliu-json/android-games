@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Piece generation class using the 7-Bag-Randomization algorithm.
  *
- * The 7-Bag-Randomization algorithm generates a sequence of all 7 pieces permuted randomly, as
+ * <p>The 7-Bag-Randomization algorithm generates a sequence of all 7 pieces permuted randomly, as
  * if they were drawn from a bag. All 7 pieces are then dealt before generating another bag. This
  * ensures that the player does not get an extremely long drought without a desired piece.
  */
@@ -37,23 +37,62 @@ class Randomizer {
       Collections.shuffle(bag);
       count = 0;
     }
+    String[][] states;
     switch (bag.get(count++)) {
       case 'I':
-        return new I();
+        states =
+            new String[][] {
+              {".....", ".....", "IIII.", ".....", "....."},
+              {"..I..", "..I..", "..I..", "..I..", "....."}
+            };
+        break;
       case 'J':
-        return new J();
+        states =
+            new String[][] {
+              {".....", ".J...", ".JJJ.", ".....", "....."},
+              {".....", "..JJ.", "..J..", "..J..", "....."},
+              {".....", ".....", ".JJJ.", "...J.", "....."},
+              {".....", "..J..", "..J..", ".JJ..", "....."}
+            };
+        break;
       case 'L':
-        return new L();
+        states =
+            new String[][] {
+              {".....", "...L.", ".LLL.", ".....", "....."},
+              {".....", "..L..", "..L..", "..LL.", "....."},
+              {".....", ".....", ".LLL.", ".L...", "....."},
+              {".....", ".LL..", "..L..", "..L..", "....."}
+            };
+        break;
       case 'O':
-        return new O();
+        states = new String[][] {{".....", ".OO..", ".OO..", ".....", "....."}};
+        break;
       case 'S':
-        return new S();
+        states =
+            new String[][] {
+              {".....", "..SS.", ".SS..", ".....", "....."},
+              {".....", ".S...", ".SS..", "..S..", "....."}
+            };
+        break;
       case 'Z':
-        return new Z();
+        states =
+            new String[][] {
+              {".....", ".ZZ..", "..ZZ.", ".....", "....."},
+              {"..Z..", ".ZZ..", ".Z...", ".....", "....."}
+            };
+        break;
       case 'T':
-        return new T();
+        states =
+            new String[][] {
+              {".....", "..T..", ".TTT.", ".....", "....."},
+              {".....", "..T..", "..TT.", "..T..", "....."},
+              {".....", ".....", ".TTT.", "..T..", "....."},
+              {".....", "..T..", ".TT..", "..T..", "....."}
+            };
+        break;
       default:
-        return null;
+        states = new String[][] {};
     }
+    return new Piece(3, -1, 0, states);
   }
 }
