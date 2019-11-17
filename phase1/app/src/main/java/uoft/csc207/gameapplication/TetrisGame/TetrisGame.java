@@ -1,6 +1,5 @@
 package uoft.csc207.gameapplication.TetrisGame;
 
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,6 +13,8 @@ class TetrisGame {
   private boolean gameIsOver;
   private int delay;
   private int points;
+  private int linesCleared;
+  private int threshold;
 
   TetrisGame(Board board, Randomizer randomizer) {
     this.board = board;
@@ -22,7 +23,17 @@ class TetrisGame {
     gameIsOver = false;
     delay = 800; // piece falls every 800 ms at first
     points = 0;
-    initializeTimer();
+    linesCleared = 0;
+    threshold = 10;
+    timer = new Timer();
+    TimerTask makePieceFall =
+            new TimerTask() {
+              @Override
+              public void run() {
+                TetrisGame.this.moveDown();
+              }
+            };
+    timer.scheduleAtFixedRate(makePieceFall, delay, delay);
   }
 
   Board getBoard() {
@@ -97,10 +108,11 @@ class TetrisGame {
   }
 
   private void reset() {
-    points += board.clearRows();
-//    if (points % 1500 == 0) { // increase acceleration every 1500 points
-//      accelerateTimer();
-//    }
+    linesCleared += board.clearLines();
+    if (linesCleared == threshold) {
+      accelerate();
+      threshold += 10; // increase acceleration every 10 lines
+    }
     fallingPiece = randomizer.nextPiece();
     if (board.canMove(fallingPiece, 0, 0)) {
       board.addPieceToBoard(fallingPiece);
@@ -110,23 +122,19 @@ class TetrisGame {
     }
   }
 
-  private void initializeTimer() {
-    timer = new Timer();
-    TimerTask makePieceFall =
-        new TimerTask() {
-          @Override
-          public void run() {
-            TetrisGame.this.moveDown();
-          }
-        };
-    timer.scheduleAtFixedRate(makePieceFall, delay, delay);
-  }
-
-  private void accelerateTimer() {
-    timer.cancel();
+  private void accelerate() {
     if (delay > 50) {
+      timer.cancel();
       delay -= 50;
+      timer = new Timer();
+      TimerTask makePieceFall =
+              new TimerTask() {
+                @Override
+                public void run() {
+                  TetrisGame.this.moveDown();
+                }
+              };
+      timer.scheduleAtFixedRate(makePieceFall, delay, delay);
     }
-    initializeTimer();
   }
 }
