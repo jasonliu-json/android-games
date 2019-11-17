@@ -19,7 +19,9 @@ public class TetrisGameDriver extends GameDriver {
     private TetrisGame tetrisGame;
 
     public TetrisGameDriver(Context context) {
-        tetrisGame = new TetrisGame();
+        Board board = new Board(10, 20);
+        Randomizer randomizer = new Randomizer();
+        tetrisGame = new TetrisGame(board, randomizer);
     }
 
     public void touchStart(float x, float y) {
@@ -41,13 +43,13 @@ public class TetrisGameDriver extends GameDriver {
                 int xDistance = (int) x - X;
                 int yDistance = (int) y - Y;
                 if (xDistance > 20) {
-                    tetrisGame.moveFallingPieceRight();
+                    tetrisGame.moveRight();
                 }
                 else if (xDistance < -20) {
-                    tetrisGame.moveFallingPieceLeft();
+                    tetrisGame.moveLeft();
                 }
                 else if (yDistance > 20) {
-                    tetrisGame.moveFallingPieceDown();
+                    tetrisGame.moveDown();
                 }
                 X = (int)x;
                 Y = (int)y;
@@ -58,7 +60,7 @@ public class TetrisGameDriver extends GameDriver {
     public void touchUp() {
         // nothing required here for screen movement
         if (Math.abs(X - Xinit) < 10 && Math.abs(Y - Yinit) < 10) {
-            tetrisGame.rotateFallingPieceClockwise();
+            tetrisGame.rotateClockwise();
         }
     }
 
@@ -111,7 +113,7 @@ public class TetrisGameDriver extends GameDriver {
         int height = (canvas.getWidth() / 12);
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
-                char block = board.getBoard()[i][k];
+                char block = board.getGrid()[i][k];
                 int x = k * width;
                 int y = i * height;
                 if (block != '.') {

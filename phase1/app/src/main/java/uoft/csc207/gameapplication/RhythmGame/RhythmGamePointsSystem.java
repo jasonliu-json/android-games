@@ -23,21 +23,28 @@ public class RhythmGamePointsSystem implements Observer {
             case PERFECT:
                 numPerfect++;
                 addPoints(10);
+        System.out.println("perfect -----");
                 break;
             case GREAT:
                 numGreat++;
                 addPoints(8);
+        System.out.println("great----");
                 break;
             case GOOD:
                 numGood++;
                 addPoints(5);
+        System.out.println("good------");
                 break;
             case BAD:
                 numBad++;
                 addPoints(-1);
+        System.out.println("bad----");
+                System.out.println(points);
                 break;
             case MISSED:
                 numMissed++;
+                System.out.println(points);
+        System.out.println("missed-----");
                 break;
             default:
                 System.out.println("Something is wrong");
