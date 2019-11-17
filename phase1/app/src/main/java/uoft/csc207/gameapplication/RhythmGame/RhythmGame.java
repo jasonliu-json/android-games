@@ -130,6 +130,8 @@ public class RhythmGame {
     private void gameOver() {
         setGameIsOver(true);
         // Ensures memory is released
+        noteIntervals.writeIntervalsToFile();
+
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
