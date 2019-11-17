@@ -32,7 +32,7 @@ public class RhythmGame {
 
 
     // lives should be 10; its really high for testing purposes
-    private int lives = 420;
+    private int lives = 10;
     private int noteGenerationPeriod = 1000;
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
 
