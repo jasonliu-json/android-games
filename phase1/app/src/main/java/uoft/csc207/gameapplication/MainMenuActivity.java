@@ -14,6 +14,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button playButton;
     private Button leaderboardButton;
     private Button scoreButton;
+    private Button customizeButton;
 
     private String username;
     @Override
@@ -23,6 +24,8 @@ public class MainMenuActivity extends AppCompatActivity {
         playButton = (Button) findViewById(R.id.play_button);
         leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
         scoreButton = (Button) findViewById(R.id.score_button);
+        customizeButton = (Button) findViewById(R.id.customize_button);
+
         username = getIntent().getExtras().getString("username");
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +53,14 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent personalScoresActivity = new Intent(MainMenuActivity.this, PersonalScoresActivity.class);
                 personalScoresActivity.putExtra("username", username);
                 startActivity(personalScoresActivity);
+            }
+        });
+
+        customizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent customizeActivity = new Intent(MainMenuActivity.this, CustomizeActivity.class);
+                startActivity(customizeActivity);
             }
         });
     }

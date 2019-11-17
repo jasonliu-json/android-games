@@ -7,4 +7,16 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="scores">Personal Scores</string>
     <string name="main_menu">Main Menu</string>
+    <string-array name="Shapes">
+        <item>L-Shape</item>
+        <item>Mirror L-Shape</item>
+        <item>O-Shape</item>
+        <item>S-Shape</item>
+        <item>Z-Shape</item>
+    </string-array>
+    <string-array name="Colours">
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Yellow</item>
+    </string-array>
 </resources>
