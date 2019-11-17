@@ -28,11 +28,17 @@ public class RhythmGame {
 //    private HashMap<String, Integer> stats;
 //    private int points = 0;
 //    private int numNotesMissed = 0;
+
+
+
+    // lives should be 10; its really high for testing purposes
     private int lives = 10;
     private int noteGenerationPeriod = 1000;
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
 
     private boolean gameIsOver = false;
+
+    private NoteIntervals noteIntervals;
 
     /**
      * Constructs the Rhythm game
@@ -43,6 +49,7 @@ public class RhythmGame {
         this.context = context;
         this.numColumns = numColumns;
         pointsSystem = new RhythmGamePointsSystem();
+        noteIntervals = new NoteIntervals();
 
         // Creates each column of the game
         columns = new Column[numColumns];
@@ -123,6 +130,8 @@ public class RhythmGame {
     private void gameOver() {
         setGameIsOver(true);
         // Ensures memory is released
+        noteIntervals.writeIntervalsToFile();
+
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
@@ -133,6 +142,9 @@ public class RhythmGame {
      * @param colNumber the number of the column
      */
     void tap(int colNumber) {
+
+        noteIntervals.click();
+
         if (!getGameIsOver()) {
             columns[colNumber].tap();
         }
