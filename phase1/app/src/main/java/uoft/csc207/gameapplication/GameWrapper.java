@@ -67,6 +67,7 @@ public class GameWrapper {
      * @param canvas the canvas to draw the game on
      */
     void draw(Canvas canvas) {
+
         int currentGamePoints = gameDriver.getPoints();
         if (gameDriver.getGameIsOver()) {
             gamesPlayed += 1;

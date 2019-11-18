@@ -39,11 +39,11 @@ public class RhythmGamePointsSystem implements Observer {
                 numBad++;
                 addPoints(-1);
         System.out.println("bad----");
-                System.out.println(points);
+                System.out.println("score:" + points);
                 break;
             case MISSED:
                 numMissed++;
-                System.out.println(points);
+                addPoints(-1);
         System.out.println("missed-----");
                 break;
             default:

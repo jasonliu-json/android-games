@@ -29,6 +29,8 @@ public class RhythmGame {
 //    private int points = 0;
 //    private int numNotesMissed = 0;
 
+    private IntervalsGenerator intervalsGenerator;
+
 
 
     // lives should be 10; its really high for testing purposes
@@ -50,6 +52,7 @@ public class RhythmGame {
         this.numColumns = numColumns;
         pointsSystem = new RhythmGamePointsSystem();
         noteIntervals = new NoteIntervals();
+        intervalsGenerator = new IntervalsGenerator();
 
         // Creates each column of the game
         columns = new Column[numColumns];
@@ -61,6 +64,7 @@ public class RhythmGame {
         // Starts song
         mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
         mediaPlayer.start();
+        mediaPlayer.setLooping(true);
 
         startTime = System.currentTimeMillis();
 

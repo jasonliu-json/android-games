@@ -16,6 +16,8 @@ public class NoteIntervals {
     private Long previousClickTime;
     private PrintWriter writer;
     public static File intervalsFile = new File("Intervals.csv");
+    private ArrayList<Integer> intervalsArray;
+    private Integer firstInterval;
 
 
     public NoteIntervals(){
@@ -23,6 +25,8 @@ public class NoteIntervals {
         previousClickTime = startTime;
         clickIntervals = new ArrayList<>();
         clickTimes = new ArrayList<>();
+        firstInterval = calculateFirstInterval();
+
         try (PrintWriter writer = new PrintWriter(intervalsFile)) {
 
         } catch (FileNotFoundException e) {
@@ -61,6 +65,19 @@ public class NoteIntervals {
         Object[] objArr = arr.toArray();
         String[] str = Arrays.copyOf(objArr, objArr.length, String[].class);
         return str;
+    }
+
+    public Integer calculateFirstInterval() {
+        return firstInterval;
+    }
+
+    public ArrayList<Integer> convertFileToArray(File file) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(firstInterval);
+
+
+        // add stuff from the csv
+        return list;
     }
 
 //
