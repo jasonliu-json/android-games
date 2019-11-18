@@ -3,7 +3,9 @@ package uoft.csc207.gameapplication.RhythmGame;
 import android.accounts.AbstractAccountAuthenticator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +14,8 @@ public class NoteIntervals {
     private ArrayList<Long> clickTimes;
     private Long startTime;
     private Long previousClickTime;
-    private CsvWriter csvWriter;
+    private PrintWriter writer;
+    public static File intervalsFile = new File("Intervals.csv");
 
 
     public NoteIntervals(){
@@ -20,8 +23,11 @@ public class NoteIntervals {
         previousClickTime = startTime;
         clickIntervals = new ArrayList<>();
         clickTimes = new ArrayList<>();
-        csvWriter = new CsvWriter();
+        try (PrintWriter writer = new PrintWriter(intervalsFile)) {
 
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -39,8 +45,15 @@ public class NoteIntervals {
 
     public void writeIntervalsToFile() {
         String [] intervalsList = arrayListToStringArray(clickIntervals);
-        csvWriter.writeToFile(intervalsList);
+        StringBuilder sb = new StringBuilder();
 
+        for (int i=0; i<intervalsList.length; i++) {
+            sb.append(intervalsList[i]);
+            sb.append(", ");
+        }
+        sb.append('\n');
+        writer.write(sb.toString());
+        System.out.println("done!");
     }
 
     public static String[] arrayListToStringArray(ArrayList<Long> arr)
@@ -49,6 +62,29 @@ public class NoteIntervals {
         String[] str = Arrays.copyOf(objArr, objArr.length, String[].class);
         return str;
     }
+
+//
+//    public static void writeToFile(String[] args) {
+//
+//        try (PrintWriter writer = new PrintWriter(intervalsFile)) {
+//
+//            StringBuilder sb = new StringBuilder();
+//
+//            for (int i=0; i<args.length; i++) {
+//                sb.append(args[i]);
+//                sb.append(", ");
+//            }
+//            sb.append('\n');
+//
+//            writer.write(sb.toString());
+//
+//            System.out.println("done!");
+//
+//        } catch (FileNotFoundException e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//    }
 
 }
 
