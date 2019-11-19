@@ -1,7 +1,6 @@
 package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGame;
 
 import android.content.Intent;
 import android.os.Bundle;

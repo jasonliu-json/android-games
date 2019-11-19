@@ -1,6 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame;
-
-import android.util.Pair;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -33,7 +31,6 @@ class Column extends Observable {
 
     /**
      * Updates the state of the game.
-     * @return the amount of points to change (first) and number of notes missed (second)
      */
     void update() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
@@ -80,7 +77,6 @@ class Column extends Observable {
     /**
      * Checks if any notes are in the target.
      * Pre-condition: the notes are sorted in ascending order of y-value.
-     * @return the number of points gained
      */
     void tap() {
         setChanged();

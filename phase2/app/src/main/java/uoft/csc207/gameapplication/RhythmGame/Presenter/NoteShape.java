@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.Presenter;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,7 +7,7 @@ import android.graphics.RectF;
 /**
  * A shape where (0, 0) is the top left corner
  */
-class NoteShape {
+public class NoteShape {
     private TetrominoShape tetroShape;
     private float scale;
     private RectF[] figure;
@@ -16,7 +16,7 @@ class NoteShape {
      * Constructs a note shape based on a tetromino
      * @param tetroShape the tetromine shape
      */
-    NoteShape(TetrominoShape tetroShape) {
+    public NoteShape(TetrominoShape tetroShape) {
         this.tetroShape = tetroShape;
         this.setScale(1);
     }
@@ -61,7 +61,7 @@ class NoteShape {
      *
      * @param sc scaling factor
      */
-    void setScale(float sc) {
+    public void setScale(float sc) {
         this.scale = sc;
         RectF[] figureToRescale = tetroShape.getCopyOfUnitFigure();
         for (RectF r : figureToRescale) {

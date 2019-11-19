@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 /**
  * A note in the game.

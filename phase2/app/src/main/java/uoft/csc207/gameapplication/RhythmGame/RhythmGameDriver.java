@@ -9,10 +9,16 @@ import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.List;
 
 import uoft.csc207.gameapplication.GameDriver;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.Note;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameMessage;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.Target;
+import uoft.csc207.gameapplication.RhythmGame.Presenter.NoteShape;
+import uoft.csc207.gameapplication.RhythmGame.Presenter.Tetromino;
+import uoft.csc207.gameapplication.RhythmGame.Presenter.TetrominoShape;
 
 /**
  * The driver for Rhythm Game.
@@ -63,7 +69,7 @@ public class RhythmGameDriver extends GameDriver {
 
         // add 3 times note scale, so when the note reaches 0,
         // the graphic representation of the note is completely offscreen
-        heightRatio = (float) (screenHeight + 3 * noteScale) / rhythmGame.getGameHeight();
+        heightRatio = (screenHeight + 3 * noteScale) / rhythmGame.getGameHeight();
         bitmap = Bitmap.createBitmap(screenWidth,
                 screenHeight + 3 * (int) Math.ceil(noteScale), Bitmap.Config.ARGB_8888);
         newCanvas = new Canvas(bitmap);
@@ -129,7 +135,7 @@ public class RhythmGameDriver extends GameDriver {
      * Update the game state.
      */
     void update() {
-        rhythmGame.update();
+        rhythmGame.timeUpdate();
     }
 
     /**
@@ -137,13 +143,13 @@ public class RhythmGameDriver extends GameDriver {
      * @param canvas the canvas to draw on.
      */
     public void draw(Canvas canvas) {
-        rhythmGame.update();
+        rhythmGame.timeUpdate();
         newCanvas.save();
         newCanvas.drawColor(Color.WHITE);
 
-        Target[] targets = rhythmGame.targetsToDraw();
-        SparseArray<ArrayList<Note>> notesMap = rhythmGame.notesToDraw();
-        RhythmGameMessage[] messages = rhythmGame.messagesToDraw();
+        Target[] targets = rhythmGame.getAllTargets();
+        SparseArray<List<Note>> notesMap = rhythmGame.getAllNotes();
+        RhythmGameMessage[] messages = rhythmGame.getMessages();
 
         for (int i = 0; i < numColumns; i++) {
             NoteShape scalableCopy = colUnitNoteShapes[i].clone();
@@ -151,15 +157,13 @@ public class RhythmGameDriver extends GameDriver {
             Target target = targets[i];
             scalableCopy.setScale(targetScale);
             // centre the target in the column
-            float xTarget = (1 - targetWidthRatio) * colWidthRatio / 2 + i * colSize;
-            xTarget = i * colSize + (float) 0.5 * colSize - targetScale;
+            float xTarget = i * colSize + (float) 0.5 * colSize - targetScale;
             scalableCopy.draw(newCanvas, xTarget, target.getY() * heightRatio, targetPaint);
 
-            ArrayList<Note> notes = notesMap.get(i);
+            List<Note> notes = notesMap.get(i);
             scalableCopy.setScale(noteScale);
             // centre the target in the column
-            float xNote = (1 - noteWidthRatio) * colWidthRatio / 2 + i * colSize;
-            xNote = i * colSize + (float) 0.5 * colSize - noteScale;
+            float xNote = i * colSize + (float) 0.5 * colSize - noteScale;
             for (Note note : notes) {
                 scalableCopy.draw(newCanvas, xNote, note.getY() * heightRatio, columnPaints[i]);
             }
@@ -180,7 +184,7 @@ public class RhythmGameDriver extends GameDriver {
     }
 
     public boolean getGameIsOver() {
-        return rhythmGame.getGameIsOver();
+        return rhythmGame.getIsGameOver();
     }
 
     public int getPoints() {

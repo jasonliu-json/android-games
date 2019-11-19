@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.Presenter;
 
 /**
  * A shape where (0, 0) is the top left corner, and is defined by unit lengths

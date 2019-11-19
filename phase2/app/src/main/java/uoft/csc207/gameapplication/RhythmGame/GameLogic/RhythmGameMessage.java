@@ -1,6 +1,6 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
-class RhythmGameMessage {
+public class RhythmGameMessage {
 
     private String message;
 
@@ -11,7 +11,7 @@ class RhythmGameMessage {
         this.message = msg;
     }
 
-    String getMessage() {
+    public String getMessage() {
         return message;
     }
 

@@ -1,19 +1,19 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import android.media.MediaPlayer;
-import android.util.Pair;
 import android.util.SparseArray;
 
+import uoft.csc207.gameapplication.GameLogic;
 import uoft.csc207.gameapplication.R;
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
-public class RhythmGame {
+public class RhythmGame extends GameLogic {
     private Context context;
     private int gameHeight = 100;
     private int numColumns = 4;
@@ -25,22 +25,19 @@ public class RhythmGame {
 
     // Key: hit type, Value: number of times
     private RhythmGamePointsSystem pointsSystem;
-//    private HashMap<String, Integer> stats;
+    //    private HashMap<String, Integer> stats;
 //    private int points = 0;
 //    private int numNotesMissed = 0;
-
-    private IntervalsGenerator intervalsGenerator;
-
-
-
-    // lives should be 10; its really high for testing purposes
     private int lives = 10;
     private int noteGenerationPeriod = 1000;
+
+    public int getNumColumns() {
+        return numColumns;
+    }
+
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
 
-    private boolean gameIsOver = false;
-
-    private NoteIntervals noteIntervals;
+    private boolean isGameOver = false;
 
     /**
      * Constructs the Rhythm game
@@ -51,8 +48,6 @@ public class RhythmGame {
         this.context = context;
         this.numColumns = numColumns;
         pointsSystem = new RhythmGamePointsSystem();
-        noteIntervals = new NoteIntervals();
-        intervalsGenerator = new IntervalsGenerator();
 
         // Creates each column of the game
         columns = new Column[numColumns];
@@ -61,20 +56,22 @@ public class RhythmGame {
         }
 
         setDifficulty(Difficulty.EASY);
+        start();
+    }
+
+    public void start() {
         // Starts song
         mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
         mediaPlayer.start();
-        mediaPlayer.setLooping(true);
 
         startTime = System.currentTimeMillis();
+    }
 
-
-
-//        stats = new HashMap<>();
-//        stats.put("Perfect!", 0);
-//        stats.put("Great!", 0);
-//        stats.put("Good!", 0);
-//        stats.put("Bad Hit!", 0);
+    public void stop() {
+        // Stope song
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 
     /**
@@ -105,7 +102,7 @@ public class RhythmGame {
     /**
      * Updates the game
      */
-    void update() {
+    public void timeUpdate() {
 
         // Updates points based on missed notes
         for (int i = 0; i < numColumns; i++) {
@@ -129,27 +126,10 @@ public class RhythmGame {
     }
 
     /**
-     * Ends the game.
-     */
-    private void gameOver() {
-        setGameIsOver(true);
-        // Ensures memory is released
-
-//        noteIntervals.writeIntervalsToFile();
-
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
-    }
-
-    /**
      * Taps the column and updates statistics the games' statistics.
      * @param colNumber the number of the column
      */
-    void tap(int colNumber) {
-
-        noteIntervals.click();
-
+    public void tap(int colNumber) {
         if (!getGameIsOver()) {
             columns[colNumber].tap();
         }
@@ -159,7 +139,7 @@ public class RhythmGame {
      * Returns a list of messages, one in each column
      * @return a list of RhythmGameMessages where the index is the column number
      */
-    RhythmGameMessage[] messagesToDraw() {
+    public RhythmGameMessage[] getMessages() {
         RhythmGameMessage[] messages = new RhythmGameMessage[numColumns];
         for (int i = 0; i < numColumns; i++) messages[i] = columns[i].getMessage();
         return messages;
@@ -169,7 +149,7 @@ public class RhythmGame {
      * Returns a list of targets, one in each column
      * @return a list of Targets where the index is the column number
      */
-    Target[] targetsToDraw() {
+    public Target[] getAllTargets() {
         Target[] targets = new Target[numColumns];
         for (int i = 0; i < numColumns; i++) targets[i] = columns[i].getTarget();
         return targets;
@@ -179,30 +159,49 @@ public class RhythmGame {
      * Returns a list of a list of notes, one list in each column
      * @return a sparseArray, where the key is the column number
      */
-    SparseArray<ArrayList<Note>> notesToDraw() {
-        SparseArray<ArrayList<Note>> notesMap = new SparseArray<>();
-        for (int i = 0; i < numColumns; i++) notesMap.put(i, columns[i].getNotes());
+    public SparseArray<List<Note>> getAllNotes() {
+        SparseArray<List<Note>> notesMap = new SparseArray<>();
+        for (int i = 0; i < numColumns; i++) {
+            List<Note> copy = new ArrayList<>(columns[i].getNotes());
+            notesMap.put(i, copy);
+        }
         return notesMap;
     }
 
-    int getGameHeight() {
+    public int getGameHeight() {
         return gameHeight;
     }
 
-    int getNumMissed() {
+    public int getNumMissed() {
         return pointsSystem.getNumMissed();
     }
 
+    /**
+     * Ends the game.
+     */
+    private void gameOver() {
+        setGameIsOver(true);
+        stop();
+
+//        setChanged();
+//        notifyObservers("Game is over.");
+    }
+
     boolean getGameIsOver() {
-        return gameIsOver;
+        return isGameOver;
     }
 
     public void setGameIsOver(boolean gameOver) {
-        gameIsOver = gameOver;
+        isGameOver = gameOver;
     }
 
-    int getPoints() {
+    public int getPoints() {
         return pointsSystem.getPoints();
+    }
+
+    @Override
+    public boolean getIsGameOver() {
+        return isGameOver;
     }
 
 //    public void setPoints(int points) {

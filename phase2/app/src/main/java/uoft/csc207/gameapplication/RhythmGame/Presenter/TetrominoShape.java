@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.Presenter;
 
 import android.graphics.RectF;
 

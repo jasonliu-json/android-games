@@ -1,9 +1,9 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 /**
  * The target of a column.
  */
-class Target {
+public class Target {
     private int y;
     private int allowedError;
 

@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import android.util.Pair;
 
@@ -8,7 +8,7 @@ import java.util.Observer;
 import java.util.Timer;
 
 public class RhythmGamePointsSystem implements Observer {
-    public enum NoteEvent {PERFECT, GREAT, GOOD, BAD, MISSED};
+    public enum NoteEvent {PERFECT, GREAT, GOOD, BAD, MISSED}
 
     private int numPerfect, numGreat, numGood, numBad, numMissed = 0;
     private int points = 0;
@@ -39,11 +39,11 @@ public class RhythmGamePointsSystem implements Observer {
                 numBad++;
                 addPoints(-1);
         System.out.println("bad----");
-                System.out.println("score:" + points);
+                System.out.println(points);
                 break;
             case MISSED:
                 numMissed++;
-                addPoints(-1);
+                System.out.println(points);
         System.out.println("missed-----");
                 break;
             default:
