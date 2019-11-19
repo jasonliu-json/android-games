@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public abstract class GamePresenter {
-    private int screenHeight, screenWidth;
+    private int screenWidth, screenHeight;
 
     private Bitmap bitmap;
     private Canvas bitCanvas;
@@ -18,12 +18,12 @@ public abstract class GamePresenter {
 
     public abstract void draw(Canvas canvas);
 
-    public int getScreenHeight() {
-        return screenHeight;
-    }
-
     public int getScreenWidth() {
         return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
     }
 
     public Bitmap getBitmap(){return bitmap;}

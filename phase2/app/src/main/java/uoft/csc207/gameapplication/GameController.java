@@ -4,12 +4,11 @@ package uoft.csc207.gameapplication;
  *
  */
 public abstract class GameController {
-    private int screenHeight;
-    private int screenWidth;
+    private int screenWidth, screenHeight;
 
-    public void init(int screenHeight, int screenWidth) {
-        this.screenHeight = screenHeight;
+    public void init(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     /**
