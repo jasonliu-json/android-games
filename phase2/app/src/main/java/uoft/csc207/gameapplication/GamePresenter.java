@@ -3,6 +3,10 @@ package uoft.csc207.gameapplication;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+
+/**
+ * Presents the game to the player, by drawing to canvas.
+ */
 public abstract class GamePresenter {
     private int screenWidth, screenHeight;
 

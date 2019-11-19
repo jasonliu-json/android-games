@@ -1,7 +1,7 @@
 package uoft.csc207.gameapplication;
 
 /**
- *
+ * Takes in touch inputs so the player can interact with the game.
  */
 public abstract class GameController {
     private int screenWidth, screenHeight;
