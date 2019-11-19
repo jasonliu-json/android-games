@@ -12,18 +12,18 @@ import java.util.TimerTask;
  * Is a GameDriver that delegates tasks to the game logic, controller, and presenter.
  */
 public class ControllerPresenterDriver extends GameDriver{
-    GameLogic gameLogic;
-    GameController controller;
-    GamePresenter presenter;
+    private GameLogic gameLogic;
+    private GameController controller;
+    private GamePresenter presenter;
 
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            timeUpdate();
-        }
-    };
-
-    Timer timer = new Timer();
+//    TimerTask task = new TimerTask() {
+//        @Override
+//        public void run() {
+//            timeUpdate();
+//        }
+//    };
+//
+//    Timer timer = new Timer();
     // Screen Dimensions
     private int screenWidth, screenHeight;
 
@@ -74,14 +74,14 @@ public class ControllerPresenterDriver extends GameDriver{
     public void start() {
 //        gameLogic.start();
 //        presenter.start();
-        timer.scheduleAtFixedRate(task, 0, 60);
+//        timer.scheduleAtFixedRate(task, 0, 60);
     }
 
     public void stop() {
 //        gameLogic.stop();
 //        presenter.stop();
-        timer.cancel();
-        timer.purge();
+//        timer.cancel();
+//        timer.purge();
     }
 
     public void timeUpdate() {
