@@ -3,11 +3,8 @@ package uoft.csc207.gameapplication.RhythmGame;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
-import android.util.Pair;
 import android.util.SparseArray;
 
 import uoft.csc207.gameapplication.R;
@@ -142,7 +139,7 @@ public class RhythmGame {
         setGameIsOver(true);
         // Ensures memory is released
 
-        noteIntervals.writeIntervalsToFile();
+//        noteIntervals.writeIntervalsToFile();
 
         mediaPlayer.stop();
         mediaPlayer.release();
@@ -155,7 +152,7 @@ public class RhythmGame {
      */
     void tap(int colNumber) {
 
-        noteIntervals.click();
+//        noteIntervals.click();
 
         if (!getGameIsOver()) {
             columns[colNumber].tap();

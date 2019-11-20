@@ -4,83 +4,68 @@ import android.accounts.AbstractAccountAuthenticator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class NoteIntervals {
     private ArrayList<Long> clickIntervals;
     private ArrayList<Long> clickTimes;
-    private Long startTime;
-    private Long previousClickTime;
-    private PrintWriter writer;
-    private String filePath = "/Users/jason-pc/Documents/groupproject/phase1/app/src/main/java/uoft/csc207/gameapplication/RhythmGame/Intervals.csv";
+    public static String filePath = "intervals.csv";
     public File intervalsFile = new File(filePath);
     private ArrayList<Integer> intervalsArray;
-    private Integer firstInterval;
+    private Long firstInterval;
 
 
     public NoteIntervals(){
-        startTime = System.currentTimeMillis();
-        previousClickTime = startTime;
-        clickIntervals = new ArrayList<>();
+        clickIntervals = generateIntervalsArray(intervalsFile);
         clickTimes = new ArrayList<>();
         firstInterval = calculateFirstInterval();
 
-        try (PrintWriter writer = new PrintWriter(intervalsFile)) {
-
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
 
     }
 
-    public void click() {
+//
+//    public static String[] arrayListToStringArray(ArrayList<Long> arr)
+//    {
+//        Object[] objArr = arr.toArray();
+//        String[] str = Arrays.copyOf(objArr, objArr.length, String[].class);
+//        return str;
+//    }
 
-        Long currentTime = System.currentTimeMillis();
-        clickTimes.add(currentTime);
-        clickIntervals.add(currentTime - previousClickTime);
-        previousClickTime = currentTime;
-
-    System.out.println("click times:" + clickTimes);
-    System.out.println("click intervals:" + clickIntervals);
-
-    }
-
-    public void writeIntervalsToFile() {
-        String [] intervalsList = arrayListToStringArray(clickIntervals);
-        StringBuilder sb = new StringBuilder();
-
-        for (String s : intervalsList) {
-            sb.append(s);
-            sb.append(", ");
-        }
-        sb.append('\n');
-
-//        writer.write(sb.toString());
-
-
-        System.out.println("done!");
-    }
-
-    public static String[] arrayListToStringArray(ArrayList<Long> arr)
-    {
-        Object[] objArr = arr.toArray();
-        String[] str = Arrays.copyOf(objArr, objArr.length, String[].class);
-        return str;
-    }
-
-    public Integer calculateFirstInterval() {
+    public Long calculateFirstInterval() {
         return firstInterval;
     }
 
-    public ArrayList<Integer> convertFileToArray(File file) {
-        ArrayList<Integer> list = new ArrayList<>();
+    public ArrayList<Long> generateIntervalsArray(File file) {
+        ArrayList<Long> list = new ArrayList<>();
         list.add(firstInterval);
 
-        // add stuff from the csv
+        String csvFile = filePath;
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            for (String s: br.readLine().split(",")) {
+                list.add(Long.valueOf(s));
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         return list;
+
+
     }
 
 //
