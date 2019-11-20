@@ -15,7 +15,8 @@ public class NoteIntervals {
     private Long startTime;
     private Long previousClickTime;
     private PrintWriter writer;
-    public static File intervalsFile = new File("Intervals.csv");
+    private String filePath = "/Users/jason-pc/Documents/groupproject/phase1/app/src/main/java/uoft/csc207/gameapplication/RhythmGame/Intervals.csv";
+    public File intervalsFile = new File(filePath);
     private ArrayList<Integer> intervalsArray;
     private Integer firstInterval;
 
@@ -51,12 +52,15 @@ public class NoteIntervals {
         String [] intervalsList = arrayListToStringArray(clickIntervals);
         StringBuilder sb = new StringBuilder();
 
-        for (int i=0; i<intervalsList.length; i++) {
-            sb.append(intervalsList[i]);
+        for (String s : intervalsList) {
+            sb.append(s);
             sb.append(", ");
         }
         sb.append('\n');
-        writer.write(sb.toString());
+
+//        writer.write(sb.toString());
+
+
         System.out.println("done!");
     }
 
@@ -74,7 +78,6 @@ public class NoteIntervals {
     public ArrayList<Integer> convertFileToArray(File file) {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(firstInterval);
-
 
         // add stuff from the csv
         return list;
@@ -97,9 +100,7 @@ public class NoteIntervals {
 //
 //            System.out.println("done!");
 //
-//        } catch (FileNotFoundException e) {
-//            System.out.println(e.getMessage());
-//        }
+//
 //
 //    }
 

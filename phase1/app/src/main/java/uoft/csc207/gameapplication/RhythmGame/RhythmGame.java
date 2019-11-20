@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.util.Pair;
 import android.util.SparseArray;
 
@@ -62,20 +63,14 @@ public class RhythmGame {
 
         setDifficulty(Difficulty.EASY);
         // Starts song
-        mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+        mediaPlayer = generateMediaPlayer("mii channel");
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
         startTime = System.currentTimeMillis();
 
-
-
-//        stats = new HashMap<>();
-//        stats.put("Perfect!", 0);
-//        stats.put("Great!", 0);
-//        stats.put("Good!", 0);
-//        stats.put("Bad Hit!", 0);
     }
+
 
     /**
      * Sets the difficulty of the game by generating notes more or less frequently
@@ -101,6 +96,18 @@ public class RhythmGame {
                 break;
         }
     }
+
+    private MediaPlayer generateMediaPlayer(String song) {
+        switch(song) {
+            case "Old Town Road":
+                return MediaPlayer.create(context, R.raw.old_town_road);
+            case "Mii Channel":
+                return MediaPlayer.create(context, R.raw.mii_channel);
+            default:
+                return MediaPlayer.create(context, R.raw.old_town_road);
+        }
+    }
+
 
     /**
      * Updates the game
@@ -135,7 +142,7 @@ public class RhythmGame {
         setGameIsOver(true);
         // Ensures memory is released
 
-//        noteIntervals.writeIntervalsToFile();
+        noteIntervals.writeIntervalsToFile();
 
         mediaPlayer.stop();
         mediaPlayer.release();
