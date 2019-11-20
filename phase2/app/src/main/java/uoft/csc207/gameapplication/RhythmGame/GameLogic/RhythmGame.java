@@ -11,6 +11,7 @@ import android.util.SparseArray;
 import uoft.csc207.gameapplication.GameLogic;
 import uoft.csc207.gameapplication.R;
 
+
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
 public class RhythmGame extends GameLogic {
@@ -25,6 +26,7 @@ public class RhythmGame extends GameLogic {
 
     // Key: hit type, Value: number of times
     private RhythmGamePointsSystem pointsSystem;
+    private NoteIntervals noteIntervals;
     //    private HashMap<String, Integer> stats;
 //    private int points = 0;
 //    private int numNotesMissed = 0;
@@ -48,6 +50,8 @@ public class RhythmGame extends GameLogic {
         this.context = context;
         this.numColumns = numColumns;
         pointsSystem = new RhythmGamePointsSystem();
+        noteIntervals = new NoteIntervals();
+        mediaPlayer = createMediaPlayer("Mii Channel");
 
         // Creates each column of the game
         columns = new Column[numColumns];
@@ -55,20 +59,24 @@ public class RhythmGame extends GameLogic {
             columns[i] = new Column(gameHeight, i, pointsSystem);
         }
 
+
+
+
+
         setDifficulty(Difficulty.EASY);
         start();
     }
 
     public void start() {
         // Starts song
-        mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+//        mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
         mediaPlayer.start();
 
         startTime = System.currentTimeMillis();
     }
 
     public void stop() {
-        // Stope song
+
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
@@ -96,6 +104,17 @@ public class RhythmGame extends GameLogic {
             default:
                 noteGenerationPeriod = 1000;
                 break;
+        }
+    }
+
+    private MediaPlayer createMediaPlayer(String song) {
+        switch (song) {
+            case "Old Town Road":
+                return MediaPlayer.create(context, R.raw.old_town_road);
+            case "Mii Channel":
+                return MediaPlayer.create(context, R.raw.mii_channel);
+            default:
+                return MediaPlayer.create(context, R.raw.old_town_road);
         }
     }
 
