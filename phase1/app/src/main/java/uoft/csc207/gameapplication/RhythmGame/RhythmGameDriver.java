@@ -9,8 +9,6 @@ import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import uoft.csc207.gameapplication.GameDriver;
 
@@ -41,7 +39,7 @@ public class RhythmGameDriver extends GameDriver {
 
     public RhythmGameDriver(Context context) {
         super();
-        rhythmGame = new RhythmGame(context, numColumns);
+        rhythmGame = new RhythmGameBuilder().setContext(context).setNumColumns(numColumns).createRhythmGame();
         setTheme();
     }
 

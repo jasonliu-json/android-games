@@ -63,7 +63,7 @@ public class RhythmGame {
 
         setDifficulty(Difficulty.EASY);
         // Starts song
-        mediaPlayer = generateMediaPlayer("mii channel");
+        mediaPlayer = generateMediaPlayer("Mii Channel");
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
