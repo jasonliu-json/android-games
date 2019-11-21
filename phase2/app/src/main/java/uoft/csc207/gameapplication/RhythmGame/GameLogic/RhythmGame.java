@@ -144,6 +144,8 @@ public class RhythmGame extends GameLogic {
         }
     }
 
+    // hi
+
     /**
      * Taps the column and updates statistics the games' statistics.
      * @param colNumber the number of the column
