@@ -59,10 +59,10 @@ public class JSONFileRW {
         return null;
     }
 
-    public void write(String jsonText) {
+    public void write(String jsonString) {
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(file_name, Context.MODE_PRIVATE);
-            fileOutputStream.write(jsonText.getBytes());
+            fileOutputStream.write(jsonString.getBytes());
             fileOutputStream.close();
         }
         catch (FileNotFoundException e) {

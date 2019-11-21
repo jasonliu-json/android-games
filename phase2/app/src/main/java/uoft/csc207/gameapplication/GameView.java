@@ -1,7 +1,6 @@
 package uoft.csc207.gameapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -23,18 +22,25 @@ public class GameView extends View {
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.gameWrapperDriver = new GameWrapperDriver(context);
+    }
 
+    public void start() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                invalidate();
                 if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
-                    timer.cancel();
-                    timer.purge();
+                    stop();
+                } else {
+                    invalidate();
                 }
             }
         }, 0, 30);
+    }
+
+    public void stop() {
+        timer.cancel();
+        timer.purge();
     }
 
     public void init(DisplayMetrics metrics) {

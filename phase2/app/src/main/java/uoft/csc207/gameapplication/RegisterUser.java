@@ -1,6 +1,5 @@
 package uoft.csc207.gameapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,13 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class RegisterUser extends AppCompatActivity {
     private Button registerButton;
     private EditText emailInput;
@@ -29,7 +21,8 @@ public class RegisterUser extends AppCompatActivity {
     private EditText passwordConfirmationInput;
 
     private static final String FILE = "UserData.json";
-    private JSONObject jsonObject;
+    private JSONFileRW fileRW;
+    private JSONObject database;
 
     String registerEmail;
     String registerUsername;
@@ -45,9 +38,9 @@ public class RegisterUser extends AppCompatActivity {
         usernameInput = (EditText) findViewById(R.id.register_username);
         passwordInput = (EditText) findViewById(R.id.register_password);
         passwordConfirmationInput = (EditText) findViewById(R.id.register_password_confirmation);
-        load();
 
-
+        fileRW = new JSONFileRW(FILE, this);
+        database = fileRW.load();
 
         // The on register button
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +66,7 @@ public class RegisterUser extends AppCompatActivity {
                 }
                 else if (validUser()) {
                     register();
-                    Intent gameActivity = new Intent(RegisterUser.this,
-                                                     Login.class);
-                    startActivity(gameActivity);
+                    finish();
                 }
             }
         });
@@ -87,7 +78,7 @@ public class RegisterUser extends AppCompatActivity {
     private void register() {
         try {
             JSONObject newUser = new JSONObject();
-            JSONArray userdata = jsonObject.getJSONArray("users");
+            JSONArray userdata = database.getJSONArray("users");
             // sets the user data
             Integer userId = userdata.length();
             newUser.put("userId", userId.toString());
@@ -109,7 +100,8 @@ public class RegisterUser extends AppCompatActivity {
             newUser.put("timePlayed", "0");
             // finally logs data
             userdata.put(newUser);
-            save();
+
+            fileRW.write(database.toString());
             showToast("Successfully Registered");
         }
         catch (JSONException e) {
@@ -123,7 +115,7 @@ public class RegisterUser extends AppCompatActivity {
     private boolean validUser() {
         JSONArray userdata;
         try {
-            userdata = jsonObject.getJSONArray("users");
+            userdata = database.getJSONArray("users");
             for (int i = 0; i < userdata.length(); i++) {
                 JSONObject user = userdata.getJSONObject(i);
                 boolean sameEmail = user.getString("email").equals(registerEmail);
@@ -146,61 +138,11 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     /**
-     * Writes the new modified json to android memory
-     */
-    private void save() {
-        String jsonText = jsonObject.toString();
-        try {
-            FileOutputStream fileOutputStream = openFileOutput(FILE, MODE_PRIVATE);
-            fileOutputStream.write(jsonText.getBytes());
-            fileOutputStream.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * loads the json file from memory or from assets
-     */
-    private void load() {
-        try {
-            int i = 0;
-            String jsonString = "";
-            try {
-                FileInputStream fileInputStream = openFileInput(FILE);
-                while ((i = fileInputStream.read()) != -1) {
-                    jsonString += (char) i;
-                }
-            }
-            catch (FileNotFoundException e) {
-                BufferedReader bufferReader = new BufferedReader(
-                        new InputStreamReader(getAssets().open(FILE)));
-                while ((i = bufferReader.read()) != -1) {
-                    jsonString += (char) i;
-                }
-            }
-            jsonObject = new JSONObject(jsonString);
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();;
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Displays the text on screen
      * @param text a text to be displayed on screen
      */
     private void showToast(String text) {
         Toast.makeText(RegisterUser.this, text, Toast.LENGTH_LONG).show();
     }
+
 }

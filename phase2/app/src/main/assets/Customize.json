@@ -1,15 +1,14 @@
 {
-  "shapes": {
-    "1": "Mirror L-Shaped",
-    "2": "O-Shape",
-    "3": "O-Shape",
-    "4": "L-Shape"
+  "tetris":{
+    "controls": "Screen"
   },
-  "colours": {
-    "1": "Blue",
-    "2": "Blue",
-    "3": "Blue",
-    "4": "Blue"
+  "rhythm": {
+      "shape1": "J",
+      "shape2": "O",
+      "shape3": "O",
+      "shape4": "L"
   },
-  "Song": "old_town_road"
+  "maze": {
+    "controls": "Screen"
+  }
 }
