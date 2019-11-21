@@ -27,6 +27,9 @@ public class RhythmGame extends GameLogic {
     // Key: hit type, Value: number of times
     private RhythmGamePointsSystem pointsSystem;
     private NoteIntervals noteIntervals;
+
+    private ArrayList<Long> intervalsArray;
+
     //    private HashMap<String, Integer> stats;
 //    private int points = 0;
 //    private int numNotesMissed = 0;
@@ -50,18 +53,17 @@ public class RhythmGame extends GameLogic {
         this.context = context;
         this.numColumns = numColumns;
         pointsSystem = new RhythmGamePointsSystem();
-        noteIntervals = new NoteIntervals();
-        mediaPlayer = createMediaPlayer("Mii Channel");
+//        noteIntervals = new NoteIntervals("Old Town Road");
+//        mediaPlayer = createMediaPlayer("Mii Channel");
+
+        setSong("Mii Channel");
+
 
         // Creates each column of the game
         columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columns[i] = new Column(gameHeight, i, pointsSystem);
         }
-
-
-
-
 
         setDifficulty(Difficulty.EASY);
         start();
@@ -107,16 +109,52 @@ public class RhythmGame extends GameLogic {
         }
     }
 
-    private MediaPlayer createMediaPlayer(String song) {
+    private void setSong(String song) {
         switch (song) {
             case "Old Town Road":
-                return MediaPlayer.create(context, R.raw.old_town_road);
+                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
             case "Mii Channel":
-                return MediaPlayer.create(context, R.raw.mii_channel);
+                mediaPlayer = MediaPlayer.create(context, R.raw.mii_channel);
+                intervalsArray = noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
             default:
-                return MediaPlayer.create(context, R.raw.old_town_road);
+                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
         }
     }
+
+//    private MediaPlayer createMediaPlayer(String song) {
+//        switch (song) {
+//            case "Old Town Road":
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//            case "Mii Channel":
+//                return MediaPlayer.create(context, R.raw.mii_channel);
+//            default:
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//        }
+//    }
+
+//    private ArrayList<Long> generateIntervalsArray(String song) {
+//        switch (song) {
+//            case "Old Town Road":
+//                return noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+//            case "Mii Channel":
+//                return noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
+//            default:
+//                return noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+//        }
+//    }
+
+//    private MediaPlayer createMediaPlayer(String song) {
+//        switch (song) {
+//            case "Old Town Road":
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//            case "Mii Channel":
+//                return MediaPlayer.create(context, R.raw.mii_channel);
+//            default:
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//        }
+//    }
 
     /**
      * Updates the game
@@ -143,8 +181,6 @@ public class RhythmGame extends GameLogic {
             gameOver();
         }
     }
-
-    // hi
 
     /**
      * Taps the column and updates statistics the games' statistics.

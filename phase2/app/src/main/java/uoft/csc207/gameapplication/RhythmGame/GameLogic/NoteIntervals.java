@@ -18,14 +18,14 @@ import java.io.IOException;
 public class NoteIntervals {
     private ArrayList<Long> clickIntervals;
     private ArrayList<Long> clickTimes;
-    public static String filePath = "intervals.csv";
-    private File intervalsFile = new File(filePath);
+    private String filePath;
     private ArrayList<Integer> intervalsArray;
     private Long firstInterval;
 
 
-    public NoteIntervals(){
-        clickIntervals = generateIntervalsArray(intervalsFile);
+    public NoteIntervals(String path){
+        filePath = path;
+        clickIntervals = generateIntervalsArray(filePath);
         clickTimes = new ArrayList<>();
         firstInterval = calculateFirstInterval();
 
@@ -44,25 +44,20 @@ public class NoteIntervals {
         return firstInterval;
     }
 
-    public ArrayList<Long> generateIntervalsArray(File file) {
+    public ArrayList<Long> generateIntervalsArray(String path) {
         ArrayList<Long> list = new ArrayList<>();
         list.add(firstInterval);
 
-        String csvFile = filePath;
-        String line = "";
-        String cvsSplitBy = ",";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             for (String s: br.readLine().split(",")) {
                 list.add(Long.valueOf(s));
-
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+        System.out.println(list);
         return list;
 
 
