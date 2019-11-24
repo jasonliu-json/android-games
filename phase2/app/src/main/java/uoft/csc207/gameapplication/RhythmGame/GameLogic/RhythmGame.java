@@ -110,17 +110,17 @@ public class RhythmGame extends GameLogic {
     }
 
     private void setSong(String song) {
-        switch (song) {
-            case "Old Town Road":
-                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
-                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
-            case "Mii Channel":
-                mediaPlayer = MediaPlayer.create(context, R.raw.mii_channel);
-                intervalsArray = noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
-            default:
-                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
-                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
-        }
+//        switch (song) {
+//            case "Old Town Road":
+//                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+//            case "Mii Channel":
+//                mediaPlayer = MediaPlayer.create(context, R.raw.mii_channel);
+//                intervalsArray = noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
+//            default:
+//                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+//        }
     }
 
 //    private MediaPlayer createMediaPlayer(String song) {

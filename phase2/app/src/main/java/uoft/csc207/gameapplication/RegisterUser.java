@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uoft.csc207.gameapplication.GameRequestService.RegisterService;
+
 public class RegisterUser extends AppCompatActivity {
     private Button registerButton;
     private EditText emailInput;
@@ -21,8 +24,9 @@ public class RegisterUser extends AppCompatActivity {
     private EditText passwordConfirmationInput;
 
     private static final String FILE = "UserData.json";
-    private JSONFileRW fileRW;
-    private JSONObject database;
+    private JSONObject jsonObject;
+
+    private RegisterService registerService;
 
     String registerEmail;
     String registerUsername;
@@ -39,8 +43,10 @@ public class RegisterUser extends AppCompatActivity {
         passwordInput = (EditText) findViewById(R.id.register_password);
         passwordConfirmationInput = (EditText) findViewById(R.id.register_password_confirmation);
 
-        fileRW = new JSONFileRW(FILE, this);
-        database = fileRW.load();
+        registerService = new RegisterService();
+        registerService.setContext(this);
+
+
 
         // The on register button
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -64,78 +70,77 @@ public class RegisterUser extends AppCompatActivity {
                 else if (registerUsername.length() > 15) {
                     showToast("Your username is too long");
                 }
-                else if (validUser()) {
-                    register();
-                    finish();
+                else {
+                    JSONObject jsonObject = register();
+                    registerService.register(jsonObject, new RegisterCallBack() {
+                        @Override
+                        public void onFailure() {
+                            showToast("username is taken");
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("running");
+                            Intent gameActivity = new Intent(RegisterUser.this,
+                                    Login.class);
+                            startActivity(gameActivity);
+                        }
+
+                        @Override
+                        public void onWait() {
+
+                        }
+                    });
                 }
             }
         });
     }
-
-    /**
-     * Registers the user and adds it to the user data base
-     */
-    private void register() {
+    private JSONObject register(){
         try {
             JSONObject newUser = new JSONObject();
-            JSONArray userdata = database.getJSONArray("users");
-            // sets the user data
-            Integer userId = userdata.length();
-            newUser.put("userId", userId.toString());
             newUser.put("username", registerUsername);
             newUser.put("password", RegisterUtility.hash(registerPassword, "SHA-256"));
             newUser.put("email", registerEmail);
-
-            // sets local score
-            JSONArray scores = new JSONArray();
-            for (int i = 0; i < 10; i++) {
-                scores.put(new JSONObject().put(String.format("top%d", i), "0"));
-            }
-            newUser.put("topPlays", scores);
-            // sets previous gameStates
-            newUser.put("savedStage", "0");
-            newUser.put("savedPoints", "0");
-            // set some extra user data
-            newUser.put("totalPoints", "0");
-            newUser.put("timePlayed", "0");
-            // finally logs data
-            userdata.put(newUser);
-
-            fileRW.write(database.toString());
-            showToast("Successfully Registered");
-        }
-        catch (JSONException e) {
+            return newUser;
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    /**
-     * @return True if this username and email is unique
-     */
-    private boolean validUser() {
-        JSONArray userdata;
-        try {
-            userdata = database.getJSONArray("users");
-            for (int i = 0; i < userdata.length(); i++) {
-                JSONObject user = userdata.getJSONObject(i);
-                boolean sameEmail = user.getString("email").equals(registerEmail);
-                boolean sameUser = user.getString("username").equals(registerUsername);
-                if (sameUser) {
-                    showToast("username is taken");
-                    return false;
-                }
-                else if (sameEmail) {
-                    showToast("email is taken");
-                    return false;
-                }
-            }
-            return true;
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public interface RegisterCallBack {
+        void onSuccess();
+        void onFailure();
+        void onWait();
     }
+
+//    /**
+//     * @return True if this username and email is unique
+//     */
+//    private boolean validUser() {
+//        JSONArray userdata;
+//        try {
+//            userdata = database.getJSONArray("users");
+//            for (int i = 0; i < userdata.length(); i++) {
+//                JSONObject user = userdata.getJSONObject(i);
+//                boolean sameEmail = user.getString("email").equals(registerEmail);
+//                boolean sameUser = user.getString("username").equals(registerUsername);
+//                if (sameUser) {
+//                    showToast("username is taken");
+//                    return false;
+//                }
+//                else if (sameEmail) {
+//                    showToast("email is taken");
+//                    return false;
+//                }
+//            }
+//            return true;
+//        }
+//        catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 
     /**
      * Displays the text on screen

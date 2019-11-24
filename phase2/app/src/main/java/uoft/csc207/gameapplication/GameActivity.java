@@ -36,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        username = getIntent().getExtras().getString("username");
+        username = "testing";
 
         // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
