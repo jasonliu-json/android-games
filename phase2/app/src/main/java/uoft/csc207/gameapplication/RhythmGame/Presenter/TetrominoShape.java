@@ -23,7 +23,7 @@ public class TetrominoShape {
      * @param coords the coorinates of the tetromino
      * @return an array of squares that corresponds to the shape of the tetromino
      */
-    public static RectF[] generateFigure(int[][] coords) {
+    public static RectF[] generateFigure(Integer[][] coords) {
         RectF[] fourBlocks = new RectF[4];
         for (int i = 0; i < 4; i++) {
             int left = coords[i][0];

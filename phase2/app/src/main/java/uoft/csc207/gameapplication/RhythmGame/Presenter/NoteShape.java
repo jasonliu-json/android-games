@@ -49,10 +49,10 @@ public class NoteShape {
             canvas.drawRect(toDrawRect, paint);
 
             // Draws the outline
-            Paint strokePaint = new Paint();
-            strokePaint.setStyle(Paint.Style.STROKE);
-            strokePaint.setStrokeWidth(2);
-            canvas.drawRect(toDrawRect, strokePaint);
+//            Paint strokePaint = new Paint();
+//            strokePaint.setStyle(Paint.Style.STROKE);
+//            strokePaint.setStrokeWidth(2);
+//            canvas.drawRect(toDrawRect, strokePaint);
         }
     }
 
