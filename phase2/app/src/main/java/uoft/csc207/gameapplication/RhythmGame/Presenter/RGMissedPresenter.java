@@ -19,7 +19,7 @@ public class RGMissedPresenter extends RhythmGamePresenter {
     public void setTheme() {
         super.setTheme();
 
-        missedTextPaint.setTextSize(getScreenHeight()/21);
+        missedTextPaint.setTextSize(60);
         missedTextPaint.setColor(Color.RED);
     }
 

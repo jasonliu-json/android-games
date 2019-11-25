@@ -14,12 +14,15 @@ public class RandomNoteGenerator extends NoteGenerator {
     public RandomNoteGenerator(RhythmGame rhythmGame) {
         super(rhythmGame);
         setDifficulty(Difficulty.EASY);
+        System.out.println("constructor in RNG");
     }
 
     public void timeUpdate() {
+        System.out.println("timeUpdate in RNG");
         // Every period generate a note at a random column
         if (System.currentTimeMillis() - lastNoteTime >= noteGenerationPeriod) {
             getRhythmGame().generateNote((int) (getNumColumns() * Math.random()));
+//            getRhythmGame().generateNote(1);
             lastNoteTime = System.currentTimeMillis();
         }
 
@@ -28,6 +31,7 @@ public class RandomNoteGenerator extends NoteGenerator {
         else if (getRhythmGame().getPoints() > 50) setDifficulty(Difficulty.NORMAL);
     }
 
+    @Override
     public void start() {
         lastNoteTime = System.currentTimeMillis();
     }

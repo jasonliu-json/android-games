@@ -21,7 +21,7 @@ class Column extends Observable {
     Column(int height, int id, Observer observer) {
         this.height = height;
         this.id = id;
-        this.target = new Target(20, 5);
+        this.target = new Target(height/5, height/20);
         notes = new ArrayList<>();
 
 //        for (Observer observer : observers) {
@@ -49,7 +49,7 @@ class Column extends Observable {
 
         if (!message.getMessage().equals("")) {
             message.incrementNumIterationsExisted();
-            if (message.getNumIterExisted() >= 10) message = new RhythmGameMessage("");
+            if (message.getNumIterExisted() >= 50) message = new RhythmGameMessage("");
         }
     }
 

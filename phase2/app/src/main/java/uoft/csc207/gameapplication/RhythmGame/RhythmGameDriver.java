@@ -38,6 +38,9 @@ public class RhythmGameDriver extends GameDriver {
 //        presenter.init(getScreenWidth(), getScreenHeight());
         controller.setScreenWidth(screenWidth);
         presenter.init(screenWidth, screenHeight);
+
+        //TEMPORARY
+        start();
     }
 
     @Override
@@ -57,6 +60,8 @@ public class RhythmGameDriver extends GameDriver {
 
     @Override
     public void draw(Canvas canvas) {
+        // TEMPORARY
+        timeUpdate();
         presenter.draw(canvas);
     }
 

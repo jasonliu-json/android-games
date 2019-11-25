@@ -13,8 +13,7 @@
         <item>O</item>
         <item>S</item>
         <item>Z</item>
-        <item>T-left</item>
-        <item>T-right</item>
+        <item>T</item>
     </string-array>
     <string-array name="mazeControls">
         <item>Tap</item>
