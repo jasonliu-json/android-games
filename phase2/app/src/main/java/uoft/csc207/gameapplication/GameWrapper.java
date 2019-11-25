@@ -111,7 +111,7 @@ public class GameWrapper {
 
     private void setUpRhythmGameDriver() {
         RhythmGameDriverBuilder builder = new RhythmGameDriverBuilder();;
-        builder.createRhythmGame("LIVES", 4, 300, context);
+        builder.createRhythmGame("SONG", 4, 300, context);
         builder.createRhythmGameController();
         builder.createRhythmGamePresenter(RhythmGamePresenter.Song.OLD_TOWN_ROAD);
         builder.createNoteGenerator();

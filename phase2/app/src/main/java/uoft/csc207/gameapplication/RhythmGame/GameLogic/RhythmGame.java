@@ -22,6 +22,8 @@ public class RhythmGame extends Observable {
 
     private boolean isGameOver = false;
 
+
+
     /**
      * Constructs the Rhythm game
      *

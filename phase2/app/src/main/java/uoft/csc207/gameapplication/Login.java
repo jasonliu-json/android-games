@@ -68,6 +68,12 @@ public class Login extends AppCompatActivity {
                     public void onFailure() {
                         showToast("Incorrect login credentials");
                         loggingIn = false;
+
+                        // this is only here for testing purposes
+                        Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
+                        startActivity(mainMenuActivity);
+                        // ^^ this is only here for testing purposes
+
                     }
 
                     @Override

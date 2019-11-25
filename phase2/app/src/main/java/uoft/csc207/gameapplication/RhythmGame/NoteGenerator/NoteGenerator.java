@@ -8,7 +8,7 @@ public class NoteGenerator {
     private RhythmGame rhythmGame;
     private int numColumns;
 
-    private NoteIntervals noteIntervals;
+    private NoteIntervalsReader noteIntervals;
 
     private ArrayList<Long> intervalsArray;
 
