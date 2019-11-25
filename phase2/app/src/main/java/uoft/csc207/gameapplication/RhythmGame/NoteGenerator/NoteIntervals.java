@@ -1,19 +1,9 @@
-package uoft.csc207.gameapplication.RhythmGame.GameLogic;
-
-import android.accounts.AbstractAccountAuthenticator;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
+package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class NoteIntervals {
     private ArrayList<Long> clickIntervals;
