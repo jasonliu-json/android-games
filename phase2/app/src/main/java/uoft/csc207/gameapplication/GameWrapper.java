@@ -7,7 +7,8 @@ import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
+import uoft.csc207.gameapplication.RhythmGame.Presenter.RhythmGamePresenter;
+import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriverBuilder;
 import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
 
 /**
@@ -73,8 +74,7 @@ public class GameWrapper {
             gamesPlayed += 1;
             points += currentGamePoints;
             if (gamesPlayed == 1) {
-                gameDriver = new RhythmGameDriver(context);
-                gameDriver.init(metrics);
+                setUpRhythmGameDriver();
             }
             else if (gamesPlayed == 2) {
                 gameDriver = new MazeGameDriver(context);
@@ -101,13 +101,24 @@ public class GameWrapper {
             gameDriver.init(this.metrics);
         }
         if (gameState == 1) {
-            gameDriver = new RhythmGameDriver(context);
-            gameDriver.init(metrics);
+            setUpRhythmGameDriver();
         }
         else if (gameState == 2) {
             gameDriver = new MazeGameDriver(context);
             gameDriver.init(metrics);
         }
+    }
+
+    private void setUpRhythmGameDriver() {
+        RhythmGameDriverBuilder builder = new RhythmGameDriverBuilder();;
+        builder.createRhythmGame("LIVES", 4, 100, context);
+        builder.createRhythmGameController();
+        builder.createRhythmGamePresenter(RhythmGamePresenter.Song.OLD_TOWN_ROAD);
+        builder.createNoteGenerator();
+        builder.createDriver();
+
+        gameDriver = builder.getDriver();
+        gameDriver.init(metrics);
     }
 
     boolean getGameIsOver() {

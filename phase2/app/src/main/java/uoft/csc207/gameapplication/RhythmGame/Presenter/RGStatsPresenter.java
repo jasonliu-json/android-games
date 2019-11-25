@@ -17,8 +17,8 @@ public class RGStatsPresenter extends RhythmGamePresenter {
     private Paint upperRectPaint = new Paint();
     private int textHeight;
 
-    public RGStatsPresenter(RhythmGame rhythmGame) {
-        super(rhythmGame);
+    public RGStatsPresenter(RhythmGame rhythmGame, Song song) {
+        super(rhythmGame, song);
         pointsSystem = rhythmGame.getPointsSystem();
     }
 

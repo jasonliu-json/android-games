@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class CustomizeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class CustomizeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String FILE = "Customize.json";
     private JSONObject jsonObject;
@@ -50,7 +51,7 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         int[] shapeSpinnersId = {R.id.shape1_spinner, R.id.shape2_spinner, R.id.shape3_spinner,
                 R.id.shape4_spinner};
 
-        for (int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             Spinner shapeSpinner = (Spinner) findViewById(shapeSpinnersId[i]);
             ArrayAdapter<CharSequence> shapeAdapter = ArrayAdapter.createFromResource(this,
                     R.array.shapes, android.R.layout.simple_spinner_item);
@@ -73,6 +74,7 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View v) {
                 save();
+                Toast.makeText(CustomizeActivity.this, "Applied", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -84,7 +86,7 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        try{
+        try {
             switch (adapterView.getId()) {
                 case R.id.tetris_control_spinner:
                     tetrisCust.put("controls", adapterView.getSelectedItem());

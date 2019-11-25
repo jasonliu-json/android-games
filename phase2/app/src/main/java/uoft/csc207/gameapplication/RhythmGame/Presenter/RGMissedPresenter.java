@@ -10,8 +10,8 @@ public class RGMissedPresenter extends RhythmGamePresenter {
 
     private Paint missedTextPaint = new Paint();;
 
-    public RGMissedPresenter(RhythmGame rhythmGame) {
-        super(rhythmGame);
+    public RGMissedPresenter(RhythmGame rhythmGame, Song song) {
+        super(rhythmGame, song);
         System.out.println("RGMissed Presenter");
     }
 

@@ -1,46 +1,24 @@
 package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.media.MediaPlayer;
-import android.util.SparseArray;
-
-import uoft.csc207.gameapplication.GameLogic;
-import uoft.csc207.gameapplication.R;
+import java.util.Observable;
 
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
-public class RhythmGame extends GameLogic {
+public class RhythmGame extends Observable {
     private Context context;
+
     private int gameHeight = 100;
     private int numColumns = 4;
     private Column[] columns;
 
-    private long startTime;
-    private static int refreshTime = 500;
-    private MediaPlayer mediaPlayer;
-
-    // Key: hit type, Value: number of times
     private RhythmGamePointsSystem pointsSystem;
-    private NoteIntervals noteIntervals;
-
-    private ArrayList<Long> intervalsArray;
-
-    //    private HashMap<String, Integer> stats;
-//    private int points = 0;
-//    private int numNotesMissed = 0;
     private int lives = 10;
-    private int noteGenerationPeriod = 1000;
-
-    public int getNumColumns() {
-        return numColumns;
-    }
-
-    public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
 
     private boolean isGameOver = false;
 
@@ -49,147 +27,57 @@ public class RhythmGame extends GameLogic {
      *
      * @param numColumns number of columns of the game
      */
-    public RhythmGame(Context context, int numColumns) {
+    public RhythmGame(Context context, int numColumns, int gameHeight) {
         this.context = context;
         this.numColumns = numColumns;
+        this.gameHeight = gameHeight;
+
         pointsSystem = new RhythmGamePointsSystem();
-//        noteIntervals = new NoteIntervals("Old Town Road");
-//        mediaPlayer = createMediaPlayer("Mii Channel");
-
-        setSong("Mii Channel");
-
 
         // Creates each column of the game
         columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columns[i] = new Column(gameHeight, i, pointsSystem);
         }
-
-        setDifficulty(Difficulty.EASY);
-        start();
     }
-
-    public void start() {
-        // Starts song
-//        mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
-        mediaPlayer.start();
-
-        startTime = System.currentTimeMillis();
-    }
-
-    public void stop() {
-
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
-    }
-
-    /**
-     * Sets the difficulty of the game by generating notes more or less frequently
-     * @param diff enum RhythmGame.Difficulty
-     */
-    private void setDifficulty(Difficulty diff) {
-        switch(diff) {
-            case EASY:
-                noteGenerationPeriod = 900;
-                break;
-            case NORMAL:
-                noteGenerationPeriod = 700;
-                break;
-            case HARD:
-                noteGenerationPeriod = 500;
-                break;
-            case IMPOSSIBLE:
-                noteGenerationPeriod = 200;
-                refreshTime = 100;
-                break;
-            default:
-                noteGenerationPeriod = 1000;
-                break;
-        }
-    }
-
-    private void setSong(String song) {
-//        switch (song) {
-//            case "Old Town Road":
-//                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
-//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
-//            case "Mii Channel":
-//                mediaPlayer = MediaPlayer.create(context, R.raw.mii_channel);
-//                intervalsArray = noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
-//            default:
-//                mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
-//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
-//        }
-    }
-
-//    private MediaPlayer createMediaPlayer(String song) {
-//        switch (song) {
-//            case "Old Town Road":
-//                return MediaPlayer.create(context, R.raw.old_town_road);
-//            case "Mii Channel":
-//                return MediaPlayer.create(context, R.raw.mii_channel);
-//            default:
-//                return MediaPlayer.create(context, R.raw.old_town_road);
-//        }
-//    }
-
-//    private ArrayList<Long> generateIntervalsArray(String song) {
-//        switch (song) {
-//            case "Old Town Road":
-//                return noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
-//            case "Mii Channel":
-//                return noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
-//            default:
-//                return noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
-//        }
-//    }
-
-//    private MediaPlayer createMediaPlayer(String song) {
-//        switch (song) {
-//            case "Old Town Road":
-//                return MediaPlayer.create(context, R.raw.old_town_road);
-//            case "Mii Channel":
-//                return MediaPlayer.create(context, R.raw.mii_channel);
-//            default:
-//                return MediaPlayer.create(context, R.raw.old_town_road);
-//        }
-//    }
 
     /**
      * Updates the game
      */
     public void timeUpdate() {
-
-        // Updates points based on missed notes
+        // Updates the columns
         for (int i = 0; i < numColumns; i++) {
             columns[i].update();
         }
 
-        // Every period generate a note at a random column
-        double randomNumber = Math.random();
-        if (System.currentTimeMillis() - startTime >= noteGenerationPeriod) {
-            columns[(int) (4 * randomNumber)].generateNote();
-            startTime = System.currentTimeMillis();
-        }
-
-        // Changes difficulty based on points
-        if (getPoints() > 100) setDifficulty(Difficulty.HARD);
-        else if (getPoints() > 50) setDifficulty(Difficulty.NORMAL);
-
+        // Checks if the game should be over
         if (getNumMissed() >= lives) {
             gameOver();
         }
     }
 
+    public void generateNote(int colNumber) {
+        columns[colNumber].generateNote();
+    }
+
     /**
-     * Taps the column and updates statistics the games' statistics.
-     * @param colNumber the number of the column
+     * Taps the column, when the player taps that column
+     * @param colNumber the column id
      */
     public void tap(int colNumber) {
-        if (!getGameIsOver()) {
+        if (!getIsGameOver()) {
             columns[colNumber].tap();
         }
+    }
+
+    /**
+     * Ends the game.
+     */
+    private void gameOver() {
+        setGameIsOver(true);
+
+        setChanged();
+        notifyObservers("Game is over.");
     }
 
     /**
@@ -225,45 +113,35 @@ public class RhythmGame extends GameLogic {
         return notesMap;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public int getNumColumns() {
+        return numColumns;
+    }
+
     public int getGameHeight() {
         return gameHeight;
+    }
+
+    public RhythmGamePointsSystem getPointsSystem() {
+        return pointsSystem;
     }
 
     public int getNumMissed() {
         return pointsSystem.getNumMissed();
     }
 
-    /**
-     * Ends the game.
-     */
-    private void gameOver() {
-        setGameIsOver(true);
-        stop();
-
-//        setChanged();
-//        notifyObservers("Game is over.");
-    }
-
-    boolean getGameIsOver() {
-        return isGameOver;
-    }
-
-    public void setGameIsOver(boolean gameOver) {
-        isGameOver = gameOver;
-    }
-
     public int getPoints() {
         return pointsSystem.getPoints();
     }
 
-    @Override
+    private void setGameIsOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+
     public boolean getIsGameOver() {
         return isGameOver;
     }
-
-//    public void setPoints(int points) {
-//        this.pointsSystem.setPoints(points);
-//    }
-
-    public static int getRefreshTime() {return refreshTime;}
 }

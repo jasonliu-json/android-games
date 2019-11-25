@@ -4,12 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.util.SparseArray;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.Note;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameMessage;
@@ -19,7 +21,6 @@ import uoft.csc207.gameapplication.RhythmGame.GameLogic.Target;
  * How the game is represented on screen.
  */
 public class RhythmGamePresenter {
-
     private RhythmGame rhythmGame;
     private int numColumns;
 
@@ -39,6 +40,9 @@ public class RhythmGamePresenter {
     private float targetScale, noteScale;
     private float heightRatio;
     private int bitmapTop;
+
+    private MediaPlayer mediaPlayer;
+    public static enum Song {OLD_TOWN_ROAD, MII_CHANNEL};
 
     public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
 
@@ -67,9 +71,10 @@ public class RhythmGamePresenter {
     }
 
 
-    public RhythmGamePresenter(RhythmGame rhythmGame) {
+    public RhythmGamePresenter(RhythmGame rhythmGame, Song song) {
         this.rhythmGame = rhythmGame;
         this.numColumns = rhythmGame.getNumColumns();
+        setSong(song);
     }
 
     public void init(int screenWidth, int screenHeight) {
@@ -97,6 +102,17 @@ public class RhythmGamePresenter {
         bitCanvas = new Canvas(bitmap);
 
         setTheme();
+    }
+
+    public void start() {
+        // Starts song
+        mediaPlayer.start();
+    }
+
+    public void stop() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
     }
 
     /* Sets up the paints and the shapes of the notes.
@@ -192,6 +208,53 @@ public class RhythmGamePresenter {
             scalableShape.draw(bitCanvas, xNote, note.getY() * heightRatio, columnPaints[colId]);
         }
     }
+
+    private void setSong(Song song) {
+        switch (song) {
+            case OLD_TOWN_ROAD:
+                mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.old_town_road);
+//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+            case MII_CHANNEL:
+                mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.mii_channel);
+//                intervalsArray = noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
+            default:
+                mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.old_town_road);
+//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+        }
+    }
+
+//    private MediaPlayer createMediaPlayer(String song) {
+//        switch (song) {
+//            case "Old Town Road":
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//            case "Mii Channel":
+//                return MediaPlayer.create(context, R.raw.mii_channel);
+//            default:
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//        }
+//    }
+
+//    private ArrayList<Long> generateIntervalsArray(String song) {
+//        switch (song) {
+//            case "Old Town Road":
+//                return noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+//            case "Mii Channel":
+//                return noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
+//            default:
+//                return noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
+//        }
+//    }
+
+//    private MediaPlayer createMediaPlayer(String song) {
+//        switch (song) {
+//            case "Old Town Road":
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//            case "Mii Channel":
+//                return MediaPlayer.create(context, R.raw.mii_channel);
+//            default:
+//                return MediaPlayer.create(context, R.raw.old_town_road);
+//        }
+//    }
 
     public RhythmGame getRhythmGame() {
         return rhythmGame;
