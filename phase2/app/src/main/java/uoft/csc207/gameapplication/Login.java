@@ -70,8 +70,8 @@ public class Login extends AppCompatActivity {
                         loggingIn = false;
 
                         // this is only here for testing purposes
-                        Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
-                        startActivity(mainMenuActivity);
+//                        Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
+//                        startActivity(mainMenuActivity);
                         // ^^ this is only here for testing purposes
 
                     }

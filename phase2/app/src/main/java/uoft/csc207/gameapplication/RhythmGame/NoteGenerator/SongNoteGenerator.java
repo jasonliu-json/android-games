@@ -55,6 +55,7 @@ public class SongNoteGenerator extends NoteGenerator {
         if (noteIntervals != null && intervalIndex < noteIntervals.size() && currentInterval >= noteIntervals.get(intervalIndex)) {
             getRhythmGame().generateNote((int) (getNumColumns() * Math.random()));
             lastNoteTime = System.currentTimeMillis();
+            intervalIndex += 1;
 
             System.out.println(noteIntervals);
             System.out.println("next interval");
