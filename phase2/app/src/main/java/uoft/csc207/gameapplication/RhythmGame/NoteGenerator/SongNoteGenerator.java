@@ -26,12 +26,18 @@ public class SongNoteGenerator extends NoteGenerator {
 
         System.out.println("constructor in SONG");
 
+        noteIntervals = new ArrayList<>();
+
 
 
         // gonna hard code an array list for now
 //
-//        String[] testingIntervals = [1,2,3,4,5,4,3,2,1,10,2];
-//        noteIntervals = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+        String[] testingIntervals = new String[10];
+        for (int i=0;i<10;i++){
+            noteIntervals.add(Long.valueOf(i));
+        }
+
+        System.out.println("constructor note intervals" + noteIntervals);
 
     }
 
@@ -44,13 +50,13 @@ public class SongNoteGenerator extends NoteGenerator {
     public void timeUpdate() {
 
         System.out.println("timeUpdate in SONG");
-        Long currentInterval = System.currentTimeMillis() - lastNoteTime;
+        Long currentInterval = (System.currentTimeMillis() - lastNoteTime) / 1000;
 
-        if (intervalIndex < noteIntervals.size() && currentInterval >= noteIntervals.get(intervalIndex)) {
+        if (noteIntervals != null && intervalIndex < noteIntervals.size() && currentInterval >= noteIntervals.get(intervalIndex)) {
             getRhythmGame().generateNote((int) (getNumColumns() * Math.random()));
             lastNoteTime = System.currentTimeMillis();
 
-
+            System.out.println(noteIntervals);
             System.out.println("next interval");
         }
 
