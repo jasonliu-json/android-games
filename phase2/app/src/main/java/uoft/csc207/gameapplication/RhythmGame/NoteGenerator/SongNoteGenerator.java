@@ -27,7 +27,7 @@ public class SongNoteGenerator extends NoteGenerator {
         System.out.println("constructor in SONG");
 
         noteIntervals = new ArrayList<>();
-
+        NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader();
 
 
         // gonna hard code an array list for now
@@ -38,6 +38,9 @@ public class SongNoteGenerator extends NoteGenerator {
         }
 
         System.out.println("constructor note intervals" + noteIntervals);
+
+
+//        noteIntervals = noteIntervalsReader.generateIntervalsArray();
 
     }
 

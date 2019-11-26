@@ -1,5 +1,7 @@
 package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,21 +13,22 @@ import java.util.Arrays;
 public class NoteIntervalsReader {
     private ArrayList<Long> clickIntervals;
     private ArrayList<Long> clickTimes;
-    private String filePath;
     private ArrayList<Integer> intervalsArray;
     private Long firstInterval;
 
+    public static String filePath;
 
-    public NoteIntervalsReader(String path) {
-        filePath = path;
-        filePath = "/Users/jason-pc/Documents/groupproject/phase2/app/src/main/res/raw/mii_channel_intervals.csv";
-        clickIntervals = generateIntervalsArray(filePath);
+
+
+    public NoteIntervalsReader() {
+//        filePath = "mii_channel_intervals.csv";
+//        clickIntervals = generateIntervalsArray();
         clickTimes = new ArrayList<>();
         firstInterval = calculateFirstInterval();
 
-
-
     }
+
+    public static void setPath(String newPath) {filePath = newPath;}
 
 //
 //    public static String[] arrayListToStringArray(ArrayList<Long> arr)
@@ -39,10 +42,10 @@ public class NoteIntervalsReader {
         return firstInterval;
     }
 
-    public ArrayList<Long> generateIntervalsArray(String path) {
+    public ArrayList<Long> generateIntervalsArray() {
 
 
-        try (BufferedReader brTest = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader brTest = new BufferedReader(new FileReader(filePath))) {
             String text = brTest.readLine();
 // Stop. text is the first line.
             System.out.println(text);

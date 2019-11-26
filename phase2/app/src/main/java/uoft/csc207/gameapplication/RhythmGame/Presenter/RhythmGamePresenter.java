@@ -16,6 +16,8 @@ import uoft.csc207.gameapplication.RhythmGame.GameLogic.Note;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameMessage;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.Target;
+import uoft.csc207.gameapplication.RhythmGame.NoteGenerator.NoteIntervalsReader;
+import uoft.csc207.gameapplication.RhythmGame.NoteGenerator.SongNoteGenerator;
 
 /**
  * How the game is represented on screen.
@@ -213,13 +215,10 @@ public class RhythmGamePresenter {
         switch (song) {
             case OLD_TOWN_ROAD:
                 mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.old_town_road);
-//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
             case MII_CHANNEL:
                 mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.mii_channel);
-//                intervalsArray = noteIntervals.generateIntervalsArray("miiChannelIntervals.csv");
             default:
                 mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.old_town_road);
-//                intervalsArray = noteIntervals.generateIntervalsArray("oldTownRoadIntervals.csv");
         }
     }
 
