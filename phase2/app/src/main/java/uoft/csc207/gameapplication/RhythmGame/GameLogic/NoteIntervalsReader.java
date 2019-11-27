@@ -1,9 +1,6 @@
-package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
-
-import android.content.Context;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,12 +47,12 @@ public class NoteIntervalsReader {
 // Stop. text is the first line.
             System.out.println(text);
             String[] strArray = text.split(",");
-            System.out.println("heres the array");
+//            System.out.println("heres the array");
             System.out.println(Arrays.toString(strArray));
         } catch (FileNotFoundException ex) {
-            System.out.println("file not found");
+//            System.out.println("file not found");
         } catch (IOException e) {
-            System.out.println("io exception");
+//            System.out.println("io exception");
         }
 
         return new ArrayList<>();

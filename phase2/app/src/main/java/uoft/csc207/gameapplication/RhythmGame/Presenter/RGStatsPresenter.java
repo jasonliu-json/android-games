@@ -1,11 +1,12 @@
 package uoft.csc207.gameapplication.RhythmGame.Presenter;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameLevel;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
 public class RGStatsPresenter extends RhythmGamePresenter {
@@ -17,9 +18,9 @@ public class RGStatsPresenter extends RhythmGamePresenter {
     private Paint upperRectPaint = new Paint();
     private int textHeight;
 
-    public RGStatsPresenter(RhythmGame rhythmGame, Song song) {
-        super(rhythmGame, song);
-        pointsSystem = rhythmGame.getPointsSystem();
+    public RGStatsPresenter(RhythmGameLevel rhythmGameLevel, Context context, char[] shapes) {
+        super(rhythmGameLevel, context, shapes);
+        pointsSystem = rhythmGameLevel.getPointsSystem();
     }
 
     @Override
@@ -33,8 +34,8 @@ public class RGStatsPresenter extends RhythmGamePresenter {
     }
 
     @Override
-    void setTheme() {
-        super.setTheme();
+    void setTheme(char[] shapes) {
+        super.setTheme(shapes);
 
         upperRectPaint.setColor(Color.BLACK);
 

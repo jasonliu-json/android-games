@@ -1,6 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
-
-import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 /**
  * Generates notes at certain intervals, where the column the note is generated in is random.
@@ -11,24 +9,17 @@ public class RandomNoteGenerator extends NoteGenerator {
     private static int refreshTime = 500;
     private long lastNoteTime;
 
-    public RandomNoteGenerator(RhythmGame rhythmGame) {
-        super(rhythmGame);
+    public RandomNoteGenerator() {
         setDifficulty(Difficulty.EASY);
-        System.out.println("constructor in RNG");
     }
 
-    public void timeUpdate() {
-        System.out.println("timeUpdate in RNG");
+    @Override
+    public void timeUpdate(Column[] columns) {
         // Every period generate a note at a random column
         if (System.currentTimeMillis() - lastNoteTime >= noteGenerationPeriod) {
-            getRhythmGame().generateNote((int) (getNumColumns() * Math.random()));
-//            getRhythmGame().generateNote(1);
+            columns[(int) (columns.length * Math.random())].generateNote();
             lastNoteTime = System.currentTimeMillis();
         }
-
-        // Changes difficulty based on points
-        if (getRhythmGame().getPoints() > 100) setDifficulty(Difficulty.HARD);
-        else if (getRhythmGame().getPoints() > 50) setDifficulty(Difficulty.NORMAL);
     }
 
     @Override
@@ -38,9 +29,9 @@ public class RandomNoteGenerator extends NoteGenerator {
 
     /**
      * Sets the difficulty of the game by generating notes more or less frequently
-     * @param diff enum RhythmGame.Difficulty
+     * @param diff enum RhythmGameLevel.Difficulty
      */
-    private void setDifficulty(Difficulty diff) {
+    void setDifficulty(Difficulty diff) {
         switch(diff) {
             case EASY:
                 noteGenerationPeriod = 900;

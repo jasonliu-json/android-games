@@ -1,13 +1,7 @@
-package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
-
-import android.media.MediaPlayer;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import uoft.csc207.gameapplication.R;
-import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
-import uoft.csc207.gameapplication.RhythmGame.Presenter.RhythmGamePresenter;
+import java.util.List;
 
 
 /**
@@ -15,16 +9,19 @@ import uoft.csc207.gameapplication.RhythmGame.Presenter.RhythmGamePresenter;
  */
 public class SongNoteGenerator extends NoteGenerator {
 
-    ArrayList<Long> noteIntervals;
+    private List<Long> noteIntervals;
+
+    private NoteIntervalsReader intervalsReader;
 
     private int intervalIndex = 0;
     private Long lastNoteTime;
-    public RhythmGamePresenter.Song song;
+    public String song;
 
-    public SongNoteGenerator(RhythmGame rhythmGame) {
-        super(rhythmGame);
+    private boolean isOver = false;
 
-        System.out.println("constructor in SONG");
+    public SongNoteGenerator(String song) {
+
+//        System.out.println("constructor in SONG");
 
         noteIntervals = new ArrayList<>();
         NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader();
@@ -37,7 +34,7 @@ public class SongNoteGenerator extends NoteGenerator {
             noteIntervals.add(Long.valueOf(i));
         }
 
-        System.out.println("constructor note intervals" + noteIntervals);
+//        System.out.println("constructor note intervals" + noteIntervals);
 
 
 //        noteIntervals = noteIntervalsReader.generateIntervalsArray();
@@ -50,20 +47,23 @@ public class SongNoteGenerator extends NoteGenerator {
         lastNoteTime = System.currentTimeMillis();
     }
 
-    public void timeUpdate() {
+    @Override
+    public void timeUpdate(Column[] columns) {
 
-        System.out.println("timeUpdate in SONG");
         Long currentInterval = (System.currentTimeMillis() - lastNoteTime) / 1000;
 
         if (noteIntervals != null && intervalIndex < noteIntervals.size() && currentInterval >= noteIntervals.get(intervalIndex)) {
-            getRhythmGame().generateNote((int) (getNumColumns() * Math.random()));
+            columns[((int) (columns.length * Math.random()))].generateNote();
             lastNoteTime = System.currentTimeMillis();
             intervalIndex += 1;
 
             System.out.println(noteIntervals);
-            System.out.println("next interval");
+//            System.out.println("next interval");
         }
+    }
 
+    public boolean getIsOver() {
+        return isOver;
     }
 
 
