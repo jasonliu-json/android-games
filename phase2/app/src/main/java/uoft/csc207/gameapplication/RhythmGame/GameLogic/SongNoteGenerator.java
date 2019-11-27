@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class SongNoteGenerator extends NoteGenerator {
 
+//    ArrayList<Long> noteIntervals;
+    ArrayList<Integer> noteColumns;
     private List<Long> noteIntervals;
 
     private NoteIntervalsReader intervalsReader;
@@ -24,6 +26,7 @@ public class SongNoteGenerator extends NoteGenerator {
 //        System.out.println("constructor in SONG");
 
         noteIntervals = new ArrayList<>();
+        noteColumns = new ArrayList<>();
         NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader();
 
 
@@ -32,12 +35,13 @@ public class SongNoteGenerator extends NoteGenerator {
         String[] testingIntervals = new String[10];
         for (int i=0;i<10;i++){
             noteIntervals.add(Long.valueOf(i));
+            noteColumns.add(i % 4);
         }
 
 //        System.out.println("constructor note intervals" + noteIntervals);
+//        System.out.println("constructor note intervals" + noteIntervals);
+//        System.out.println("columns" + noteColumns);
 
-
-//        noteIntervals = noteIntervalsReader.generateIntervalsArray();
 
     }
 
@@ -50,6 +54,7 @@ public class SongNoteGenerator extends NoteGenerator {
     @Override
     public void timeUpdate(Column[] columns) {
 
+//        System.out.println("timeUpdate in SONG");
         Long currentInterval = (System.currentTimeMillis() - lastNoteTime) / 1000;
 
         if (noteIntervals != null && intervalIndex < noteIntervals.size() && currentInterval >= noteIntervals.get(intervalIndex)) {

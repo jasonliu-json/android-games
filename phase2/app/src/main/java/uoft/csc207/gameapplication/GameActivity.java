@@ -206,7 +206,7 @@ public class GameActivity extends AppCompatActivity {
             }
             else {
 //                userdata.put("savedStage", String.valueOf(gameDriver.getGameState()));
-                userdata.put("savedPoints", String.valueOf(gameDriver.getPoints()));
+//                userdata.put("savedPoints", String.valueOf(gameDriver.getPoints()));
             }
         } catch (JSONException e) {
             e.printStackTrace();
