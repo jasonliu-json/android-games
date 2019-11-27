@@ -37,7 +37,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         username = "testing";
-
         // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
         gameView = (GameView) findViewById(R.id.GameView);

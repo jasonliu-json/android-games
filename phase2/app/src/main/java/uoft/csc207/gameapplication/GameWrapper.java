@@ -135,5 +135,6 @@ public class GameWrapper {
 
     void setPoints(int setPoints) {
         points = setPoints;
+
     }
 }

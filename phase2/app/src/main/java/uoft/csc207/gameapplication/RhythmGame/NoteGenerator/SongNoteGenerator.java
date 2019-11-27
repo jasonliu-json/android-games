@@ -2,6 +2,7 @@ package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
 
 import android.media.MediaPlayer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,6 +17,7 @@ import uoft.csc207.gameapplication.RhythmGame.Presenter.RhythmGamePresenter;
 public class SongNoteGenerator extends NoteGenerator {
 
     ArrayList<Long> noteIntervals;
+    ArrayList<Integer> noteColumns;
 
     private int intervalIndex = 0;
     private Long lastNoteTime;
@@ -27,6 +29,7 @@ public class SongNoteGenerator extends NoteGenerator {
         System.out.println("constructor in SONG");
 
         noteIntervals = new ArrayList<>();
+        noteColumns = new ArrayList<>();
         NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader();
 
 
@@ -35,12 +38,12 @@ public class SongNoteGenerator extends NoteGenerator {
         String[] testingIntervals = new String[10];
         for (int i=0;i<10;i++){
             noteIntervals.add(Long.valueOf(i));
+            noteColumns.add(i % 4);
         }
 
         System.out.println("constructor note intervals" + noteIntervals);
+        System.out.println("columns" + noteColumns);
 
-
-//        noteIntervals = noteIntervalsReader.generateIntervalsArray();
 
     }
 
@@ -56,7 +59,7 @@ public class SongNoteGenerator extends NoteGenerator {
         Long currentInterval = (System.currentTimeMillis() - lastNoteTime) / 1000;
 
         if (noteIntervals != null && intervalIndex < noteIntervals.size() && currentInterval >= noteIntervals.get(intervalIndex)) {
-            getRhythmGame().generateNote((int) (getNumColumns() * Math.random()));
+            getRhythmGame().generateNote(noteColumns.get(intervalIndex));
             lastNoteTime = System.currentTimeMillis();
             intervalIndex += 1;
 

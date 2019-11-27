@@ -3,16 +3,13 @@ package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
 import android.content.Context;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class NoteIntervalsReader {
     private ArrayList<Long> clickIntervals;
-    private ArrayList<Long> clickTimes;
+    private ArrayList<Integer> noteColumns;
     private ArrayList<Integer> intervalsArray;
     private Long firstInterval;
 
@@ -22,67 +19,43 @@ public class NoteIntervalsReader {
 
     public NoteIntervalsReader() {
 //        filePath = "mii_channel_intervals.csv";
-//        clickIntervals = generateIntervalsArray();
-        clickTimes = new ArrayList<>();
+        clickIntervals = new ArrayList<>();
         firstInterval = calculateFirstInterval();
 
     }
 
     public static void setPath(String newPath) {filePath = newPath;}
 
-//
-//    public static String[] arrayListToStringArray(ArrayList<Long> arr)
-//    {
-//        Object[] objArr = arr.toArray();
-//        String[] str = Arrays.copyOf(objArr, objArr.length, String[].class);
-//        return str;
-//    }
-
     public Long calculateFirstInterval() {
         return firstInterval;
     }
 
-    public ArrayList<Long> generateIntervalsArray() {
+    public ArrayList<Long> generateIntervalsArray(String path) {
 
+        clickIntervals.add(firstInterval);
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 
-        try (BufferedReader brTest = new BufferedReader(new FileReader(filePath))) {
-            String text = brTest.readLine();
-// Stop. text is the first line.
-            System.out.println(text);
-            String[] strArray = text.split(",");
-            System.out.println("heres the array");
-            System.out.println(Arrays.toString(strArray));
-        } catch (FileNotFoundException ex) {
-            System.out.println("file not found");
+            String currentLine = br.readLine();
+            while (currentLine != null) {
+                Long interval = Long.valueOf(currentLine.split(",")[0]);
+                Integer column = Integer.valueOf(currentLine.split(",")[1]);
+
+                clickIntervals.add(interval);
+                noteColumns.add(column);
+
+                currentLine = br.readLine();
+            }
+
         } catch (IOException e) {
-            System.out.println("io exception");
+            e.printStackTrace();
         }
 
-        return new ArrayList<>();
+        System.out.println("arraylist: ");
+        System.out.println(clickIntervals);
+        return clickIntervals;
+
 
     }
-
-
-
-//    public ArrayList<Long> generateIntervalsArray(String path) {
-////        ArrayList<Long> list = new ArrayList<>();
-//        clickIntervals.add(firstInterval);
-//
-//        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-//            for (String s: br.readLine().split(",")) {
-//                clickIntervals.add(Long.valueOf(s));
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println("arraylist: ");
-//        System.out.println(clickIntervals);
-//        return clickIntervals;
-//
-//
-//    }
 
 
 

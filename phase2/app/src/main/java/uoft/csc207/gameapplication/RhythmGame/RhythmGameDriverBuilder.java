@@ -17,7 +17,7 @@ public class RhythmGameDriverBuilder {
     private RhythmGameController controller;
     private RhythmGamePresenter presenter;
     private NoteGenerator noteGenerator;
-    private String mode = "SONG";
+    private String mode = "LIVES";
     private RhythmGamePresenter.Song song = RhythmGamePresenter.Song.OLD_TOWN_ROAD;
 
     /**
@@ -51,11 +51,15 @@ public class RhythmGameDriverBuilder {
      */
     public void createRhythmGamePresenter(RhythmGamePresenter.Song song) {
         this.song = song;
-        if (mode.equalsIgnoreCase("LIVES"))
+        if (mode.equalsIgnoreCase("LIVES")) {
             presenter = new RGMissedPresenter(rhythmGame, song);
-        else if (mode.equalsIgnoreCase("SONG"))
+
+            System.out.println("new RGMissedPresenter");
+        } else if (mode.equalsIgnoreCase("SONG")) {
             presenter = new RGStatsPresenter(rhythmGame, song);
-        else
+
+            System.out.println("new RGStatsPresenter");
+        } else
             presenter = new RhythmGamePresenter(rhythmGame, RhythmGamePresenter.Song.OLD_TOWN_ROAD);
     }
 
@@ -63,11 +67,13 @@ public class RhythmGameDriverBuilder {
      * Creates the note generator based on the mode
      */
     public void createNoteGenerator() {
-        if (mode.equalsIgnoreCase("LIVES"))
+        if (mode.equalsIgnoreCase("LIVES")) {
             noteGenerator = new RandomNoteGenerator(rhythmGame);
-        else if (mode.equalsIgnoreCase("SONG"))
+            System.out.println("new RNG");
+        } else if (mode.equalsIgnoreCase("SONG")) {
             noteGenerator = new SongNoteGenerator(rhythmGame);
-        else
+            System.out.println("new Song");
+        } else
             noteGenerator = new NoteGenerator(rhythmGame);
     }
 
