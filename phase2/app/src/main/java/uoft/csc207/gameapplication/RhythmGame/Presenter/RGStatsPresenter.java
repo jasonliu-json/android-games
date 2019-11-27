@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameLevel;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGamePointsSystem;
@@ -18,8 +19,8 @@ public class RGStatsPresenter extends RhythmGamePresenter {
     private Paint upperRectPaint = new Paint();
     private int textHeight;
 
-    public RGStatsPresenter(RhythmGameLevel rhythmGameLevel, Context context, char[] shapes) {
-        super(rhythmGameLevel, context, shapes);
+    public RGStatsPresenter(RhythmGameLevel rhythmGameLevel, DisplayMetrics metrics, Context context, char[] shapes) {
+        super(rhythmGameLevel, metrics, context, shapes);
         pointsSystem = rhythmGameLevel.getPointsSystem();
     }
 

@@ -1,5 +1,9 @@
 package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
+/**
+ * A Rhythm game level where the notes are generated in a random column.
+ * The level ends when a max amount notes missed is reached.
+ */
 public class RhythmLevelLivesMode extends RhythmGameLevel {
     private RandomNoteGenerator noteGenerator;
     private int numLives = 10;
@@ -8,6 +12,7 @@ public class RhythmLevelLivesMode extends RhythmGameLevel {
         super(numColumns, gameHeight, song);
 
         noteGenerator = new RandomNoteGenerator();
+        setNoteGenerator(noteGenerator);
     }
 
     @Override

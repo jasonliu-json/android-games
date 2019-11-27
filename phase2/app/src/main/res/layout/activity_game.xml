@@ -12,7 +12,7 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
-<!--    <uoft.csc207.gameapplication.RhythmGame.RhythmGameView-->
+<!--    <uoft.csc207.gameapplication.RhythmGameLevel.RhythmGameView-->
 <!--        android:id="@+id/RhythmGameView"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->

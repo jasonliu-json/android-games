@@ -23,4 +23,9 @@
         <item>Control 1</item>
         <item>Control 2</item>
     </string-array>
+    <string-array name="tetrisColours">
+        <item>Default</item>
+        <item>Aqua</item>
+        <item>Ember</item>
+    </string-array>
 </resources>

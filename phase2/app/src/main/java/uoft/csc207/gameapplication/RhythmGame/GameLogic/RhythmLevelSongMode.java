@@ -1,5 +1,9 @@
 package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
+/**
+ * A Rhythm game level where notes are generated based on the song.
+ * The level ends when the song is over.
+ */
 public class RhythmLevelSongMode extends RhythmGameLevel {
     private SongNoteGenerator noteGenerator;
 
@@ -7,6 +11,7 @@ public class RhythmLevelSongMode extends RhythmGameLevel {
         super(numColumns, gameHeight, song);
 
         noteGenerator = new SongNoteGenerator(song);
+        setNoteGenerator(noteGenerator);
     }
 
     @Override

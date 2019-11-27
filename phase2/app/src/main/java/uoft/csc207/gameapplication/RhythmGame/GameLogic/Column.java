@@ -49,7 +49,7 @@ class Column extends Observable {
 
         if (!message.getMessage().equals("")) {
             message.incrementNumIterationsExisted();
-            if (message.getNumIterExisted() >= 50) message = new RhythmGameMessage("");
+            if (message.getNumIterExisted() >= 1000) message = new RhythmGameMessage("");
         }
     }
 

@@ -2,12 +2,7 @@ package uoft.csc207.gameapplication;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.DisplayMetrics;
-
-import uoft.csc207.gameapplication.MazeGame.MazeGame;
-
-import static java.lang.Thread.sleep;
 
 /**
  * Handles the inputs and outputs of the game.
@@ -18,12 +13,13 @@ public class GameWrapperDriver extends GameDriver {
     private int xInit;
     private int yInit;
 
-    public GameWrapperDriver(Context context) {
-        gameWrapper = new GameWrapper(context);
+    public GameWrapperDriver(DisplayMetrics metrics, Context context) {
+        gameWrapper = new GameWrapper(metrics, context);
+//        gameWrapper.setMetrics(metrics);
     }
     @Override
     public void init(DisplayMetrics metrics) {
-        gameWrapper.setMetrics(metrics);
+//        gameWrapper.setMetrics(metrics);
     }
     /**
      * When the touch first encounters the screen.

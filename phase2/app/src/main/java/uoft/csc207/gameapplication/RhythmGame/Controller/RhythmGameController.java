@@ -1,19 +1,20 @@
 package uoft.csc207.gameapplication.RhythmGame.Controller;
 
-import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameLevel;
 
 /**
- * How the player interacts with the RhythmGame
+ * How the player interacts with the RhythmGameLevel
  */
 public class RhythmGameController {
-    private RhythmGame rhythmGame;
+    private RhythmGameLevel level;
     private int numColumns;
 
     private int screenWidth;
 
-    public RhythmGameController(RhythmGame rhythmGame) {
-        this.rhythmGame = rhythmGame;
-        this.numColumns = rhythmGame.getNumColumns();
+    public RhythmGameController(RhythmGameLevel level, int screenWidth) {
+        this.level = level;
+        this.numColumns = level.getNumColumns();
+        this.screenWidth = screenWidth;
     }
 
     /**
@@ -24,7 +25,7 @@ public class RhythmGameController {
     public void touchStart(float x, float y) {
         // Determines the column number based on the screen width
         int colNumber = (int) (numColumns * x / screenWidth);
-        rhythmGame.tap(colNumber);
+        level.tap(colNumber);
     }
 
     public void touchMove(float x, float y) {
@@ -33,7 +34,7 @@ public class RhythmGameController {
     public void touchUp() {
     }
 
-    public void setScreenWidth(int screenWidth) {
-        this.screenWidth = screenWidth;
-    }
+//    public void setScreenWidth(int screenWidth) {
+//        this.screenWidth = screenWidth;
+//    }
 }

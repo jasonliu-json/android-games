@@ -1,16 +1,13 @@
 package uoft.csc207.gameapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,10 +77,7 @@ public class RegisterUser extends AppCompatActivity {
 
                         @Override
                         public void onSuccess() {
-                            System.out.println("running");
-                            Intent gameActivity = new Intent(RegisterUser.this,
-                                    Login.class);
-                            startActivity(gameActivity);
+                            finish();
                         }
 
                         @Override

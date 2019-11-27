@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.MediaPlayer;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
 import java.util.HashMap;
@@ -72,10 +73,12 @@ public class RhythmGamePresenter {
     }
 
 
-    public RhythmGamePresenter(RhythmGameLevel level, Context context, char[] shapes) {
+    public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context, char[] shapes) {
         this.level = level;
         this.context = context;
         this.numColumns = level.getNumColumns();
+
+        init(metrics.widthPixels, metrics.heightPixels - 40);
         setSong(level.getSong());
         setTheme(shapes);
     }

@@ -7,8 +7,7 @@ import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
-import uoft.csc207.gameapplication.RhythmGame.Presenter.RhythmGamePresenter;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriverBuilder;
+import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
 import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
 
 /**
@@ -25,18 +24,22 @@ public class GameWrapper {
     private DisplayMetrics metrics;
 
 
-    public GameWrapper(Context context) {
+    public GameWrapper(DisplayMetrics metrics, Context context) {
         points = 0;
         gameIsOver = false;
         gamesPlayed = 0;
         this.context = context;
         textPaint.setColor(Color.rgb(255, 141, 54));
         textPaint.setTextSize(60);
+        this.metrics = metrics;
+        setGameState(1);
+
+
     }
 
-    void setMetrics(DisplayMetrics metrics) {
-        this.metrics = metrics;
-    }
+//    void setMetrics(DisplayMetrics metrics) {
+//        this.metrics = metrics;
+//    }
 
     /**
      * When the touch first encounters the screen.
@@ -74,7 +77,7 @@ public class GameWrapper {
             gamesPlayed += 1;
             points += currentGamePoints;
             if (gamesPlayed == 1) {
-                setUpRhythmGameDriver();
+                gameDriver = new RhythmGameDriver(metrics, context, "1JOOL");
             }
             else if (gamesPlayed == 2) {
                 gameDriver = new MazeGameDriver(context);
@@ -101,24 +104,15 @@ public class GameWrapper {
             gameDriver.init(this.metrics);
         }
         if (gameState == 1) {
-            setUpRhythmGameDriver();
+            gameDriver = new RhythmGameDriver(metrics, context, "1JOOL");
+            //TEMPORARY - all drivers should have start, stop update?
+            ((RhythmGameDriver)gameDriver).start();
+//            gameDriver.init(metrics);
         }
         else if (gameState == 2) {
             gameDriver = new MazeGameDriver(context);
             gameDriver.init(metrics);
         }
-    }
-
-    private void setUpRhythmGameDriver() {
-        RhythmGameDriverBuilder builder = new RhythmGameDriverBuilder();;
-        builder.createRhythmGame("SONG", 4, 300, context);
-        builder.createRhythmGameController();
-        builder.createRhythmGamePresenter(RhythmGamePresenter.Song.OLD_TOWN_ROAD);
-        builder.createNoteGenerator();
-        builder.createDriver();
-
-        gameDriver = builder.getDriver();
-        gameDriver.init(metrics);
     }
 
     boolean getGameIsOver() {

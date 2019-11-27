@@ -30,7 +30,7 @@ public abstract class RhythmGameLevel extends Observable {
         this.numColumns = numColumns;
         this.gameHeight = gameHeight;
         this.song = song;
-        this.noteGenerator = getNoteGenerator();
+//        this.noteGenerator = getNoteGenerator();
 
         pointsSystem = new RhythmGamePointsSystem();
         // Creates each column of the game
@@ -113,6 +113,10 @@ public abstract class RhythmGameLevel extends Observable {
             notesMap.put(i, copy);
         }
         return notesMap;
+    }
+
+    public void setNoteGenerator(NoteGenerator noteGenerator) {
+        this.noteGenerator = noteGenerator;
     }
 
     public int getNumColumns() {

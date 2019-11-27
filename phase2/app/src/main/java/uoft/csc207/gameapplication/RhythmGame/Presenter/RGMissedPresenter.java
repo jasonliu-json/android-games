@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameLevel;
 
@@ -11,8 +12,8 @@ public class RGMissedPresenter extends RhythmGamePresenter {
 
     private Paint missedTextPaint;
 
-    public RGMissedPresenter(RhythmGameLevel rhythmGameLevel, Context context, char[] shapes) {
-        super(rhythmGameLevel, context, shapes);
+    public RGMissedPresenter(RhythmGameLevel rhythmGameLevel, DisplayMetrics metrics, Context context, char[] shapes) {
+        super(rhythmGameLevel, metrics, context, shapes);
     }
 
     @Override
