@@ -1,6 +1,4 @@
-package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
-
-import android.content.Context;
+package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

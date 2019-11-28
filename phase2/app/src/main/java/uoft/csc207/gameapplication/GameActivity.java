@@ -1,9 +1,9 @@
 package uoft.csc207.gameapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +17,7 @@ import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
     GameView gameView;
-    private GameWrapperDriver gameWrapperDriver;
+    private GameDriver gameDriver;
 
     // File reading and writing
     private String username;
@@ -39,24 +39,25 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        username = "testing";
+
         // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
         gameView = (GameView) findViewById(R.id.GameView);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        gameView.init(metrics);
 
-        gameWrapperDriver = gameView.getGameWrapperDriver();
+        gameDriver = new GameWrapperDriver(metrics, this);
+        gameView.setDriver(gameDriver);
+        gameView.start();
 
         // Initialize from files, for state saving
-        fileRW = new JSONFileRW(FILE, this);
+//        fileRW = new JSONFileRW(FILE, this);
     }
 
     protected void onStart() {
         super.onStart();
-        loadJSON();
-        setState();
+//        loadJSON();
+//        setState();
     }
 
     /**
@@ -88,7 +89,7 @@ public class GameActivity extends AppCompatActivity {
         try {
             gameState = Integer.valueOf(userdata.getString("savedStage"));
             savedScore = Integer.valueOf(userdata.getString(("savedPoints")));
-            gameWrapperDriver.setGameState(savedScore, gameState);
+//            gameDriver.setGameState(savedScore, gameState);
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -108,9 +109,9 @@ public class GameActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                saveState();
-                if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
-                    updateScores();
+//                saveState();
+                if (gameDriver.getGameIsOver()) { // should be the condition that the game is over;
+//                    updateScores();
 
                     // closes this activity
                     finish();
@@ -140,9 +141,9 @@ public class GameActivity extends AppCompatActivity {
             for (int i = 0; i < userScore.length(); i ++) {
                 scores[i] = userScore.getJSONObject(i).getString(String.format("top%d", i));
             }
-            if (Integer.valueOf(scores[9]) < gameWrapperDriver.getPoints()) {
-//                System.out.println(gameWrapperDriver.getPoints());
-                scores[9] = String.valueOf(gameWrapperDriver.getPoints());
+            if (Integer.valueOf(scores[9]) < gameDriver.getPoints()) {
+//                System.out.println(gameDriver.getPoints());
+                scores[9] = String.valueOf(gameDriver.getPoints());
             }
             Arrays.sort(scores, byValue);
             for (int i = 0; i < userScore.length(); i++) {
@@ -150,7 +151,7 @@ public class GameActivity extends AppCompatActivity {
                 scorePosition.put(String.format("top%d", i), scores[i]);
             }
             int points = Integer.valueOf(userdata.getString("totalPoints"));
-            points += gameWrapperDriver.getPoints();
+            points += gameDriver.getPoints();
             userdata.put("totalPoints", String.valueOf(points));
         }
         catch (JSONException e) {
@@ -165,7 +166,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 //        System.out.println("onPause()");
-        updateTimePlayed();
+//        updateTimePlayed();
         gameView.stop();
 
 //        writeState();
@@ -192,8 +193,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        saveState();
-        fileRW.write(database.toString());
+//        saveState();
+//        fileRW.write(database.toString());
         // hardcoded manual stop
     }
 
@@ -202,13 +203,13 @@ public class GameActivity extends AppCompatActivity {
      */
     private void saveState() {
         try {
-            if (gameWrapperDriver.getGameIsOver()) {
+            if (gameDriver.getGameIsOver()) {
                 userdata.put("savedStage", "0");
                 userdata.put("savedPoints", "0");
             }
             else {
-                userdata.put("savedStage", String.valueOf(gameWrapperDriver.getGameState()));
-                userdata.put("savedPoints", String.valueOf(gameWrapperDriver.getPoints()));
+//                userdata.put("savedStage", String.valueOf(gameDriver.getGameState()));
+//                userdata.put("savedPoints", String.valueOf(gameDriver.getPoints()));
             }
         } catch (JSONException e) {
             e.printStackTrace();

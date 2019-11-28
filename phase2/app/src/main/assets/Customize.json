@@ -1,6 +1,7 @@
 {
   "tetris":{
-    "controls": "Screen"
+    "controls": "Screen",
+    "colours": "Default"
   },
   "rhythm": {
       "shape1": "J",

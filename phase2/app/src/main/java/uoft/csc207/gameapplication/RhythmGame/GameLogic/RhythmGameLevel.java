@@ -1,6 +1,5 @@
 package uoft.csc207.gameapplication.RhythmGame.GameLogic;
 
-import android.content.Context;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -10,32 +9,30 @@ import java.util.Observable;
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
-public class RhythmGame extends Observable {
-    private Context context;
-
-    private int gameHeight = 100;
+public abstract class RhythmGameLevel extends Observable {
     private int numColumns = 4;
+    private int gameHeight = 100;
     private Column[] columns;
 
     private RhythmGamePointsSystem pointsSystem;
-    private int lives = 10;
+    private NoteGenerator noteGenerator;
+    private String song;
 
-    private boolean isGameOver = false;
-
-
+    private boolean gameIsOver = false;
+    public static String LEVEL_OVER_MESSAGE = "Level is over.";
 
     /**
      * Constructs the Rhythm game
      *
      * @param numColumns number of columns of the game
      */
-    public RhythmGame(Context context, int numColumns, int gameHeight) {
-        this.context = context;
+    public RhythmGameLevel(int numColumns, int gameHeight, String song) {
         this.numColumns = numColumns;
         this.gameHeight = gameHeight;
+        this.song = song;
+//        this.noteGenerator = getNoteGenerator();
 
         pointsSystem = new RhythmGamePointsSystem();
-
         // Creates each column of the game
         columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
@@ -52,14 +49,15 @@ public class RhythmGame extends Observable {
             columns[i].update();
         }
 
-        // Checks if the game should be over
-        if (getNumMissed() >= lives) {
-            gameOver();
-        }
+        noteGenerator.timeUpdate(columns);
     }
 
-    public void generateNote(int colNumber) {
-        columns[colNumber].generateNote();
+    public void start() {
+        noteGenerator.start();
+    }
+
+    public void stop() {
+        noteGenerator.stop();
     }
 
     /**
@@ -67,7 +65,7 @@ public class RhythmGame extends Observable {
      * @param colNumber the column id
      */
     public void tap(int colNumber) {
-        if (!getIsGameOver()) {
+        if (!getGameIsOver()) {
             columns[colNumber].tap();
         }
     }
@@ -75,12 +73,14 @@ public class RhythmGame extends Observable {
     /**
      * Ends the game.
      */
-    private void gameOver() {
+    void gameOver() {
         setGameIsOver(true);
 
         setChanged();
         notifyObservers("Game is over.");
     }
+
+    public abstract NoteGenerator getNoteGenerator();
 
     /**
      * Returns a list of messages, one in each column
@@ -115,8 +115,8 @@ public class RhythmGame extends Observable {
         return notesMap;
     }
 
-    public Context getContext() {
-        return context;
+    public void setNoteGenerator(NoteGenerator noteGenerator) {
+        this.noteGenerator = noteGenerator;
     }
 
     public int getNumColumns() {
@@ -125,6 +125,14 @@ public class RhythmGame extends Observable {
 
     public int getGameHeight() {
         return gameHeight;
+    }
+
+    public Column[] getColumns() {
+        return columns;
+    }
+
+    public String getSong() {
+        return song;
     }
 
     public RhythmGamePointsSystem getPointsSystem() {
@@ -140,10 +148,10 @@ public class RhythmGame extends Observable {
     }
 
     private void setGameIsOver(boolean gameOver) {
-        isGameOver = gameOver;
+        gameIsOver = gameOver;
     }
 
-    public boolean getIsGameOver() {
-        return isGameOver;
+    public boolean getGameIsOver() {
+        return gameIsOver;
     }
 }

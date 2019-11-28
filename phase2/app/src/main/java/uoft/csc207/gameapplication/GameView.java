@@ -3,7 +3,6 @@ package uoft.csc207.gameapplication;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -13,7 +12,7 @@ import java.util.TimerTask;
 
 
 public class GameView extends View {
-    private GameWrapperDriver gameWrapperDriver;
+    private GameDriver gameDriver;
     private Timer timer;
     public GameView(Context context) {
         this(context, null);
@@ -21,17 +20,18 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.gameWrapperDriver = new GameWrapperDriver(context);
     }
 
     public void start() {
+//        gameDriver.start()
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (gameWrapperDriver.getGameIsOver()) { // should be the condition that the game is over;
+                if (gameDriver.getGameIsOver()) { // should be the condition that the game is over;
                     stop();
                 } else {
+//                    gameDriver.update();
                     invalidate();
                 }
             }
@@ -39,17 +39,18 @@ public class GameView extends View {
     }
 
     public void stop() {
+//        gameDriver.stop()
         timer.cancel();
         timer.purge();
     }
-
-    public void init(DisplayMetrics metrics) {
-        gameWrapperDriver.init(metrics);
-    }
+//
+//    public void init(DisplayMetrics metrics) {
+//        gameDriver.init(metrics);
+//    }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        gameWrapperDriver.draw(canvas);
+        gameDriver.draw(canvas);
     }
 
 
@@ -60,24 +61,21 @@ public class GameView extends View {
 
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
-                gameWrapperDriver.touchStart(x, y);
-                invalidate();
+                gameDriver.touchStart(x, y);
                 break;
             case MotionEvent.ACTION_MOVE :
-                gameWrapperDriver.touchMove(x, y);
-                invalidate();
+                gameDriver.touchMove(x, y);
                 break;
             case MotionEvent.ACTION_UP :
-                gameWrapperDriver.touchUp();
-                invalidate();
+                gameDriver.touchUp();
                 break;
         }
 
         return true;
     }
 
-    public GameWrapperDriver getGameWrapperDriver() {
-        return gameWrapperDriver;
+    public void setDriver(GameDriver driver) {
+        this.gameDriver = driver;
     }
 }
 

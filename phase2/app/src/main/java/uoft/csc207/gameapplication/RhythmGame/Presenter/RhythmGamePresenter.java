@@ -1,10 +1,12 @@
 package uoft.csc207.gameapplication.RhythmGame.Presenter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.MediaPlayer;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
 import java.util.HashMap;
@@ -13,17 +15,16 @@ import java.util.Map;
 
 import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.Note;
-import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameLevel;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameMessage;
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.Target;
-import uoft.csc207.gameapplication.RhythmGame.NoteGenerator.NoteIntervalsReader;
-import uoft.csc207.gameapplication.RhythmGame.NoteGenerator.SongNoteGenerator;
 
 /**
  * How the game is represented on screen.
  */
 public class RhythmGamePresenter {
-    private RhythmGame rhythmGame;
+    private RhythmGameLevel level;
+    private Context context;
     private int numColumns;
 
     private Bitmap bitmap;
@@ -44,7 +45,6 @@ public class RhythmGamePresenter {
     private int bitmapTop;
 
     private MediaPlayer mediaPlayer;
-    public static enum Song {OLD_TOWN_ROAD, MII_CHANNEL};
 
     public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
 
@@ -73,10 +73,14 @@ public class RhythmGamePresenter {
     }
 
 
-    public RhythmGamePresenter(RhythmGame rhythmGame, Song song) {
-        this.rhythmGame = rhythmGame;
-        this.numColumns = rhythmGame.getNumColumns();
-        setSong(song);
+    public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context, char[] shapes) {
+        this.level = level;
+        this.context = context;
+        this.numColumns = level.getNumColumns();
+
+        init(metrics.widthPixels, metrics.heightPixels - 40);
+        setSong(level.getSong());
+        setTheme(shapes);
     }
 
     public void init(int screenWidth, int screenHeight) {
@@ -94,7 +98,7 @@ public class RhythmGamePresenter {
 
         bitmapTop = -3 * (int) Math.ceil(noteScale);
 
-        heightRatio = (screenHeight - bitmapTop) / rhythmGame.getGameHeight();
+        heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
 
 
         // add 3 times note scale, so when the note reaches 0,
@@ -103,7 +107,6 @@ public class RhythmGamePresenter {
                 screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);
         bitCanvas = new Canvas(bitmap);
 
-        setTheme();
     }
 
     public void start() {
@@ -117,12 +120,14 @@ public class RhythmGamePresenter {
         mediaPlayer = null;
     }
 
-    /* Sets up the paints and the shapes of the notes.
+
+    /**
+     * Sets up the paints and shapes of the notes.
+     * @param shapes character array, where length is as long as numColumns
      */
-    void setTheme() {
-        char[] shapes = {'S', 'O', 'O', 'Z'};
+    void setTheme(char[] shapes) {
 //        try {
-//            JSONFileRW fileRW = new JSONFileRW("Customize.json", rhythmGame.getContext());
+//            JSONFileRW fileRW = new JSONFileRW("Customize.json", level.getContext());
 //            JSONObject configs = fileRW.load();
 //            JSONObject rhythmConfigs = configs.getJSONObject("rhythm");
 //            for (int i = 0; i < numColumns; i++) {
@@ -166,7 +171,7 @@ public class RhythmGamePresenter {
 
     public void  draw(Canvas canvas){
         // TEMPORARY
-        rhythmGame.timeUpdate();
+        level.timeUpdate();
         updateBitmap(bitCanvas);
 
         canvas.drawBitmap(bitmap, 0, bitmapTop, null);
@@ -177,9 +182,9 @@ public class RhythmGamePresenter {
         bitCanvas.save();
         bitCanvas.drawColor(Color.WHITE);
 
-        Target[] targets = rhythmGame.getAllTargets();
-        SparseArray<List<Note>> notesMap = rhythmGame.getAllNotes();
-        RhythmGameMessage[] messages = rhythmGame.getMessages();
+        Target[] targets = level.getAllTargets();
+        SparseArray<List<Note>> notesMap = level.getAllNotes();
+        RhythmGameMessage[] messages = level.getMessages();
 
         // draws the target, the notes, and the messages in each column
         for (int i = 0; i < numColumns; i++) {
@@ -211,15 +216,13 @@ public class RhythmGamePresenter {
         }
     }
 
-    private void setSong(Song song) {
-        switch (song) {
-            case OLD_TOWN_ROAD:
-                mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.old_town_road);
-            case MII_CHANNEL:
-                mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.mii_channel);
-            default:
-                mediaPlayer = MediaPlayer.create(rhythmGame.getContext(), R.raw.old_town_road);
-        }
+    private void setSong(String song) {
+        if (song.equalsIgnoreCase("Old Town Road"))
+            mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
+        else if (song.equalsIgnoreCase("Mii Channel"))
+            mediaPlayer = MediaPlayer.create(context, R.raw.mii_channel);
+        else
+            mediaPlayer = MediaPlayer.create(context, R.raw.old_town_road);
     }
 
 //    private MediaPlayer createMediaPlayer(String song) {
@@ -255,8 +258,8 @@ public class RhythmGamePresenter {
 //        }
 //    }
 
-    public RhythmGame getRhythmGame() {
-        return rhythmGame;
+    public RhythmGameLevel getLevel() {
+        return level;
     }
 
     public Canvas getBitCanvas() {

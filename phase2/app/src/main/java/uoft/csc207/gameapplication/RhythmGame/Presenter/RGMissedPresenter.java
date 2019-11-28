@@ -1,24 +1,26 @@
 package uoft.csc207.gameapplication.RhythmGame.Presenter;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 
-import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
+import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGameLevel;
 
 public class RGMissedPresenter extends RhythmGamePresenter {
 
-    private Paint missedTextPaint = new Paint();;
+    private Paint missedTextPaint;
 
-    public RGMissedPresenter(RhythmGame rhythmGame, Song song) {
-        super(rhythmGame, song);
-        System.out.println("RGMissed Presenter");
+    public RGMissedPresenter(RhythmGameLevel rhythmGameLevel, DisplayMetrics metrics, Context context, char[] shapes) {
+        super(rhythmGameLevel, metrics, context, shapes);
     }
 
     @Override
-    public void setTheme() {
-        super.setTheme();
+    public void setTheme(char[] shapes) {
+        super.setTheme(shapes);
 
+        missedTextPaint = new Paint();
         missedTextPaint.setTextSize(60);
         missedTextPaint.setColor(Color.RED);
     }
@@ -27,7 +29,7 @@ public class RGMissedPresenter extends RhythmGamePresenter {
     public void updateBitmap(Canvas bitCanvas) {
         super.updateBitmap(bitCanvas);
 
-        bitCanvas.drawText("Missed: " + getRhythmGame().getNumMissed(), getScreenWidth()/2,
+        bitCanvas.drawText("Missed: " + getLevel().getNumMissed(), getScreenWidth()/2,
                 80-getBitmapTop(), missedTextPaint);
     }
 }

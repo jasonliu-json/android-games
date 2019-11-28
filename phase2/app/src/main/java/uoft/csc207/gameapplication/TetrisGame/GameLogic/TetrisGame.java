@@ -2,31 +2,33 @@ package uoft.csc207.gameapplication.TetrisGame.GameLogic;
 
 public class TetrisGame {
 
-    /**
-     * The current falling piece.
-     */
-    private Piece fallingPiece;
     private Board board;
-    private Randomizer randomizer;
+    private PieceGenerator pieceGenerator;
     private boolean gameIsOver;
     private int points;
-    private int linesCleared;
-    private int threshold;
+    private int totalLines;
     private int rate;
     private int count;
 
-    public TetrisGame(Board board, Randomizer randomizer) {
+    /**
+     * Construct a new TetrisGame object.
+     */
+    public TetrisGame(Board board, PieceGenerator pieceGenerator) {
         this.board = board;
-        this.randomizer = randomizer;
-        fallingPiece = randomizer.nextPiece();
+        this.pieceGenerator = pieceGenerator;
+        board.setCurrPiece(pieceGenerator.nextPiece());
         gameIsOver = false;
         points = 0;
-        linesCleared = 0;
-        threshold = 1;
-        rate = 30;  // piece falls every 30 * <refresh rate> ms
+        totalLines = 0;
+        rate = 25;  // 25 frames
         count = 0;
     }
 
+    /**
+     * Return .
+     *
+     * @return True if the game is over, false otherwise.
+     */
     public Board getBoard() {
         return board;
     }
@@ -41,88 +43,85 @@ public class TetrisGame {
     }
 
     /**
-     * Return the total points scored by the player.
+     * Return the points scored.
      *
-     * @return The total points scored by the player.
+     * @return The points scored.
      */
     public int getPoints() {
         return points;
     }
 
-    private boolean tryMove(int adjX, int adjY) {
-        board.removePiece(fallingPiece);
-        if (board.canMove(fallingPiece, adjX, adjY)) {
-            fallingPiece.move(adjX, adjY);
-            board.addPiece(fallingPiece);
-            return true;
-        }
-        board.addPiece(fallingPiece);
-        return false;
-    }
-
+    /**
+     * Move the current piece left, if possible.
+     */
     public void moveLeft() {
-        tryMove(-1, 0);
+        board.moveLeft();
     }
 
+    /**
+     * Move the current piece right, if possible.
+     */
     public void moveRight() {
-        tryMove(1, 0);
+        board.moveRight();
     }
 
+    /**
+     * Move the current piece down, if possible.
+     */
     public void moveDown() {
-        if (!tryMove(0, 1)) {
+        board.moveDown();
+        if (board.getCurrPiece() == null) {
             reset();
         }
     }
 
+    /**
+     * Drop the current piece all the way down, if possible.
+     */
+    public void dropDown() {
+        board.dropDown();
+        reset();
+    }
+
+    /**
+     * Periodically move the current piece down.
+     */
     public void fallDown() {
         if (count == rate) {
             moveDown();
             count = 0;
+            if (totalLines >= 10) {
+                rate = Math.max(5, rate - 5);
+                totalLines = totalLines % 10;
+                System.out.println(rate);
+            }
         } else {
             count += 1;
         }
     }
 
-    public void dropDown() {
-        boolean isFalling = true;
-        while (isFalling) {
-            isFalling = tryMove(0, 1);
-        }
-        reset();
-    }
-
-    private void tryRotate(int direction) {
-        board.removePiece(fallingPiece);
-        if (board.canRotate(fallingPiece, direction)) {
-            fallingPiece.rotate(direction);
-        }
-        board.addPiece(fallingPiece);
-    }
-
+    /**
+     * Rotate the current piece clockwise, if possible.
+     */
     public void rotateClockwise() {
-        tryRotate(1);
+        board.rotateClockwise();
     }
 
+    /**
+     * Rotate the current piece counterclockwise, if possible.
+     */
     public void rotateCounterClockwise() {
-        tryRotate(fallingPiece.getSprites().length - 1);
+        board.rotateCounterClockwise();
     }
 
+    /**
+     * Rotate the current piece counterclockwise, if possible.
+     */
     private void reset() {
-        linesCleared += board.clearLines();
-        points = linesCleared * 100;
-        if (linesCleared >= threshold && rate > 5) {
-            rate -= 5;
-            count = 0;
-            threshold += 10;
-        }
-        resetFallingPiece();
-    }
-
-    private void resetFallingPiece() {
-        fallingPiece = randomizer.nextPiece();
-        if (board.canMove(fallingPiece, 0, 0)) {
-            board.addPiece(fallingPiece);
-        } else { // game over
+        int lines = board.clearLines();
+        totalLines += lines;
+        points += lines * 100;
+        if (!board.setCurrPiece(pieceGenerator.nextPiece())) {
             gameIsOver = true;
         }
     }
