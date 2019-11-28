@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Utility;
 
 import android.app.Activity;
 import android.content.Context;

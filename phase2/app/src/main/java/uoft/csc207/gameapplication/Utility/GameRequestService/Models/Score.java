@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.GameRequestService.Models;
+package uoft.csc207.gameapplication.Utility.GameRequestService.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import uoft.csc207.gameapplication.GameRequestService.RegisterService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RegisterService;
+import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
 public class RegisterUser extends AppCompatActivity {
     private Button registerButton;

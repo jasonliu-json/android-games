@@ -1,9 +1,7 @@
-package uoft.csc207.gameapplication.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,7 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import uoft.csc207.gameapplication.GameRequestService.Models.Token;
+import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 import uoft.csc207.gameapplication.Login;
 
 import static java.lang.Thread.sleep;

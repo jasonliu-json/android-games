@@ -5,25 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
-import uoft.csc207.gameapplication.GameRequestService.Models.LeaderBoard;
-import uoft.csc207.gameapplication.GameRequestService.Models.Score;
-import uoft.csc207.gameapplication.GameRequestService.ScoreService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
+import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
+import uoft.csc207.gameapplication.Utility.GameRequestService.ScoreService;
 
 public class LeaderboardActivity extends AppCompatActivity {
 

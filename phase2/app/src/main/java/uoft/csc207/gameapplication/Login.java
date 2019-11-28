@@ -10,17 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import uoft.csc207.gameapplication.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
 public class Login extends AppCompatActivity {
     private Button loginButton;

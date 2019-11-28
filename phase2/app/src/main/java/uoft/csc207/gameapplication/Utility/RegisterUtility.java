@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Utility;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
