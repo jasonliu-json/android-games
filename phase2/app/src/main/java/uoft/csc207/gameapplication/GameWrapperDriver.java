@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 
+import uoft.csc207.gameapplication.Games.GameDriver;
+
 /**
  * Handles the inputs and outputs of the game.
  */
@@ -15,12 +17,10 @@ public class GameWrapperDriver extends GameDriver {
 
     public GameWrapperDriver(DisplayMetrics metrics, Context context) {
         gameWrapper = new GameWrapper(metrics, context);
-//        gameWrapper.setMetrics(metrics);
+        init(metrics);
     }
-    @Override
-    public void init(DisplayMetrics metrics) {
-//        gameWrapper.setMetrics(metrics);
-    }
+
+
     /**
      * When the touch first encounters the screen.
      * @param x the x-coordinate of the event on the screen.

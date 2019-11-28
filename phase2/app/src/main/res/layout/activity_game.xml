@@ -7,7 +7,7 @@
     tools:context=".GameActivity">
 
 
-<!--    <uoft.csc207.gameapplication.MazeGame.MazeGameView-->
+<!--    <uoft.csc207.gameapplication.Games.MazeGame.MazeGameView-->
 <!--        android:id="@+id/MazeGameView"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
@@ -17,7 +17,7 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
-<!--    <uoft.csc207.gameapplication.TetrisGame.TetrisGameView-->
+<!--    <uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameView-->
 <!--        android:id="@+id/TetrisGameView"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->

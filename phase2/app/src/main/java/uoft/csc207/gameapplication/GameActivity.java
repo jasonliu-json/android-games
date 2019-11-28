@@ -1,13 +1,13 @@
 package uoft.csc207.gameapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import androidx.appcompat.app.AppCompatActivity;
-import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
-import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
+
+import uoft.csc207.gameapplication.Games.GameDriver;
+import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
+import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +46,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Check game type
 
-        gameType = getIntent().getExtras().getString("gameType");
-        System.out.println("game type: " + gameType);
+        gameType = getIntent().getStringExtra("gameType");
 
         // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
@@ -55,25 +54,43 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
+        System.out.println(gameType);
+
+//        if (gameType.equals("tetrisGame")) {
+//            gameDriver = new TetrisGameDriver(this);
+//        } else if (gameType.equals("rhythmGame")) {
+////                gameDriver = new RhythmGameDriver(metrics, this, configs??);
+//        } else if (gameType.equals("mazeGame")) {
+//            gameDriver = new MazeGameDriver(this);
+//        } else {
+//            gameDriver = new GameWrapperDriver(metrics, this);
+//        }
 
         switch (gameType) {
             case "gameWrapper":
                 System.out.println("playing game wrapper");
                 gameDriver = new GameWrapperDriver(metrics, this);
-                
-//            case "tetrisGame":
-//                System.out.println("playing tetris");
-//                gameDriver = (TetrisGameDriver) new TetrisGameDriver(this);
-//                System.out.println("gameDriver is " + gameDriver);
-//            case "rhythmGame":
-////                gameDriver = new RhythmGameDriver(metrics, this, configs??);
-//            case "mazeGame":
-//                System.out.println("playing maze");
-//                gameDriver = (MazeGameDriver) new MazeGameDriver(this);
+                break;
+
+            case "tetrisGame":
+                System.out.println("playing tetris");
+                gameDriver = new TetrisGameDriver(this);
+                gameDriver.init(metrics);
+                break;
+
+            case "rhythmGame":
+//                gameDriver = new RhythmGameDriver(metrics, this, configs??);
+                break;
+
+            case "mazeGame":
+                System.out.println("playing maze");
+                gameDriver = new MazeGameDriver(this);
+                gameDriver.init(metrics);
+                break;
 
             default:
                 gameDriver = new GameWrapperDriver(metrics, this);
-
+                break;
         }
 
         gameView.setDriver(gameDriver);

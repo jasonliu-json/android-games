@@ -6,9 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
-import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
-import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
-import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
+import uoft.csc207.gameapplication.Games.GameDriver;
+import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
+import uoft.csc207.gameapplication.Games.RhythmGame.RhythmGameDriver;
+import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 
 /**
  * Plays the subgames in consecutive order.
@@ -32,9 +33,7 @@ public class GameWrapper {
         textPaint.setColor(Color.rgb(255, 141, 54));
         textPaint.setTextSize(60);
         this.metrics = metrics;
-        setGameState(1);
-
-
+        setGameState(0);
     }
 
 //    void setMetrics(DisplayMetrics metrics) {
