@@ -1,9 +1,13 @@
 package uoft.csc207.gameapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import androidx.appcompat.app.AppCompatActivity;
+import uoft.csc207.gameapplication.MazeGame.MazeGameDriver;
+import uoft.csc207.gameapplication.RhythmGame.RhythmGameDriver;
+import uoft.csc207.gameapplication.TetrisGame.TetrisGameDriver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
 
     private long gameSessionStart;
     private Timer timer;
+    private String gameType = "gameWrapper";
 
 
 
@@ -39,6 +44,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Check game type
+
+        gameType = getIntent().getExtras().getString("gameType");
+        System.out.println("game type: " + gameType);
 
         // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
@@ -46,7 +55,27 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        gameDriver = new GameWrapperDriver(metrics, this);
+
+        switch (gameType) {
+            case "gameWrapper":
+                System.out.println("playing game wrapper");
+                gameDriver = new GameWrapperDriver(metrics, this);
+                
+//            case "tetrisGame":
+//                System.out.println("playing tetris");
+//                gameDriver = (TetrisGameDriver) new TetrisGameDriver(this);
+//                System.out.println("gameDriver is " + gameDriver);
+//            case "rhythmGame":
+////                gameDriver = new RhythmGameDriver(metrics, this, configs??);
+//            case "mazeGame":
+//                System.out.println("playing maze");
+//                gameDriver = (MazeGameDriver) new MazeGameDriver(this);
+
+            default:
+                gameDriver = new GameWrapperDriver(metrics, this);
+
+        }
+
         gameView.setDriver(gameDriver);
         gameView.start();
 

@@ -27,6 +27,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gameWrapperActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
+                gameWrapperActivity.putExtra("gameType", "gameWrapper");
                 startActivity(gameWrapperActivity);
             }
 
@@ -36,6 +37,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent tetrisGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
+                tetrisGameActivity.putExtra("gameType", "tetrisGame");
                 startActivity(tetrisGameActivity);
             }
 
@@ -45,6 +47,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent rhythmGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
+                rhythmGameActivity.putExtra("gameType", "rhythmGame");
                 startActivity(rhythmGameActivity);
             }
         });
@@ -53,6 +56,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mazeGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
+                mazeGameActivity.putExtra("gameType", "mazeGame");
                 startActivity(mazeGameActivity);
             }
         });
