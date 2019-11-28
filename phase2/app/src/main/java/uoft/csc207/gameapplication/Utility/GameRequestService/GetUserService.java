@@ -40,6 +40,7 @@ public class GetUserService extends RestApiConnector{
                         user.setTotalPoints(userInfo.getTotalPoints());
                         user.setUsername(userInfo.getUsername());
                         user.setUserScores(userInfo.getUserScores());
+                        user.setCurrentStage(userInfo.getCurrentStage());
                         callback.onSuccess();
 
                     } catch (IOException e) {

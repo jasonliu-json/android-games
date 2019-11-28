@@ -17,6 +17,17 @@ public class User {
     @JsonProperty("timePlayed")
     private String timePlayed;
 
+    @JsonProperty("currentStage")
+    private String currentStage;
+
+    public String getCurrentStage() {
+        return currentStage;
+    }
+
+    public void setCurrentStage(String currentStage) {
+        this.currentStage = currentStage;
+    }
+
     public String getTotalPoints() {
         return totalPoints;
     }

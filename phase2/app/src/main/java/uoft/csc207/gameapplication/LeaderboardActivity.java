@@ -35,7 +35,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         scoreService.getGlobalLeaderboards("WrapperGame", new CallBack() {
             @Override
             public void onSuccess() {
-                initalize(scoreService.getLeaderBoard());
+                initialize(scoreService.getLeaderBoard());
             }
 
             @Override
@@ -51,7 +51,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
-    public void initalize(LeaderBoard leaderBoard) {
+    public void initialize(LeaderBoard leaderBoard) {
 
         List<Score> scores = leaderBoard.getScores();
         String[] topTenPlayers = new String[10];
