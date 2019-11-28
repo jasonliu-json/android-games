@@ -21,19 +21,11 @@ import uoft.csc207.gameapplication.LoginActivity;
 import static java.lang.Thread.sleep;
 
 // specifically for accessing user info
-public class LoginService {
-    private static final String URL = "http://192.168.2.17:8080/"; // local ip using http for testing
-    private static final String LOGIN = "api/tokens/login";
-    private static final String DELETE_TOKEN = ""; // not implemented yet on rest api
+public class LoginService extends RestApiConnector{
+    public static final String LOGIN = "api/tokens/login";
     private static Token loginToken = new Token();
 
-    private Context context;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public void login(String username, String password, final LoginActivity.LoginCallBack callback) {
+    public void login(String username, String password, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject loginInfo = new JSONObject();

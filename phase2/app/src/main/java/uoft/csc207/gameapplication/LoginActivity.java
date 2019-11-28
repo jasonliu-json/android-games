@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 username = usernameInput.getText().toString();
                 loginPassword = RegisterUtility.hash(passwordInput.getText().toString(), "SHA-256");
 
-                userService.login(username, loginPassword, new LoginCallBack() {
+                userService.login(username, loginPassword, new CallBack() {
                     @Override
                     public void onFailure() {
                         showToast("Incorrect login credentials");
@@ -94,11 +95,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public interface LoginCallBack{
-        void onSuccess();
-        void onFailure();
-        void onWait();
-    }
 
 //    /**
 //     * load the json from assets or from the android memory

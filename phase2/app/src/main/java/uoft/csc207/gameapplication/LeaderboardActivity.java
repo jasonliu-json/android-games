@@ -7,9 +7,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
-import uoft.csc207.gameapplication.Utility.GameRequestService.ScoreService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.LeaderBoardService;
 
 public class LeaderboardActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 //    private static final String FILE = "UserData.json";
 //    private JSONArray database;
 
-    private ScoreService scoreService = new ScoreService();
+    private LeaderBoardService scoreService = new LeaderBoardService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,10 @@ public class LeaderboardActivity extends AppCompatActivity {
 //        String[][] topPlays = getTopPlayers();
         scoreService.setContext(this);
 
-        scoreService.getGlobalLeaderboards("WrapperGame", new GlobalLeaderBoardCallback() {
+        scoreService.getGlobalLeaderboards("WrapperGame", new CallBack() {
             @Override
-            public void onSuccess(LeaderBoard leaderBoard) {
-                initalize(leaderBoard);
+            public void onSuccess() {
+                initalize(scoreService.getLeaderBoard());
             }
 
             @Override
@@ -53,7 +54,6 @@ public class LeaderboardActivity extends AppCompatActivity {
     public void initalize(LeaderBoard leaderBoard) {
 
         List<Score> scores = leaderBoard.getScores();
-
         String[] topTenPlayers = new String[10];
         String[] topTenScores = new String[10];
 
@@ -85,13 +85,6 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         }
 
-    }
-
-
-    public interface GlobalLeaderBoardCallback {
-        void onSuccess(LeaderBoard leaderBoard);
-        void onFailure();
-        void onWait();
     }
 
 //    /**

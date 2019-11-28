@@ -8,6 +8,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
@@ -33,10 +34,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
         getUserService = new GetUserService();
         getUserService.setContext(this);
 
-        getUserService.getUser(LoginService.getLoginToken(), new UserCallBack() {
+        getUserService.getUser(LoginService.getLoginToken(), new CallBack() {
             @Override
-            public void onSuccess(User user) {
-                initialize(user);
+            public void onSuccess() {
+                initialize(getUserService.getUser());
             }
 
             @Override
@@ -89,12 +90,6 @@ public class PersonalScoresActivity extends AppCompatActivity {
         TextView totalPoints = (TextView) findViewById(R.id.total_points);
         totalPoints.setTextSize(20);
         totalPoints.setText(totalPointsText);
-    }
-
-    public interface UserCallBack{
-        void onSuccess(User user);
-        void onFailure();
-        void onWait();
     }
 
 //    /**

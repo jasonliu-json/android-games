@@ -19,17 +19,11 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
 import uoft.csc207.gameapplication.PersonalScoresActivity;
 
-public class GetUserService {
-    private static final String URL = "http://192.168.2.17:8080/"; // local ip using http for testing
-    private static final String GET_USER = "api/tokens/user/";
+public class GetUserService extends RestApiConnector{
+    public static final String GET_USER = "api/tokens/user/";
+    private User user = new User();
 
-    private Context context;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public void getUser(Token token, final PersonalScoresActivity.UserCallBack callback) {
+    public void getUser(Token token, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject loginInfo = new JSONObject();
@@ -41,8 +35,13 @@ public class GetUserService {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                        User user = objectMapper.readValue(response.toString(), User.class);
-                        callback.onSuccess(user);
+                        User userInfo = objectMapper.readValue(response.toString(), User.class);
+                        user.setTimePlayed(userInfo.getTimePlayed());
+                        user.setTotalPoints(userInfo.getTotalPoints());
+                        user.setUsername(userInfo.getUsername());
+                        user.setUserScores(userInfo.getUserScores());
+                        callback.onSuccess();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -57,5 +56,9 @@ public class GetUserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public User getUser() {
+        return user;
     }
 }

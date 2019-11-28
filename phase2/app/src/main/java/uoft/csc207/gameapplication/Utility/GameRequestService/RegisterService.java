@@ -13,17 +13,10 @@ import org.json.JSONObject;
 
 import uoft.csc207.gameapplication.RegisterUserActivity;
 
-public class RegisterService {
-    private static final String URL = "http://192.168.2.17:8080/"; // local ip using http for testing
-    private static final String REGISTER = "api/users/register";
+public class RegisterService extends RestApiConnector{
+    public static final String REGISTER = "api/users/register";
 
-    private Context context;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public void register(JSONObject jsonObject, final RegisterUserActivity.RegisterCallBack callback) {
+    public void register(JSONObject jsonObject, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, URL + REGISTER, jsonObject, new Response.Listener<JSONObject>() {

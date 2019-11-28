@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.RegisterService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
@@ -70,7 +71,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                 }
                 else {
                     JSONObject jsonObject = register();
-                    registerService.register(jsonObject, new RegisterCallBack() {
+                    registerService.register(jsonObject, new CallBack() {
                         @Override
                         public void onFailure() {
                             showToast("username is taken");
@@ -101,12 +102,6 @@ public class RegisterUserActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public interface RegisterCallBack {
-        void onSuccess();
-        void onFailure();
-        void onWait();
     }
 
 //    /**

@@ -16,18 +16,11 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard
 import uoft.csc207.gameapplication.LeaderboardActivity;
 
 // specifically made for global scores
-public class ScoreService {
-    private static final String URL = "http://192.168.2.17:8080/"; // local ip using http for testing
+public class LeaderBoardService extends RestApiConnector{
+    public static final String LEADERBOARDS = "api/leaderboard/testing/";
+    private LeaderBoard leaderBoard = new LeaderBoard();
 
-    private static final String LEADERBOARDS = "api/leaderboard/testing/";
-
-    private Context context;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public void getGlobalLeaderboards(String game, final LeaderboardActivity.GlobalLeaderBoardCallback callback) {
+    public void getGlobalLeaderboards(String game, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
 
@@ -35,8 +28,10 @@ public class ScoreService {
                 @Override
                 public void onResponse(String response) {
                     try {
-                        LeaderBoard leaderBoard = new ObjectMapper().readValue(response, LeaderBoard.class);
-                        callback.onSuccess(leaderBoard);
+                        LeaderBoard newLeaderBoard = new ObjectMapper().readValue(response, LeaderBoard.class);
+                        leaderBoard.setGame(newLeaderBoard.getGame());
+                        leaderBoard.setScores(newLeaderBoard.getScores());
+                        callback.onSuccess();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -54,4 +49,7 @@ public class ScoreService {
         }
     }
 
+    public LeaderBoard getLeaderBoard() {
+        return leaderBoard;
+    }
 }
