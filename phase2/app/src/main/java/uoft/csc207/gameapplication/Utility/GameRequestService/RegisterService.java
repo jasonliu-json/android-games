@@ -11,7 +11,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import uoft.csc207.gameapplication.RegisterUser;
+import uoft.csc207.gameapplication.RegisterUserActivity;
 
 public class RegisterService {
     private static final String URL = "http://192.168.2.17:8080/"; // local ip using http for testing
@@ -23,7 +23,7 @@ public class RegisterService {
         this.context = context;
     }
 
-    public void register(JSONObject jsonObject, final RegisterUser.RegisterCallBack callback) {
+    public void register(JSONObject jsonObject, final RegisterUserActivity.RegisterCallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, URL + REGISTER, jsonObject, new Response.Listener<JSONObject>() {

@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
-import uoft.csc207.gameapplication.Login;
+import uoft.csc207.gameapplication.LoginActivity;
 
 import static java.lang.Thread.sleep;
 
@@ -33,7 +33,7 @@ public class LoginService {
         this.context = context;
     }
 
-    public void login(String username, String password, final Login.LoginCallBack callback) {
+    public void login(String username, String password, final LoginActivity.LoginCallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject loginInfo = new JSONObject();

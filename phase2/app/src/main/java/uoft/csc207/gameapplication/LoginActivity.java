@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView registerText;
 
@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity {
                         loggingIn = false;
 
 //                         this is only here for testing purposes
-                        Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
+                        Intent mainMenuActivity = new Intent(LoginActivity.this, MainMenuActivity.class);
                         startActivity(mainMenuActivity);
 //                        // ^^ this is only here for testing purposes
 
@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
 
                     @Override
                     public void onSuccess() {
-                        Intent mainMenuActivity = new Intent(Login.this, MainMenuActivity.class);
+                        Intent mainMenuActivity = new Intent(LoginActivity.this, MainMenuActivity.class);
                         startActivity(mainMenuActivity);
                         loggingIn = false;
                     }
@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity {
         registerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registerUser = new Intent(Login.this, RegisterUser.class);
+                Intent registerUser = new Intent(LoginActivity.this, RegisterUserActivity.class);
                 startActivity(registerUser);
             }
         });
@@ -169,6 +169,6 @@ public class Login extends AppCompatActivity {
      * @param text a text to be displayed on screen
      */
     private void showToast(String text) {
-        Toast.makeText(Login.this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 }

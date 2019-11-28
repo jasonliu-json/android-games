@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import uoft.csc207.gameapplication.Utility.GameRequestService.RegisterService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
-public class RegisterUser extends AppCompatActivity {
+public class RegisterUserActivity extends AppCompatActivity {
     private Button registerButton;
     private EditText emailInput;
     private EditText usernameInput;
@@ -142,7 +142,7 @@ public class RegisterUser extends AppCompatActivity {
      * @param text a text to be displayed on screen
      */
     private void showToast(String text) {
-        Toast.makeText(RegisterUser.this, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(RegisterUserActivity.this, text, Toast.LENGTH_LONG).show();
     }
 
 }

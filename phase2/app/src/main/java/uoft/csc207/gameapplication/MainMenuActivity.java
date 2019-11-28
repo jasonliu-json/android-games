@@ -68,7 +68,7 @@ public class MainMenuActivity extends AppCompatActivity {
 //        registerText.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent registerUser = new Intent(Login.this, RegisterUser.class);
+//                Intent registerUser = new Intent(LoginActivity.this, RegisterUserActivity.class);
 //                startActivity(registerUser);
 //            }
 //        });
