@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import uoft.csc207.gameapplication.GameDriver;
 import uoft.csc207.gameapplication.TetrisGame.Controller.TetrisGameController;
 import uoft.csc207.gameapplication.TetrisGame.GameLogic.Board;
-import uoft.csc207.gameapplication.TetrisGame.GameLogic.Randomizer;
+import uoft.csc207.gameapplication.TetrisGame.GameLogic.PieceGenerator;
 import uoft.csc207.gameapplication.TetrisGame.GameLogic.TetrisGame;
 import uoft.csc207.gameapplication.TetrisGame.Presenter.TetrisGamePresenter;
 
@@ -17,11 +17,13 @@ public class TetrisGameDriver extends GameDriver {
     private TetrisGameController controller;
 
     public TetrisGameDriver(Context context) {
-        game = new TetrisGame(new Board(10, 20), new Randomizer());
+        game = new TetrisGame(new Board(10, 20), new PieceGenerator());
         presenter = new TetrisGamePresenter(game);
         controller = new TetrisGameController(game);
-    }
 
+        // CONFIG STRING
+
+    }
 
     public boolean getGameIsOver() {
         return game.getGameIsOver();

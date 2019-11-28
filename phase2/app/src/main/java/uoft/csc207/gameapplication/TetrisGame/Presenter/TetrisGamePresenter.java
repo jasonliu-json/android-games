@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import uoft.csc207.gameapplication.TetrisGame.GameLogic.Board;
 import uoft.csc207.gameapplication.TetrisGame.GameLogic.TetrisGame;
@@ -15,7 +16,7 @@ import uoft.csc207.gameapplication.TetrisGame.GameLogic.TetrisGame;
 public class TetrisGamePresenter {
 
     private TetrisGame tetrisGame;
-    private HashMap<Character, Integer> colorScheme;
+    private static Map<Character, Integer> colorScheme;
 
     public TetrisGamePresenter(TetrisGame tetrisGame) {
         this.tetrisGame = tetrisGame;
@@ -60,21 +61,15 @@ public class TetrisGamePresenter {
     private void drawBlocks(Canvas canvas, Board board) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        int width = (canvas.getWidth() / 12);
-        int height = (canvas.getWidth() / 12);
+        int length = canvas.getWidth() / 12;
         for (int i = 0; i < board.getHeight(); i++) {
             for (int k = 0; k < board.getWidth(); k++) {
                 char block = board.getGrid()[i][k];
-                int x = k * width;
-                int y = i * height;
+                int x = k * length;
+                int y = i * length;
                 if (block != '.') {
-                    try {
-                        paint.setColor(colorScheme.get(block));
-                    }
-                    catch (NullPointerException e) {
-                        paint.setColor(Color.rgb(255, 255, 255));
-                    }
-                    canvas.drawRect(new Rect(x, y, x + width, y + width), paint);
+                    paint.setColor(colorScheme.get(block));
+                    canvas.drawRect(new Rect(x, y, x + length, y + length), paint);
                 }
             }
         }

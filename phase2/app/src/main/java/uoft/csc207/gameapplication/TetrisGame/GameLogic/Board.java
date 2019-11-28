@@ -3,7 +3,7 @@ package uoft.csc207.gameapplication.TetrisGame.GameLogic;
 import java.util.Arrays;
 
 /**
- * A class representing the playing board in a game of Tetris.
+ * A representation of the Tetris board.
  */
 public class Board {
 
@@ -21,6 +21,11 @@ public class Board {
      * A 2D array representation of this board.
      */
     private char[][] grid;
+
+    /**
+     * The current piece.
+     */
+    private Piece currPiece;
 
     /**
      * Construct a new Board object.
@@ -55,17 +60,185 @@ public class Board {
     /**
      * Return the height of this board.
      *
-     * @return The height of this board..
+     * @return The height of this board.
      */
     public int getHeight() {
         return height;
     }
 
     /**
-     * Return true iff line n is completely full.
+     * Return the current piece.
+     *
+     * @return The current piece.
+     */
+    Piece getCurrPiece() {
+        return currPiece;
+    }
+
+    /**
+     * Set the current piece.
+     *
+     * @param piece The new current piece.
+     * @return True if this piece can be placed on this board, false otherwise.
+     */
+    boolean setCurrPiece(Piece piece) {
+        currPiece = piece;
+        if (canMove(0, 0)) {
+            drawCurrPiece();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Draw the current piece on this board.
+     */
+    private void drawCurrPiece() {
+        for (int y = 0; y < currPiece.getSprites()[0].length; y++) {
+            for (int x = 0; x < currPiece.getSprites()[0][0].length(); x++) {
+                if (currPiece.getSprites()[currPiece.getRotation()][y].charAt(x) != '.') {
+                    grid[currPiece.getY() + y][currPiece.getX() + x] =
+                            currPiece.getSprites()[currPiece.getRotation()][y].charAt(x);
+                }
+            }
+        }
+    }
+
+    /**
+     * Erase the current piece from this board.
+     */
+    private void eraseCurrPiece() {
+        for (int y = 0; y < currPiece.getSprites()[0].length; y++) {
+            for (int x = 0; x < currPiece.getSprites()[0][0].length(); x++) {
+                if (currPiece.getSprites()[currPiece.getRotation()][y].charAt(x) != '.') {
+                    grid[currPiece.getY() + y][currPiece.getX() + x] = '.';
+                }
+            }
+        }
+    }
+
+    /**
+     * Return true if and only if the current piece can be moved.
+     *
+     * @param adjX The number of units to be moved in the x direction.
+     * @param adjY The number of units to be moved in the y direction.
+     * @return True if the piece can be moved, false otherwise.
+     */
+    private boolean canMove(int adjX, int adjY) {
+        for (int y = 0; y < currPiece.getSprites()[0].length; y++) {
+            for (int x = 0; x < currPiece.getSprites()[0][0].length(); x++) {
+                if (currPiece.getSprites()[currPiece.getRotation()][y].charAt(x) != '.') {
+                    try {
+                        if (grid[currPiece.getY() + y + adjY][currPiece.getX() + x + adjX] != '.') {
+                            return false;
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Move the current piece left, if possible.
+     */
+    void moveLeft() {
+        eraseCurrPiece();
+        if (canMove(-1, 0)) {
+            currPiece.move(-1, 0);
+        }
+        drawCurrPiece();
+    }
+
+    /**
+     * Move the current piece right, if possible.
+     */
+    void moveRight() {
+        eraseCurrPiece();
+        if (canMove(1, 0)) {
+            currPiece.move(1, 0);
+        }
+        drawCurrPiece();
+    }
+
+    /**
+     * Move the current piece down, if possible.
+     */
+    void moveDown() {
+        eraseCurrPiece();
+        if (canMove(0, 1)) {
+            currPiece.move(0, 1);
+            drawCurrPiece();
+        } else {
+            drawCurrPiece();
+            currPiece = null;
+        }
+    }
+
+    /**
+     * Drop the current piece all the way down, if possible.
+     */
+    void dropDown() {
+        eraseCurrPiece();
+        while (canMove(0, 1)) {
+            currPiece.move(0, 1);
+        }
+        drawCurrPiece();
+        currPiece = null;
+    }
+
+    /**
+     * Return true if and only if the current piece can be rotated.
+     *
+     * @param direction The direction to be rotated.
+     * @return True if the piece can be rotated, false otherwise.
+     */
+    private boolean canRotate(int direction) {
+        for (int y = 0; y < currPiece.getSprites()[0].length; y++) {
+            for (int x = 0; x < currPiece.getSprites()[0][0].length(); x++) {
+                if (currPiece.getSprites()[(currPiece.getRotation() + direction) % currPiece.getSprites().length][y].charAt(x) != '.') {
+                    try {
+                        if (grid[currPiece.getY() + y][currPiece.getX() + x] != '.') {
+                            return false;
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Rotate the current piece clockwise, if possible.
+     */
+    void rotateClockwise() {
+        eraseCurrPiece();
+        if (canRotate(1)) {
+            currPiece.rotate(1);
+        }
+        drawCurrPiece();
+    }
+
+    /**
+     * Rotate the current piece counterclockwise, if possible.
+     */
+    void rotateCounterClockwise() {
+        eraseCurrPiece();
+        if (canRotate(currPiece.getSprites().length - 1)) {
+            currPiece.rotate(currPiece.getSprites().length - 1);
+        }
+        drawCurrPiece();
+    }
+
+    /**
+     * Return true if and only if line n is full.
      *
      * @param n The index of the line to be inspected.
-     * @return True if line n is completely full; false otherwise.
+     * @return True if line n is completely full, false otherwise.
      */
     private boolean isFull(int n) {
         for (int x = 0; x < width; x++) {
@@ -89,7 +262,7 @@ public class Board {
     }
 
     /**
-     * Clear all lines on this board that are completely full and return the number of lines cleared.
+     * Clear all lines on this board that are full and return the number of lines cleared.
      *
      * @return The number of lines cleared.
      */
@@ -102,88 +275,5 @@ public class Board {
             }
         }
         return linesCleared;
-    }
-
-    /**
-     * Add piece to this board.
-     *
-     * @param piece The piece to be added.
-     */
-    void addPiece(Piece piece) {
-        for (int y = 0; y < piece.getSprites()[0].length; y++) {
-            for (int x = 0; x < piece.getSprites()[0][0].length(); x++) {
-                if (piece.getSprites()[piece.getRotation()][y].charAt(x) != '.') {
-                    grid[piece.getY() + y][piece.getX() + x] =
-                            piece.getSprites()[piece.getRotation()][y].charAt(x);
-                }
-            }
-        }
-    }
-
-    /**
-     * Remove piece from this board.
-     *
-     * @param piece The piece to be removed.
-     */
-    void removePiece(Piece piece) {
-        for (int y = 0; y < piece.getSprites()[0].length; y++) {
-            for (int x = 0; x < piece.getSprites()[0][0].length(); x++) {
-                if (piece.getSprites()[piece.getRotation()][y].charAt(x) != '.') {
-                    grid[piece.getY() + y][piece.getX() + x] = '.';
-                }
-            }
-        }
-    }
-
-    /**
-     * Return true iff piece can move in the desired direction.
-     *
-     * @param piece The piece to be moved.
-     * @param adjX  The number of units to be moved in the x direction.
-     * @param adjY  The number of units to be moved in the y direction.
-     * @return True if the piece can be moved; false otherwise.
-     */
-    boolean canMove(Piece piece, int adjX, int adjY) {
-        for (int y = 0; y < piece.getSprites()[0].length; y++) {
-            for (int x = 0; x < piece.getSprites()[0][0].length(); x++) {
-                int newX = x + adjX;
-                int newY = y + adjY;
-                if (piece.getSprites()[piece.getRotation()][y].charAt(x) != '.') {
-                    try {
-                        if (grid[piece.getY() + newY][piece.getX() + newX] != '.') {
-                            return false; // move results in collision
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        return false; // move is out of bounds
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Return true iff piece can rotate in the desired direction.
-     *
-     * @param piece     The piece to be rotated.
-     * @param direction The direction to be rotated.
-     * @return True if the piece can be rotated; false otherwise.
-     */
-    boolean canRotate(Piece piece, int direction) {
-        for (int y = 0; y < piece.getSprites()[0].length; y++) {
-            for (int x = 0; x < piece.getSprites()[0][0].length(); x++) {
-                int newRotation = (piece.getRotation() + direction) % piece.getSprites().length;
-                if (piece.getSprites()[newRotation][y].charAt(x) != '.') {
-                    try {
-                        if (grid[piece.getY() + y][piece.getX() + x] != '.') {
-                            return false; // rotation results in collision
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        return false; // rotation is out of bounds
-                    }
-                }
-            }
-        }
-        return true;
     }
 }
