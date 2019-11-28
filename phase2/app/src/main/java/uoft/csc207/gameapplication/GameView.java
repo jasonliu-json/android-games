@@ -10,17 +10,34 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
+import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
+import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
+import uoft.csc207.gameapplication.Utility.GameRequestService.ScorePosterService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.StagePosterService;
 
 
 public class GameView extends View {
     private GameDriver gameDriver;
     private Timer timer;
+    private boolean scorePosted = false;
+    private boolean stageUpdated = false;
+    private String stage = "0";
+
+    private ScorePosterService scorePosterService;
+    private StagePosterService stagePosterService;
+
     public GameView(Context context) {
         this(context, null);
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        scorePosterService = new ScorePosterService();
+        scorePosterService.setContext(context);
+        stagePosterService = new StagePosterService();
+        stagePosterService.setContext(context);
     }
 
     public void start() {
@@ -43,6 +60,61 @@ public class GameView extends View {
 //        gameDriver.stop()
         timer.cancel();
         timer.purge();
+
+        postScores();
+        postStage();
+    }
+
+    private void postScores() {
+        if (!scorePosted) {
+            Token token = LoginService.getLoginToken();
+
+            Score score = new Score();
+            score.setScore(String.valueOf(gameDriver.getPoints()));
+            score.setUsername(token.getUsername());
+
+            scorePosterService.postScore(token, score, "WrapperGame", new CallBack() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("successful Request");
+                }
+
+                @Override
+                public void onFailure() {
+                    System.out.println("Failed Request");
+                }
+
+                @Override
+                public void onWait() {
+                    System.out.println("Waiting");
+                }
+            });
+            scorePosted = true;
+        }
+    }
+
+    private void postStage() {
+        if (!stageUpdated) {
+            Token token = LoginService.getLoginToken();
+
+            stagePosterService.postStage(token, stage, new CallBack() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("successful Request");
+                }
+
+                @Override
+                public void onFailure() {
+                    System.out.println("Failed Request");
+                }
+
+                @Override
+                public void onWait() {
+                    System.out.println("Waiting");
+                }
+            });
+            stageUpdated = true;
+        }
     }
 //
 //    public void init(DisplayMetrics metrics) {
@@ -78,7 +150,14 @@ public class GameView extends View {
     public void setDriver(GameDriver driver) {
         this.gameDriver = driver;
     }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
 }
+
+
+
 
 
 

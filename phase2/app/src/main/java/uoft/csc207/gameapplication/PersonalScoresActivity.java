@@ -11,6 +11,7 @@ import java.util.List;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
 
@@ -64,9 +65,18 @@ public class PersonalScoresActivity extends AppCompatActivity {
         int extraSeconds = Integer.valueOf(timePlayedText) % 60;
         timePlayedText = "Time Played: \n" + minutesPlayed + "m " + extraSeconds + "s";
 
-        // creates the string representation of user score board
-        List<Score> scores = user.getUserScores().get(0).getScores();
 
+        List<Score> scores = new ArrayList<>();
+        // default if no leaderBoard presented
+        for (int i = 0; i < 10; i++) {
+            scores.add(new Score());
+        }
+        // creates the string representation of user score board
+        for (LeaderBoard leaderBoard: user.getUserScores()) {
+            if (leaderBoard.getGame().equals("WrapperGame")) {
+                scores = leaderBoard.getScores();
+            }
+        }
         String scoreBoard = "";
         for (int i=0; i<scores.size(); i++) {
             scoreBoard += scores.get(i).getScore() + " \n";

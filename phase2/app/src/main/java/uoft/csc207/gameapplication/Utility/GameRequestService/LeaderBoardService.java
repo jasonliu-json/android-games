@@ -24,7 +24,7 @@ public class LeaderBoardService extends RestApiConnector{
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-            StringRequest leaderBoardRequest = new StringRequest(Request.Method.GET, URL + LEADERBOARDS + game, new Response.Listener<String>() {
+            StringRequest leaderBoardRequest = new StringRequest(Request.Method.POST, URL + LEADERBOARDS + game, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     try {
