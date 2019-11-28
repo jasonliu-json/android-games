@@ -72,26 +72,26 @@ public class GameActivity extends AppCompatActivity {
             case "gameWrapper":
                 System.out.println("playing game wrapper");
                 gameDriver = new GameWrapperDriver(metrics, this);
-                gameView.setStage("0");
+                gameView.setStage("1");
                 break;
 
             case "tetrisGame":
                 System.out.println("playing tetris");
                 gameDriver = new TetrisGameDriver(this);
                 gameDriver.init(metrics);
-                gameView.setStage("1");
+                gameView.setStage("2");
                 break;
 
             case "rhythmGame":
 //                gameDriver = new RhythmGameDriver(metrics, this, configs??);
-                gameView.setStage("2");
+                gameView.setStage("3");
                 break;
 
             case "mazeGame":
                 System.out.println("playing maze");
                 gameDriver = new MazeGameDriver(this);
                 gameDriver.init(metrics);
-                gameView.setStage("3");
+                gameView.setStage("4");
                 break;
 
             default:
