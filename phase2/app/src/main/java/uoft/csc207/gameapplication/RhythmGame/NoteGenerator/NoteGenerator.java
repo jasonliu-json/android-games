@@ -1,5 +1,7 @@
 package uoft.csc207.gameapplication.RhythmGame.NoteGenerator;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
@@ -7,7 +9,7 @@ import uoft.csc207.gameapplication.RhythmGame.GameLogic.RhythmGame;
 public class NoteGenerator {
     private RhythmGame rhythmGame;
     private int numColumns;
-
+    private Context context;
     private NoteIntervalsReader noteIntervals;
 
     private ArrayList<Long> intervalsArray;

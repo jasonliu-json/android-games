@@ -7,6 +7,10 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="scores">Personal Scores</string>
     <string name="main_menu">Main Menu</string>
+    <string name="play_game_wrapper">Play Game Wrapper</string>
+    <string name="tetris_game">Play Tetris Game</string>
+    <string name="rhythm_game">Play Rhythm Game</string>
+    <string name="maze_game">Play Maze Game</string>
     <string-array name="shapes">
         <item>J</item>
         <item>L</item>

@@ -28,8 +28,11 @@ public class MainMenuActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gameActivity = new Intent(MainMenuActivity.this, GameActivity.class);
-                startActivity(gameActivity);
+
+                Intent gameOptionsActivity = new Intent(MainMenuActivity.this, GameOptionsActivity.class);
+                startActivity(gameOptionsActivity);
+//                Intent gameActivity = new Intent(MainMenuActivity.this, GameActivity.class);
+//                startActivity(gameActivity);
             }
 
         });

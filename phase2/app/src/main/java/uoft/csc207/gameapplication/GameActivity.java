@@ -29,10 +29,13 @@ public class GameActivity extends AppCompatActivity {
     private long gameSessionStart;
     private Timer timer;
 
+
+
     /**
      * Initializes the game on create.
      * @param savedInstanceState
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,4 +214,6 @@ public class GameActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 }
