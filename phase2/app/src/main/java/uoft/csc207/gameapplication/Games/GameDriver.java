@@ -29,19 +29,19 @@ public abstract class GameDriver {
      * @param x the x-coordinate of the event on the screen.
      * @param y the y-coordinate of the event on the screen.
      */
-    public abstract void touchStart(float x, float y);
+    public void touchStart(float x, float y) {}
 
     /**
      * As the touch moves around still in contact with the screen.
      * @param x the x-coordinate of the event on the screen.
      * @param y the y-coordinate of the event on the screen.
      */
-    public abstract void touchMove(float x, float y);
+    public void touchMove(float x, float y) {}
 
     /**
      * When the touch is lifted off the screen.
      */
-    public abstract void touchUp();
+    public void touchUp() {}
 
     /**
      * Draws the game to canvas.
