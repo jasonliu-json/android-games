@@ -1,9 +1,7 @@
 package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
-import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,8 +24,8 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard_options);
         gameWrapperLeaderboardButton = (Button) findViewById(R.id.wrapper_leaderboard_button);
-        tetrisGameLeaderboardButton = (Button) findViewById(R.id.tetris_leaderboard_button);
-        rhythmGameLeaderboardButton = (Button) findViewById(R.id.rhythm_leaderboard_button);
+        tetrisGameLeaderboardButton = (Button) findViewById(R.id.tetris_scores_button);
+        rhythmGameLeaderboardButton = (Button) findViewById(R.id.rhythm_scores_button);
         mazeGameLeaderboardButton = (Button) findViewById(R.id.maze_leaderboard_button);
 
         gameWrapperLeaderboardButton.setOnClickListener(new View.OnClickListener() {

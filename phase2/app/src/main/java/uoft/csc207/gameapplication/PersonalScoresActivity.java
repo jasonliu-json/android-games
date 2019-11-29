@@ -20,6 +20,8 @@ public class PersonalScoresActivity extends AppCompatActivity {
     ArrayList<String> personalScores = new ArrayList<>();
     String timePlayedText;
     String totalPointsText;
+
+    String scoresType;
 //
 //    private static final String FILE = "UserData.json";
 //
@@ -31,6 +33,10 @@ public class PersonalScoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_scores);
+
+        // check the game for scores
+
+        scoresType = getIntent().getExtras().getString("scoresType");
 
         getUserService = new GetUserService();
         getUserService.setContext(this);
@@ -73,7 +79,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
         }
         // creates the string representation of user score board
         for (LeaderBoard leaderBoard: user.getUserScores()) {
-            if (leaderBoard.getGame().equals("WrapperGame")) {
+            if (leaderBoard.getGame().equals(scoresType)) {
                 scores = leaderBoard.getScores();
             }
         }
@@ -85,13 +91,13 @@ public class PersonalScoresActivity extends AppCompatActivity {
         // begin settings those strings.
         TextView title = (TextView) findViewById(R.id.score_title);
         title.setTextSize(30);
-        title.setText("Personal Scores");
+
+        String titleText = "Personal scores for " + scoresType;
+        title.setText(titleText);
 
         TextView scoreList = (TextView) findViewById(R.id.scores);
         scoreList.setTextSize(20);
         scoreList.setText(scoreBoard);
-
-
 
         TextView timePlayed = (TextView) findViewById(R.id.time_played);
         timePlayed.setTextSize(20);
