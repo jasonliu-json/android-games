@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A piece generation class using the 7-Bag-Randomization algorithm.
+ * A piece generator using the 7-Bag-Randomization algorithm.
  *
  * <p>The 7-Bag-Randomization algorithm generates a sequence of all 7 pieces permuted randomly, as
  * if they were drawn from a bag. All 7 pieces are then dealt before generating another bag. This
