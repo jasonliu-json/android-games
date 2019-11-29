@@ -66,6 +66,8 @@ public class SongNoteGenerator extends NoteGenerator {
             System.out.println(noteIntervals);
 //            System.out.println("next interval");
         }
+
+        if (intervalIndex >= noteIntervals.size()) isOver = true;
     }
 
     public boolean getIsOver() {

@@ -3,7 +3,7 @@ package uoft.csc207.gameapplication.Games.RhythmGame.Controller;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
 
 /**
- * Controller that interacts with a Rhythm level
+ * Gets inputs to interact with a level of the Rhythm game.
  */
 public class RhythmGameController {
     private RhythmGameLevel level;

@@ -49,6 +49,13 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         tetrisControlSpinner.setAdapter(tetrisControlAdapter);
         tetrisControlSpinner.setOnItemSelectedListener(this);
 
+        Spinner tetrisColourSpinner = (Spinner) findViewById(R.id.tetris_colour_spinner);
+        ArrayAdapter<CharSequence> tetrisColourAdapter = ArrayAdapter.createFromResource(this,
+                R.array.tetrisColours, android.R.layout.simple_spinner_item);
+        tetrisColourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tetrisColourSpinner.setAdapter(tetrisColourAdapter);
+        tetrisColourSpinner.setOnItemSelectedListener(this);
+
         // Rhythm Game Spinners
         int[] shapeSpinnersId = {R.id.shape1_spinner, R.id.shape2_spinner, R.id.shape3_spinner,
                 R.id.shape4_spinner};
@@ -84,6 +91,7 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
     private void save() {
         String jsonText = jsonObject.toString();
         fileRW.write(jsonText);
+        System.out.println(jsonText);
     }
 
     @Override
@@ -92,6 +100,9 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
             switch (adapterView.getId()) {
                 case R.id.tetris_control_spinner:
                     tetrisCust.put("controls", adapterView.getSelectedItem());
+                    break;
+                case R.id.tetris_colour_spinner:
+                    tetrisCust.put("colours", adapterView.getSelectedItem());
                     break;
                 case R.id.shape1_spinner:
                     rhythmCust.put("shape1", adapterView.getSelectedItem());
@@ -114,7 +125,6 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

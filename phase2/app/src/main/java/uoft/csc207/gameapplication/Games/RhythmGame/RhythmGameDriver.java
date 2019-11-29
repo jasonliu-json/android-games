@@ -126,12 +126,13 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         if (((String)o).equalsIgnoreCase(RhythmGameLevel.LEVEL_OVER_MESSAGE)) {
-            levels[levelIndex].stop();
+            stop();
             if (levelIndex < levels.length - 1) {
                 levelIndex++;
                 controller.setLevel(levels[levelIndex]);
                 presenter.setLevel(levels[levelIndex]);
                 levels[levelIndex].start();
+                presenter.start();
             }
         }
     }

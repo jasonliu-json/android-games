@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication.Games.TetrisGame;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 
@@ -19,6 +20,11 @@ public class TetrisGameDriver extends GameDriver {
         mediator.setGame(new TetrisGame(new Board(10, 20), new PieceGenerator()));
         mediator.setPresenter(new TetrisGamePresenter(mediator));
         mediator.setController(new TetrisGameController(mediator, metrics));
+
+        screenHeight = metrics.heightPixels - 40;
+        screenWidth = metrics.widthPixels;
+        bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
+        newCanvas = new Canvas(bitmap);
     }
 
     public boolean getGameIsOver() {

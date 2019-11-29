@@ -104,14 +104,12 @@ public class Column extends Observable {
 
                 // Removes the note contained
                 notes.remove(i);
-                break;
-
-                // Does not check any other note in the column
-//                if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) return;
+                return;
             }
         }
 
         notifyObservers(RhythmGamePointsSystem.NoteEvent.BAD);
+        this.message = new ColumnMessage("Bad Hit!");
     }
 
     public Target getTarget() {

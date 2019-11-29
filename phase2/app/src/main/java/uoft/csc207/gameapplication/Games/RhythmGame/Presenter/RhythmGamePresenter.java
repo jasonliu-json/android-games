@@ -22,7 +22,7 @@ import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.ColumnMessa
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Target;
 
 /**
- * How the game is represented on screen.
+ * Presents the game to screen.
  */
 public class RhythmGamePresenter {
     private RhythmGameLevel level;
@@ -45,6 +45,8 @@ public class RhythmGamePresenter {
     private Paint[] columnPaints;
     private Paint targetPaint;
     private NoteShape[] colUnitNoteShapes;
+    private char[] shapes;
+    private String colourTheme;
     private Paint goodMessagePaint;
     private Paint badMessagePaint;
     private Paint badStatsPaint;
@@ -88,48 +90,44 @@ public class RhythmGamePresenter {
     public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics,
                                Context context, char[] shapes, String colourTheme, String statsDisplayMode) {
         this.context = context;
-        setLevel(level);
-
-        // Initialize the size of the screen nd sizing variables
+        this.shapes = shapes;
+        this.colourTheme = colourTheme;
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels - 40;
 
-        colSize = screenWidth / (float) numColumns;
-        float colWidthRatio = colSize / 2; // Since each piece is 2 units wide
+        this.statsDisplayMode = statsDisplayMode;
 
-        // target width is 70% the width of the column
-        targetScale = (float) 0.7 * colWidthRatio;      // the new size of one unit length for target
-
-        // note width is 60% the width of the column
-        noteScale = (float) 0.6 * colWidthRatio;    // the new size of one unit length for note
-
-        bitmapTop = -3 * (int) Math.ceil(noteScale);
+        setLevel(level);
+        setPaints();
 
         Rect bounds = new Rect();
         Paint sizePaint = new Paint();
         sizePaint.setTextSize(60);
         sizePaint.getTextBounds("Perfect: ", 0, "Perfect".length(), bounds);
         statsTextHeight = bounds.height();
-
-        heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
-        bitmap = Bitmap.createBitmap(screenWidth,
-                screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);
-        bitCanvas = new Canvas(bitmap);
-
-        setTheme(shapes, colourTheme);
-        this.statsDisplayMode = statsDisplayMode;
     }
 
-    private void setTheme(char[] shapes, String colourTheme) {
+    public void setLevel(RhythmGameLevel level) {
+        this.level = level;
+        this.numColumns = level.getNumColumns();
+        this.pointsSystem = level.getPointsSystem();
+
+        setTheme();
+        // Set the song
+        Integer rawSongId = SONG_IDS.get(level.getSong());
+        if (rawSongId == null) rawSongId = R.raw.mii_channel;
+        mediaPlayer = MediaPlayer.create(context, rawSongId);
+
+        initializeSizing();
+    }
+
+    private void setTheme() {
         columnPaints = new Paint[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columnPaints[i] = new Paint();
             Integer colour = TETRO_COLOURS.get(shapes[i]);
             if (colour != null) columnPaints[i].setColor(colour);
         }
-
-        targetPaint = new Paint();
-        targetPaint.setColor(Color.GRAY);
 
         colUnitNoteShapes = new NoteShape[numColumns];
         for (int i = 0; i < numColumns; i++) {
@@ -139,6 +137,11 @@ public class RhythmGamePresenter {
             TetrominoShape tetrominoShape = new TetrominoShape(new Tetromino(coordinates));
             colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
         }
+    }
+
+    private void setPaints() {
+        targetPaint = new Paint();
+        targetPaint.setColor(Color.GRAY);
 
         goodMessagePaint = new Paint();
         goodMessagePaint.setTextSize(50);
@@ -158,6 +161,24 @@ public class RhythmGamePresenter {
         badStatsPaint = new Paint();
         badStatsPaint.setTextSize(60);
         badStatsPaint.setColor(Color.RED);
+    }
+
+    private void initializeSizing() {
+        colSize = screenWidth / (float) numColumns;
+        float colWidthRatio = colSize / 2; // Since each piece is 2 units wide
+
+        // target width is 70% the width of the column
+        targetScale = (float) 0.7 * colWidthRatio;      // the new size of one unit length for target
+
+        // note width is 60% the width of the column
+        noteScale = (float) 0.6 * colWidthRatio;    // the new size of one unit length for note
+
+        bitmapTop = -3 * (int) Math.ceil(noteScale);
+
+        heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
+        bitmap = Bitmap.createBitmap(screenWidth,
+                screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);
+        bitCanvas = new Canvas(bitmap);
     }
 
     /**
@@ -231,16 +252,16 @@ public class RhythmGamePresenter {
     private void drawMessage(String message, Target target, int colId) {
         if (message.length() != 0) {
             Paint messagePaint = goodMessagePaint;
-            if (message.charAt(0) == 'B' || message.charAt(0) == 'M')
+            if (message.charAt(0) == 'B')
                 messagePaint = badMessagePaint;
 
             Rect bounds = new Rect();
             goodStatsPaint.getTextBounds(message, 0, message.length(), bounds);
             int textWidth = bounds.width();
 
-            // draws the message centre of the column, on top of the target
+            // draws the message centre of the column, on below of the target
             bitCanvas.drawText(message, centreInColumn(colId, textWidth),
-                    target.getY() * heightRatio + targetScale, messagePaint);
+                    target.getY() * heightRatio + 3 * targetScale, messagePaint);
         }
     }
 
@@ -268,16 +289,5 @@ public class RhythmGamePresenter {
                 leftSpacing + screenWidth/2, upperSpacing, goodStatsPaint);
         bitCanvas.drawText("Missed: " + pointsSystem.getNumMissed(),
                 leftSpacing + screenWidth/2, upperSpacing + statsTextHeight + 30, badStatsPaint);
-    }
-
-    public void setLevel(RhythmGameLevel level) {
-        this.level = level;
-        this.numColumns = level.getNumColumns();
-        this.pointsSystem = level.getPointsSystem();
-
-        // Set the song
-        Integer rawSongId = SONG_IDS.get(level.getSong());
-        if (rawSongId == null) rawSongId = R.raw.mii_channel;
-        mediaPlayer = MediaPlayer.create(context, rawSongId);
     }
 }
