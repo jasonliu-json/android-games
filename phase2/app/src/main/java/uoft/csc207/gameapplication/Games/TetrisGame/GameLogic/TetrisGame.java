@@ -142,7 +142,7 @@ public class TetrisGame {
     /**
      * Move the current piece down, periodically.
      */
-    private void update() {
+    public void update() {
         if (count == threshold) {
             moveDown();
             count = 0;
