@@ -16,6 +16,11 @@
     <string name="rhythm_game_leaderboard">Rhythm Game Leaderboard</string>
     <string name="maze_game_leaderboard">Maze Game Leaderboard</string>
     <string name="leaderboard_options">Leaderboard Options</string>
+    <string name="game_wrapper_scores">Game Wrapper Scores</string>
+    <string name="tetris_game_scores">Tetris Game Scores</string>
+    <string name="rhythm_game_scores">Rhythm Game Scores</string>
+    <string name="maze_game_scores">Maze Game Scores</string>
+    <string name="scores_options">Personal Scores Options</string>
 
     <string-array name="shapes">
         <item>J</item>
