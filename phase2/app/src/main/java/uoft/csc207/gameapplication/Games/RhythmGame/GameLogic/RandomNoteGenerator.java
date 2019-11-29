@@ -6,25 +6,27 @@ package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 public class RandomNoteGenerator extends NoteGenerator {
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
     private int noteGenerationPeriod = 1000;
-    private static int refreshTime = 500;
     private long lastNoteTime;
 
-    public RandomNoteGenerator() {
+    RandomNoteGenerator() {
         setDifficulty(Difficulty.EASY);
+        lastNoteTime = 0;
     }
 
     @Override
     public void timeUpdate(Column[] columns) {
+        lastNoteTime += 30;
+
         // Every period generate a note at a random column
-        if (System.currentTimeMillis() - lastNoteTime >= noteGenerationPeriod) {
+        if (lastNoteTime >= noteGenerationPeriod) {
             columns[(int) (columns.length * Math.random())].generateNote();
-            lastNoteTime = System.currentTimeMillis();
+            lastNoteTime = 0;
         }
     }
 
     @Override
     public void start() {
-        lastNoteTime = System.currentTimeMillis();
+        lastNoteTime = 0;
     }
 
     /**
@@ -44,13 +46,10 @@ public class RandomNoteGenerator extends NoteGenerator {
                 break;
             case IMPOSSIBLE:
                 noteGenerationPeriod = 200;
-                refreshTime = 100;
                 break;
             default:
-                noteGenerationPeriod = 1000;
+                noteGenerationPeriod = 901;
                 break;
         }
     }
-
-    public static int getRefreshTime() {return refreshTime;}
 }

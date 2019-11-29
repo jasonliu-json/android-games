@@ -16,7 +16,7 @@ import java.util.Map;
 import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Note;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameMessage;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.ColumnMessage;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Target;
 
 /**
@@ -30,8 +30,6 @@ public class RhythmGamePresenter {
     private Bitmap bitmap;
     private Canvas bitCanvas;
 
-    private int screenWidth, screenHeight;
-
     /* Graphic variables for drawing */
     private Paint[] columnPaints;
     private Paint targetPaint;
@@ -39,6 +37,7 @@ public class RhythmGamePresenter {
     private Paint messagePaint;
 
     /* Scaling and Sizing variables */
+    private int screenWidth, screenHeight;
     private float colSize;
     private float targetScale, noteScale;
     private float heightRatio;
@@ -72,20 +71,15 @@ public class RhythmGamePresenter {
         TETRO_COLOURS.put( 'T', Color.rgb(170, 140,255));
     }
 
-
-    public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context, char[] shapes) {
+    public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics,
+                               Context context, char[] shapes) {
         this.level = level;
         this.context = context;
         this.numColumns = level.getNumColumns();
 
-        init(metrics.widthPixels, metrics.heightPixels - 40);
-        setSong(level.getSong());
-        setTheme(shapes);
-    }
-
-    public void init(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        // Initialize the size of the screen nd sizing variables
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels - 40;
 
         colSize = screenWidth / (float) numColumns;
         float colWidthRatio = colSize / 2; // Since each piece is 2 units wide
@@ -98,31 +92,20 @@ public class RhythmGamePresenter {
 
         bitmapTop = -3 * (int) Math.ceil(noteScale);
 
+        initializeBitmap();
+        setSong(level.getSong());
+        setTheme(shapes);
+    }
+
+    void initializeBitmap() {
         heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
-
-
-        // add 3 times note scale, so when the note reaches 0,
-        // the graphic representation of the note is completely offscreen
         bitmap = Bitmap.createBitmap(screenWidth,
                 screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);
         bitCanvas = new Canvas(bitmap);
-
     }
-
-    public void start() {
-        // Starts song
-        mediaPlayer.start();
-    }
-
-    public void stop() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
-    }
-
 
     /**
-     * Sets up the paints and shapes of the notes.
+     * Set up the paints and shapes of the notes.
      * @param shapes character array, where length is as long as numColumns
      */
     void setTheme(char[] shapes) {
@@ -169,26 +152,49 @@ public class RhythmGamePresenter {
         messagePaint.setColor(Color.GREEN);
     }
 
-    public void  draw(Canvas canvas){
-        // TEMPORARY
-        level.timeUpdate();
+    /**
+     * Starts the song.
+     */
+    public void start() {
+        mediaPlayer.start();
+//        mediaPlayer.stop();
+    }
+
+    /**
+     * Stops the song.
+     */
+    public void stop() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
+    }
+
+    /**
+     * Draws the game.
+     * @param canvas the canvas to draw on.
+     */
+    public void draw(Canvas canvas){
         updateBitmap(bitCanvas);
 
         canvas.drawBitmap(bitmap, 0, bitmapTop, null);
         bitCanvas.restore();
     }
 
-    protected void updateBitmap(Canvas bitCanvas) {
+    /**
+     * Updates the bitmap to the display the current state of the game.
+     * @param bitCanvas the canvas to draw on
+     */
+    void updateBitmap(Canvas bitCanvas) {
         bitCanvas.save();
         bitCanvas.drawColor(Color.WHITE);
 
         Target[] targets = level.getAllTargets();
         SparseArray<List<Note>> notesMap = level.getAllNotes();
-        RhythmGameMessage[] messages = level.getMessages();
+        ColumnMessage[] messages = level.getMessages();
 
         // draws the target, the notes, and the messages in each column
         for (int i = 0; i < numColumns; i++) {
-            NoteShape scalableCopy = colUnitNoteShapes[i].clone();
+            NoteShape scalableCopy = colUnitNoteShapes[i].copy();
 
             drawTarget(bitCanvas, targets[i], scalableCopy, i);
 
@@ -258,27 +264,23 @@ public class RhythmGamePresenter {
 //        }
 //    }
 
-    public RhythmGameLevel getLevel() {
+    RhythmGameLevel getLevel() {
         return level;
     }
 
-    public Canvas getBitCanvas() {
-        return bitCanvas;
-    }
-
-    public int getBitmapTop() {
+    int getBitmapTop() {
         return bitmapTop;
     }
 
-    public void setBitmapTop(int bitmapTop) {
+    void setBitmapTop(int bitmapTop) {
         this.bitmapTop = bitmapTop;
     }
 
-    public int getScreenWidth() {
-        return screenWidth;
+    public void setHeightRatio(float heightRatio) {
+        this.heightRatio = heightRatio;
     }
 
-    public int getScreenHeight() {
-        return screenHeight;
+    int getScreenWidth() {
+        return screenWidth;
     }
 }

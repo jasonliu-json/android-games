@@ -10,8 +10,8 @@ import java.util.Observable;
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */
 public abstract class RhythmGameLevel extends Observable {
-    private int numColumns = 4;
-    private int gameHeight = 100;
+    private int numColumns;
+    private int gameHeight;
     private Column[] columns;
 
     private RhythmGamePointsSystem pointsSystem;
@@ -41,12 +41,11 @@ public abstract class RhythmGameLevel extends Observable {
     }
 
     /**
-     * Updates the game
+     * Updates the game by one unit time.
      */
     public void timeUpdate() {
-        // Updates the columns
         for (int i = 0; i < numColumns; i++) {
-            columns[i].update();
+            columns[i].timeUpdate();
         }
 
         noteGenerator.timeUpdate(columns);
@@ -77,17 +76,15 @@ public abstract class RhythmGameLevel extends Observable {
         setGameIsOver(true);
 
         setChanged();
-        notifyObservers("Game is over.");
+        notifyObservers(LEVEL_OVER_MESSAGE);
     }
-
-    public abstract NoteGenerator getNoteGenerator();
 
     /**
      * Returns a list of messages, one in each column
      * @return a list of RhythmGameMessages where the index is the column number
      */
-    public RhythmGameMessage[] getMessages() {
-        RhythmGameMessage[] messages = new RhythmGameMessage[numColumns];
+    public ColumnMessage[] getMessages() {
+        ColumnMessage[] messages = new ColumnMessage[numColumns];
         for (int i = 0; i < numColumns; i++) messages[i] = columns[i].getMessage();
         return messages;
     }
@@ -115,7 +112,7 @@ public abstract class RhythmGameLevel extends Observable {
         return notesMap;
     }
 
-    public void setNoteGenerator(NoteGenerator noteGenerator) {
+    void setNoteGenerator(NoteGenerator noteGenerator) {
         this.noteGenerator = noteGenerator;
     }
 
@@ -127,7 +124,7 @@ public abstract class RhythmGameLevel extends Observable {
         return gameHeight;
     }
 
-    public Column[] getColumns() {
+    Column[] getColumns() {
         return columns;
     }
 

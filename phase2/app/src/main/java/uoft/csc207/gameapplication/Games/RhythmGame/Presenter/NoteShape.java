@@ -5,7 +5,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
- * A shape where (0, 0) is the top left corner
+ * The shape of a note, which is defined by a tetromino shape.
+ * This shape can be scaled in size.
  */
 public class NoteShape {
     private TetrominoShape tetroShape;
@@ -16,7 +17,7 @@ public class NoteShape {
      * Constructs a note shape based on a tetromino
      * @param tetroShape the tetromine shape
      */
-    public NoteShape(TetrominoShape tetroShape) {
+    NoteShape(TetrominoShape tetroShape) {
         this.tetroShape = tetroShape;
         this.setScale(1);
     }
@@ -31,7 +32,11 @@ public class NoteShape {
         this.setScale(scale);
     }
 
-    public NoteShape clone() {
+    /**
+     * Returns a copy.
+     * @return a NoteShape with the same attributes
+     */
+    NoteShape copy() {
         return new NoteShape(this.tetroShape, this.scale);
     }
 
@@ -47,21 +52,14 @@ public class NoteShape {
             RectF toDrawRect = new RectF(x + rect.left, y + rect.top,
                     x + rect.right, y + rect.bottom);
             canvas.drawRect(toDrawRect, paint);
-
-            // Draws the outline
-//            Paint strokePaint = new Paint();
-//            strokePaint.setStyle(Paint.Style.STROKE);
-//            strokePaint.setStrokeWidth(2);
-//            canvas.drawRect(toDrawRect, strokePaint);
         }
     }
 
     /**
-     * Changes the figure of this shape by making the unit length the scale
-     *
+     * Changes the figure of this shape by making the unit length of one block the scale
      * @param sc scaling factor
      */
-    public void setScale(float sc) {
+    void setScale(float sc) {
         this.scale = sc;
         RectF[] figureToRescale = tetroShape.getCopyOfUnitFigure();
         for (RectF r : figureToRescale) {

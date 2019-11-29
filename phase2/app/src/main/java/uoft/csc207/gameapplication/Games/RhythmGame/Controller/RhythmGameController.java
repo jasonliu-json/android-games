@@ -3,7 +3,7 @@ package uoft.csc207.gameapplication.Games.RhythmGame.Controller;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
 
 /**
- * How the player interacts with the RhythmGameLevel
+ * Controller that interacts with a Rhythm level
  */
 public class RhythmGameController {
     private RhythmGameLevel level;
@@ -27,14 +27,4 @@ public class RhythmGameController {
         int colNumber = (int) (numColumns * x / screenWidth);
         level.tap(colNumber);
     }
-
-    public void touchMove(float x, float y) {
-    }
-
-    public void touchUp() {
-    }
-
-//    public void setScreenWidth(int screenWidth) {
-//        this.screenWidth = screenWidth;
-//    }
 }
