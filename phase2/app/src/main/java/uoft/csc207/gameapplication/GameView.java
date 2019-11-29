@@ -16,6 +16,7 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 import uoft.csc207.gameapplication.Utility.GameRequestService.ScorePosterService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.StagePosterService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.TimePlayedService;
 
 
 public class GameView extends View {
@@ -27,6 +28,9 @@ public class GameView extends View {
 
     private ScorePosterService scorePosterService;
     private StagePosterService stagePosterService;
+    private TimePlayedService timePlayedService;
+
+    private long startTime;
 
     public GameView(Context context) {
         this(context, null);
@@ -38,12 +42,15 @@ public class GameView extends View {
         scorePosterService.setContext(context);
         stagePosterService = new StagePosterService();
         stagePosterService.setContext(context);
+        timePlayedService = new TimePlayedService();
+        timePlayedService.setContext(context);
     }
 
     /**
      * Starts running the game.
      */
     public void start() {
+        startTime = System.currentTimeMillis();
         gameDriver.start();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -69,6 +76,31 @@ public class GameView extends View {
 
         postScores();
         postStage();
+        postTimePlayed();
+    }
+
+    private void postTimePlayed() {
+        Token token = LoginService.getLoginToken();
+
+        timePlayedService.updateTimePlayed(token, String.valueOf(System.currentTimeMillis() - startTime), new CallBack() {
+
+            @Override
+            public void onSuccess() {
+                System.out.println("successful Request");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("Failed Request");
+            }
+
+            @Override
+            public void onWait() {
+                System.out.println("Waiting");
+            }
+        });
+
+
     }
 
     private void postScores() {

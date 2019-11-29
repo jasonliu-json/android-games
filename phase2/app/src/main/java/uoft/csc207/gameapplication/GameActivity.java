@@ -85,7 +85,7 @@ public class GameActivity extends AppCompatActivity {
             case "gameWrapper":
 //                System.out.println("playing game wrapper");
                 gameDriver = new GameWrapperDriver();
-                gameDriver.setMetrics(metrics);
+                gameDriver.init(metrics);
                 gameDriver.setContext(this);
                 gameDriver.setConfigurations("Tap:" + getRhythmSharedConfig() +
                         ";LIVES,4,100,Mii Channel:Swipe;AQUA");
