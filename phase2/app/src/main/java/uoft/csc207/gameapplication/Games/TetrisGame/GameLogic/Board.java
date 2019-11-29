@@ -178,7 +178,7 @@ public class Board {
     }
 
     /**
-     * Drop the current piece all the way down, if possible.
+     * Drop the current piece down, if possible.
      */
     void dropDown() {
         eraseCurrPiece();
@@ -250,7 +250,7 @@ public class Board {
     }
 
     /**
-     * Clear all entries in line n and shift all entries above down by one line.
+     * Clear line n and shift all lines above down by one.
      *
      * @param n The index of the line to be cleared.
      */
@@ -262,7 +262,7 @@ public class Board {
     }
 
     /**
-     * Clear all lines on this board that are full and return the number of lines cleared.
+     * Clear any lines, if possible, and return the number of lines cleared.
      *
      * @return The number of lines cleared.
      */

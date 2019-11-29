@@ -1,14 +1,44 @@
 package uoft.csc207.gameapplication.Games.TetrisGame.GameLogic;
 
+/**
+ * A Tetris class responsible for handling the logic of the game.
+ */
 public class TetrisGame {
 
+    /**
+     * A representation of the Tetris board.
+     */
     private Board board;
+
+    /**
+     * A representation of the Tetris board.
+     */
     private PieceGenerator pieceGenerator;
-    private boolean gameIsOver;
-    private int points;
-    private int totalLines;
-    private int rate;
+
+    /**
+     * The number of lines cleared on the current level.
+     */
+    private int linesCleared;
+
+    /**
+     * The number of frames between each time the current piece falls down.
+     */
+    private int threshold;
+
+    /**
+     * The number of frames since the last time the current piece fell down.
+     */
     private int count;
+
+    /**
+     * Whether the game is over.
+     */
+    private boolean gameIsOver;
+
+    /**
+     * The number of points scored by the player.
+     */
+    private int points;
 
     /**
      * Construct a new TetrisGame object.
@@ -19,22 +49,22 @@ public class TetrisGame {
         board.setCurrPiece(pieceGenerator.nextPiece());
         gameIsOver = false;
         points = 0;
-        totalLines = 0;
-        rate = 25;  // 25 frames
+        linesCleared = 0;
+        threshold = 25;  // 25 frames
         count = 0;
     }
 
     /**
-     * Return .
+     * Return a representation of the Tetris board.
      *
-     * @return True if the game is over, false otherwise.
+     * @return A representation of the Tetris board.
      */
     public Board getBoard() {
         return board;
     }
 
     /**
-     * Returns whether this game is over.
+     * Return true if and only if this game is over.
      *
      * @return True if the game is over, false otherwise.
      */
@@ -76,28 +106,11 @@ public class TetrisGame {
     }
 
     /**
-     * Drop the current piece all the way down, if possible.
+     * Drop the current piece down, if possible.
      */
     public void dropDown() {
         board.dropDown();
         reset();
-    }
-
-    /**
-     * Periodically move the current piece down.
-     */
-    public void fallDown() {
-        if (count == rate) {
-            moveDown();
-            count = 0;
-            if (totalLines >= 10) {
-                rate = Math.max(5, rate - 5);
-                totalLines = totalLines % 10;
-                System.out.println(rate);
-            }
-        } else {
-            count += 1;
-        }
     }
 
     /**
@@ -115,14 +128,30 @@ public class TetrisGame {
     }
 
     /**
-     * Rotate the current piece counterclockwise, if possible.
+     * Reset to a new current piece, if possible. Otherwise, end the game.
      */
     private void reset() {
         int lines = board.clearLines();
-        totalLines += lines;
+        linesCleared += lines;
         points += lines * 100;
         if (!board.setCurrPiece(pieceGenerator.nextPiece())) {
             gameIsOver = true;
+        }
+    }
+
+    /**
+     * Move the current piece down, periodically.
+     */
+    public void update() {
+        if (count == threshold) {
+            moveDown();
+            count = 0;
+            if (linesCleared >= 10) {
+                threshold = Math.max(5, threshold - 5);
+                linesCleared = linesCleared % 10;
+            }
+        } else {
+            count += 1;
         }
     }
 }

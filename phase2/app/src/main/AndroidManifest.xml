@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LeaderboardOptionsActivity"></activity>
+        <activity android:name=".PersonalScoresOptionsActivity"></activity>
+        <activity android:name=".LeaderboardOptionsActivity" />
         <activity android:name=".GameOptionsActivity" />
         <activity android:name=".PersonalScoresActivity" />
         <activity android:name=".LeaderboardActivity" />

@@ -1,19 +1,23 @@
 package uoft.csc207.gameapplication.Games.TetrisGame.Controller;
 
-import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.TetrisGame;
+import android.util.DisplayMetrics;
+
+import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameMediator;
 
 import static java.lang.Thread.sleep;
 
 public class TetrisGameController {
 
-    private TetrisGame tetrisGame;
+    private TetrisGameMediator mediator;
+    private DisplayMetrics metrics;
     private int xEnd;
     private int yEnd;
     private int xStart;
     private int yStart;
 
-    public TetrisGameController(TetrisGame tetrisGame) {
-        this.tetrisGame = tetrisGame;
+    public TetrisGameController(TetrisGameMediator mediator, DisplayMetrics metrics) {
+        this.mediator = mediator;
+        this.metrics = metrics;
     }
 
     public void touchStart(float x, float y) {
@@ -29,28 +33,26 @@ public class TetrisGameController {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (!tetrisGame.getGameIsOver()) {
-                int xDistance = (int) x - xEnd;
-                int yDistance = (int) y - yEnd;
-                if (xDistance > 20) {
-                    tetrisGame.moveRight();
-                } else if (xDistance < -20) {
-                    tetrisGame.moveLeft();
-                } else if (yDistance > 20) {
-                    tetrisGame.moveDown();
-                }
-                this.xEnd = (int) x;
-                this.yEnd = (int) y;
+            int xDistance = (int) x - xEnd;
+            int yDistance = (int) y - yEnd;
+            if (xDistance > 20) {
+                mediator.moveRight();
+            } else if (xDistance < -20) {
+                mediator.moveLeft();
+            } else if (yDistance > 20) {
+                mediator.moveDown();
             }
+            this.xEnd = (int) x;
+            this.yEnd = (int) y;
         }
     }
 
     public void touchUp() {
         if (Math.abs(xEnd - xStart) < 10 && Math.abs(yEnd - yStart) < 10) {
-            if (xStart < 540) {  // DON'T HARDCODE
-                tetrisGame.rotateCounterClockwise();
+            if (xStart < metrics.widthPixels / 2) {
+                mediator.rotateCounterClockwise();
             } else {
-                tetrisGame.rotateClockwise();
+                mediator.rotateClockwise();
             }
         }
     }

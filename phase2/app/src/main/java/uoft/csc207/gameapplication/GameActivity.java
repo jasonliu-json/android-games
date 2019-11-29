@@ -85,6 +85,7 @@ public class GameActivity extends AppCompatActivity {
             case "gameWrapper":
 //                System.out.println("playing game wrapper");
                 gameDriver = new GameWrapperDriver();
+                // gameDriver.init(metrics);
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(this);
                 gameDriver.setConfigurations("Tap:" + getRhythmSharedConfig() +
@@ -93,7 +94,7 @@ public class GameActivity extends AppCompatActivity {
                 break;
             case "tetrisGame":
 //                System.out.println("playing tetris");
-                gameDriver = new TetrisGameDriver(this);
+                gameDriver = new TetrisGameDriver();
                 gameDriver.init(metrics);
                 gameView.setStage("2");
                 break;
@@ -112,7 +113,7 @@ public class GameActivity extends AppCompatActivity {
                 gameView.setStage("4");
                 break;
             default:
-                gameDriver = new TetrisGameDriver(this);
+                gameDriver = new TetrisGameDriver();
                 gameDriver.init(metrics);
                 break;
         }

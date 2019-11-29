@@ -1,7 +1,7 @@
 package uoft.csc207.gameapplication.Games.TetrisGame.GameLogic;
 
 /**
- * A class representing a piece in a game of Tetris.
+ * A representation of a Tetris piece.
  */
 class Piece {
 

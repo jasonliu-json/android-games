@@ -1,7 +1,7 @@
 package uoft.csc207.gameapplication.Games.TetrisGame;
 
-import android.content.Context;
 import android.graphics.Canvas;
+import android.util.DisplayMetrics;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.TetrisGame.Controller.TetrisGameController;
@@ -12,41 +12,36 @@ import uoft.csc207.gameapplication.Games.TetrisGame.Presenter.TetrisGamePresente
 
 public class TetrisGameDriver extends GameDriver {
 
-    private TetrisGame game;
-    private TetrisGamePresenter presenter;
-    private TetrisGameController controller;
+    private TetrisGameMediator mediator;
 
-    public TetrisGameDriver(Context context) {
-        game = new TetrisGame(new Board(10, 20), new PieceGenerator());
-        presenter = new TetrisGamePresenter(game);
-        controller = new TetrisGameController(game);
-
-        // CONFIG STRING
-
+    public void init(DisplayMetrics metrics) {
+        mediator = new TetrisGameMediator();
+        mediator.setGame(new TetrisGame(new Board(10, 20), new PieceGenerator()));
+        mediator.setPresenter(new TetrisGamePresenter(mediator));
+        mediator.setController(new TetrisGameController(mediator, metrics));
     }
 
     public boolean getGameIsOver() {
-        return game.getGameIsOver();
+        return mediator.getGameIsOver();
     }
 
     public int getPoints() {
-        return game.getPoints();
+        return mediator.getPoints();
     }
 
     public void touchStart(float x, float y) {
-        controller.touchStart(x, y);
+        mediator.touchStart(x, y);
     }
 
     public void touchMove(float x, float y) {
-        controller.touchMove(x, y);
+        mediator.touchMove(x, y);
     }
 
     public void touchUp() {
-        controller.touchUp();
+        mediator.touchUp();
     }
 
     public void draw(Canvas canvas) {
-        game.fallDown();
-        presenter.draw(canvas, bitmap);
+        mediator.draw(canvas, bitmap);
     }
 }
