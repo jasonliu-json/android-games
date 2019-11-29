@@ -15,6 +15,9 @@ public class RhythmLevelLivesMode extends RhythmGameLevel {
         setNoteGenerator(noteGenerator);
     }
 
+    /**
+     * Updates the state of the game by one unit time.
+     */
     @Override
     public void timeUpdate() {
         super.timeUpdate();
@@ -28,8 +31,4 @@ public class RhythmLevelLivesMode extends RhythmGameLevel {
         }
     }
 
-    @Override
-    public NoteGenerator getNoteGenerator() {
-        return noteGenerator;
-    }
 }

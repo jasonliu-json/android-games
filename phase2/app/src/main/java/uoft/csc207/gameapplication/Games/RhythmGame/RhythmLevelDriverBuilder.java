@@ -12,23 +12,24 @@ import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.RGStatsPresenter;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.RhythmGamePresenter;
 
 /**
- * Builds the driver for one level of Rhythm game. Builds the game logic, controller, and presenter.
+ * Builds the driver for one level of Rhythm game.
+ * Builds the game logic, controller, and presenter.
  */
-public class RhythmLevelDriverBuilder {
+class RhythmLevelDriverBuilder {
     private RhythmLevelDriver driver;
     private RhythmGameLevel level;
     private RhythmGameController controller;
     private RhythmGamePresenter presenter;
 
     /**
-     * Creates the Rhythm Game based on the mode
+     * Creates the Rhythm game based on the mode
      * @param mode "LIVES" the game continues until a number of notes missed,
      *             or "SONG" the game continues until the somg is over
-     * @param numColumns number of note columns the game has
+     * @param numColumns number of note columns of the game
      * @param gameHeight the length of the columns
-     * @param context the context
+     * @param song the song played
      */
-    public void createRhythmLevel(String mode, int numColumns, int gameHeight, String song) {
+    void createRhythmLevel(String mode, int numColumns, int gameHeight, String song) {
         if (mode.equalsIgnoreCase("LIVES"))
             level = new RhythmLevelLivesMode(numColumns, gameHeight, song);
         else if (mode.equalsIgnoreCase("SONG"))
@@ -40,29 +41,34 @@ public class RhythmLevelDriverBuilder {
     /**
      * Creates the controller, which gets player interactions
      */
-    public void createRhythmGameController(DisplayMetrics metrics) {
+    void createRhythmGameController(DisplayMetrics metrics) {
         controller = new RhythmGameController(level, metrics.widthPixels);
     }
 
     /**
-     * Creates the presenter of the Rhythm Game
-     * @param song
+     * Creates the presenter, which displays the game to the user
+     * @param type "LIVES" shows the number of notess missed or "SONG" shows the player stats
+     * @param metrics the dimensions of the screen
+     * @param context the activity context
+     * @param colourTheme the colour theme for the tetris pieces
+     * @param shapes the shapes of the notes
      */
-    public void createRhythmGamePresenter(String type, DisplayMetrics metrics, Context context, char[] shapes) {
+    void createRhythmGamePresenter(String type, DisplayMetrics metrics,
+                                   Context context, String colourTheme, char[] shapes) {
 
-        if (type.equalsIgnoreCase("MISSED"))
+        if (type.equalsIgnoreCase("LIVES"))
             presenter = new RGMissedPresenter(level, metrics, context, shapes);
-        else if (type.equalsIgnoreCase("STATS"))
+        else if (type.equalsIgnoreCase("SONG"))
             presenter = new RGStatsPresenter(level, metrics, context, shapes);
         else
             presenter = new RhythmGamePresenter(level, metrics, context, shapes);
     }
 
-    public void createDriver() {
+    void createDriver() {
         driver = new RhythmLevelDriver(level, controller, presenter);
     }
 
-    public RhythmLevelDriver getDriver() {
+    RhythmLevelDriver getDriver() {
         return driver;
     }
 }

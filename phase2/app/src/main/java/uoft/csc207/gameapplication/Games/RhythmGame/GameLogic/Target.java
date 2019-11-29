@@ -12,9 +12,6 @@ public class Target {
         this.allowedError = allowedError;
     }
 
-    boolean contains(int y) {
-        return Math.abs(y - this.y) <= allowedError;
-    }
     boolean contains(Note note) {
         return Math.abs(note.getY() - this.y) <= allowedError;
     }

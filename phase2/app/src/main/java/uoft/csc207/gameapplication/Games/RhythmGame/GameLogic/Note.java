@@ -4,8 +4,7 @@ package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
  * A note in the game.
  */
 public class Note {
-    // y indicates the height (position) of the note
-    private int y;
+    private int y;  // vertical position
 
     Note(int y) {
         this.y = y;

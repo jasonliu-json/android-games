@@ -14,10 +14,12 @@ public class RhythmLevelSongMode extends RhythmGameLevel {
         setNoteGenerator(noteGenerator);
     }
 
+    /**
+     * Updates the state of the game by one unit time.
+     */
     @Override
     public void timeUpdate() {
         super.timeUpdate();
-        // Changes difficulty based on points
 
         // Checks if the game is over
         if (noteGenerator.getIsOver()) {
@@ -28,10 +30,4 @@ public class RhythmLevelSongMode extends RhythmGameLevel {
             gameOver();
         }
     }
-
-    @Override
-    public SongNoteGenerator getNoteGenerator() {
-        return noteGenerator;
-    }
-
 }

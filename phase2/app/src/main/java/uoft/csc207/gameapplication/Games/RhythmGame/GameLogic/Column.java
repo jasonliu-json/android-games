@@ -1,22 +1,22 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 
 /**
  * A column of the rhythm, which consists of a shadow (the target)
  * and the notes to hit within the column.
  */
 class Column extends Observable {
-    private int height = 100;
+    private int height;
     private int id;
 
     private Target target;
-    private ArrayList<Note> notes;
+    private List<Note> notes;
 
-    private RhythmGameMessage message = new RhythmGameMessage("");
+    private ColumnMessage message = new ColumnMessage("");
 
     Column(int height, int id, Observer observer) {
         this.height = height;
@@ -25,21 +25,21 @@ class Column extends Observable {
         notes = new ArrayList<>();
 
 //        for (Observer observer : observers) {
-            this.addObserver(observer);
+        this.addObserver(observer);
 //        }
     }
 
     /**
      * Updates the state of the game.
      */
-    void update() {
+    void timeUpdate() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
 
-        // moves each not up by one
+        // moves each note up by one
         for (Note note : notesCopy) {
             note.moveUp(1);
 
-            // Removes off-screen notes
+            // Removes notes outside of the column
             if (note.getY() < 0) {
                 notes.remove(note);
                 setChanged();
@@ -49,7 +49,7 @@ class Column extends Observable {
 
         if (!message.getMessage().equals("")) {
             message.incrementNumIterationsExisted();
-            if (message.getNumIterExisted() >= 1000) message = new RhythmGameMessage("");
+            if (message.getNumIterExisted() >= 1000) message = new ColumnMessage("");
         }
     }
 
@@ -91,20 +91,21 @@ class Column extends Observable {
                 // Determines the accuracy of the tap
                 if (distFromTarget < target.getAllowedError() / (float) 3) {
                     notifyObservers(RhythmGamePointsSystem.NoteEvent.PERFECT);
-                    this.message = new RhythmGameMessage("Perfect!");
+                    this.message = new ColumnMessage("Perfect!");
                 } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
                     notifyObservers(RhythmGamePointsSystem.NoteEvent.GREAT);
-                    this.message = new RhythmGameMessage("Great!");
+                    this.message = new ColumnMessage("Great!");
                 } else {
                     notifyObservers(RhythmGamePointsSystem.NoteEvent.GOOD);
-                    this.message = new RhythmGameMessage("Good!");
+                    this.message = new ColumnMessage("Good!");
                 }
 
                 // Removes the note contained
                 notes.remove(i);
+                break;
 
                 // Does not check any other note in the column
-                if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) return;
+//                if (i < notesCopy.size() - 1 && !target.contains(notesCopy.get(i + 1))) return;
             }
         }
 
@@ -115,11 +116,11 @@ class Column extends Observable {
         return target;
     }
 
-    ArrayList<Note> getNotes() {
+    List<Note> getNotes() {
         return notes;
     }
 
-    RhythmGameMessage getMessage() {
+    ColumnMessage getMessage() {
         return message;
     }
 

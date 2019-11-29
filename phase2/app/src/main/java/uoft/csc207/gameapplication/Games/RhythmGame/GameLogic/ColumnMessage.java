@@ -1,13 +1,15 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 
-public class RhythmGameMessage {
-
+/**
+ * A message associated with a column that keeps track of its own length of existence.
+ */
+public class ColumnMessage {
     private String message;
 
     // the number of iterations it has existed in the column
     private int numIterExisted = 0;
 
-    RhythmGameMessage (String msg) {
+    ColumnMessage(String msg) {
         this.message = msg;
     }
 
