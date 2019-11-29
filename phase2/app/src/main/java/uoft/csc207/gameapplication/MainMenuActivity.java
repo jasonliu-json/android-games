@@ -40,8 +40,8 @@ public class MainMenuActivity extends AppCompatActivity {
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent leaderboardActivity = new Intent(MainMenuActivity.this, LeaderboardActivity.class);
-                startActivity(leaderboardActivity);
+                Intent leaderboardOptionsActivity = new Intent(MainMenuActivity.this, LeaderboardOptionsActivity.class);
+                startActivity(leaderboardOptionsActivity);
             }
 
         });

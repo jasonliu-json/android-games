@@ -11,6 +11,12 @@
     <string name="tetris_game">Play Tetris Game</string>
     <string name="rhythm_game">Play Rhythm Game</string>
     <string name="maze_game">Play Maze Game</string>
+    <string name="game_wrapper_leaderboard">Game Wrapper Leaderboard</string>
+    <string name="tetris_game_leaderboard">Tetris Game Leaderboard</string>
+    <string name="rhythm_game_leaderboard">Rhythm Game Leaderboard</string>
+    <string name="maze_game_leaderboard">Maze Game Leaderboard</string>
+    <string name="leaderboard_options">Leaderboard Options</string>
+
     <string-array name="shapes">
         <item>J</item>
         <item>L</item>

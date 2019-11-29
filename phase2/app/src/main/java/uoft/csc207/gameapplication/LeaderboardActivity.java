@@ -23,15 +23,106 @@ public class LeaderboardActivity extends AppCompatActivity {
 //    private JSONArray database;
 
     private LeaderBoardService scoreService = new LeaderBoardService();
+    private String leaderboardType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
+        // check leaderboard type
+        leaderboardType = getIntent().getExtras().getString("leaderboardType");
+
 //        String[][] topPlays = getTopPlayers();
         scoreService.setContext(this);
 
+        switch (leaderboardType) {
+            case "gameWrapper":
+                scoreService.getGlobalLeaderboards("WrapperGame", new CallBack() {
+                    @Override
+                    public void onSuccess() {
+                        initialize(scoreService.getLeaderBoard());
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onWait() {
+
+                    }
+                });
+            case "tetrisGame":
+                scoreService.getGlobalLeaderboards("TetrisGame", new CallBack() {
+                    @Override
+                    public void onSuccess() {
+                        initialize(scoreService.getLeaderBoard());
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onWait() {
+
+                    }
+                });
+            case "rhythmGame":
+                scoreService.getGlobalLeaderboards("RhythmGame", new CallBack() {
+                    @Override
+                    public void onSuccess() {
+                        initialize(scoreService.getLeaderBoard());
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onWait() {
+
+                    }
+                });
+            case "mazeGame":
+                scoreService.getGlobalLeaderboards("MazeGame", new CallBack() {
+                    @Override
+                    public void onSuccess() {
+                        initialize(scoreService.getLeaderBoard());
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onWait() {
+
+                    }
+                });
+            default:
+                scoreService.getGlobalLeaderboards("WrapperGame", new CallBack() {
+                    @Override
+                    public void onSuccess() {
+                        initialize(scoreService.getLeaderBoard());
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onWait() {
+
+                    }
+                });
+        }
         scoreService.getGlobalLeaderboards("WrapperGame", new CallBack() {
             @Override
             public void onSuccess() {

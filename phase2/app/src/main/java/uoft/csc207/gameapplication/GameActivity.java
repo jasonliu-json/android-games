@@ -58,16 +58,6 @@ public class GameActivity extends AppCompatActivity {
 
         System.out.println(gameType);
 
-//        if (gameType.equals("tetrisGame")) {
-//            gameDriver = new TetrisGameDriver(this);
-//        } else if (gameType.equals("rhythmGame")) {
-////                gameDriver = new RhythmGameDriver(metrics, this, configs??);
-//        } else if (gameType.equals("mazeGame")) {
-//            gameDriver = new MazeGameDriver(this);
-//        } else {
-//            gameDriver = new GameWrapperDriver(metrics, this);
-//        }
-
         switch (gameType) {
             case "gameWrapper":
                 System.out.println("playing game wrapper");
