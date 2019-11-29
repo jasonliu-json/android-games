@@ -11,15 +11,16 @@ import java.util.Map;
 
 import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.Board;
 import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.TetrisGame;
+import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameMediator;
 
 
 public class TetrisGamePresenter {
 
-    private TetrisGame tetrisGame;
+    private TetrisGameMediator mediator;
     private static Map<Character, Integer> colorScheme;
 
-    public TetrisGamePresenter(TetrisGame tetrisGame) {
-        this.tetrisGame = tetrisGame;
+    public TetrisGamePresenter(TetrisGameMediator mediator) {
+        this.mediator = mediator;
         colorScheme = new HashMap<>();
         colorScheme.put('I', Color.rgb(130, 215, 255));
         colorScheme.put('J', Color.rgb(100, 170, 255));
@@ -34,8 +35,8 @@ public class TetrisGamePresenter {
         Canvas newCanvas = new Canvas(bitmap);
         newCanvas.save();
         newCanvas.drawColor(Color.WHITE);
-        drawGrid(newCanvas, tetrisGame.getBoard());
-        drawBlocks(newCanvas, tetrisGame.getBoard());
+        drawGrid(newCanvas, mediator.getBoard());
+        drawBlocks(newCanvas, mediator.getBoard());
         canvas.drawBitmap(bitmap, 88, 88, null);
         newCanvas.restore();
     }

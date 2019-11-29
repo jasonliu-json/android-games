@@ -110,7 +110,7 @@ public class GameWrapper {
     void setGameState(int gameState) {
         gamesPlayed = gameState;
         if (gameState == 0) {
-            gameDriver = new TetrisGameDriver(context);
+            gameDriver = new TetrisGameDriver();
             gameDriver.init(this.metrics);
         }
         if (gameState == 1) {
