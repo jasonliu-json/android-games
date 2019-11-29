@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
+package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -27,7 +27,7 @@ public class RGStatsPresenter extends RhythmGamePresenter {
         Rect bounds = new Rect();
         goodStatsPaint.getTextBounds("Perfect: ", 0, "Perfect".length(), bounds);
         textHeight = bounds.height();
-        setBitmapTop(getBitmapTop() + 4 * textHeight);
+        setBitmapTop(0);
         initializeBitmap();
     }
 

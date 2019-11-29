@@ -1,5 +1,8 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator.SongNoteGenerator;
+
 /**
  * A Rhythm game level where notes are generated based on the song.
  * The level ends when the song is over.

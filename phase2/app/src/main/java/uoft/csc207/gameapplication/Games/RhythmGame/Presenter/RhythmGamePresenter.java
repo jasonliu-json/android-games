@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 import uoft.csc207.gameapplication.R;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Note;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Note;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.ColumnMessage;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Target;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.ColumnMessage;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Target;
 
 /**
  * How the game is represented on screen.
@@ -109,18 +109,6 @@ public class RhythmGamePresenter {
      * @param shapes character array, where length is as long as numColumns
      */
     void setTheme(char[] shapes) {
-//        try {
-//            JSONFileRW fileRW = new JSONFileRW("Customize.json", level.getContext());
-//            JSONObject configs = fileRW.load();
-//            JSONObject rhythmConfigs = configs.getJSONObject("rhythm");
-//            for (int i = 0; i < numColumns; i++) {
-//                shapes[i] = rhythmConfigs.getString(String.format(Locale.CANADA,
-//                        "shape%d", i+1)).charAt(0);
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
         columnPaints = new Paint[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columnPaints[i] = new Paint();

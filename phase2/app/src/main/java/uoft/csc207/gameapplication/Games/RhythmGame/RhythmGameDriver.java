@@ -19,23 +19,42 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     private int levelIndex;
     private RhythmLevelDriver[] levelDrivers;
 
-    public RhythmGameDriver(DisplayMetrics metrics, Context context, String configs) {
+    private DisplayMetrics metrics;
+    private Context context;
+    private String configurations;
+
+    public RhythmGameDriver() {
         this.totalPoints = 0;
         this.levelIndex = 0;
-        this.levelDrivers = createLevelDrivers(metrics, context, configs);
     }
 
-//    @Override
+    @Override
+    public void setMetrics(DisplayMetrics metrics) {
+        this.metrics = metrics;
+    }
+
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void setConfigurations(String configurations) {
+        this.configurations = configurations;
+    }
+
+    @Override
     public void timeUpdate() {
         levelDrivers[levelIndex].timeUpdate();
     }
 
-//    @Override
+    @Override
     public void start() {
+        this.levelDrivers = createLevelDrivers(metrics, context, configurations);
         levelDrivers[levelIndex].start();
     }
 
-//    @Override
+    @Override
     public void stop() {
         levelDrivers[levelIndex].stop();
     }
@@ -43,16 +62,6 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     @Override
     public void touchStart(float x, float y) {
         levelDrivers[levelIndex].touchStart(x, y);
-    }
-
-    @Override
-    public void touchMove(float x, float y) {
-
-    }
-
-    @Override
-    public void touchUp() {
-
     }
 
     @Override
@@ -73,11 +82,10 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         if (((String)o).equalsIgnoreCase(RhythmGameLevel.LEVEL_OVER_MESSAGE)) {
-            stop();
-            if (levelIndex < levelDrivers.length - 1) {
-                levelIndex++;
-                start();
-            }
+            levelDrivers[levelIndex].stop();
+            if (levelIndex < levelDrivers.length - 1)
+                levelDrivers[++levelIndex].start();
+
         }
     }
 
@@ -105,39 +113,6 @@ public class RhythmGameDriver extends GameDriver implements Observer {
             levelDrivers[i-2] = builder.getDriver();
             levelDrivers[i-2].addObserver(this);
         }
-
-
-
-
-//        if (configs.charAt(0) == '3') {
-////            levelDrivers = new RhythmLevelDriver[3];
-//            // Settings for the three games
-//            String[] songList = {"Mii Channel", "Old Town Road", "Third Song"};
-//            int[] numColumnsList = {3, 4, 4};
-//            int[] gameHeightList = {100, 100, 80};
-//
-//            for (int i = 0; i < 3; i++) {
-//                builder.createRhythmLevel("SONG", numColumnsList[i],
-//                        gameHeightList[i], songList[i]);
-//                builder.createRhythmGameController(metrics);
-//                builder.createRhythmGamePresenter("STATS", metrics, context, config[1]);
-//                builder.createDriver();
-//
-//                levelDrivers[i] = builder.getDriver();
-//                levelDrivers[i].addObserver(this);
-//            }
-//        } else {
-//            levelDrivers = new RhythmLevelDriver[1];
-//            builder.createRhythmLevel("LIVES", 4,
-//                    250, "Old Town Road");
-//            builder.createRhythmGameController(metrics);
-//            builder.createRhythmGamePresenter("MISSED", metrics, context, configs.substring(1).toCharArray());
-//            builder.createDriver();
-//
-//            levelDrivers[0] = builder.getDriver();
-//            levelDrivers[0].addObserver(this);
-//        }
-
         return levelDrivers;
     }
 

@@ -1,4 +1,6 @@
-package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
+package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator;
+
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
 
 /**
  * Generates notes at certain intervals, where the column the note is generated in is random.
@@ -8,7 +10,7 @@ public class RandomNoteGenerator extends NoteGenerator {
     private int noteGenerationPeriod = 1000;
     private long lastNoteTime;
 
-    RandomNoteGenerator() {
+    public RandomNoteGenerator() {
         setDifficulty(Difficulty.EASY);
         lastNoteTime = 0;
     }
@@ -33,7 +35,7 @@ public class RandomNoteGenerator extends NoteGenerator {
      * Sets the difficulty of the game by generating notes more or less frequently
      * @param diff enum RhythmGameLevel.Difficulty
      */
-    void setDifficulty(Difficulty diff) {
+    public void setDifficulty(Difficulty diff) {
         switch(diff) {
             case EASY:
                 noteGenerationPeriod = 900;

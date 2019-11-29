@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
+package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column;
 
 /**
  * A message associated with a column that keeps track of its own length of existence.

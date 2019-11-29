@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.ColumnMessage;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Note;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Target;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator.NoteGenerator;
+
 
 /* A game where notes ascend the screen and the player aims to tap the
  * note precisely when the note overlaps the target. */

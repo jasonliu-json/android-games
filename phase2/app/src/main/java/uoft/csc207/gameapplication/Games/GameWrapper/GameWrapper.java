@@ -23,22 +23,17 @@ public class GameWrapper {
     private int gamesPlayed;
     private Context context;
     private DisplayMetrics metrics;
+    private String configuration;
 
-
-    public GameWrapper(DisplayMetrics metrics, Context context) {
+    public GameWrapper() {
         points = 0;
         gameIsOver = false;
         gamesPlayed = 0;
-        this.context = context;
+//        this.context = context;
         textPaint.setColor(Color.rgb(255, 141, 54));
         textPaint.setTextSize(60);
-        this.metrics = metrics;
-        setGameState(0);
-    }
-
-//    void setMetrics(DisplayMetrics metrics) {
 //        this.metrics = metrics;
-//    }
+    }
 
     /**
      * When the touch first encounters the screen.
@@ -70,13 +65,28 @@ public class GameWrapper {
      * @param canvas the canvas to draw the game on
      */
     void draw(Canvas canvas) {
-
         int currentGamePoints = gameDriver.getPoints();
+        gameDriver.draw(canvas);
+        canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
+    }
+
+    public void start() {
+        setGameState(0);
+        gameDriver.start();
+    }
+
+    public void timeUpdate() {
+        gameDriver.timeUpdate();
+
         if (gameDriver.getGameIsOver()) {
             gamesPlayed += 1;
-            points += currentGamePoints;
+            points += gameDriver.getPoints();
             if (gamesPlayed == 1) {
-                gameDriver = new RhythmGameDriver(metrics, context, "1JOOL");
+                gameDriver = new RhythmGameDriver();
+                gameDriver.setMetrics(metrics);
+                gameDriver.setContext(context);
+                gameDriver.setConfigurations("Default;JSZL;LIVES,4,100,Mii Channel"); //This config string for testing);
+                gameDriver.start();
             }
             else if (gamesPlayed == 2) {
                 gameDriver = new MazeGameDriver(context);
@@ -85,11 +95,12 @@ public class GameWrapper {
             else {
                 gameIsOver = true;
             }
+
         }
-        else {
-            gameDriver.draw(canvas);
-            canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
-        }
+    }
+
+    public void stop() {
+        gameDriver.stop();
     }
 
     /**
@@ -103,10 +114,11 @@ public class GameWrapper {
             gameDriver.init(this.metrics);
         }
         if (gameState == 1) {
-            gameDriver = new RhythmGameDriver(metrics, context, "1JOOL");
-            //TEMPORARY - all drivers should have start, stop update?
-            ((RhythmGameDriver)gameDriver).start();
-//            gameDriver.init(metrics);
+            gameDriver = new RhythmGameDriver();
+            gameDriver.setMetrics(metrics);
+            gameDriver.setContext(context);
+            gameDriver.setConfigurations("Default;JSZL;LIVES,4,100,Mii Channel"); //This config string for testing);
+            gameDriver.start();
         }
         else if (gameState == 2) {
             gameDriver = new MazeGameDriver(context);
@@ -122,12 +134,23 @@ public class GameWrapper {
         return points;
     }
 
-    int getGamesPlayed() {
-        return gamesPlayed;
-    }
+//    int getGamesPlayed() {
+//        return gamesPlayed;
+//    }
 
     void setPoints(int setPoints) {
         points = setPoints;
+    }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    void setMetrics(DisplayMetrics metrics) {
+        this.metrics = metrics;
+    }
+
+    void setConfiguration(String configuration) {
+        this.configuration = configuration;
     }
 }
