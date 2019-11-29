@@ -16,13 +16,13 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 public class TimePlayedService extends RestApiConnector {
     public static final String TIMEPLAYED = "api/tokens/timeplayed/";
 
-    public void updateTimePlayed(Token token, String timePlayed, final CallBack callback) {
+    public void updateTimePlayed(Token token, Long timePlayed, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             ObjectMapper objectMapper = new ObjectMapper();
             JSONObject jsonTokenObject = new JSONObject(objectMapper.writeValueAsString(token));
-
-            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.PUT, URL + TIMEPLAYED + timePlayed, jsonTokenObject, new Response.Listener<JSONObject>() {
+            String timePlayedSeconds = String.valueOf((int)(timePlayed / 1000));
+            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.PUT, URL + TIMEPLAYED + timePlayedSeconds, jsonTokenObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess();

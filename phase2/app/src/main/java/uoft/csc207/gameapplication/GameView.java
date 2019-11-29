@@ -24,6 +24,7 @@ public class GameView extends View {
     private Timer timer;
     private boolean scorePosted = false;
     private boolean stageUpdated = false;
+    private boolean timeUpdated = false;
     private String stage = "0";
 
     private ScorePosterService scorePosterService;
@@ -57,6 +58,9 @@ public class GameView extends View {
             @Override
             public void run() {
                 if (gameDriver.getGameIsOver()) {
+                    postScores();
+                    postStage();
+                    postTimePlayed();
                     stop();
                 } else {
                     gameDriver.timeUpdate();
@@ -73,34 +77,30 @@ public class GameView extends View {
         gameDriver.stop();
         timer.cancel();
         timer.purge();
-
-        postScores();
-        postStage();
-        postTimePlayed();
     }
 
     private void postTimePlayed() {
-        Token token = LoginService.getLoginToken();
+        if (!timeUpdated) {
+            Token token = LoginService.getLoginToken();
 
-        timePlayedService.updateTimePlayed(token, String.valueOf(System.currentTimeMillis() - startTime), new CallBack() {
+            timePlayedService.updateTimePlayed(token, System.currentTimeMillis() - startTime, new CallBack() {
 
-            @Override
-            public void onSuccess() {
-                System.out.println("successful Request");
-            }
+                @Override
+                public void onSuccess() {
+                    System.out.println("successful Request time updated");
+                }
 
-            @Override
-            public void onFailure() {
-                System.out.println("Failed Request");
-            }
+                @Override
+                public void onFailure() {
+                    System.out.println("Failed Request updating time");
+                }
 
-            @Override
-            public void onWait() {
-                System.out.println("Waiting");
-            }
-        });
-
-
+                @Override
+                public void onWait() {
+                }
+            });
+            timeUpdated = true;
+        }
     }
 
     private void postScores() {
@@ -114,17 +114,16 @@ public class GameView extends View {
             scorePosterService.postScore(token, score, "WrapperGame", new CallBack() {
                 @Override
                 public void onSuccess() {
-                    System.out.println("successful Request");
+                    System.out.println("successful Request scores posted");
                 }
 
                 @Override
                 public void onFailure() {
-                    System.out.println("Failed Request");
+                    System.out.println("Failed Request posting scores");
                 }
 
                 @Override
                 public void onWait() {
-                    System.out.println("Waiting");
                 }
             });
             scorePosted = true;
@@ -138,17 +137,16 @@ public class GameView extends View {
             stagePosterService.postStage(token, stage, new CallBack() {
                 @Override
                 public void onSuccess() {
-                    System.out.println("successful Request");
+                    System.out.println("successful Request posted stage");
                 }
 
                 @Override
                 public void onFailure() {
-                    System.out.println("Failed Request");
+                    System.out.println("Failed Request posting stage");
                 }
 
                 @Override
                 public void onWait() {
-                    System.out.println("Waiting");
                 }
             });
             stageUpdated = true;
