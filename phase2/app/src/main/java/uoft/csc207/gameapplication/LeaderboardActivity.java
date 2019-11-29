@@ -37,7 +37,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         scoreService.setContext(this);
 
         switch (leaderboardType) {
-            case "gameWrapper":
+            case "WrapperGame":
                 scoreService.getGlobalLeaderboards("WrapperGame", new CallBack() {
                     @Override
                     public void onSuccess() {
@@ -54,7 +54,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
                     }
                 });
-            case "tetrisGame":
+            case "TetrisGame":
                 scoreService.getGlobalLeaderboards("TetrisGame", new CallBack() {
                     @Override
                     public void onSuccess() {
@@ -71,7 +71,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
                     }
                 });
-            case "rhythmGame":
+            case "RhythmGame":
                 scoreService.getGlobalLeaderboards("RhythmGame", new CallBack() {
                     @Override
                     public void onSuccess() {
@@ -88,7 +88,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
                     }
                 });
-            case "mazeGame":
+            case "MazeGame":
                 scoreService.getGlobalLeaderboards("MazeGame", new CallBack() {
                     @Override
                     public void onSuccess() {
@@ -148,13 +148,16 @@ public class LeaderboardActivity extends AppCompatActivity {
         String[] topTenPlayers = new String[10];
         String[] topTenScores = new String[10];
 
+        TextView titleTextView = (TextView) findViewById(R.id.leaderboardTitle);
+        String title = leaderboardType;
+        title += " Leaderboard";
+        titleTextView.setText(title);
+
         for (int i = 0; i < 10; i++) {
             Score score = scores.get(i);
             topTenPlayers[i] = score.getUsername();
             topTenScores[i] = score.getScore();
         }
-
-        System.out.println(topTenPlayers[5]);
 
         int[] playerTextViewIds = {R.id.player1, R.id.player2, R.id.player3, R.id.player4,
                 R.id.player5, R.id.player6, R.id.player7, R.id.player8, R.id.player9,

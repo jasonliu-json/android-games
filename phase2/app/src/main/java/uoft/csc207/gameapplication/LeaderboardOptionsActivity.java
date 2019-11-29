@@ -34,7 +34,7 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gameWrapperLeaderboardActivity = new Intent(LeaderboardOptionsActivity.this, LeaderboardActivity.class);
-                gameWrapperLeaderboardActivity.putExtra("leaderboardType", "gameWrapper");
+                gameWrapperLeaderboardActivity.putExtra("leaderboardType", "WrapperGame");
                 startActivity(gameWrapperLeaderboardActivity);
             }
 
@@ -44,7 +44,7 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent tetrisGameLeaderboardActivity = new Intent(LeaderboardOptionsActivity.this, LeaderboardActivity.class);
-                tetrisGameLeaderboardActivity.putExtra("leaderboardType", "tetrisGame");
+                tetrisGameLeaderboardActivity.putExtra("leaderboardType", "TetrisGame");
                 startActivity(tetrisGameLeaderboardActivity);
 
             }
@@ -55,7 +55,7 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent rhythmGameLeaderboardActivity = new Intent(LeaderboardOptionsActivity.this, LeaderboardActivity.class);
-                rhythmGameLeaderboardActivity.putExtra("leaderboardType", "rhythmGame");
+                rhythmGameLeaderboardActivity.putExtra("leaderboardType", "RhythmGame");
                 startActivity(rhythmGameLeaderboardActivity);
 
             }
@@ -65,7 +65,7 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mazeGameLeaderboardActivity = new Intent(LeaderboardOptionsActivity.this, LeaderboardActivity.class);
-                mazeGameLeaderboardActivity.putExtra("leaderboardType", "mazeGame");
+                mazeGameLeaderboardActivity.putExtra("leaderboardType", "MazeGame");
                 startActivity(mazeGameLeaderboardActivity);
 
             }
