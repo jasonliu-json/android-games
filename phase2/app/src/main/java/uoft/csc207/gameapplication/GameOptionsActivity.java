@@ -62,6 +62,7 @@ public class GameOptionsActivity extends AppCompatActivity {
                 Intent gameWrapperActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                 gameWrapperActivity.putExtra("gameType", "gameWrapper");
                 startActivity(gameWrapperActivity);
+                finish();
             }
 
         });
@@ -73,6 +74,7 @@ public class GameOptionsActivity extends AppCompatActivity {
                     Intent tetrisGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                     tetrisGameActivity.putExtra("gameType", "tetrisGame");
                     startActivity(tetrisGameActivity);
+                    finish();
                 }
             }
 
@@ -85,6 +87,7 @@ public class GameOptionsActivity extends AppCompatActivity {
                     Intent rhythmGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                     rhythmGameActivity.putExtra("gameType", "rhythmGame");
                     startActivity(rhythmGameActivity);
+                    finish();
                 }
             }
         });
@@ -96,6 +99,7 @@ public class GameOptionsActivity extends AppCompatActivity {
                     Intent mazeGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                     mazeGameActivity.putExtra("gameType", "mazeGame");
                     startActivity(mazeGameActivity);
+                    finish();
                 }
             }
         });

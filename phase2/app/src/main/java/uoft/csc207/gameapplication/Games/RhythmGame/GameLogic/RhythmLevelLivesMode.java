@@ -1,5 +1,7 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator.RandomNoteGenerator;
+
 /**
  * A Rhythm game level where the notes are generated in a random column.
  * The level ends when a max amount notes missed is reached.

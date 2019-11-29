@@ -1,15 +1,17 @@
-package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
+package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
+
 /**
  * A column of the rhythm, which consists of a shadow (the target)
  * and the notes to hit within the column.
  */
-class Column extends Observable {
+public class Column extends Observable {
     private int height;
     private int id;
 
@@ -18,7 +20,7 @@ class Column extends Observable {
 
     private ColumnMessage message = new ColumnMessage("");
 
-    Column(int height, int id, Observer observer) {
+    public Column(int height, int id, Observer observer) {
         this.height = height;
         this.id = id;
         this.target = new Target(height/5, height/20);
@@ -32,7 +34,7 @@ class Column extends Observable {
     /**
      * Updates the state of the game.
      */
-    void timeUpdate() {
+    public void timeUpdate() {
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
 
         // moves each note up by one
@@ -49,7 +51,7 @@ class Column extends Observable {
 
         if (!message.getMessage().equals("")) {
             message.incrementNumIterationsExisted();
-            if (message.getNumIterExisted() >= 1000) message = new ColumnMessage("");
+            if (message.getNumIterExisted() >= 20) message = new ColumnMessage("");
         }
     }
 
@@ -68,7 +70,7 @@ class Column extends Observable {
     /**
      * Generates a note at the bottom of the column.
      */
-    void generateNote() {
+    public void generateNote() {
         if (checkLowestNote()) {
             notes.add(new Note(height));
         }
@@ -78,7 +80,7 @@ class Column extends Observable {
      * Checks if any notes are in the target.
      * Pre-condition: the notes are sorted in ascending order of y-value.
      */
-    void tap() {
+    public void tap() {
         setChanged();
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         for (int i = 0; i < notesCopy.size(); i++) {
@@ -112,15 +114,15 @@ class Column extends Observable {
         notifyObservers(RhythmGamePointsSystem.NoteEvent.BAD);
     }
 
-    Target getTarget() {
+    public Target getTarget() {
         return target;
     }
 
-    List<Note> getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
-    ColumnMessage getMessage() {
+    public ColumnMessage getMessage() {
         return message;
     }
 

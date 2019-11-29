@@ -12,17 +12,12 @@ import uoft.csc207.gameapplication.Games.GameDriver;
 public class GameWrapperDriver extends GameDriver {
     private GameWrapper gameWrapper;
 
-    private int xInit;
-    private int yInit;
-
-    public GameWrapperDriver(DisplayMetrics metrics, Context context) {
-        gameWrapper = new GameWrapper(metrics, context);
-        init(metrics);
+    public GameWrapperDriver() {
+        gameWrapper = new GameWrapper();
     }
 
-
     /**
-     * When the touch first encounters the screen.
+     * Called when the touch first encounters the screen.
      * @param x the x-coordinate of the event on the screen.
      * @param y the y-coordinate of the event on the screen.
      */
@@ -31,7 +26,7 @@ public class GameWrapperDriver extends GameDriver {
     }
 
     /**
-     * As the touch moves around still in contact with the screen.
+     * Called as the touch moves around still in contact with the screen.
      * @param x the x-coordinate of the event on the screen.
      * @param y the y-coordinate of the event on the screen.
      */
@@ -40,7 +35,7 @@ public class GameWrapperDriver extends GameDriver {
     }
 
     /**
-     * When the touch is lifted off the screen.
+     * Called when the touch is lifted off the screen.
      */
     public void touchUp() {
         gameWrapper.touchUp();
@@ -63,12 +58,39 @@ public class GameWrapperDriver extends GameDriver {
     }
 
     // Sets the state of the game with the previous points
-    public void setGameState(int setPoints, int gameState) {
-        gameWrapper.setPoints(setPoints);
-        gameWrapper.setGameState(gameState);
+//    public void setGameState(int setPoints, int gameState) {
+//        gameWrapper.setPoints(setPoints);
+//        gameWrapper.setGameState(gameState);
+//    }
+//
+//    public int getGameState() {
+//        return gameWrapper.getGamesPlayed();
+//    }
+
+    public void start() {
+        gameWrapper.start();
     }
 
-    public int getGameState() {
-        return gameWrapper.getGamesPlayed();
+    public void stop() {
+        gameWrapper.stop();
+    }
+
+    public void timeUpdate() {
+        gameWrapper.timeUpdate();
+    }
+
+    @Override
+    public void setMetrics(DisplayMetrics metrics) {
+        gameWrapper.setMetrics(metrics);
+    }
+
+    @Override
+    public void setContext(Context context) {
+        gameWrapper.setContext(context);
+    }
+
+    @Override
+    public void setConfigurations(String configurations) {
+        gameWrapper.setConfiguration(configurations);
     }
 }

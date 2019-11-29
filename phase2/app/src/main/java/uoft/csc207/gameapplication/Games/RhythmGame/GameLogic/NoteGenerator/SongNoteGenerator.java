@@ -1,7 +1,9 @@
-package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
+package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
 
 
 /**
@@ -44,7 +46,6 @@ public class SongNoteGenerator extends NoteGenerator {
 
 
     }
-
 
     @Override
     public void start() {

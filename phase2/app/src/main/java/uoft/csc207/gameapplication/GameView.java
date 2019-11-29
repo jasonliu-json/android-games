@@ -40,24 +40,30 @@ public class GameView extends View {
         stagePosterService.setContext(context);
     }
 
+    /**
+     * Starts running the game.
+     */
     public void start() {
-//        gameDriver.start()
+        gameDriver.start();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (gameDriver.getGameIsOver()) { // should be the condition that the game is over;
+                if (gameDriver.getGameIsOver()) {
                     stop();
                 } else {
-//                    gameDriver.update();
+                    gameDriver.timeUpdate();
                     invalidate();
                 }
             }
         }, 0, 30);
     }
 
+    /**
+     * Stops the game and thread-related processes.
+     */
     public void stop() {
-//        gameDriver.stop()
+        gameDriver.stop();
         timer.cancel();
         timer.purge();
 
@@ -116,10 +122,6 @@ public class GameView extends View {
             stageUpdated = true;
         }
     }
-//
-//    public void init(DisplayMetrics metrics) {
-//        gameDriver.init(metrics);
-//    }
 
     @Override
     protected void onDraw(Canvas canvas) {

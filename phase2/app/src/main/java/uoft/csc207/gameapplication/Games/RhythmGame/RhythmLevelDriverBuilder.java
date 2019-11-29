@@ -55,7 +55,6 @@ class RhythmLevelDriverBuilder {
      */
     void createRhythmGamePresenter(String type, DisplayMetrics metrics,
                                    Context context, String colourTheme, char[] shapes) {
-
         if (type.equalsIgnoreCase("LIVES"))
             presenter = new RGMissedPresenter(level, metrics, context, shapes);
         else if (type.equalsIgnoreCase("SONG"))
