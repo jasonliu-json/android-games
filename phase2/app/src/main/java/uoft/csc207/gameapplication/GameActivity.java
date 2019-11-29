@@ -88,7 +88,7 @@ public class GameActivity extends AppCompatActivity {
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(this);
                 gameDriver.setConfigurations("Tap:" + getRhythmSharedConfig() +
-                        ";LIVES,4,100,Mii Channel:Swipe;AQUA");
+                        ";MISSED;LIVES,4,100,Mii Channel:Swipe;AQUA");
                 gameView.setStage("1");
                 break;
             case "tetrisGame":
@@ -101,7 +101,7 @@ public class GameActivity extends AppCompatActivity {
                 gameDriver = new RhythmGameDriver();
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(this);
-                gameDriver.setConfigurations(getRhythmSharedConfig()+ ";SONG,3,100,Mii Channel;" +
+                gameDriver.setConfigurations(getRhythmSharedConfig()+ ";STATS;SONG,3,100,Mii Channel;" +
                         "SONG,4,100,Old Town Road;SONG,4,80,THIRD SONG");
                 gameView.setStage("3");
                 break;

@@ -23,7 +23,7 @@ public class GameWrapper {
     private int gamesPlayed;
     private Context context;
     private DisplayMetrics metrics;
-    private String configuration;
+    private String[] configurations;
 
     public GameWrapper() {
         points = 0;
@@ -85,7 +85,7 @@ public class GameWrapper {
                 gameDriver = new RhythmGameDriver();
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(context);
-                gameDriver.setConfigurations("Default;JSZL;LIVES,4,100,Mii Channel"); //This config string for testing);
+                gameDriver.setConfigurations(configurations[1]);
                 gameDriver.start();
             }
             else if (gamesPlayed == 2) {
@@ -117,7 +117,7 @@ public class GameWrapper {
             gameDriver = new RhythmGameDriver();
             gameDriver.setMetrics(metrics);
             gameDriver.setContext(context);
-            gameDriver.setConfigurations("Default;JSZL;LIVES,4,100,Mii Channel"); //This config string for testing);
+            gameDriver.setConfigurations(configurations[1]); //This config string for testing);
             gameDriver.start();
         }
         else if (gameState == 2) {
@@ -150,7 +150,7 @@ public class GameWrapper {
         this.metrics = metrics;
     }
 
-    void setConfiguration(String configuration) {
-        this.configuration = configuration;
+    void setConfiguration(String configurations) {
+        this.configurations = configurations.split(":");
     }
 }

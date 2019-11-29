@@ -27,4 +27,9 @@ public class RhythmGameController {
         int colNumber = (int) (numColumns * x / screenWidth);
         level.tap(colNumber);
     }
+
+    public void setLevel(RhythmGameLevel level) {
+        this.level = level;
+        this.numColumns = level.getNumColumns();
+    }
 }

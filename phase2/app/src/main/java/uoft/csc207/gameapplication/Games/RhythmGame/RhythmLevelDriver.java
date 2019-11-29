@@ -29,15 +29,6 @@ public class RhythmLevelDriver extends GameDriver {
         controller.touchStart(x,y);
     }
 
-    @Override
-    public void touchMove(float x, float y) {
-
-    }
-
-    @Override
-    public void touchUp() {
-
-    }
 
     @Override
     public void draw(Canvas canvas) {
