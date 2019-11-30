@@ -14,17 +14,18 @@ import uoft.csc207.gameapplication.Games.TetrisGame.Presenter.TetrisGamePresente
 public class TetrisGameDriver extends GameDriver {
 
     private TetrisGameMediator mediator;
+    private String config;
+
+    public void setConfigurations(String config) {
+        this.config = config;
+    }
 
     public void init(DisplayMetrics metrics) {
+        super.init(metrics);
         mediator = new TetrisGameMediator();
         mediator.setGame(new TetrisGame(new Board(10, 20), new PieceGenerator()));
-        mediator.setPresenter(new TetrisGamePresenter(mediator));
+        mediator.setPresenter(new TetrisGamePresenter(mediator, config));
         mediator.setController(new TetrisGameController(mediator, metrics));
-
-        screenHeight = metrics.heightPixels - 40;
-        screenWidth = metrics.widthPixels;
-        bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
-        newCanvas = new Canvas(bitmap);
     }
 
     public boolean getGameIsOver() {

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A piece generator using the 7-Bag-Randomization algorithm.
+ * A random piece generator using the 7-Bag-Randomization algorithm.
  *
  * <p>The 7-Bag-Randomization algorithm generates a sequence of all 7 pieces permuted randomly, as
  * if they were drawn from a bag. All 7 pieces are then dealt before generating another bag. This
@@ -43,114 +43,114 @@ public class PieceGenerator {
                 'I',
                 new String[][]{
                         {"....",
-                         "....",
-                         "IIII",
-                         "...."},
+                                "....",
+                                "IIII",
+                                "...."},
                         {"..I.",
-                         "..I.",
-                         "..I.",
-                         "..I."}
+                                "..I.",
+                                "..I.",
+                                "..I."}
                 });
         pieceToSprites.put(
                 'J',
                 new String[][]{
                         {"....",
-                         ".J..",
-                         ".JJJ",
-                         "...."},
+                                ".J..",
+                                ".JJJ",
+                                "...."},
                         {"....",
-                         "..JJ",
-                         "..J.",
-                         "..J."},
+                                "..JJ",
+                                "..J.",
+                                "..J."},
                         {"....",
-                         "....",
-                         ".JJJ",
-                         "...J"},
+                                "....",
+                                ".JJJ",
+                                "...J"},
                         {"....",
-                         "..J.",
-                         "..J.",
-                         ".JJ."}
+                                "..J.",
+                                "..J.",
+                                ".JJ."}
                 });
         pieceToSprites.put(
                 'L',
                 new String[][]{
                         {"....",
-                         "...L",
-                         ".LLL",
-                         "...."},
+                                "...L",
+                                ".LLL",
+                                "...."},
                         {"....",
-                         "..L.",
-                         "..L.",
-                         "..LL"},
+                                "..L.",
+                                "..L.",
+                                "..LL"},
                         {"....",
-                         "....",
-                         ".LLL",
-                         ".L.."},
+                                "....",
+                                ".LLL",
+                                ".L.."},
                         {"....",
-                         ".LL.",
-                         "..L.",
-                         "..L."}
+                                ".LL.",
+                                "..L.",
+                                "..L."}
                 });
         pieceToSprites.put(
                 'O',
                 new String[][]{
                         {"....",
-                         ".OO.",
-                         ".OO.",
-                         "...."}
+                                ".OO.",
+                                ".OO.",
+                                "...."}
                 });
         pieceToSprites.put(
                 'S',
                 new String[][]{
                         {"....",
-                         "..SS",
-                         ".SS.",
-                         "...."},
+                                "..SS",
+                                ".SS.",
+                                "...."},
                         {"....",
-                         ".S..",
-                         ".SS.",
-                         "..S."}
+                                ".S..",
+                                ".SS.",
+                                "..S."}
                 });
         pieceToSprites.put(
                 'Z',
                 new String[][]{
                         {"....",
-                         ".ZZ.",
-                         "..ZZ",
-                         "...."},
+                                ".ZZ.",
+                                "..ZZ",
+                                "...."},
                         {"..Z.",
-                         ".ZZ.",
-                         ".Z..",
-                         "...."}
+                                ".ZZ.",
+                                ".Z..",
+                                "...."}
                 });
         pieceToSprites.put(
                 'T',
                 new String[][]{
                         {"....",
-                         "..T.",
-                         ".TTT",
-                         "...."},
+                                "..T.",
+                                ".TTT",
+                                "...."},
                         {"....",
-                         "..T.",
-                         "..TT",
-                         "..T."},
+                                "..T.",
+                                "..TT",
+                                "..T."},
                         {"....",
-                         "....",
-                         ".TTT",
-                         "..T."},
+                                "....",
+                                ".TTT",
+                                "..T."},
                         {"....",
-                         "..T.",
-                         ".TT.",
-                         "..T."}
+                                "..T.",
+                                ".TT.",
+                                "..T."}
                 });
     }
 
     /**
-     * Returns a pseudo-random piece and generates a new bag if all 7 pieces have been dealt.
+     * Return a random piece and generate a new bag if all 7 pieces have been dealt.
      *
      * @return The piece to be dealt.
      */
-    Piece nextPiece() {
+    Piece getRandomPiece() {
         int x = 3;
         int y = -1;
         int rotation = 0;

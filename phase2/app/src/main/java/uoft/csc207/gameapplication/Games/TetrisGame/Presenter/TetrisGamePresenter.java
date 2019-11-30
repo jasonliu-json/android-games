@@ -10,25 +10,47 @@ import java.util.HashMap;
 import java.util.Map;
 
 import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.Board;
-import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.TetrisGame;
 import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameMediator;
 
 
 public class TetrisGamePresenter {
 
     private TetrisGameMediator mediator;
-    private static Map<Character, Integer> colorScheme;
+    private String colorScheme;
+    private Map<String, Map<Character, Integer>> colorSchemes;
 
-    public TetrisGamePresenter(TetrisGameMediator mediator) {
+
+    public TetrisGamePresenter(TetrisGameMediator mediator, String config) {
         this.mediator = mediator;
-        colorScheme = new HashMap<>();
-        colorScheme.put('I', Color.rgb(130, 215, 255));
-        colorScheme.put('J', Color.rgb(100, 170, 255));
-        colorScheme.put('L', Color.rgb(255, 170, 70));
-        colorScheme.put('O', Color.rgb(255, 220, 100));
-        colorScheme.put('S', Color.rgb(155, 255, 110));
-        colorScheme.put('Z', Color.rgb(255, 100, 100));
-        colorScheme.put('T', Color.rgb(170, 140, 255));
+        colorScheme = config;
+        colorSchemes = new HashMap<>();
+        Map<Character, Integer> defaultScheme = new HashMap<>();
+        defaultScheme.put('I', Color.rgb(130, 215, 255));
+        defaultScheme.put('J', Color.rgb(100, 170, 255));
+        defaultScheme.put('L', Color.rgb(255, 170, 70));
+        defaultScheme.put('O', Color.rgb(255, 220, 100));
+        defaultScheme.put('S', Color.rgb(155, 255, 110));
+        defaultScheme.put('Z', Color.rgb(255, 100, 100));
+        defaultScheme.put('T', Color.rgb(170, 140, 255));
+        colorSchemes.put("default", defaultScheme);
+        Map<Character, Integer> aquaScheme = new HashMap<>();
+        aquaScheme.put('I', Color.rgb(130, 215, 255));
+        aquaScheme.put('J', Color.rgb(130, 215, 255));
+        aquaScheme.put('L', Color.rgb(130, 215, 255));
+        aquaScheme.put('O', Color.rgb(130, 215, 255));
+        aquaScheme.put('S', Color.rgb(130, 215, 255));
+        aquaScheme.put('Z', Color.rgb(130, 215, 255));
+        aquaScheme.put('T', Color.rgb(130, 215, 255));
+        colorSchemes.put("default", aquaScheme);
+        Map<Character, Integer> emberScheme = new HashMap<>();
+        emberScheme.put('I', Color.rgb(255, 100, 100));
+        emberScheme.put('J', Color.rgb(255, 100, 100));
+        emberScheme.put('L', Color.rgb(255, 100, 100));
+        emberScheme.put('O', Color.rgb(255, 100, 100));
+        emberScheme.put('S', Color.rgb(255, 100, 100));
+        emberScheme.put('Z', Color.rgb(255, 100, 100));
+        emberScheme.put('T', Color.rgb(255, 100, 100));
+        colorSchemes.put("default", emberScheme);
     }
 
     public void draw(Canvas canvas, Bitmap bitmap) {
@@ -69,7 +91,7 @@ public class TetrisGamePresenter {
                 int x = k * length;
                 int y = i * length;
                 if (block != '.') {
-                    paint.setColor(colorScheme.get(block));
+                    paint.setColor(colorSchemes.get(colorScheme).get(block));
                     canvas.drawRect(new Rect(x, y, x + length, y + length), paint);
                 }
             }
