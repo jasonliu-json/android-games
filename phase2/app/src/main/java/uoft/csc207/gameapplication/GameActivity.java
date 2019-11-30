@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
@@ -12,13 +13,13 @@ import uoft.csc207.gameapplication.Games.RhythmGame.RhythmGameDriver;
 import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 import uoft.csc207.gameapplication.Utility.JSONFileRW;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,19 +39,20 @@ public class GameActivity extends AppCompatActivity {
 
     // File reading and writing
     private static final String CUSTOMIZATIONS_FILE = "Customize.json";
-    private JSONFileRW fileRW;
-    private JSONObject configurations;
+    private static final String COLOUR_PALETTES_FILE = "ColourPalettes.json";
+
     private JSONObject tetrisCustom;
     private JSONObject rhythmCustom;
     private JSONObject mazeCustom;
 
-    private long gameSessionStart;
+    private Map<String, Integer> colourScheme;
+
     private Timer timer;
     private String gameType = "gameWrapper";
 
     /**
      * Initializes the game on create.
-     * @param savedInstanceState
+     * @param savedInstanceState the saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,10 @@ public class GameActivity extends AppCompatActivity {
 //            gameDriver = new GameWrapperDriver(metrics, this);
 //        }
 
-        // Initialize from files, for state saving
-        fileRW = new JSONFileRW(CUSTOMIZATIONS_FILE, this);
-        loadJSON();
+
+
+        loadCustomizeJSON();
+        loadColourPaletteJSON();
 
         switch (gameType) {
             case "gameWrapper":
@@ -105,6 +108,7 @@ public class GameActivity extends AppCompatActivity {
                 gameDriver.setContext(this);
                 gameDriver.setConfigurations(getRhythmSharedConfig()+ ";STATS;3,100,Mii Channel,SONG;" +
                         "4,100,Old Town Road,SONG;4,80,THIRD SONG,SONG");
+                gameDriver.setColourScheme(colourScheme);
                 gameDriver.init();
                 gameView.setStage("3");
                 break;
@@ -126,8 +130,9 @@ public class GameActivity extends AppCompatActivity {
     /**
      * Loads the configurations
      */
-    private void loadJSON() {
-        configurations = fileRW.load();
+    private void loadCustomizeJSON() {
+        JSONFileRW customizeFileRW = new JSONFileRW(CUSTOMIZATIONS_FILE, this);
+        JSONObject configurations = customizeFileRW.load();
         if (configurations != null) {
             try {
                 tetrisCustom = configurations.getJSONObject("tetris");
@@ -139,8 +144,35 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void loadColourPaletteJSON() {
+        JSONFileRW colourFileRW = new JSONFileRW(COLOUR_PALETTES_FILE, this);
+        JSONObject palettes = colourFileRW.load();
+        if (palettes != null) {
+            try {
+                String theme = tetrisCustom.getString("colours");
+                JSONObject colourPalette = palettes.getJSONObject(theme);
+                Map<String, Integer> colourScheme = new HashMap<>();
+                for (int i = 1; i <= 7; i++) {
+                    String key = String.format(Locale.CANADA, "BlockColour%d", i);
+                    JSONObject colourRGB = colourPalette.getJSONObject(key);
+                    Integer colour = Color.rgb(colourRGB.getInt("r"),
+                            colourRGB.getInt("g"), colourRGB.getInt("b"));
+                    colourScheme.put(key, colour);
+                }
+
+                this.colourScheme = Collections.unmodifiableMap(colourScheme);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void createColourScheme() {
+
+    }
+
     private String getRhythmSharedConfig() {
-        StringBuilder configs = new StringBuilder("");
+        StringBuilder configs = new StringBuilder();
         try {
             configs.append(tetrisCustom.getString("colours"));
             configs.append(";");
@@ -179,7 +211,7 @@ public class GameActivity extends AppCompatActivity {
         gameView.start();
         timer = new Timer();
         timer.scheduleAtFixedRate(checkIsGameOver, 0, 100);
-        gameSessionStart = System.currentTimeMillis();
+//        gameSessionStart = System.currentTimeMillis();
     }
 
     /**
@@ -254,7 +286,7 @@ public class GameActivity extends AppCompatActivity {
 //    protected void onStop() {
 //        super.onStop();
 ////        saveState();
-////        fileRW.write(database.toString());
+////        customizeFileRW.write(database.toString());
 //        // hardcoded manual stop
 //    }
 //

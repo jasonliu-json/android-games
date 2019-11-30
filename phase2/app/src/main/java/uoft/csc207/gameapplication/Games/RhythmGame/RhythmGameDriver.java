@@ -36,6 +36,7 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     private DisplayMetrics metrics;
     private Context context;
     private String configurations;
+    private Map<String, Integer> colourScheme;
 
     public RhythmGameDriver() {
         this.totalPoints = 0;
@@ -57,6 +58,10 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         this.configurations = configurations;
     }
 
+    @Override
+    public void setColourScheme(Map<String, Integer> colourScheme) {
+        this.colourScheme = colourScheme;
+    }
 
     @Override
     public void timeUpdate() {
@@ -78,11 +83,11 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         this.controller = new RhythmGameController(levels[levelIndex], metrics.widthPixels);
 
         // First three elements describe configs for all levels of presenter
-        String colourTheme = configs[0];
+//        String colourTheme = configs[0];
         char[] shapes = configs[1].toCharArray();
         String statDrawerMode = configs[2];
         this.presenter = new RhythmGamePresenter(levels[levelIndex], metrics, context, shapes,
-                colourTheme, statDrawerMode);
+                colourScheme, statDrawerMode);
     }
 
     private void createLevels(String[] configs) {

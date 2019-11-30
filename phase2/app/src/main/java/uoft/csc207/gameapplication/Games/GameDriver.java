@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 
+import java.util.Map;
+
 /**
  * Takes in touch inputs for a game.
  * Draws the game to canvas.
@@ -21,6 +23,7 @@ public abstract class GameDriver {
     private DisplayMetrics metrics;
     private Context context;
     private String configurations;
+    private Map<String, Integer> colourScheme;
 
     public void init(DisplayMetrics metrics) {
         screenHeight = metrics.heightPixels - 40;
@@ -80,7 +83,7 @@ public abstract class GameDriver {
     }
 
     public void setMetrics(DisplayMetrics metrics) {
-        this.metrics = metrics;
+
     }
 
     public Context getContext() {
@@ -88,8 +91,9 @@ public abstract class GameDriver {
     }
 
     public void setContext(Context context) {
-        this.context = context;
     }
+
+    public void setColourScheme(Map<String, Integer> colourScheme){this.colourScheme = colourScheme;}
 
     public String getConfigurations() {
         return configurations;

@@ -46,7 +46,7 @@ public class RhythmGamePresenter {
     private Paint targetPaint;
     private NoteShape[] colUnitNoteShapes;
     private char[] shapes;
-    private String colourTheme;
+    private Map<String, Integer> colourScheme;
     private Paint goodMessagePaint;
     private Paint badMessagePaint;
 
@@ -55,6 +55,7 @@ public class RhythmGamePresenter {
 
     public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
 
+    private static final Map<Character, String> BLOCK_TO_SCHEME_KEYS = createKeysMap();
     private static final Map<Character, Integer[][]> TETRO_COORDINATES = createTetroCoordinatesMap();
     private static final Map<String, Integer> SONG_IDS = createSongIdsMap();
     private static final Map<String, StatsDrawer> STATS_DRAWERS = createStatsDrawersMap();
@@ -70,10 +71,10 @@ public class RhythmGamePresenter {
     }
 
     public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context,
-                               char[] shapes, String colourTheme, String statDrawerMode) {
+                               char[] shapes, Map<String, Integer> colourScheme, String statDrawerMode) {
         this.context = context;
         this.shapes = shapes;
-        this.colourTheme = colourTheme;
+        this.colourScheme = colourScheme;
         this.screenWidth = metrics.widthPixels;
         this.screenHeight = metrics.heightPixels - 40;
         this.statsDrawer = STATS_DRAWERS.get(statDrawerMode);
@@ -162,7 +163,8 @@ public class RhythmGamePresenter {
         columnPaints = new Paint[numColumns];
         for (int i = 0; i < numColumns; i++) {
             columnPaints[i] = new Paint();
-            Integer colour = TETRO_COLOURS.get(shapes[i]);
+            String schemeKey = BLOCK_TO_SCHEME_KEYS.get(shapes[i]);
+            Integer colour = colourScheme.get(schemeKey);
             if (colour != null) columnPaints[i].setColor(colour);
         }
 
@@ -273,5 +275,18 @@ public class RhythmGamePresenter {
         statsDrawerMap.put("MISSED", new MissedStatsDrawer());
 
         return Collections.unmodifiableMap(statsDrawerMap);
+    }
+
+    private static Map<Character, String> createKeysMap() {
+        Map<Character, String> keysMap = new HashMap<>();
+        keysMap.put('I', "BlockColour1");
+        keysMap.put('J', "BlockColour2");
+        keysMap.put('L',"BlockColour3");
+        keysMap.put('O',"BlockColour4");
+        keysMap.put('S', "BlockColour5");
+        keysMap.put('Z', "BlockColour6");
+        keysMap.put('T', "BlockColour7");
+
+        return Collections.unmodifiableMap(keysMap);
     }
 }
