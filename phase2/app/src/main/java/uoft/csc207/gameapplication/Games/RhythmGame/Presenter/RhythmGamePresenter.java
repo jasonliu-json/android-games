@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,6 @@ public class RhythmGamePresenter {
     private float targetScale, noteScale;
     private float heightRatio;
     private int bitmapTop;
-    private int statsTextHeight;
 
     /* Graphic variables for drawing */
     private Paint[] columnPaints;
@@ -49,32 +49,17 @@ public class RhythmGamePresenter {
     private String colourTheme;
     private Paint goodMessagePaint;
     private Paint badMessagePaint;
-    private Paint badStatsPaint;
-    private Paint goodStatsPaint;
-    private Paint upperRectPaint;
 
-    private String statsDisplayMode;
+    private StatsDrawer statsDrawer;
     private MediaPlayer mediaPlayer;
 
     public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
 
-    public static final Map<Character, Integer[][]> TETRO_COORDINATES = new HashMap<>();
+    private static final Map<Character, Integer[][]> TETRO_COORDINATES = createTetroCoordinatesMap();
+    private static final Map<String, Integer> SONG_IDS = createSongIdsMap();
+    private static final Map<String, StatsDrawer> STATS_DRAWERS = createStatsDrawersMap();
 
-    public static final Map<String, Integer> SONG_IDS = new HashMap<>();
     static {
-        Integer[][] jCoordinates = {{1, 0}, {1, 1}, {1, 2}, {0, 2}};
-        TETRO_COORDINATES.put('J', jCoordinates);
-        Integer[][] lCoordinates = {{0, 0}, {0, 1}, {0, 2}, {1, 2}};
-        TETRO_COORDINATES.put('L', lCoordinates);
-        Integer[][] oCoordinates = {{0, 0}, {1, 0}, {1, 1}, {0, 1}};
-        TETRO_COORDINATES.put('O', oCoordinates);
-        Integer[][] sCoordinates = {{0, 0}, {0, 1}, {1, 1}, {1, 2}};
-        TETRO_COORDINATES.put('S', sCoordinates);
-        Integer[][] zCoordinates = {{1, 0}, {1, 1}, {0, 1}, {0, 2}};
-        TETRO_COORDINATES.put('Z', zCoordinates);
-        Integer[][] tCoordinates = {{0, 0}, {0, 1}, {0, 2}, {1, 1}};
-        TETRO_COORDINATES.put('T', tCoordinates);
-
         TETRO_COLOURS.put('I', Color.rgb(130, 215,255));
         TETRO_COLOURS.put('J', Color.rgb(100, 170,255));
         TETRO_COLOURS.put('L', Color.rgb(255, 170,70));
@@ -82,31 +67,23 @@ public class RhythmGamePresenter {
         TETRO_COLOURS.put('S', Color.rgb(155, 255,110));
         TETRO_COLOURS.put( 'Z', Color.rgb(255, 100,100));
         TETRO_COLOURS.put( 'T', Color.rgb(170, 140,255));
-
-        SONG_IDS.put("Old Town Road", R.raw.old_town_road);
-        SONG_IDS.put("Mii Channel", R.raw.mii_channel);
     }
 
-    public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics,
-                               Context context, char[] shapes, String colourTheme, String statsDisplayMode) {
+    public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context,
+                               char[] shapes, String colourTheme, String statDrawerMode) {
         this.context = context;
         this.shapes = shapes;
         this.colourTheme = colourTheme;
-        screenWidth = metrics.widthPixels;
-        screenHeight = metrics.heightPixels - 40;
-
-        this.statsDisplayMode = statsDisplayMode;
-
+        this.screenWidth = metrics.widthPixels;
+        this.screenHeight = metrics.heightPixels - 40;
+        this.statsDrawer = STATS_DRAWERS.get(statDrawerMode);
         setLevel(level);
-        setPaints();
-
-        Rect bounds = new Rect();
-        Paint sizePaint = new Paint();
-        sizePaint.setTextSize(60);
-        sizePaint.getTextBounds("Perfect: ", 0, "Perfect".length(), bounds);
-        statsTextHeight = bounds.height();
     }
 
+    /**
+     * Initializes all instances associated with the specific level.
+     * @param level the level of the Rhythm game.
+     */
     public void setLevel(RhythmGameLevel level) {
         this.level = level;
         this.numColumns = level.getNumColumns();
@@ -116,69 +93,9 @@ public class RhythmGamePresenter {
         // Set the song
         Integer rawSongId = SONG_IDS.get(level.getSong());
         if (rawSongId == null) rawSongId = R.raw.mii_channel;
-        mediaPlayer = MediaPlayer.create(context, rawSongId);
+        this.mediaPlayer = MediaPlayer.create(context, rawSongId);
 
         initializeSizing();
-    }
-
-    private void setTheme() {
-        columnPaints = new Paint[numColumns];
-        for (int i = 0; i < numColumns; i++) {
-            columnPaints[i] = new Paint();
-            Integer colour = TETRO_COLOURS.get(shapes[i]);
-            if (colour != null) columnPaints[i].setColor(colour);
-        }
-
-        colUnitNoteShapes = new NoteShape[numColumns];
-        for (int i = 0; i < numColumns; i++) {
-            Integer[][] coordinates = TETRO_COORDINATES.get(shapes[i]);
-            if (coordinates == null) coordinates = TETRO_COORDINATES.get('O');
-
-            TetrominoShape tetrominoShape = new TetrominoShape(new Tetromino(coordinates));
-            colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
-        }
-    }
-
-    private void setPaints() {
-        targetPaint = new Paint();
-        targetPaint.setColor(Color.GRAY);
-
-        goodMessagePaint = new Paint();
-        goodMessagePaint.setTextSize(50);
-        goodMessagePaint.setColor(Color.GREEN);
-
-        badMessagePaint = new Paint();
-        badMessagePaint.setTextSize(50);
-        badMessagePaint.setColor(Color.RED);
-
-        upperRectPaint = new Paint();
-        upperRectPaint.setColor(Color.BLACK);
-
-        goodStatsPaint = new Paint();
-        goodStatsPaint.setTextSize(60);
-        goodStatsPaint.setColor(Color.GREEN);
-
-        badStatsPaint = new Paint();
-        badStatsPaint.setTextSize(60);
-        badStatsPaint.setColor(Color.RED);
-    }
-
-    private void initializeSizing() {
-        colSize = screenWidth / (float) numColumns;
-        float colWidthRatio = colSize / 2; // Since each piece is 2 units wide
-
-        // target width is 70% the width of the column
-        targetScale = (float) 0.7 * colWidthRatio;      // the new size of one unit length for target
-
-        // note width is 60% the width of the column
-        noteScale = (float) 0.6 * colWidthRatio;    // the new size of one unit length for note
-
-        bitmapTop = -3 * (int) Math.ceil(noteScale);
-
-        heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
-        bitmap = Bitmap.createBitmap(screenWidth,
-                screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);
-        bitCanvas = new Canvas(bitmap);
     }
 
     /**
@@ -192,9 +109,11 @@ public class RhythmGamePresenter {
      * Stops the song.
      */
     public void stop() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     /**
@@ -221,16 +140,62 @@ public class RhythmGamePresenter {
             drawMessage(messages[i].getMessage(), targets[i], i);
         }
 
-        // Draw statistics
-        if (statsDisplayMode.equalsIgnoreCase("MISSED")) {
-            bitCanvas.drawText("Missed: " + pointsSystem.getNumMissed(), screenWidth/2,
-                    80 - bitmapTop, badStatsPaint);
-        } else {
-            drawStats();
-        }
+        statsDrawer.drawStats(bitCanvas, pointsSystem, 0,-bitmapTop,
+                screenWidth, targets[0].getY() * heightRatio-10);
 
         canvas.drawBitmap(bitmap, 0, bitmapTop, null);
         bitCanvas.restore();
+    }
+
+    private void setTheme() {
+        // Sets up the shape theme for each column
+        colUnitNoteShapes = new NoteShape[numColumns];
+        for (int i = 0; i < numColumns; i++) {
+            Integer[][] coordinates = TETRO_COORDINATES.get(shapes[i]);
+            if (coordinates == null) coordinates = TETRO_COORDINATES.get('O');
+
+            TetrominoShape tetrominoShape = new TetrominoShape(new Tetromino(coordinates));
+            colUnitNoteShapes[i] = new NoteShape(tetrominoShape);
+        }
+
+        // Sets up the colour theme for each column
+        columnPaints = new Paint[numColumns];
+        for (int i = 0; i < numColumns; i++) {
+            columnPaints[i] = new Paint();
+            Integer colour = TETRO_COLOURS.get(shapes[i]);
+            if (colour != null) columnPaints[i].setColor(colour);
+        }
+
+        targetPaint = new Paint();
+        targetPaint.setColor(Color.GRAY);
+
+        goodMessagePaint = new Paint();
+        goodMessagePaint.setTextSize(50);
+        goodMessagePaint.setColor(Color.GREEN);
+
+        badMessagePaint = new Paint();
+        badMessagePaint.setTextSize(50);
+        badMessagePaint.setColor(Color.RED);
+
+        statsDrawer.setUpPaints();
+    }
+
+    private void initializeSizing() {
+        colSize = screenWidth / (float) numColumns;
+        float colWidthRatio = colSize / 2; // Since each piece is 2 units wide
+
+        // target width is 70% the width of the column
+        targetScale = (float) 0.7 * colWidthRatio;      // the new size of one unit length for target
+
+        // note width is 60% the width of the column
+        noteScale = (float) 0.6 * colWidthRatio;    // the new size of one unit length for note
+
+        bitmapTop = -3 * (int) Math.ceil(noteScale);
+
+        heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
+        bitmap = Bitmap.createBitmap(screenWidth,
+                screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);
+        bitCanvas = new Canvas(bitmap);
     }
 
     private void drawTarget(Target target, NoteShape scalableShape, int colId) {
@@ -256,12 +221,12 @@ public class RhythmGamePresenter {
                 messagePaint = badMessagePaint;
 
             Rect bounds = new Rect();
-            goodStatsPaint.getTextBounds(message, 0, message.length(), bounds);
+            goodMessagePaint.getTextBounds(message, 0, message.length(), bounds);
             int textWidth = bounds.width();
 
             // draws the message centre of the column, on below of the target
             bitCanvas.drawText(message, centreInColumn(colId, textWidth),
-                    target.getY() * heightRatio + 3 * targetScale, messagePaint);
+                    target.getY() * heightRatio + 3 * targetScale + 10, messagePaint);
         }
     }
 
@@ -275,19 +240,38 @@ public class RhythmGamePresenter {
         return (float) ((colId + 0.5) * colSize - shapeWidth / 2);
     }
 
-    private void drawStats() {
-        bitCanvas.drawRect(0, 0, screenWidth, -bitmapTop + 4 * statsTextHeight, upperRectPaint);
+    private static Map<Character,Integer[][]> createTetroCoordinatesMap() {
+        Map<Character, Integer[][]> tetroCoordinates = new HashMap<>();
+        Integer[][] jCoordinates = {{1, 0}, {1, 1}, {1, 2}, {0, 2}};
+        tetroCoordinates.put('J', jCoordinates);
+        Integer[][] lCoordinates = {{0, 0}, {0, 1}, {0, 2}, {1, 2}};
+        tetroCoordinates.put('L', lCoordinates);
+        Integer[][] oCoordinates = {{0, 0}, {1, 0}, {1, 1}, {0, 1}};
+        tetroCoordinates.put('O', oCoordinates);
+        Integer[][] sCoordinates = {{0, 0}, {0, 1}, {1, 1}, {1, 2}};
+        tetroCoordinates.put('S', sCoordinates);
+        Integer[][] zCoordinates = {{1, 0}, {1, 1}, {0, 1}, {0, 2}};
+        tetroCoordinates.put('Z', zCoordinates);
+        Integer[][] tCoordinates = {{0, 0}, {0, 1}, {0, 2}, {1, 1}};
+        tetroCoordinates.put('T', tCoordinates);
 
-        int leftSpacing = 80;
-        int upperSpacing = -bitmapTop + 70;
-        bitCanvas.drawText("Perfect: " + pointsSystem.getNumPerfect(),
-                leftSpacing, upperSpacing, goodStatsPaint);
-        bitCanvas.drawText("Great: " + pointsSystem.getNumGreat(),
-                leftSpacing, upperSpacing + statsTextHeight + 30, goodStatsPaint);
+        return Collections.unmodifiableMap(tetroCoordinates);
+    }
 
-        bitCanvas.drawText("Good: " + pointsSystem.getNumGood(),
-                leftSpacing + screenWidth/2, upperSpacing, goodStatsPaint);
-        bitCanvas.drawText("Missed: " + pointsSystem.getNumMissed(),
-                leftSpacing + screenWidth/2, upperSpacing + statsTextHeight + 30, badStatsPaint);
+    private static Map<String, Integer> createSongIdsMap() {
+        Map<String, Integer> songIds = new HashMap<>();
+        songIds.put("Old Town Road", R.raw.old_town_road);
+        songIds.put("Mii Channel", R.raw.mii_channel);
+
+        return Collections.unmodifiableMap(songIds);
+    }
+
+    private static Map<String, StatsDrawer> createStatsDrawersMap() {
+        Map<String, StatsDrawer> statsDrawerMap = new HashMap<>();
+        statsDrawerMap.put("", new StatsDrawer());
+        statsDrawerMap.put("STATS", new MainStatsDrawer());
+        statsDrawerMap.put("MISSED", new MissedStatsDrawer());
+
+        return Collections.unmodifiableMap(statsDrawerMap);
     }
 }

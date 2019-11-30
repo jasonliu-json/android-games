@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,7 +16,10 @@ import uoft.csc207.gameapplication.Games.RhythmGame.Controller.RhythmGameControl
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelLivesMode;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelSongMode;
+import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.MainStatsDrawer;
+import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.MissedStatsDrawer;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.RhythmGamePresenter;
+import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.StatsDrawer;
 
 /**
  * The driver for the entire game. It selects the driver for an individual level and
@@ -74,9 +80,9 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         // First three elements describe configs for all levels of presenter
         String colourTheme = configs[0];
         char[] shapes = configs[1].toCharArray();
-        String presenterMode = configs[2];
+        String statDrawerMode = configs[2];
         this.presenter = new RhythmGamePresenter(levels[levelIndex], metrics, context, shapes,
-                colourTheme, presenterMode);
+                colourTheme, statDrawerMode);
     }
 
     private void createLevels(String[] configs) {
@@ -126,8 +132,8 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         if (((String)o).equalsIgnoreCase(RhythmGameLevel.LEVEL_OVER_MESSAGE)) {
-            stop();
             if (levelIndex < levels.length - 1) {
+                stop();
                 levelIndex++;
                 controller.setLevel(levels[levelIndex]);
                 presenter.setLevel(levels[levelIndex]);
