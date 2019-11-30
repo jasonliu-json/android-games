@@ -42,12 +42,12 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         }
 
         // Tetris Game Spinners
-        Spinner tetrisControlSpinner = (Spinner) findViewById(R.id.tetris_control_spinner);
-        ArrayAdapter<CharSequence> tetrisControlAdapter = ArrayAdapter.createFromResource(this,
-                R.array.tetrisControls, android.R.layout.simple_spinner_item);
-        tetrisControlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        tetrisControlSpinner.setAdapter(tetrisControlAdapter);
-        tetrisControlSpinner.setOnItemSelectedListener(this);
+//        Spinner tetrisControlSpinner = (Spinner) findViewById(R.id.tetris_control_spinner);
+//        ArrayAdapter<CharSequence> tetrisControlAdapter = ArrayAdapter.createFromResource(this,
+//                R.array.tetrisControls, android.R.layout.simple_spinner_item);
+//        tetrisControlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        tetrisControlSpinner.setAdapter(tetrisControlAdapter);
+//        tetrisControlSpinner.setOnItemSelectedListener(this);
 
         Spinner tetrisColourSpinner = (Spinner) findViewById(R.id.tetris_colour_spinner);
         ArrayAdapter<CharSequence> tetrisColourAdapter = ArrayAdapter.createFromResource(this,
@@ -98,9 +98,9 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             switch (adapterView.getId()) {
-                case R.id.tetris_control_spinner:
-                    tetrisCust.put("controls", adapterView.getSelectedItem());
-                    break;
+//                case R.id.tetris_control_spinner:
+//                    tetrisCust.put("controls", adapterView.getSelectedItem());
+//                    break;
                 case R.id.tetris_colour_spinner:
                     tetrisCust.put("colours", adapterView.getSelectedItem());
                     break;

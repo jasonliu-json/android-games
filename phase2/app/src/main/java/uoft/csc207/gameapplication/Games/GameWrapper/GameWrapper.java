@@ -112,6 +112,7 @@ public class GameWrapper {
         gamesPlayed = gameState;
         if (gameState == 0) {
             gameDriver = new TetrisGameDriver();
+            gameDriver.setConfigurations("default"); // configurations[2]
             gameDriver.init(this.metrics);
         }
         if (gameState == 1) {

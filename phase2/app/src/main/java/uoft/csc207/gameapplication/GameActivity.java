@@ -92,13 +92,13 @@ public class GameActivity extends AppCompatActivity {
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(this);
                 gameDriver.setConfigurations("Tap:" + getRhythmSharedConfig() +
-                        ";MISSED;4,100,Mii Channel,RANDOM:Swipe;AQUA");
+                        ";MISSED;4,100,Mii Channel,RANDOM:" + getTetrisConfig());
 //                gameDriver.init();
                 gameView.setStage("1");
                 break;
             case "tetrisGame":
-//                System.out.println("playing tetris");
                 gameDriver = new TetrisGameDriver();
+                gameDriver.setConfigurations(getTetrisConfig());
                 gameDriver.init(metrics);
                 gameView.setStage("2");
                 break;
@@ -184,7 +184,15 @@ public class GameActivity extends AppCompatActivity {
         return configs.toString();
     }
 
-
+    private String getTetrisConfig() {
+        StringBuilder configs = new StringBuilder("");
+        try {
+            configs.append(tetrisCustom.getString("colours").toLowerCase());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return configs.toString();
+    }
 
 //    /**
 //     * Sets the state of the game, based on previous values.
