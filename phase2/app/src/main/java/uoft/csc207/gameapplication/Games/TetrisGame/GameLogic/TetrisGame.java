@@ -1,7 +1,7 @@
 package uoft.csc207.gameapplication.Games.TetrisGame.GameLogic;
 
 /**
- * A Tetris class responsible for handling the logic of the game.
+ * A representation of a game of Tetris, responsible for handling the logic of the game.
  */
 public class TetrisGame {
 
@@ -11,7 +11,7 @@ public class TetrisGame {
     private Board board;
 
     /**
-     * A representation of the Tetris board.
+     * A random piece generator.
      */
     private PieceGenerator pieceGenerator;
 
@@ -44,13 +44,13 @@ public class TetrisGame {
      * Construct a new TetrisGame object.
      */
     public TetrisGame(Board board, PieceGenerator pieceGenerator) {
-        this.board = board;
         this.pieceGenerator = pieceGenerator;
-        board.setCurrPiece(pieceGenerator.nextPiece());
+        this.board = board;
+        this.board.setCurrPiece(pieceGenerator.getRandomPiece());
         gameIsOver = false;
         points = 0;
         linesCleared = 0;
-        threshold = 25;  // 25 frames
+        threshold = 25;
         count = 0;
     }
 
@@ -134,7 +134,7 @@ public class TetrisGame {
         int lines = board.clearLines();
         linesCleared += lines;
         points += lines * 100;
-        if (!board.setCurrPiece(pieceGenerator.nextPiece())) {
+        if (!board.setCurrPiece(pieceGenerator.getRandomPiece())) {
             gameIsOver = true;
         }
     }
