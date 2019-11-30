@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
     private TimerTask checkIsGameOver = new TimerTask() {
         @Override
         public void run() {
-            if (gameDriver.getGameIsOver()) { // should be the condition that the game is over;
+            if (gameDriver.getGameIsOver()) {
                 finish();
             }
         }
@@ -89,7 +89,8 @@ public class GameActivity extends AppCompatActivity {
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(this);
                 gameDriver.setConfigurations("Tap:" + getRhythmSharedConfig() +
-                        ";MISSED;LIVES,4,100,Mii Channel:Swipe;AQUA");
+                        ";MISSED;4,100,Mii Channel,RANDOM:Swipe;AQUA");
+//                gameDriver.init();
                 gameView.setStage("1");
                 break;
             case "tetrisGame":
@@ -102,8 +103,9 @@ public class GameActivity extends AppCompatActivity {
                 gameDriver = new RhythmGameDriver();
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(this);
-                gameDriver.setConfigurations(getRhythmSharedConfig()+ ";STATS;SONG,3,100,Mii Channel;" +
-                        "SONG,4,100,Old Town Road;SONG,4,80,THIRD SONG");
+                gameDriver.setConfigurations(getRhythmSharedConfig()+ ";STATS;3,100,Mii Channel,SONG;" +
+                        "4,100,Old Town Road,SONG;4,80,THIRD SONG,SONG");
+                gameDriver.init();
                 gameView.setStage("3");
                 break;
             case "mazeGame":

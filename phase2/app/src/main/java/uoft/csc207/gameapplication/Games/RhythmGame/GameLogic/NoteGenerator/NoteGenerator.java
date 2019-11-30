@@ -11,4 +11,8 @@ public abstract class NoteGenerator {
     public void start(){}
 
     public void stop(){}
+
+    public boolean getIsOver() {
+        return false;
+    }
 }

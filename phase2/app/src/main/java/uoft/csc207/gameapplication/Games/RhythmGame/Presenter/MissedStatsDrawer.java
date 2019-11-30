@@ -4,6 +4,9 @@ import android.graphics.Canvas;
 
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
+/**
+ * Displays the number of missed notes on a canvas.
+ */
 public class MissedStatsDrawer extends StatsDrawer {
     @Override
     public void drawStats(Canvas canvas, RhythmGamePointsSystem pointsSystem,

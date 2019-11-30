@@ -29,6 +29,8 @@ public abstract class GameDriver {
         newCanvas = new Canvas(bitmap);
     }
 
+    public void init() {}
+
     /**
      * Called when the touch first encounters the screen.
      * @param x the x-coordinate of the event on the screen.

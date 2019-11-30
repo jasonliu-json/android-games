@@ -86,6 +86,7 @@ public class GameWrapper {
                 gameDriver.setMetrics(metrics);
                 gameDriver.setContext(context);
                 gameDriver.setConfigurations(configurations[1]);
+                gameDriver.init();
                 gameDriver.start();
             }
             else if (gamesPlayed == 2) {

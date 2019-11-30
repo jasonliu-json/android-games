@@ -14,8 +14,8 @@ import java.util.Observer;
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.RhythmGame.Controller.RhythmGameController;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelLivesMode;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelSongMode;
+//import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelLivesMode;
+//import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelSongMode;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.MainStatsDrawer;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.MissedStatsDrawer;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.RhythmGamePresenter;
@@ -65,12 +65,12 @@ public class RhythmGameDriver extends GameDriver implements Observer {
 
     @Override
     public void start() {
-        init();
         levels[levelIndex].start();
         presenter.start();
     }
 
-    private void init() {
+    @Override
+    public void init() {
         String[] configs = configurations.split(";");
         String[] levelsConfig = Arrays.copyOfRange(configs, 3,configs.length);
         createLevels(levelsConfig);
@@ -90,15 +90,17 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         // Creates each level based on the config
         for (int i = 0; i < configs.length; i++) {
             String[] levelConfig = configs[i].split(",");
-            String mode = levelConfig[0];
-            int numColumns = Integer.parseInt(levelConfig[1]);
-            int gameHeight = Integer.parseInt(levelConfig[2]);
-            String song = levelConfig[3];
+            int numColumns = Integer.parseInt(levelConfig[0]);
+            int gameHeight = Integer.parseInt(levelConfig[1]);
+            String song = levelConfig[2];
+            String mode = levelConfig[3];
 
-            if (mode.equalsIgnoreCase("LIVES"))
-                levels[i] = new RhythmLevelLivesMode(numColumns, gameHeight, song);
-            else
-                levels[i] = new RhythmLevelSongMode(numColumns, gameHeight, song);
+            levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode);
+
+//            if (mode.equalsIgnoreCase("LIVES"))
+//                levels[i] = new RhythmLevelLivesMode(numColumns, gameHeight, song);
+//            else
+//                levels[i] = new RhythmLevelSongMode(numColumns, gameHeight, song);
             levels[i].addObserver(this);
         }
     }
@@ -132,13 +134,14 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         if (((String)o).equalsIgnoreCase(RhythmGameLevel.LEVEL_OVER_MESSAGE)) {
+
             if (levelIndex < levels.length - 1) {
                 stop();
+                this.totalPoints += levels[levelIndex].getPoints();
                 levelIndex++;
                 controller.setLevel(levels[levelIndex]);
                 presenter.setLevel(levels[levelIndex]);
-                levels[levelIndex].start();
-                presenter.start();
+                start();
             }
         }
     }

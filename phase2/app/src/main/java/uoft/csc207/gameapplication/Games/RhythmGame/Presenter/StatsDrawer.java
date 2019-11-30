@@ -6,6 +6,9 @@ import android.graphics.Paint;
 
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
+/**
+ * Displays statistics on a canvas.
+ */
 public class StatsDrawer {
     private Paint badStatsPaint;
     private Paint goodStatsPaint;

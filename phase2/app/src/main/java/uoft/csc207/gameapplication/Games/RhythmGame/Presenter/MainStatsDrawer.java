@@ -6,6 +6,9 @@ import android.graphics.Paint;
 
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
+/**
+ * Displays the number of perfect, great, good, missed notes on a canvas.
+ */
 public class MainStatsDrawer extends StatsDrawer {
     private Paint upperRectPaint;
 
