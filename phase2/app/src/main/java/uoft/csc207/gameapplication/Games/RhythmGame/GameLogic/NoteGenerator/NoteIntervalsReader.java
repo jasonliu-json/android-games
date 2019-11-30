@@ -14,7 +14,6 @@ public class NoteIntervalsReader {
     public static String filePath;
 
 
-
     public NoteIntervalsReader() {
 //        filePath = "mii_channel_intervals.csv";
         clickIntervals = new ArrayList<>();
@@ -22,7 +21,9 @@ public class NoteIntervalsReader {
 
     }
 
-    public static void setPath(String newPath) {filePath = newPath;}
+    public static void setPath(String newPath) {
+        filePath = newPath;
+    }
 
     public Long calculateFirstInterval() {
         return firstInterval;
@@ -52,40 +53,5 @@ public class NoteIntervalsReader {
         System.out.println(clickIntervals);
         return clickIntervals;
 
-
     }
-
-
-
-//
-//    public static void writeToFile(String[] args) {
-//
-//        try (PrintWriter writer = new PrintWriter(intervalsFile)) {
-//
-//            StringBuilder sb = new StringBuilder();
-//
-//            for (int i=0; i<args.length; i++) {
-//                sb.append(args[i]);
-//                sb.append(", ");
-//            }
-//            sb.append('\n');
-//
-//            writer.write(sb.toString());
-//
-//            System.out.println("done!");
-//
-//
-//
-//    }
-
 }
-
-//    public void addCurrentTime() {
-//        clickTimes.add(System.currentTimeMillis());
-//    }
-//
-//    public void addCurrentInterval() {
-//        clickIntervals.add(System.currentTimeMillis() - previousClickTime);
-//    }
-//
-//}

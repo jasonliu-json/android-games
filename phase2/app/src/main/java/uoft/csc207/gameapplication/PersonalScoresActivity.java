@@ -81,6 +81,8 @@ public class PersonalScoresActivity extends AppCompatActivity {
         for (LeaderBoard leaderBoard: user.getUserScores()) {
             if (leaderBoard.getGame().equals(scoresType)) {
                 scores = leaderBoard.getScores();
+
+                System.out.println("personal scores: " + scoresType);
             }
         }
         String scoreBoard = "";

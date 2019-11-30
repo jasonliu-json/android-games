@@ -58,6 +58,9 @@ public class LoginActivity extends AppCompatActivity {
                 loginPassword = RegisterUtility.hash(passwordInput.getText().toString(), "SHA-256");
 
                 userService.login(username, loginPassword, new CallBack() {
+
+
+
                     @Override
                     public void onFailure() {
                         showToast("Incorrect login credentials");
