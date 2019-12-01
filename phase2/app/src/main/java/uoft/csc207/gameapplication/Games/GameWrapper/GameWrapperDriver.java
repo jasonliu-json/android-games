@@ -1,13 +1,10 @@
 package uoft.csc207.gameapplication.Games.GameWrapper;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.DisplayMetrics;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
@@ -15,7 +12,7 @@ import uoft.csc207.gameapplication.Games.RhythmGame.RhythmGameDriver;
 import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 
 /**
- * Plays the subgames in consecutive order.
+ * Plays the sub-games in consecutive order.
  */
 public class GameWrapperDriver extends GameDriver{
     private GameDriver gameDriver;
@@ -38,6 +35,7 @@ public class GameWrapperDriver extends GameDriver{
      * @param x the x-coordinate of the event on the screen.
      * @param y the y-coordinate of the event on the screen.
      */
+    @Override
     public void touchStart(float x, float y) {
         gameDriver.touchStart(x, y);
     }
@@ -47,6 +45,7 @@ public class GameWrapperDriver extends GameDriver{
      * @param x the x-coordinate of the event on the screen.
      * @param y the y-coordinate of the event on the screen.
      */
+    @Override
     public void touchMove(float x, float y) {
         gameDriver.touchMove(x, y);
     }
@@ -54,6 +53,7 @@ public class GameWrapperDriver extends GameDriver{
     /**
      * Called when the touch is lifted off the screen.
      */
+    @Override
     public void touchUp() {
         gameDriver.touchUp();
     }
@@ -62,12 +62,17 @@ public class GameWrapperDriver extends GameDriver{
      * Draws the current game selected
      * @param canvas the canvas to draw the game on
      */
+    @Override
     public void draw(Canvas canvas) {
         int currentGamePoints = gameDriver.getPoints();
         gameDriver.draw(canvas);
         canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
     }
 
+    /**
+     * Initializes the first game.
+     */
+    @Override
     public void init() {
         gameDriver = new TetrisGameDriver();
         try {
@@ -82,10 +87,17 @@ public class GameWrapperDriver extends GameDriver{
         gameDriver.init();
     }
 
+    /**
+     * Starts the game.
+     */
+    @Override
     public void start() {
         gameDriver.start();
     }
 
+    /**
+     * Updates the current game by one unit time or goes to the next game.
+     */
     public void timeUpdate() {
         gameDriver.timeUpdate();
 
@@ -115,10 +127,19 @@ public class GameWrapperDriver extends GameDriver{
         }
     }
 
+    /**
+     * Stops the game.
+     */
+    @Override
     public void stop() {
         gameDriver.stop();
     }
 
+    /**
+     * Returns if all games are over.
+     * @return true if and only if all games are over.
+     */
+    @Override
     public boolean getGameIsOver() {
         return gameIsOver;
     }

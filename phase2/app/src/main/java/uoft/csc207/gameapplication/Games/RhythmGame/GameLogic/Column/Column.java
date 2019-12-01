@@ -2,114 +2,101 @@ package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
 /**
- * A column of the rhythm, which consists of a shadow (the target)
+ * A column of the rhythm, which consists of a target area
  * and the notes to hit within the column.
  */
-public class Column extends Observable {
+public class Column {
     private int height;
-    private int id;
 
     private Target target;
     private List<Note> notes;
 
+    private RhythmGamePointsSystem pointsSystem;
     private ColumnMessage message = new ColumnMessage("");
 
-    public Column(int height, int id, Observer observer) {
+    public Column(int height, RhythmGamePointsSystem pointsSystem) {
         this.height = height;
-        this.id = id;
-        this.target = new Target(height/5, height/20);
-        notes = new ArrayList<>();
+        this.target = new Target(height/5, 4);
+        this.notes = new ArrayList<>();
+        this.pointsSystem = pointsSystem;
 
-//        for (Observer observer : observers) {
-        this.addObserver(observer);
-//        }
     }
 
     /**
-     * Updates the state of the game.
+     * Updates the state of the column by one unit time.
      */
     public void timeUpdate() {
+        // Moves each note up by one and removes notes outside the column.
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
-
-        // moves each note up by one
         for (Note note : notesCopy) {
             note.moveUp(1);
 
-            // Removes notes outside of the column
             if (note.getY() < 0) {
                 notes.remove(note);
-                setChanged();
-                notifyObservers(RhythmGamePointsSystem.NoteEvent.MISSED);
+                pointsSystem.update(RhythmGamePointsSystem.NoteEvent.MISSED);
             }
         }
 
+        // Deletes old messages
         if (!message.getMessage().equals("")) {
             message.incrementNumIterationsExisted();
-            if (message.getNumIterExisted() >= 20) message = new ColumnMessage("");
-        }
-    }
-
-    private boolean checkLowestNote() {
-        int lowest = 0;
-        for (Note note : notes) {
-            if (note.getY() > lowest) {
-                lowest = note.getY();
+            if (message.getNumIterExisted() >= 20){
+                message = new ColumnMessage("");
             }
         }
-
-        return this.height - lowest > 2 * target.getAllowedError();
-
     }
 
     /**
      * Generates a note at the bottom of the column.
      */
     public void generateNote() {
-        if (checkLowestNote()) {
+        if (lowestNoteHighEnough()) {
             notes.add(new Note(height));
         }
     }
 
     /**
-     * Checks if any notes are in the target.
-     * Pre-condition: the notes are sorted in ascending order of y-value.
+     * Called when tapped, checks how accurately a note is tapped in the target, if any.
+     * Pre-condition: the notes are sorted in ascending order of y-value..
      */
     public void tap() {
-        setChanged();
         ArrayList<Note> notesCopy = new ArrayList<>(notes);
         for (int i = 0; i < notesCopy.size(); i++) {
-            if (notes.get(i).getY() > target.getY() + target.getAllowedError()) break;
-            if (target.contains(notes.get(i))) {
-                // score gained is based on the difference between hit position and target, for
-                // maximum of 10 points per hit.
+            if (notes.get(i).getY() > target.getY() + target.getAllowedError()) {
+                // if the highest note (smallest y-value) is below the target
+                pointsSystem.update(RhythmGamePointsSystem.NoteEvent.BAD);
+                this.message = new ColumnMessage("Bad Hit!");
+                return;
+            } else if (target.contains(notes.get(i))) {
                 int distFromTarget = Math.abs(target.getY() - notes.get(i).getY());
 
                 // Determines the accuracy of the tap
                 if (distFromTarget < target.getAllowedError() / (float) 3) {
-                    notifyObservers(RhythmGamePointsSystem.NoteEvent.PERFECT);
+                    pointsSystem.update(RhythmGamePointsSystem.NoteEvent.PERFECT);
                     this.message = new ColumnMessage("Perfect!");
                 } else if (distFromTarget < 2 * target.getAllowedError() / (float) 3) {
-                    notifyObservers(RhythmGamePointsSystem.NoteEvent.GREAT);
+                    pointsSystem.update(RhythmGamePointsSystem.NoteEvent.GREAT);
                     this.message = new ColumnMessage("Great!");
                 } else {
-                    notifyObservers(RhythmGamePointsSystem.NoteEvent.GOOD);
+                    pointsSystem.update(RhythmGamePointsSystem.NoteEvent.GOOD);
                     this.message = new ColumnMessage("Good!");
                 }
 
-                // Removes the note contained
+                // Removes the note contained in the target
                 notes.remove(i);
                 return;
             }
         }
+    }
 
-        notifyObservers(RhythmGamePointsSystem.NoteEvent.BAD);
-        this.message = new ColumnMessage("Bad Hit!");
+    private boolean lowestNoteHighEnough() {
+        if (notes.size() == 0)
+            return true;
+        return this.height - notes.get(notes.size()-1).getY() > 2 * target.getAllowedError();
     }
 
     public Target getTarget() {
@@ -120,11 +107,7 @@ public class Column extends Observable {
         return notes;
     }
 
-    public ColumnMessage getMessage() {
-        return message;
-    }
-
-    public int getId() {
-        return id;
+    public String getMessage() {
+        return message.getMessage();
     }
 }

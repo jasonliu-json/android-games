@@ -37,7 +37,7 @@ public class SongNoteGenerator extends NoteGenerator {
         // gonna hard code an array list for now
 //
         String[] testingIntervals = new String[10];
-        for (int i=0;i<5;i++){
+        for (int i=0;i<1501;i+=500){
             noteIntervals.add(Long.valueOf(i));
             noteColumns.add(i % 4);
         }

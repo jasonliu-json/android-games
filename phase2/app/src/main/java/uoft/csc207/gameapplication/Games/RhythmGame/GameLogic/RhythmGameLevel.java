@@ -4,23 +4,27 @@ import android.content.Context;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.ColumnMessage;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Note;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Target;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.EndLevelStrategy.EndByLives;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.EndLevelStrategy.EndBySong;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.EndLevelStrategy.EndRhythmLevelStrategy;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator.NoteGenerator;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator.RandomNoteGenerator;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator.SongNoteGenerator;
 
 
-/* A game where notes ascend the screen and the player aims to tap the
- * note precisely when the note overlaps the target. */
+/* A game where notes start at the bottom of a column and ascend the column and
+ * the player aims to tap the note when the note overlaps the target, as accurately as possible.
+ */
 public class RhythmGameLevel extends Observable {
+    public static String LEVEL_OVER_MESSAGE = "Level is over.";
+
     private int numColumns;
     private int gameHeight;
     private Column[] columns;
@@ -28,36 +32,43 @@ public class RhythmGameLevel extends Observable {
     private RhythmGamePointsSystem pointsSystem;
     private NoteGenerator noteGenerator;
     private String song;
-
     private EndRhythmLevelStrategy endLevelChecker;
-//    private boolean gameIsOver = false;
-    public static String LEVEL_OVER_MESSAGE = "Level is over.";
-//    private static final Map<String, NoteGenerator> NOTE_GENERATORS = createNoteGeneratorsMap();
 
     /**
-     * Constructs the Rhythm game
-     *
-     * @param numColumns number of columns of the game
+     * Constructs a level of the Rhythm game.
+     * @param numColumns number of columns of the game.
+     * @param gameHeight the height of the columns.
+     * @param song the song of the level being played.
+     * @param mode how the level will behave.
+     * @param context the application context
      */
     public RhythmGameLevel(int numColumns, int gameHeight, String song, String mode, Context context) {
         this.numColumns = numColumns;
         this.gameHeight = gameHeight;
         this.song = song;
-        pointsSystem = new RhythmGamePointsSystem();
+        this.pointsSystem = new RhythmGamePointsSystem();
 
         // Creates each column of the game
         columns = new Column[numColumns];
         for (int i = 0; i < numColumns; i++) {
-            columns[i] = new Column(gameHeight, i, pointsSystem);
+            columns[i] = new Column(gameHeight, pointsSystem);
         }
 
+        // Determines the behaviour of the level based on the mode
         if (mode.equalsIgnoreCase("RANDOM")) {
-            this.noteGenerator = new RandomNoteGenerator();
+            this.noteGenerator = new RandomNoteGenerator(columns, pointsSystem);
             this.endLevelChecker = new EndByLives(10, pointsSystem);
         } else if (mode.equalsIgnoreCase("SONG")) {
-            this.noteGenerator = new SongNoteGenerator(song, context);
+            this.noteGenerator = new SongNoteGenerator(columns, song, context);
             this.endLevelChecker = new EndBySong(noteGenerator, columns);
         }
+    }
+
+    /**
+     * Starts note generation.
+     */
+    public void start() {
+        noteGenerator.start();
     }
 
     /**
@@ -68,7 +79,7 @@ public class RhythmGameLevel extends Observable {
             columns[i].timeUpdate();
         }
 
-        noteGenerator.timeUpdate(columns);
+        noteGenerator.timeUpdate();
 
         if (endLevelChecker.getIsLevelOver()) {
             setChanged();
@@ -76,10 +87,9 @@ public class RhythmGameLevel extends Observable {
         }
     }
 
-    public void start() {
-        noteGenerator.start();
-    }
-
+    /**
+     * Ends note generation.
+     */
     public void stop() {
         noteGenerator.stop();
     }
@@ -95,22 +105,26 @@ public class RhythmGameLevel extends Observable {
     }
 
     /**
-     * Returns a list of messages, one in each column
-     * @return a list of RhythmGameMessages where the index is the column number
+     * Returns a list of messages, one for each column
+     * @return a list of strings where the index is the column number
      */
-    public ColumnMessage[] getMessages() {
-        ColumnMessage[] messages = new ColumnMessage[numColumns];
-        for (int i = 0; i < numColumns; i++) messages[i] = columns[i].getMessage();
+    public String[] getMessages() {
+        String[] messages = new String[numColumns];
+        for (int i = 0; i < numColumns; i++) {
+            messages[i] = columns[i].getMessage();
+        }
         return messages;
     }
 
     /**
-     * Returns a list of targets, one in each column
+     * Returns a list of targets, one for each column
      * @return a list of Targets where the index is the column number
      */
     public Target[] getAllTargets() {
         Target[] targets = new Target[numColumns];
-        for (int i = 0; i < numColumns; i++) targets[i] = columns[i].getTarget();
+        for (int i = 0; i < numColumns; i++) {
+            targets[i] = columns[i].getTarget();
+        }
         return targets;
     }
 
@@ -135,10 +149,6 @@ public class RhythmGameLevel extends Observable {
         return gameHeight;
     }
 
-//    Column[] getColumns() {
-//        return columns;
-//    }
-
     public String getSong() {
         return song;
     }
@@ -146,10 +156,6 @@ public class RhythmGameLevel extends Observable {
     public RhythmGamePointsSystem getPointsSystem() {
         return pointsSystem;
     }
-
-//    public int getNumMissed() {
-//        return pointsSystem.getNumMissed();
-//    }
 
     public int getPoints() {
         return pointsSystem.getPoints();

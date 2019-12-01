@@ -7,20 +7,32 @@ import android.graphics.Paint;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
 /**
- * Displays the number of perfect, great, good, missed notes on a canvas.
+ * Displays the number of perfect, great, good, and missed notes.
  */
-public class MainStatsDrawer extends StatsDrawer {
+class MainStatsDrawer extends StatsDrawer {
     private Paint upperRectPaint;
 
-    public void setUpPaints() {
+    /**
+     * Initializes necessary paints.
+     */
+    void setUpPaints() {
         super.setUpPaints();
 
         upperRectPaint = new Paint();
         upperRectPaint.setColor(Color.BLACK);
     }
 
+    /**
+     * Draws the statistics of number of perfect, great, good, and missed notes.
+     * @param canvas the canvas to draw on.
+     * @param pointsSystem the points system.
+     * @param left the left most side of the drawing area.
+     * @param top the top most side of the drawing area.
+     * @param right the right most side of the drawing area.
+     * @param bottom the bottom mose side of the drawing area.
+     */
     @Override
-    public void drawStats(Canvas canvas, RhythmGamePointsSystem pointsSystem,
+    void drawStats(Canvas canvas, RhythmGamePointsSystem pointsSystem,
                           float left, float top, float right, float bottom) {
         canvas.drawRect(left, top, right, bottom, upperRectPaint);
 

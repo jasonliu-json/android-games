@@ -1,17 +1,20 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class RhythmGamePointsSystem implements Observer {
+/**
+ * The points and statistics tracker for a level of the Rhythm game.
+ */
+public class RhythmGamePointsSystem {
     public enum NoteEvent {PERFECT, GREAT, GOOD, BAD, MISSED}
 
     private int numPerfect, numGreat, numGood, numBad, numMissed = 0;
     private int points = 0;
 
-    @Override
-    public void update(Observable observable, Object o) {
-        switch((NoteEvent)o) {
+    /**
+     * Updates the points system.
+     * @param event a significant change in state of a note.
+     */
+    public void update(NoteEvent event) {
+        switch(event) {
             case PERFECT:
                 numPerfect++;
                 addPoints(10);

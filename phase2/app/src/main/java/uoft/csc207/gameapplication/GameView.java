@@ -158,7 +158,11 @@ public class GameView extends View {
         gameDriver.draw(canvas);
     }
 
-
+    /**
+     * Registers touch events
+     * @param event a touch event
+     * @return true if and only the touch was processed.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -167,16 +171,15 @@ public class GameView extends View {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
                 gameDriver.touchStart(x, y);
-                break;
+                return true;
             case MotionEvent.ACTION_MOVE :
                 gameDriver.touchMove(x, y);
-                break;
+                return true;
             case MotionEvent.ACTION_UP :
                 gameDriver.touchUp();
-                break;
+                return true;
         }
-
-        return true;
+        return false;
     }
 
     public void setDriver(GameDriver driver) {

@@ -48,8 +48,7 @@ public class GameActivity extends AppCompatActivity {
 
     private Map<String, Integer> colourScheme;
 
-    private Timer timer;
-    private String gameType = "gameWrapper";
+    private Timer timer = new Timer();
 
     /**
      * Initializes the game on create.
@@ -58,25 +57,17 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        gameType = getIntent().getStringExtra("gameType");
-
-        // Initialize view and dimension metrics
         setContentView(R.layout.activity_game);
-        gameView = findViewById(R.id.GameView);
 
         loadCustomizeJSON();
         loadColourPaletteJSON();
-        String configJSONString;
-        JSONObject configurations;
 
-
+        // Determines which game to play
+        String gameType = getIntent().getStringExtra("gameType");
         switch (gameType) {
             case "gameWrapper":
                 gameDriver = new GameWrapperDriver();
                 gameDriver.setConfigurations(allConfigurations);
-//                gameDriver.setConfigurations("Tap:" + getRhythmSharedConfig() +
-//                        ";MISSED;4,100,Mii Channel,RANDOM:" + getTetrisConfig());
                 gameView.setStage("1");
                 break;
             case "tetrisGame":
@@ -87,8 +78,6 @@ public class GameActivity extends AppCompatActivity {
             case "rhythmGame":
                 gameDriver = new RhythmGameDriver();
                 gameDriver.setConfigurations(rhythmConfigurations);
-//                gameDriver.setConfigurations(getRhythmSharedConfig()+ ";STATS;3,100,Mii Channel,SONG;" +
-//                        "4,100,Old Town Road,SONG;4,80,THIRD SONG,SONG");
                 gameView.setStage("3");
                 break;
             case "mazeGame":
@@ -97,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
                 gameView.setStage("4");
                 break;
             default:
-                gameDriver = new TetrisGameDriver();
+                gameDriver = new GameWrapperDriver();
                 gameDriver.setConfigurations(tetrisConfigurations);
                 break;
         }
@@ -109,6 +98,7 @@ public class GameActivity extends AppCompatActivity {
         gameDriver.setColourScheme(colourScheme);
         gameDriver.init();
 
+        gameView = findViewById(R.id.GameView);
         gameView.setDriver(gameDriver);
     }
 
@@ -118,7 +108,6 @@ public class GameActivity extends AppCompatActivity {
     private void loadCustomizeJSON() {
         JSONFileRW customizeFileRW = new JSONFileRW(CUSTOMIZATIONS_FILE, this);
         allConfigurations = customizeFileRW.load();
-        System.out.println("gameActivity: " + allConfigurations.toString());
 
         if (allConfigurations != null) {
             try {
@@ -129,15 +118,17 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
     }
 
+    /**
+     * Loads the colour scheme based on the selected theme.
+     */
     private void loadColourPaletteJSON() {
         JSONFileRW colourFileRW = new JSONFileRW(COLOUR_PALETTES_FILE, this);
         JSONObject palettes = colourFileRW.load();
         if (palettes != null) {
             try {
+                // Gets the theme and parses it into a map.
                 String theme = tetrisConfigurations.getString("colours");
                 JSONObject colourPalette = palettes.getJSONObject(theme);
                 Map<String, Integer> colourScheme = new HashMap<>();
@@ -156,32 +147,29 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void createColourScheme() {
 
-    }
-
-    private String getRhythmSharedConfig() {
-        StringBuilder configs = new StringBuilder();
-        try {
-            configs.append(tetrisConfigurations.getString("colours"));
-            configs.append(";");
-            for (int i = 0; i < 4; i++)
-                configs.append(rhythmConfigurations.getString(String.format(Locale.CANADA, "shape%d", i+1)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return configs.toString();
-    }
-
-    private String getTetrisConfig() {
-        StringBuilder configs = new StringBuilder("");
-        try {
-            configs.append(tetrisConfigurations.getString("colours").toLowerCase());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return configs.toString();
-    }
+//    private String getRhythmSharedConfig() {
+//        StringBuilder configs = new StringBuilder();
+//        try {
+//            configs.append(tetrisConfigurations.getString("colours"));
+//            configs.append(";");
+//            for (int i = 0; i < 4; i++)
+//                configs.append(rhythmConfigurations.getString(String.format(Locale.CANADA, "shape%d", i+1)));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return configs.toString();
+//    }
+//
+//    private String getTetrisConfig() {
+//        StringBuilder configs = new StringBuilder("");
+//        try {
+//            configs.append(tetrisConfigurations.getString("colours").toLowerCase());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return configs.toString();
+//    }
 
 //    /**
 //     * Sets the state of the game, based on previous values.
@@ -206,7 +194,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gameView.start();
-        timer = new Timer();
         timer.scheduleAtFixedRate(checkIsGameOver, 0, 100);
 //        gameSessionStart = System.currentTimeMillis();
     }

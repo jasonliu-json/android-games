@@ -19,7 +19,6 @@ import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSy
 import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Note;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
-import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.ColumnMessage;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Target;
 
 /**
@@ -53,7 +52,7 @@ public class RhythmGamePresenter {
     private StatsDrawer statsDrawer;
     private MediaPlayer mediaPlayer;
 
-    public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
+//    public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
 
     private static final Map<Character, String> BLOCK_TO_SCHEME_KEYS = createKeysMap();
     private static final Map<Character, Integer[][]> TETRO_COORDINATES = createTetroCoordinatesMap();
@@ -127,7 +126,7 @@ public class RhythmGamePresenter {
 
         Target[] targets = level.getAllTargets();
         SparseArray<List<Note>> notesMap = level.getAllNotes();
-        ColumnMessage[] messages = level.getMessages();
+        String[] messages = level.getMessages();
 
         // draws the target, the notes, and the messages in each column
         for (int i = 0; i < numColumns; i++) {
@@ -138,7 +137,7 @@ public class RhythmGamePresenter {
             List<Note> notes = notesMap.get(i);
             drawNotes(notes, scalableCopy, i);
 
-            drawMessage(messages[i].getMessage(), targets[i], i);
+            drawMessage(messages[i], targets[i], i);
         }
 
         statsDrawer.drawStats(bitCanvas, pointsSystem, 0,-bitmapTop,
@@ -193,7 +192,6 @@ public class RhythmGamePresenter {
         noteScale = (float) 0.6 * colWidthRatio;    // the new size of one unit length for note
 
         bitmapTop = -3 * (int) Math.ceil(noteScale);
-
         heightRatio = (screenHeight - bitmapTop) / level.getGameHeight();
         bitmap = Bitmap.createBitmap(screenWidth,
                 screenHeight - bitmapTop, Bitmap.Config.ARGB_8888);

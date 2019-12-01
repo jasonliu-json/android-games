@@ -3,7 +3,7 @@ package uoft.csc207.gameapplication.Games.RhythmGame.Presenter;
 import android.graphics.RectF;
 
 /**
- * A tetromino defined by four blocks of unit length.
+ * A tetromino defined by four blocks of unit length, positioned adjacently.
  */
 class TetrominoShape {
     private float height, width;
