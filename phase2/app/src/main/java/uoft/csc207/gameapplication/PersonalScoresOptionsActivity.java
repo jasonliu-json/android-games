@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * The Option menu of specific scores for the users.
+ */
 public class PersonalScoresOptionsActivity extends AppCompatActivity {
 
     private Button gameWrapperScoresButton;
@@ -14,7 +17,11 @@ public class PersonalScoresOptionsActivity extends AppCompatActivity {
     private Button rhythmGameScoresButton;
     private Button mazeGameScoresButton;
 
-
+    /**
+     * Let the score menu get into the Created state, with four different options.
+     *
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,6 +1,7 @@
 package uoft.csc207.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 
 import android.content.Intent;
@@ -8,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * The Option menu of different games' and the total leader board.
+ */
 public class LeaderboardOptionsActivity extends AppCompatActivity {
 
     private Button gameWrapperLeaderboardButton;
@@ -19,6 +23,12 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
     GetUserService getUserService;
 
     private int currentStage;
+
+    /**
+     * Let the leader board menu get into the Created state, with four different options.
+     *
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

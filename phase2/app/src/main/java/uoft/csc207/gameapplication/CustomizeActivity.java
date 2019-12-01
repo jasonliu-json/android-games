@@ -15,7 +15,9 @@ import org.json.JSONObject;
 
 import uoft.csc207.gameapplication.Utility.JSONFileRW;
 
-
+/**
+ * The customization board for choosing different styles of game entities.
+ */
 public class CustomizeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String FILE = "Customize.json";
@@ -25,6 +27,11 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
     private JSONObject mazeCust;
     private JSONFileRW fileRW;
 
+    /**
+     * Let the customization menu get into the Created state.
+     *
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,12 +95,23 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         });
     }
 
+    /**
+     * Save the customization info into a Json object.
+     */
     private void save() {
         String jsonText = jsonObject.toString();
         fileRW.write(jsonText);
         System.out.println(jsonText);
     }
 
+    /**
+     * Let the customization into the selection state.
+     *
+     * @param adapterView The AdapterView where the selection happens.
+     * @param i           The position of the view in the adapter.
+     * @param l           The row id of the item that is selected.
+     * @param view        The view within the AdapterView that was clicked.
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         try {
@@ -127,6 +145,9 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    /**
+     * Called when nothing is selected (the default case).
+     */
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
     }

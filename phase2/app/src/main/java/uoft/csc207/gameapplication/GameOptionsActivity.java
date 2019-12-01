@@ -12,10 +12,19 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 
+/**
+ * Set up the board of choosing different games.
+ */
 public class GameOptionsActivity extends AppCompatActivity {
     GetUserService getUserService;
 
     private int currentStage;
+
+    /**
+     * Let the game choosing menu get into the Created state.
+     *
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +53,9 @@ public class GameOptionsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initialize and set up the order for playing games.
+     */
     private void initialize() {
         Button gameWrapperButton = findViewById(R.id.game_wrapper);
         Button tetrisGameButton = findViewById(R.id.tetris_game);
@@ -108,6 +120,11 @@ public class GameOptionsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Display the related game info.
+     *
+     * @param text The text to be displayed.
+     */
     private void showToast(String text) {
         Toast.makeText(GameOptionsActivity.this, text, Toast.LENGTH_SHORT).show();
     }

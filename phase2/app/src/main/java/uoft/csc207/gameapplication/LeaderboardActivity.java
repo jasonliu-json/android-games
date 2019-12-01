@@ -12,6 +12,9 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LeaderBoardService;
 
+/**
+ * Set up the leader board and shows the top players' scores.
+ */
 public class LeaderboardActivity extends AppCompatActivity {
 
 //    private String[] topTenPlayers = new String[10];
@@ -25,6 +28,11 @@ public class LeaderboardActivity extends AppCompatActivity {
     private LeaderBoardService scoreService = new LeaderBoardService();
     private String leaderboardType;
 
+    /**
+     * The leader board activity gets into the Created state.
+     *
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +63,11 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initialize the leader board and show the top ten players.
+     *
+     * @param leaderBoard The leader board instance to be initialized.
+     */
     public void initialize(LeaderBoard leaderBoard) {
 
         List<Score> scores = leaderBoard.getScores();
@@ -79,7 +92,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         int[] scoreTextViewIds = {R.id.score1, R.id.score2, R.id.score3, R.id.score4, R.id.score5,
                 R.id.score6, R.id.score7, R.id.score8, R.id.score9, R.id.score10};
 
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
 
 
             TextView playerTextView = (TextView) findViewById(playerTextViewIds[i]);

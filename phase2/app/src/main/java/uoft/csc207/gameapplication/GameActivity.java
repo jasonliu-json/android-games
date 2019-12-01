@@ -53,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Initializes the game on create.
+     *
      * @param savedInstanceState the saved instance state
      */
     @Override
@@ -144,6 +145,11 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set up the driver's configuration for a game type.
+     *
+     * @param gameType The game type to have configuration set up.
+     */
     private void setDriverConfigurations(String gameType) {
         switch (gameType) {
             case "gameWrapper":
@@ -166,11 +172,14 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set up Rhythm Game's configurations.
+     */
     private void setRhythmConfigurations(String gameType) {
         StringBuilder jsonString = new StringBuilder("{\n");
         // Copies the shape configurations
         for (int i = 1; i <= 4; i++) {
-            jsonString.append(String.format(Locale.CANADA,"      \"shape%d\" : \"", i));
+            jsonString.append(String.format(Locale.CANADA, "      \"shape%d\" : \"", i));
             jsonString.append(TryGetJSON.tryGetString(rhythmConfigurations, String.format(Locale.CANADA,
                     "shape%d", i), "O"));
             jsonString.append("\",\n");

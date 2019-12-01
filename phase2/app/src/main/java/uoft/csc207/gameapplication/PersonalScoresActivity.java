@@ -15,6 +15,9 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
 
+/**
+ * Set up users' score and display it on the scoreboard.
+ */
 public class PersonalScoresActivity extends AppCompatActivity {
 
     ArrayList<String> personalScores = new ArrayList<>();
@@ -22,13 +25,17 @@ public class PersonalScoresActivity extends AppCompatActivity {
     String totalPointsText;
 
     String scoresType;
-//
 //    private static final String FILE = "UserData.json";
-//
 //    private String username;
 //    private JSONObject jsonUserObject;
 
     GetUserService getUserService;
+
+    /**
+     * The score activity gets into the Created state.
+     *
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,11 @@ public class PersonalScoresActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initialize and set up the user's score.
+     *
+     * @param user The user to be initialized.
+     */
     private void initialize(User user) {
         // creates string representation of total point text
         totalPointsText = user.getTotalPoints();
@@ -78,7 +90,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
             scores.add(new Score());
         }
         // creates the string representation of user score board
-        for (LeaderBoard leaderBoard: user.getUserScores()) {
+        for (LeaderBoard leaderBoard : user.getUserScores()) {
             if (leaderBoard.getGame().equals(scoresType)) {
                 scores = leaderBoard.getScores();
 
@@ -86,7 +98,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
             }
         }
         String scoreBoard = "";
-        for (int i=0; i<scores.size(); i++) {
+        for (int i = 0; i < scores.size(); i++) {
             scoreBoard += scores.get(i).getScore() + " \n";
         }
 
