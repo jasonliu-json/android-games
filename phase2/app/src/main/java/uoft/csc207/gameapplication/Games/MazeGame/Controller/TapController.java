@@ -13,10 +13,6 @@ public class TapController extends MazeController{
 
     public TapController(double screenWidth, double screenHeight) {
         acceptedError = 40;
-        startY = -1;
-        startX = -1;
-        endX = -1;
-        endY = -1;
         double normLength = normLength(new double[] {screenWidth, screenHeight});
         vectorToCenterOfScreen = new double[]{screenWidth / 2, screenHeight / 2};
         negativeCenterToScreenVector = new double[] {-screenWidth / normLength, -screenHeight / normLength};
@@ -54,11 +50,6 @@ public class TapController extends MazeController{
 
         double slope = negativeCenterToScreenVector[1] / negativeCenterToScreenVector[0];
 
-        System.out.println(theta);
-        System.out.println(quadrantOneAngle);
-        System.out.println(horizontalLength * slope);
-        System.out.println(verticalLength);
-
         if (horizontalLength * slope > verticalLength) {
             return theta < quadrantOneAngle ? 1 : 2;
         }
@@ -88,14 +79,7 @@ public class TapController extends MazeController{
         Double distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
         System.out.println(distance);
         if (distance < acceptedError) {
-            System.out.println("calculate");
             int quadrant = findQuadrant();
-            System.out.println("Calculation done");
-            System.out.println(quadrant);
-            startY = -1;
-            startX = -1;
-            endX = -1;
-            endY = -1;
             return quadrant;
         }
         return -1;

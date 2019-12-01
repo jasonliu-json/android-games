@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.MazeGame.Controller.MazeController;
+import uoft.csc207.gameapplication.Games.MazeGame.Controller.SwipeController;
 import uoft.csc207.gameapplication.Games.MazeGame.Controller.TapController;
 import uoft.csc207.gameapplication.Games.MazeGame.GameLogic.MazeGame;
 
@@ -140,6 +141,9 @@ public class MazeGameDriver extends GameDriver {
     public void init() {
         if (controllerType.equalsIgnoreCase("tap")) {
             mazeController = new TapController(screenWidth, screenHeight);
+        }
+        else if (controllerType.equalsIgnoreCase("swipe")) {
+            mazeController = new SwipeController();
         }
         else {
             mazeController = new TapController(screenWidth, screenHeight);
