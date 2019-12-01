@@ -1,5 +1,7 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class SongNoteGenerator extends NoteGenerator {
 
     private boolean isOver = false;
 
-    public SongNoteGenerator(String song) {
+    public SongNoteGenerator(String song, Context context) {
 
 //        System.out.println("constructor in SONG");
 
@@ -35,7 +37,7 @@ public class SongNoteGenerator extends NoteGenerator {
         // gonna hard code an array list for now
 //
         String[] testingIntervals = new String[10];
-        for (int i=0;i<10;i++){
+        for (int i=0;i<5;i++){
             noteIntervals.add(Long.valueOf(i));
             noteColumns.add(i % 4);
         }

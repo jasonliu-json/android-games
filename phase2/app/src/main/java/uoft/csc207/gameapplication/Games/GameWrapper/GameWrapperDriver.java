@@ -78,6 +78,7 @@ public class GameWrapperDriver extends GameDriver{
 
         gameDriver.setMetrics(getMetrics());
         gameDriver.setContext(getContext());
+        gameDriver.setColourScheme(getColourScheme());
         gameDriver.init();
     }
 
@@ -108,6 +109,7 @@ public class GameWrapperDriver extends GameDriver{
 
             gameDriver.setMetrics(getMetrics());
             gameDriver.setContext(getContext());
+            gameDriver.setColourScheme(getColourScheme());
             gameDriver.init();
             gameDriver.start();
         }

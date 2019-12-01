@@ -58,7 +58,7 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         for (int i = 1; i <= 4; i++) {
             try {
                 shapes[i-1] = getConfigurations().getString(String.format(Locale.CANADA, 
-                        "Shape%d", i)).charAt(0);
+                        "shape%d", i)).charAt(0);
             } catch (JSONException e) {
                 shapes[i - 1] = 'O';
             }
@@ -85,10 +85,10 @@ public class RhythmGameDriver extends GameDriver implements Observer {
                 int gameHeight = levelJSON.getInt("height");
                 String song = levelJSON.getString("song");
                 String mode = levelJSON.getString("mode");
-                levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode);
+                levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode, getContext());
             } catch (JSONException e) {
                 levels[i] = new RhythmGameLevel(4, 100,
-                        "Old Town Road", "SONG");
+                        "Old Town Road", "SONG", getContext());
             }
 
             levels[i].addObserver(this);

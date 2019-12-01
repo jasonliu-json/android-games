@@ -1,5 +1,6 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic;
 
+import android.content.Context;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class RhythmGameLevel extends Observable {
      *
      * @param numColumns number of columns of the game
      */
-    public RhythmGameLevel(int numColumns, int gameHeight, String song, String mode) {
+    public RhythmGameLevel(int numColumns, int gameHeight, String song, String mode, Context context) {
         this.numColumns = numColumns;
         this.gameHeight = gameHeight;
         this.song = song;
@@ -54,7 +55,7 @@ public class RhythmGameLevel extends Observable {
             this.noteGenerator = new RandomNoteGenerator();
             this.endLevelChecker = new EndByLives(10, pointsSystem);
         } else if (mode.equalsIgnoreCase("SONG")) {
-            this.noteGenerator = new SongNoteGenerator(song);
+            this.noteGenerator = new SongNoteGenerator(song, context);
             this.endLevelChecker = new EndBySong(noteGenerator, columns);
         }
     }

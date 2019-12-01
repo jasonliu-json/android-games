@@ -118,6 +118,8 @@ public class GameActivity extends AppCompatActivity {
     private void loadCustomizeJSON() {
         JSONFileRW customizeFileRW = new JSONFileRW(CUSTOMIZATIONS_FILE, this);
         allConfigurations = customizeFileRW.load();
+        System.out.println("gameActivity: " + allConfigurations.toString());
+
         if (allConfigurations != null) {
             try {
                 tetrisConfigurations = allConfigurations.getJSONObject("tetris");
@@ -127,6 +129,8 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+
     }
 
     private void loadColourPaletteJSON() {

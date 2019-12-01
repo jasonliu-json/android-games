@@ -64,6 +64,7 @@ public class GameOptionsActivity extends AppCompatActivity {
         gameWrapperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                configureRhythmGame(1);
                 Intent gameWrapperActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                 gameWrapperActivity.putExtra("gameType", "gameWrapper");
                 startActivity(gameWrapperActivity);
@@ -89,7 +90,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentStage > 1) {
-                    configureRhythmLevels();
+                    configureRhythmGame(3);
                     Intent rhythmGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                     rhythmGameActivity.putExtra("gameType", "rhythmGame");
                     startActivity(rhythmGameActivity);
@@ -111,21 +112,48 @@ public class GameOptionsActivity extends AppCompatActivity {
         });
     }
 
-    private void configureRhythmLevels() {
+    private void configureRhythmGame(int code) {
         JSONFileRW fileRW = new JSONFileRW("Customize.json", this);
+        System.out.println("configureRhythmGame: " + code);
         try {
             JSONObject allCust = fileRW.load();
             JSONObject rhythmCust = allCust.getJSONObject("rhythm");
-            rhythmCust.put("presenterMode", "MISSED");
-            JSONArray levelsArray = new JSONArray("[{\"numColumns\": 4,\n" +
-                    "          \"height\": 100,\n" +
-                    "          \"song\": \"Old Town Road\",\n" +
-                    "          \"mode\": \"RANDOM\"}]");
+            JSONArray levelsArray = new JSONArray();
+            if (code == 1) {
+                rhythmCust.put("presenterMode", "MISSED");
+                levelsArray = new JSONArray("[{\"numColumns\": 4,\n" +
+                        "          \"height\": 100,\n" +
+                        "          \"song\": \"Mii Channel\",\n" +
+                        "          \"mode\": \"RANDOM\"}]");
+            } else if (code == 3) {
+                rhythmCust.put("presenterMode", "STATS");
+                levelsArray = new JSONArray("[        {\n" +
+                        "          \"numColumns\": 3,\n" +
+                        "          \"height\": 100,\n" +
+                        "          \"song\": \"Mii Channel\",\n" +
+                        "          \"mode\": \"SONG\"\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "          \"numColumns\": 4,\n" +
+                        "          \"height\": 100,\n" +
+                        "          \"song\": \"Old Town Road\",\n" +
+                        "          \"mode\": \"SONG\"\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "          \"numColumns\": 4,\n" +
+                        "          \"height\": 80,\n" +
+                        "          \"song\": \"Mii Channel\",\n" +
+                        "          \"mode\": \"SONG\"\n" +
+                        "        }]");
+            }
             rhythmCust.put("levels", levelsArray);
+//            allCust.put("rhythm", rhythmCust);
             fileRW.write(allCust.toString());
+            System.out.println("game options 1: " + allCust.toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
+
 }
