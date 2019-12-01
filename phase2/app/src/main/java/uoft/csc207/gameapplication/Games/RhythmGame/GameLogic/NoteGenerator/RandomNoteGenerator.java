@@ -1,41 +1,81 @@
 package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator;
 
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
+import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGamePointsSystem;
 
 /**
- * Generates notes at certain intervals, where the column the note is generated in is random.
+ * At defined intervals, generate a note in a random column.
  */
 public class RandomNoteGenerator extends NoteGenerator {
     public enum Difficulty { EASY, NORMAL, HARD, IMPOSSIBLE}
-    private int noteGenerationPeriod = 1000;
+    private RhythmGamePointsSystem pointsSystem;
+
+    private int noteGenerationPeriod;
     private long lastNoteTime;
+    private boolean isRunning;
 
-    public RandomNoteGenerator() {
+    public RandomNoteGenerator(Column[] columns, RhythmGamePointsSystem pointsSystem) {
+        super(columns);
         setDifficulty(Difficulty.EASY);
+        this.pointsSystem = pointsSystem;
         lastNoteTime = 0;
+        isRunning = false;
     }
 
-    @Override
-    public void timeUpdate(Column[] columns) {
-        lastNoteTime += 30;
-
-        // Every period generate a note at a random column
-        if (lastNoteTime >= noteGenerationPeriod) {
-            columns[(int) (columns.length * Math.random())].generateNote();
-            lastNoteTime = 0;
-        }
-    }
-
+    /**
+     * Begins and allows note generation.
+     */
     @Override
     public void start() {
         lastNoteTime = 0;
+        isRunning = true;
+    }
+
+    /**
+     * Updates it by one unit time.
+     */
+    @Override
+    public void timeUpdate() {
+        if (isRunning) {
+            lastNoteTime += 30;
+
+            // Every period generate a note at a random column
+            if (lastNoteTime >= noteGenerationPeriod) {
+                getColumns()[(int) (getColumns().length * Math.random())].generateNote();
+                lastNoteTime = 0;
+            }
+
+            if (pointsSystem.getPoints() >= 300)
+                setDifficulty(Difficulty.HARD);
+            else if (pointsSystem.getPoints() >= 100)
+                setDifficulty(Difficulty.NORMAL);
+            else
+                setDifficulty(Difficulty.EASY);
+        }
+    }
+
+    /**
+     * Ends and disallows note generation.
+     */
+    @Override
+    public void stop() {
+        isRunning = false;
+    }
+
+    /**
+     * Returns whether it is done.
+     * @return false
+     */
+    @Override
+    public boolean getIsOver() {
+        return false;
     }
 
     /**
      * Sets the difficulty of the game by generating notes more or less frequently
-     * @param diff enum RhythmGameLevel.Difficulty
+     * @param diff difficulty of the level
      */
-    public void setDifficulty(Difficulty diff) {
+    private void setDifficulty(Difficulty diff) {
         switch(diff) {
             case EASY:
                 noteGenerationPeriod = 900;
