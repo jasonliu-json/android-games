@@ -10,6 +10,11 @@ public class RhythmGameController {
     private int numColumns;
     private int screenWidth;
 
+    /**
+     * Constructs the controller with the specified level
+     * @param level the level of the game
+     * @param screenWidth the width of width of the screen
+     */
     public RhythmGameController(RhythmGameLevel level, int screenWidth) {
         this.level = level;
         this.numColumns = level.getNumColumns();

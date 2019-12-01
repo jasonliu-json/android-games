@@ -13,20 +13,14 @@ import android.widget.TextView;
  * Set up the main menu, creating four options for the users to choose by buttons.
  */
 public class MainMenuActivity extends AppCompatActivity {
-
-    private Button playButton;
-    private Button leaderboardButton;
-    private Button scoreButton;
-    private Button customizeButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        playButton = (Button) findViewById(R.id.play_button);
-        leaderboardButton = (Button) findViewById(R.id.leaderboard_button);
-        scoreButton = (Button) findViewById(R.id.score_button);
-        customizeButton = (Button) findViewById(R.id.customize_button);
+        Button playButton =  findViewById(R.id.play_button);
+        Button leaderboardButton =  findViewById(R.id.leaderboard_button);
+        Button scoreButton =  findViewById(R.id.score_button);
+        Button customizeButton =  findViewById(R.id.customize_button);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,8 +28,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
                 Intent gameOptionsActivity = new Intent(MainMenuActivity.this, GameOptionsActivity.class);
                 startActivity(gameOptionsActivity);
-//                Intent gameActivity = new Intent(MainMenuActivity.this, GameActivity.class);
-//                startActivity(gameActivity);
             }
 
         });

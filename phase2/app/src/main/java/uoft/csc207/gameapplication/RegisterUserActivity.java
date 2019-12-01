@@ -25,9 +25,6 @@ public class RegisterUserActivity extends AppCompatActivity {
     private EditText passwordInput;
     private EditText passwordConfirmationInput;
 
-    private static final String FILE = "UserData.json";
-    private JSONObject jsonObject;
-
     private RegisterService registerService;
 
     String registerEmail;
@@ -43,11 +40,11 @@ public class RegisterUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
-        registerButton = (Button) findViewById(R.id.register_button);
-        emailInput = (EditText) findViewById(R.id.register_email);
-        usernameInput = (EditText) findViewById(R.id.register_username);
-        passwordInput = (EditText) findViewById(R.id.register_password);
-        passwordConfirmationInput = (EditText) findViewById(R.id.register_password_confirmation);
+        registerButton = findViewById(R.id.register_button);
+        emailInput = findViewById(R.id.register_email);
+        usernameInput = findViewById(R.id.register_username);
+        passwordInput = findViewById(R.id.register_password);
+        passwordConfirmationInput = findViewById(R.id.register_password_confirmation);
 
         registerService = new RegisterService();
         registerService.setContext(this);
@@ -114,34 +111,6 @@ public class RegisterUserActivity extends AppCompatActivity {
         }
         return null;
     }
-
-//    /**
-//     * @return True if this username and email is unique
-//     */
-//    private boolean validUser() {
-//        JSONArray userdata;
-//        try {
-//            userdata = database.getJSONArray("users");
-//            for (int i = 0; i < userdata.length(); i++) {
-//                JSONObject user = userdata.getJSONObject(i);
-//                boolean sameEmail = user.getString("email").equals(registerEmail);
-//                boolean sameUser = user.getString("username").equals(registerUsername);
-//                if (sameUser) {
-//                    showToast("username is taken");
-//                    return false;
-//                }
-//                else if (sameEmail) {
-//                    showToast("email is taken");
-//                    return false;
-//                }
-//            }
-//            return true;
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
 
     /**
      * Displays the text on screen

@@ -18,12 +18,16 @@ public class Column {
     private RhythmGamePointsSystem pointsSystem;
     private ColumnMessage message = new ColumnMessage("");
 
+    /**
+     * Constructs a column with the given height.
+     * @param height the height of a level
+     * @param pointsSystem the points system of a level
+     */
     public Column(int height, RhythmGamePointsSystem pointsSystem) {
         this.height = height;
         this.target = new Target(height/5, 4);
         this.notes = new ArrayList<>();
         this.pointsSystem = pointsSystem;
-
     }
 
     /**

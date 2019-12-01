@@ -11,12 +11,6 @@ import android.widget.Button;
  * The Option menu of specific scores for the users.
  */
 public class PersonalScoresOptionsActivity extends AppCompatActivity {
-
-    private Button gameWrapperScoresButton;
-    private Button tetrisGameScoresButton;
-    private Button rhythmGameScoresButton;
-    private Button mazeGameScoresButton;
-
     /**
      * Let the score menu get into the Created state, with four different options.
      *
@@ -27,10 +21,10 @@ public class PersonalScoresOptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_scores_options);
 
-        gameWrapperScoresButton = (Button) findViewById(R.id.wrapper_scores_button);
-        tetrisGameScoresButton = (Button) findViewById(R.id.tetris_scores_button);
-        rhythmGameScoresButton = (Button) findViewById(R.id.rhythm_scores_button);
-        mazeGameScoresButton = (Button) findViewById(R.id.maze_scores_button);
+        Button gameWrapperScoresButton =  findViewById(R.id.wrapper_scores_button);
+        Button tetrisGameScoresButton =  findViewById(R.id.tetris_scores_button);
+        Button rhythmGameScoresButton =  findViewById(R.id.rhythm_scores_button);
+        Button mazeGameScoresButton =  findViewById(R.id.maze_scores_button);
 
         gameWrapperScoresButton.setOnClickListener(new View.OnClickListener() {
             @Override

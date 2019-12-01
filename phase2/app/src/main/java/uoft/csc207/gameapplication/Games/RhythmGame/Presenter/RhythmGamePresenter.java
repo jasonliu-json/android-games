@@ -52,23 +52,20 @@ public class RhythmGamePresenter {
     private StatsDrawer statsDrawer;
     private MediaPlayer mediaPlayer;
 
-//    public static final Map<Character, Integer> TETRO_COLOURS = new HashMap<>();
-
     private static final Map<Character, String> BLOCK_TO_SCHEME_KEYS = createKeysMap();
     private static final Map<Character, Integer[][]> TETRO_COORDINATES = createTetroCoordinatesMap();
     private static final Map<String, Integer> SONG_IDS = createSongIdsMap();
     private static final Map<String, StatsDrawer> STATS_DRAWERS = createStatsDrawersMap();
 
-//    static {
-//        TETRO_COLOURS.put('I', Color.rgb(130, 215,255));
-//        TETRO_COLOURS.put('J', Color.rgb(100, 170,255));
-//        TETRO_COLOURS.put('L', Color.rgb(255, 170,70));
-//        TETRO_COLOURS.put('O', Color.rgb(255, 220,100));
-//        TETRO_COLOURS.put('S', Color.rgb(155, 255,110));
-//        TETRO_COLOURS.put( 'Z', Color.rgb(255, 100,100));
-//        TETRO_COLOURS.put( 'T', Color.rgb(170, 140,255));
-//    }
-
+    /**
+     * Contructs a presenter for the Rhythm Game.
+     * @param level the current level of the game.
+     * @param metrics the screen metrics.
+     * @param context the activity's context.
+     * @param shapes the note shapes.
+     * @param colourScheme the colour palette.
+     * @param statDrawerMode the statistics presentation mode.
+     */
     public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context,
                                char[] shapes, Map<String, Integer> colourScheme, String statDrawerMode) {
         this.context = context;
@@ -147,6 +144,7 @@ public class RhythmGamePresenter {
         bitCanvas.restore();
     }
 
+    // Sets up shapes and colours for each column and paints.
     private void setTheme() {
         // Sets up the shape theme for each column
         colUnitNoteShapes = new NoteShape[numColumns];
@@ -181,6 +179,7 @@ public class RhythmGamePresenter {
         statsDrawer.setUpPaints();
     }
 
+    // Initialize sizing, scaling, and dimensions variables.
     private void initializeSizing() {
         colSize = screenWidth / (float) numColumns;
         float colWidthRatio = colSize / 2; // Since each piece is 2 units wide

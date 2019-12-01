@@ -16,15 +16,6 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.LeaderBoardService
  * Set up the leader board and shows the top players' scores.
  */
 public class LeaderboardActivity extends AppCompatActivity {
-
-//    private String[] topTenPlayers = new String[10];
-//    private String[] topTenScores = new String[10];
-//    private String[] topTenLinesCleared = new String[10];
-//    private String[] toptenTimes = new String[10];
-
-//    private static final String FILE = "UserData.json";
-//    private JSONArray database;
-
     private LeaderBoardService scoreService = new LeaderBoardService();
     private String leaderboardType;
 
@@ -40,8 +31,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         // check leaderboard type
         leaderboardType = getIntent().getExtras().getString("leaderboardType");
-
-//        String[][] topPlays = getTopPlayers();
+        
         scoreService.setContext(this);
 
         scoreService.getGlobalLeaderboards(leaderboardType, new CallBack() {
@@ -52,12 +42,10 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
-
             }
 
             @Override
             public void onWait() {
-
             }
         });
 
@@ -74,7 +62,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         String[] topTenPlayers = new String[10];
         String[] topTenScores = new String[10];
 
-        TextView titleTextView = (TextView) findViewById(R.id.leaderboardTitle);
+        TextView titleTextView =  findViewById(R.id.leaderboardTitle);
         String title = leaderboardType;
         title += " Leaderboard";
         titleTextView.setText(title);
@@ -93,13 +81,11 @@ public class LeaderboardActivity extends AppCompatActivity {
                 R.id.score6, R.id.score7, R.id.score8, R.id.score9, R.id.score10};
 
         for (int i = 0; i < 10; i++) {
-
-
-            TextView playerTextView = (TextView) findViewById(playerTextViewIds[i]);
+            TextView playerTextView =  findViewById(playerTextViewIds[i]);
             playerTextView.setTextSize(15);
             playerTextView.setText(topTenPlayers[i]);
 
-            TextView scoreTextView = (TextView) findViewById(scoreTextViewIds[i]);
+            TextView scoreTextView =  findViewById(scoreTextViewIds[i]);
             scoreTextView.setTextSize(15);
             scoreTextView.setText(topTenScores[i]);
 

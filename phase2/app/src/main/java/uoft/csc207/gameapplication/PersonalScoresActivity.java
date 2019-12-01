@@ -25,9 +25,7 @@ public class PersonalScoresActivity extends AppCompatActivity {
     String totalPointsText;
 
     String scoresType;
-//    private static final String FILE = "UserData.json";
-//    private String username;
-//    private JSONObject jsonUserObject;
+
 
     GetUserService getUserService;
 

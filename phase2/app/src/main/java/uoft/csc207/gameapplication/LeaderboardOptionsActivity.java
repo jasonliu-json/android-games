@@ -13,17 +13,6 @@ import android.widget.Button;
  * The Option menu of different games' and the total leader board.
  */
 public class LeaderboardOptionsActivity extends AppCompatActivity {
-
-    private Button gameWrapperLeaderboardButton;
-    private Button tetrisGameLeaderboardButton;
-    private Button rhythmGameLeaderboardButton;
-    private Button mazeGameLeaderboardButton;
-
-
-    GetUserService getUserService;
-
-    private int currentStage;
-
     /**
      * Let the leader board menu get into the Created state, with four different options.
      *
@@ -33,10 +22,10 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard_options);
-        gameWrapperLeaderboardButton = (Button) findViewById(R.id.wrapper_leaderboard_button);
-        tetrisGameLeaderboardButton = (Button) findViewById(R.id.tetris_scores_button);
-        rhythmGameLeaderboardButton = (Button) findViewById(R.id.rhythm_scores_button);
-        mazeGameLeaderboardButton = (Button) findViewById(R.id.maze_leaderboard_button);
+        Button gameWrapperLeaderboardButton =  findViewById(R.id.wrapper_leaderboard_button);
+        Button tetrisGameLeaderboardButton =  findViewById(R.id.tetris_scores_button);
+        Button rhythmGameLeaderboardButton =  findViewById(R.id.rhythm_scores_button);
+        Button mazeGameLeaderboardButton =  findViewById(R.id.maze_leaderboard_button);
 
         gameWrapperLeaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,28 +67,6 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
 
             }
         });
-
-//        getUserService = new GetUserService();
-//        getUserService.setContext(this);
-//
-//        getUserService.getUser(LoginService.getLoginToken(), new CallBack() {
-//            @Override
-//            public void onSuccess() {
-//                System.out.println(getUserService.getUser().getCurrentStage());
-//                currentStage = Integer.valueOf(getUserService.getUser().getCurrentStage());
-//                initialize();
-//            }
-//
-//            @Override
-//            public void onWait() {
-//                System.out.println("waiting");
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                System.out.println("failed to get user");
-//            }
-//        });
     }
 
 }
