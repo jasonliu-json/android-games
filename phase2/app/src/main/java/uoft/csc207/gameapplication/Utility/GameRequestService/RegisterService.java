@@ -13,9 +13,18 @@ import org.json.JSONObject;
 
 import uoft.csc207.gameapplication.RegisterUserActivity;
 
-public class RegisterService extends RestApiConnector{
+/**
+ * Connect to rest API, and make the registration application.
+ */
+public class RegisterService extends RestApiConnector {
     public static final String REGISTER = "api/users/register";
 
+    /**
+     * Make the registration application.
+     *
+     * @param callback   Return the state of the application.
+     * @param jsonObject The Json object storing the game information.
+     */
     public void register(JSONObject jsonObject, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -23,7 +32,8 @@ public class RegisterService extends RestApiConnector{
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess();
-                }}, new Response.ErrorListener() {
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     callback.onFailure();

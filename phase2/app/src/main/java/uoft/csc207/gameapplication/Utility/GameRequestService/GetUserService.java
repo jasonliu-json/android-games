@@ -19,10 +19,19 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
 import uoft.csc207.gameapplication.PersonalScoresActivity;
 
-public class GetUserService extends RestApiConnector{
+/**
+ * Connect to the rest API, and get user.
+ */
+public class GetUserService extends RestApiConnector {
     public static final String GET_USER = "api/tokens/user/";
     private User user = new User();
 
+    /**
+     * Get user from rest API.
+     *
+     * @param callback Return the state of the application.
+     * @param token    The request token for authentication.
+     */
     public void getUser(Token token, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -46,7 +55,8 @@ public class GetUserService extends RestApiConnector{
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }}, new Response.ErrorListener() {
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     callback.onFailure();
@@ -59,6 +69,9 @@ public class GetUserService extends RestApiConnector{
         }
     }
 
+    /**
+     * @return The user instance requested.
+     */
     public User getUser() {
         return user;
     }

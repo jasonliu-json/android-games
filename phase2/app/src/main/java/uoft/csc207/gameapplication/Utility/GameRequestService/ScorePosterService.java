@@ -13,9 +13,20 @@ import org.json.JSONObject;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 
+/**
+ * Connect to rest API, and post the score out.
+ */
 public class ScorePosterService extends RestApiConnector {
     public static final String SCOREPOSTER = "api/tokens/score/";
 
+    /**
+     * Called when posting the score.
+     *
+     * @param callback Return the state of the application.
+     * @param token    The request token for authentication.
+     * @param game     The game type of the score to be posted.
+     * @param score    The score earned by the user.
+     */
     public void postScore(Token token, Score score, String game, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -29,7 +40,8 @@ public class ScorePosterService extends RestApiConnector {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess();
-                }}, new Response.ErrorListener() {
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     callback.onFailure();
