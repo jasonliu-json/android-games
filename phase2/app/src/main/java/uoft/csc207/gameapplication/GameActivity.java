@@ -58,6 +58,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        gameView = findViewById(R.id.GameView);
 
         loadCustomizeJSON();
         loadColourPaletteJSON();
@@ -98,7 +99,6 @@ public class GameActivity extends AppCompatActivity {
         gameDriver.setColourScheme(colourScheme);
         gameDriver.init();
 
-        gameView = findViewById(R.id.GameView);
         gameView.setDriver(gameDriver);
     }
 
