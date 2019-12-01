@@ -60,15 +60,15 @@ public class RhythmGamePresenter {
     private static final Map<String, Integer> SONG_IDS = createSongIdsMap();
     private static final Map<String, StatsDrawer> STATS_DRAWERS = createStatsDrawersMap();
 
-    static {
-        TETRO_COLOURS.put('I', Color.rgb(130, 215,255));
-        TETRO_COLOURS.put('J', Color.rgb(100, 170,255));
-        TETRO_COLOURS.put('L', Color.rgb(255, 170,70));
-        TETRO_COLOURS.put('O', Color.rgb(255, 220,100));
-        TETRO_COLOURS.put('S', Color.rgb(155, 255,110));
-        TETRO_COLOURS.put( 'Z', Color.rgb(255, 100,100));
-        TETRO_COLOURS.put( 'T', Color.rgb(170, 140,255));
-    }
+//    static {
+//        TETRO_COLOURS.put('I', Color.rgb(130, 215,255));
+//        TETRO_COLOURS.put('J', Color.rgb(100, 170,255));
+//        TETRO_COLOURS.put('L', Color.rgb(255, 170,70));
+//        TETRO_COLOURS.put('O', Color.rgb(255, 220,100));
+//        TETRO_COLOURS.put('S', Color.rgb(155, 255,110));
+//        TETRO_COLOURS.put( 'Z', Color.rgb(255, 100,100));
+//        TETRO_COLOURS.put( 'T', Color.rgb(170, 140,255));
+//    }
 
     public RhythmGamePresenter(RhythmGameLevel level, DisplayMetrics metrics, Context context,
                                char[] shapes, Map<String, Integer> colourScheme, String statDrawerMode) {

@@ -2,18 +2,35 @@ package uoft.csc207.gameapplication.Games.GameWrapper;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import uoft.csc207.gameapplication.Games.GameDriver;
+import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
+import uoft.csc207.gameapplication.Games.RhythmGame.RhythmGameDriver;
+import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 
 /**
- * Handles the inputs and outputs of the game.
+ * Plays the subgames in consecutive order.
  */
-public class GameWrapperDriver extends GameDriver {
-    private GameWrapper gameWrapper;
+public class GameWrapperDriver extends GameDriver{
+    private GameDriver gameDriver;
+
+    private Paint textPaint = new Paint();
+    private boolean gameIsOver;
+    private int points;
+    private int gamesPlayed;
 
     public GameWrapperDriver() {
-        gameWrapper = new GameWrapper();
+        points = 0;
+        gameIsOver = false;
+        gamesPlayed = 0;
+        textPaint.setColor(Color.rgb(255, 141, 54));
+        textPaint.setTextSize(60);
     }
 
     /**
@@ -22,7 +39,7 @@ public class GameWrapperDriver extends GameDriver {
      * @param y the y-coordinate of the event on the screen.
      */
     public void touchStart(float x, float y) {
-        gameWrapper.touchStart(x, y);
+        gameDriver.touchStart(x, y);
     }
 
     /**
@@ -31,66 +48,80 @@ public class GameWrapperDriver extends GameDriver {
      * @param y the y-coordinate of the event on the screen.
      */
     public void touchMove(float x, float y) {
-        gameWrapper.touchMove(x, y);
+        gameDriver.touchMove(x, y);
     }
 
     /**
      * Called when the touch is lifted off the screen.
      */
     public void touchUp() {
-        gameWrapper.touchUp();
+        gameDriver.touchUp();
     }
 
     /**
-     * Draws the game to canvas.
-     * @param canvas the canvas to draw on.
+     * Draws the current game selected
+     * @param canvas the canvas to draw the game on
      */
     public void draw(Canvas canvas) {
-        gameWrapper.draw(canvas);
+        int currentGamePoints = gameDriver.getPoints();
+        gameDriver.draw(canvas);
+        canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
     }
 
-    public boolean getGameIsOver() {
-        return gameWrapper.getGameIsOver();
-    }
+    public void init() {
+        gameDriver = new TetrisGameDriver();
+        try {
+            gameDriver.setConfigurations(getConfigurations().getJSONObject("tetris"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-    public int getPoints() {
-        return gameWrapper.getPoints();
+        gameDriver.setMetrics(getMetrics());
+        gameDriver.setContext(getContext());
+        gameDriver.init();
     }
-
-    // Sets the state of the game with the previous points
-//    public void setGameState(int setPoints, int gameState) {
-//        gameWrapper.setPoints(setPoints);
-//        gameWrapper.setGameState(gameState);
-//    }
-//
-//    public int getGameState() {
-//        return gameWrapper.getGamesPlayed();
-//    }
 
     public void start() {
-        gameWrapper.start();
-    }
-
-    public void stop() {
-        gameWrapper.stop();
+        gameDriver.start();
     }
 
     public void timeUpdate() {
-        gameWrapper.timeUpdate();
+        gameDriver.timeUpdate();
+
+        // Select next driver when game is over
+        if (gameDriver.getGameIsOver()) {
+            gamesPlayed++;
+            points += gameDriver.getPoints();
+            try {
+                if (gamesPlayed == 1) {
+                    gameDriver = new RhythmGameDriver();
+                    gameDriver.setConfigurations(getConfigurations().getJSONObject("rhythm"));
+                } else if (gamesPlayed == 2) {
+                    gameDriver = new MazeGameDriver(getContext());
+                    gameDriver.setConfigurations(getConfigurations().getJSONObject("maze"));
+                } else {
+                    gameIsOver = true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            gameDriver.setMetrics(getMetrics());
+            gameDriver.setContext(getContext());
+            gameDriver.init();
+            gameDriver.start();
+        }
     }
 
-    @Override
-    public void setMetrics(DisplayMetrics metrics) {
-        gameWrapper.setMetrics(metrics);
+    public void stop() {
+        gameDriver.stop();
     }
 
-    @Override
-    public void setContext(Context context) {
-        gameWrapper.setContext(context);
+    public boolean getGameIsOver() {
+        return gameIsOver;
     }
 
-    @Override
-    public void setConfigurations(String configurations) {
-        gameWrapper.setConfiguration(configurations);
+    public int getPoints() {
+        return points;
     }
 }

@@ -1,25 +1,19 @@
 package uoft.csc207.gameapplication.Games.RhythmGame;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.util.DisplayMetrics;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.RhythmGame.Controller.RhythmGameController;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
-//import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelLivesMode;
-//import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmLevelSongMode;
-import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.MainStatsDrawer;
-import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.MissedStatsDrawer;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.RhythmGamePresenter;
-import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.StatsDrawer;
 
 /**
  * The driver for the entire game. It selects the driver for an individual level and
@@ -33,34 +27,10 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     private RhythmGameController controller;
     private RhythmGamePresenter presenter;
 
-    private DisplayMetrics metrics;
-    private Context context;
-    private String configurations;
-    private Map<String, Integer> colourScheme;
 
     public RhythmGameDriver() {
         this.totalPoints = 0;
         this.levelIndex = 0;
-    }
-
-    @Override
-    public void setMetrics(DisplayMetrics metrics) {
-        this.metrics = metrics;
-    }
-
-    @Override
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    public void setConfigurations(String configurations) {
-        this.configurations = configurations;
-    }
-
-    @Override
-    public void setColourScheme(Map<String, Integer> colourScheme) {
-        this.colourScheme = colourScheme;
     }
 
     @Override
@@ -76,36 +46,51 @@ public class RhythmGameDriver extends GameDriver implements Observer {
 
     @Override
     public void init() {
-        String[] configs = configurations.split(";");
-        String[] levelsConfig = Arrays.copyOfRange(configs, 3,configs.length);
-        createLevels(levelsConfig);
+        try {
+            createLevels(getConfigurations().getJSONArray("levels"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        this.controller = new RhythmGameController(levels[levelIndex], metrics.widthPixels);
+        this.controller = new RhythmGameController(levels[levelIndex], getMetrics().widthPixels);
 
-        // First three elements describe configs for all levels of presenter
-//        String colourTheme = configs[0];
-        char[] shapes = configs[1].toCharArray();
-        String statDrawerMode = configs[2];
-        this.presenter = new RhythmGamePresenter(levels[levelIndex], metrics, context, shapes,
-                colourScheme, statDrawerMode);
+        char[] shapes = new char[4];
+        for (int i = 1; i <= 4; i++) {
+            try {
+                shapes[i-1] = getConfigurations().getString(String.format(Locale.CANADA, 
+                        "Shape%d", i)).charAt(0);
+            } catch (JSONException e) {
+                shapes[i - 1] = 'O';
+            }
+        }
+
+        String statDrawerMode;
+        try {
+            statDrawerMode = getConfigurations().getString("presenterMode");
+        } catch (JSONException e) {
+            statDrawerMode = "STATS";
+        }
+
+        this.presenter = new RhythmGamePresenter(levels[levelIndex], getMetrics(), getContext(), shapes,
+                getColourScheme(), statDrawerMode);
     }
 
-    private void createLevels(String[] configs) {
-        this.levels = new RhythmGameLevel[configs.length];
+    private void createLevels(JSONArray levelsArray) {
+        this.levels = new RhythmGameLevel[levelsArray.length()];
         // Creates each level based on the config
-        for (int i = 0; i < configs.length; i++) {
-            String[] levelConfig = configs[i].split(",");
-            int numColumns = Integer.parseInt(levelConfig[0]);
-            int gameHeight = Integer.parseInt(levelConfig[1]);
-            String song = levelConfig[2];
-            String mode = levelConfig[3];
+        for (int i = 0; i < levelsArray.length(); i++) {
+            try {
+                JSONObject levelJSON = levelsArray.getJSONObject(i);
+                int numColumns = levelJSON.getInt("numColumns");
+                int gameHeight = levelJSON.getInt("height");
+                String song = levelJSON.getString("song");
+                String mode = levelJSON.getString("mode");
+                levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode);
+            } catch (JSONException e) {
+                levels[i] = new RhythmGameLevel(4, 100,
+                        "Old Town Road", "SONG");
+            }
 
-            levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode);
-
-//            if (mode.equalsIgnoreCase("LIVES"))
-//                levels[i] = new RhythmLevelLivesMode(numColumns, gameHeight, song);
-//            else
-//                levels[i] = new RhythmLevelSongMode(numColumns, gameHeight, song);
             levels[i].addObserver(this);
         }
     }
@@ -139,7 +124,6 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         if (((String)o).equalsIgnoreCase(RhythmGameLevel.LEVEL_OVER_MESSAGE)) {
-
             if (levelIndex < levels.length - 1) {
                 stop();
                 this.totalPoints += levels[levelIndex].getPoints();

@@ -1,15 +1,35 @@
 {
   "tetris":{
-    "controls": "Screen",
     "colours": "Default"
   },
   "rhythm": {
       "shape1": "J",
       "shape2": "O",
       "shape3": "O",
-      "shape4": "L"
+      "shape4": "L",
+    "presenterMode": "STATS",
+      "levels": [
+        {
+          "numColumns": 3,
+          "height": 100,
+          "song": "Mii Channel",
+          "mode": "SONG"
+        },
+        {
+          "numColumns": 4,
+          "height": 100,
+          "song": "Old Town Road",
+          "mode": "SONG"
+        },
+        {
+          "numColumns": 4,
+          "height": 80,
+          "song": "Mii Channel",
+          "mode": "SONG"
+        }
+      ]
   },
   "maze": {
-    "controls": "Screen"
+    "controls": "Tap"
   }
 }

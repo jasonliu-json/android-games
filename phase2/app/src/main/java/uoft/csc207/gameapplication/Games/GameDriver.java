@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 /**
@@ -13,24 +15,17 @@ import java.util.Map;
  */
 public abstract class GameDriver {
     // To draw on
-    public Bitmap bitmap;
-    public Canvas newCanvas;
+    protected Bitmap bitmap;
+    protected Canvas newCanvas;
 
     // Screen Dimensions
-    public int screenHeight;
-    public int screenWidth;
+    protected int screenHeight;
+    protected int screenWidth;
 
     private DisplayMetrics metrics;
     private Context context;
-    private String configurations;
+    private JSONObject configurations;
     private Map<String, Integer> colourScheme;
-
-    public void init(DisplayMetrics metrics) {
-        screenHeight = metrics.heightPixels - 40;
-        screenWidth = metrics.widthPixels;
-        bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
-        newCanvas = new Canvas(bitmap);
-    }
 
     public void init() {}
 
@@ -83,7 +78,11 @@ public abstract class GameDriver {
     }
 
     public void setMetrics(DisplayMetrics metrics) {
-
+        this.metrics = metrics;
+        screenHeight = metrics.heightPixels - 40;
+        screenWidth = metrics.widthPixels;
+        bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
+        newCanvas = new Canvas(bitmap);
     }
 
     public Context getContext() {
@@ -91,15 +90,20 @@ public abstract class GameDriver {
     }
 
     public void setContext(Context context) {
+        this.context = context;
     }
 
     public void setColourScheme(Map<String, Integer> colourScheme){this.colourScheme = colourScheme;}
 
-    public String getConfigurations() {
+    public JSONObject getConfigurations() {
         return configurations;
     }
 
-    public void setConfigurations(String configurations) {
+    public void setConfigurations(JSONObject configurations) {
         this.configurations = configurations;
+    }
+
+    public Map<String, Integer> getColourScheme() {
+        return colourScheme;
     }
 }

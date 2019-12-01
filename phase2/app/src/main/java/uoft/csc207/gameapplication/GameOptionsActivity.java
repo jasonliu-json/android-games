@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.JSONFileRW;
 
 public class GameOptionsActivity extends AppCompatActivity {
 
@@ -84,6 +89,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentStage > 1) {
+                    configureRhythmLevels();
                     Intent rhythmGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                     rhythmGameActivity.putExtra("gameType", "rhythmGame");
                     startActivity(rhythmGameActivity);
@@ -103,5 +109,23 @@ public class GameOptionsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void configureRhythmLevels() {
+        JSONFileRW fileRW = new JSONFileRW("Customize.json", this);
+        try {
+            JSONObject allCust = fileRW.load();
+            JSONObject rhythmCust = allCust.getJSONObject("rhythm");
+            rhythmCust.put("presenterMode", "MISSED");
+            JSONArray levelsArray = new JSONArray("[{\"numColumns\": 4,\n" +
+                    "          \"height\": 100,\n" +
+                    "          \"song\": \"Old Town Road\",\n" +
+                    "          \"mode\": \"RANDOM\"}]");
+            rhythmCust.put("levels", levelsArray);
+            fileRW.write(allCust.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }
