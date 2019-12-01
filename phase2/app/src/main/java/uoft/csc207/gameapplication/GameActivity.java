@@ -82,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
                 gameView.setStage("3");
                 break;
             case "MazeGame":
-                gameDriver = new MazeGameDriver(this);
+                gameDriver = new MazeGameDriver();
                 gameView.setStage("4");
                 break;
             default:

@@ -1,16 +1,25 @@
 package uoft.csc207.gameapplication.Games.MazeGame;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.Callable;
+
 import uoft.csc207.gameapplication.Games.GameDriver;
+import uoft.csc207.gameapplication.Games.MazeGame.Controller.MazeController;
+import uoft.csc207.gameapplication.Games.MazeGame.Controller.TapController;
+import uoft.csc207.gameapplication.Games.MazeGame.GameLogic.MazeGame;
 
 import static java.lang.Thread.sleep;
 
 public class MazeGameDriver extends GameDriver {
+    private String controllerType = "Tap";
 
     private MazeGame mazeGame;
+    private MazeController mazeController;
     /**
      * cursors initial x and y position when pressed down on the screen
      */
@@ -20,9 +29,8 @@ public class MazeGameDriver extends GameDriver {
     /**
      * creates the MazeGameDriver that accesses the MazeGame
      *
-     * @param context the activity where this driver is being used on
      */
-    public MazeGameDriver(Context context) {
+    public MazeGameDriver() {
         mazeGame = new MazeGame();
     }
 
@@ -33,8 +41,9 @@ public class MazeGameDriver extends GameDriver {
      * @param y coordinate of press
      */
     public void touchStart(float x, float y) {
-        xInit = (int) x;
-        yInit = (int) y;
+//        xInit = (int) x;
+//        yInit = (int) y;
+        mazeController.touchStart(x, y);
     }
 
     /**
@@ -43,36 +52,56 @@ public class MazeGameDriver extends GameDriver {
      * @param y where the y position of the cursor when moved
      */
     public void touchMove(float x, float y) {
-        try {
-            sleep(100);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        finally {
-            int xDistance = (int) x - xInit;
-            int yDistance = (int) y - yInit;
-            if (Math.abs(xDistance) > Math.abs(yDistance)) {
-                if (xDistance > 0) {
-                    mazeGame.moveRight();
-                }
-                else {
-                    mazeGame.moveLeft();
-                }
-            }
-            else {
-                if (yDistance > 0) {
-                    mazeGame.moveDown();
-                }
-                else {
-                    mazeGame.moveUp();
-                }
-            }
-        }
+//        try {
+//            sleep(100);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        finally {
+//            int xDistance = (int) x - xInit;
+//            int yDistance = (int) y - yInit;
+//            if (Math.abs(xDistance) > Math.abs(yDistance)) {
+//                if (xDistance > 0) {
+//                    mazeGame.moveRight();
+//                }
+//                else {
+//                    mazeGame.moveLeft();
+//                }
+//            }
+//            else {
+//                if (yDistance > 0) {
+//                    mazeGame.moveDown();
+//                }
+//                else {
+//                    mazeGame.moveUp();
+//                }
+//            }
+//        }
+        mazeController.touchMove(x, y);
     }
 
     public void touchUp() {
-        // nothing required here for screen movement
+        executeCommand(mazeController.touchUp());
+    }
+
+    private void executeCommand(int control) {
+        switch (control) {
+            case 1:
+                mazeGame.moveUp();
+                break;
+            case 2:
+                mazeGame.moveRight();
+                break;
+            case 3:
+                mazeGame.moveDown();
+                break;
+            case 4:
+                mazeGame.moveLeft();
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -105,5 +134,24 @@ public class MazeGameDriver extends GameDriver {
      */
     public int getPoints() {
         return mazeGame.getPoints();
+    }
+
+    @Override
+    public void init() {
+        if (controllerType.equalsIgnoreCase("tap")) {
+            mazeController = new TapController(screenWidth, screenHeight);
+        }
+        else {
+            mazeController = new TapController(screenWidth, screenHeight);
+        }
+    }
+
+    @Override
+    public void setConfigurations(JSONObject configurations) {
+        try {
+            controllerType = configurations.getString("controls");
+        } catch (JSONException e) {
+
+        }
     }
 }

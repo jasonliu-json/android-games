@@ -106,7 +106,7 @@ public class GameWrapperDriver extends GameDriver{
                 gameDriver = new RhythmGameDriver();
                 trySetGameDriveConfiguration("rhythm");
             } else if (gamesPlayed == 2) {
-                gameDriver = new MazeGameDriver(getContext());
+                gameDriver = new MazeGameDriver();
                 trySetGameDriveConfiguration("maze");
             } else {
                 gameIsOver = true;

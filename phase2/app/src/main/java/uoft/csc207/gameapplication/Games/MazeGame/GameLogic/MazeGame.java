@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Games.MazeGame;
+package uoft.csc207.gameapplication.Games.MazeGame.GameLogic;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -82,7 +82,7 @@ public class MazeGame {
     /**
      * Checks to see if the user can move down if movement is possible complete it
      */
-    void moveDown() {
+    public void moveDown() {
 
         if (!maze[xCharacter][yCharacter + 1].equals('W')) {
             maze[xCharacter][yCharacter + 1] = maze[xCharacter][yCharacter];
@@ -95,7 +95,7 @@ public class MazeGame {
     /**
      * Checks to see if the user can move up if movement is possible complete it
      */
-    void moveUp() {
+    public void moveUp() {
         if (!maze[xCharacter][yCharacter - 1].equals('W')) {
             maze[xCharacter][yCharacter - 1] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
@@ -107,7 +107,7 @@ public class MazeGame {
     /**
      * Checks to see if the user can move left if movement is possible complete it
      */
-    void moveLeft() {
+    public void moveLeft() {
         if (!maze[xCharacter - 1][yCharacter].equals('W')) {
             maze[xCharacter - 1][yCharacter] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
@@ -119,7 +119,7 @@ public class MazeGame {
     /**
      * Checks to see if the user can move right if movement is possible complete it
      */
-    void moveRight() {
+    public void moveRight() {
         if (!maze[xCharacter + 1][yCharacter].equals('W')) {
             maze[xCharacter + 1][yCharacter] = maze[xCharacter][yCharacter];
             maze[xCharacter][yCharacter] = 'P';
@@ -131,14 +131,14 @@ public class MazeGame {
     /**
      * @return the status of this game if it is over or not
      */
-    boolean getGameIsOver() {
+    public boolean getGameIsOver() {
         return gameIsOver;
     }
 
     /**
      * @return the current sessions points and the points accumulated over each level
      */
-    int getPoints() {
+    public int getPoints() {
         if (currentLevelPoints > 0) {
             return points + currentLevelPoints;
         }
@@ -180,7 +180,7 @@ public class MazeGame {
      * @param screenWidth the screen width
      * @param screenHeight the screen height
      */
-    void draw(Canvas canvas, int screenWidth, int screenHeight) {
+    public void draw(Canvas canvas, int screenWidth, int screenHeight) {
         int blockWidth = screenWidth / maze.length;
         int blockHeight = screenHeight / maze[0].length;
 

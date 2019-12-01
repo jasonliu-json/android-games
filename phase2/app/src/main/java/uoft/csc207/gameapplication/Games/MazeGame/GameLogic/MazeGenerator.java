@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Games.MazeGame;
+package uoft.csc207.gameapplication.Games.MazeGame.GameLogic;
 
 import java.util.ArrayList;
 import java.util.Random;
