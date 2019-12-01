@@ -22,7 +22,7 @@ public class MazeGameDriver extends GameDriver {
 
     private MazeGame mazeGame;
     private MazeController mazeController;
-    private MazePresenter mazePresenter = new MazePresenter();
+    private MazePresenter mazePresenter;
     /**
      * cursors initial x and y position when pressed down on the screen
      */
@@ -95,7 +95,7 @@ public class MazeGameDriver extends GameDriver {
         newCanvas.scale(1.01f, 1.01f);
 
         Character[][] mazeArrayRepresentation = mazeGame.getMaze();
-        mazePresenter.draw(newCanvas, mazeArrayRepresentation, screenWidth, screenHeight);
+        mazePresenter.drawMap(newCanvas, mazeArrayRepresentation, mazeGame.getCharacterPos());
 
         canvas.drawBitmap(bitmap, 0, 0, null);
 
@@ -128,6 +128,7 @@ public class MazeGameDriver extends GameDriver {
         else {
             mazeController = new TapController(screenWidth, screenHeight);
         }
+        mazePresenter = new MazePresenter(screenWidth, screenHeight);
     }
 
     @Override

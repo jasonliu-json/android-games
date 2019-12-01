@@ -77,7 +77,6 @@ public class TapController extends MazeController{
     @Override
     public int touchUp() {
         Double distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-        System.out.println(distance);
         if (distance < acceptedError) {
             int quadrant = findQuadrant();
             return quadrant;

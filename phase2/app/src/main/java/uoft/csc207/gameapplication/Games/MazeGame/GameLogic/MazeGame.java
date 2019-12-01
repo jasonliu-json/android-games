@@ -225,4 +225,8 @@ public class MazeGame {
     public Character[][] getMaze() {
         return maze;
     }
+
+    public int[] getCharacterPos() {
+        return new int[]{xCharacter, yCharacter};
+    }
 }
