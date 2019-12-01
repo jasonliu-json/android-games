@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Set up the main menu, creating four options for the users to choose by buttons.
+ */
 public class MainMenuActivity extends AppCompatActivity {
 
     private Button playButton;

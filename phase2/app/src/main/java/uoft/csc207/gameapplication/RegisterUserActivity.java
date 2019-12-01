@@ -15,6 +15,9 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.RegisterService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
+/**
+ * Make the registration activity set up.
+ */
 public class RegisterUserActivity extends AppCompatActivity {
     private Button registerButton;
     private EditText emailInput;
@@ -32,6 +35,10 @@ public class RegisterUserActivity extends AppCompatActivity {
     String registerPassword;
     String registerPasswordConfirmation;
 
+    /**
+     * The registration activity enters the Created state.
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +98,10 @@ public class RegisterUserActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * Store the new user's information.
+     * @return The Json object to store the new user's information.
+     */
     private JSONObject register(){
         try {
             JSONObject newUser = new JSONObject();

@@ -5,8 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * Set up the game and start the game life cycle.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * The game activity enters the Created state.
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
+    /**
+     * Called when the user leaves the activity.
+     */
     @Override
     protected void onPause() {
         super.onPause();

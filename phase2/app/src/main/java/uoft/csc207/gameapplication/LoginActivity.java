@@ -16,6 +16,9 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
+/**
+ * Make the login activity set up.
+ */
 public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView registerText;
@@ -33,6 +36,10 @@ public class LoginActivity extends AppCompatActivity {
     String username;
     String loginPassword;
 
+    /**
+     * The login activity enters the Created state, and compare the information.
+     * @param savedInstanceState Containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // testing now to send post request
