@@ -21,31 +21,18 @@ public class SongNoteGenerator extends NoteGenerator {
 
     private int intervalIndex = 0;
     private Long lastNoteTime;
+    private Context context;
     public String song;
+
 
     private boolean isOver = false;
 
     public SongNoteGenerator(String song, Context context) {
 
-//        System.out.println("constructor in SONG");
-
-        noteIntervals = new ArrayList<>();
-        noteColumns = new ArrayList<>();
-        NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader();
-
-
-        // gonna hard code an array list for now
-//
-        String[] testingIntervals = new String[10];
-        for (int i=0;i<5;i++){
-            noteIntervals.add(Long.valueOf(i));
-            noteColumns.add(i % 4);
-        }
-
-//        System.out.println("constructor note intervals" + noteIntervals);
-//        System.out.println("constructor note intervals" + noteIntervals);
-//        System.out.println("columns" + noteColumns);
-
+        this.context = context;
+        NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader(context, song);
+        noteIntervals = noteIntervalsReader.getIntervalsArray();
+        noteColumns = noteIntervalsReader.getNoteColumns();
 
     }
 
