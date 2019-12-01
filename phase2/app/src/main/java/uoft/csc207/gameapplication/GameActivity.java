@@ -66,27 +66,33 @@ public class GameActivity extends AppCompatActivity {
         loadColourPaletteJSON();
 
         // Determines which game to play
+        boolean defaultCaseRan = false;
         String gameType = getIntent().getStringExtra("gameType");
         switch (gameType) {
-            case "gameWrapper":
+            case "GameWrapper":
                 gameDriver = new GameWrapperDriver();
                 gameView.setStage("1");
                 break;
-            case "tetrisGame":
+            case "TetrisGame":
                 gameDriver = new TetrisGameDriver();
                 gameView.setStage("2");
                 break;
-            case "rhythmGame":
+            case "RhythmGame":
                 gameDriver = new RhythmGameDriver();
                 gameView.setStage("3");
                 break;
-            case "mazeGame":
+            case "MazeGame":
                 gameDriver = new MazeGameDriver(this);
                 gameView.setStage("4");
                 break;
             default:
                 gameDriver = new GameWrapperDriver();
+                defaultCaseRan = true;
                 break;
+        }
+
+        if (!defaultCaseRan) {
+            gameView.setGame(gameType);
         }
 
         DisplayMetrics metrics = new DisplayMetrics();

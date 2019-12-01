@@ -66,7 +66,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gameWrapperActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
-                gameWrapperActivity.putExtra("gameType", "gameWrapper");
+                gameWrapperActivity.putExtra("gameType", "GameWrapper");
                 startActivity(gameWrapperActivity);
                 finish();
             }
@@ -78,7 +78,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentStage > 0) {
                     Intent tetrisGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
-                    tetrisGameActivity.putExtra("gameType", "tetrisGame");
+                    tetrisGameActivity.putExtra("gameType", "TetrisGame");
                     startActivity(tetrisGameActivity);
                     finish();
                 } else {
@@ -94,7 +94,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentStage > 1) {
                     Intent rhythmGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
-                    rhythmGameActivity.putExtra("gameType", "rhythmGame");
+                    rhythmGameActivity.putExtra("gameType", "RhythmGame");
                     startActivity(rhythmGameActivity);
                     finish();
                 } else {
@@ -109,7 +109,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentStage > 2) {
                     Intent mazeGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
-                    mazeGameActivity.putExtra("gameType", "mazeGame");
+                    mazeGameActivity.putExtra("gameType", "MazeGame");
                     startActivity(mazeGameActivity);
                     finish();
                 } else {

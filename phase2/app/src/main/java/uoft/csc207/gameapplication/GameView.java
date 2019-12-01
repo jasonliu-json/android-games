@@ -26,6 +26,7 @@ public class GameView extends View {
     private boolean stageUpdated = false;
     private boolean timeUpdated = false;
     private String stage = "0";
+    private String game = "WrapperGame";
 
     private ScorePosterService scorePosterService;
     private StagePosterService stagePosterService;
@@ -111,7 +112,7 @@ public class GameView extends View {
             score.setScore(String.valueOf(gameDriver.getPoints()));
             score.setUsername(token.getUsername());
 
-            scorePosterService.postScore(token, score, "WrapperGame", new CallBack() {
+            scorePosterService.postScore(token, score, game, new CallBack() {
                 @Override
                 public void onSuccess() {
                     System.out.println("successful Request scores posted");
@@ -188,6 +189,10 @@ public class GameView extends View {
 
     public void setStage(String stage) {
         this.stage = stage;
+    }
+
+    public void setGame(String game) {
+        this.game = game;
     }
 }
 
