@@ -1,17 +1,21 @@
 package uoft.csc207.gameapplication.Games.TetrisGame;
 
 import android.graphics.Canvas;
-import android.util.DisplayMetrics;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
+import uoft.csc207.gameapplication.Games.TetrisGame.Controller.Request;
 import uoft.csc207.gameapplication.Games.TetrisGame.Controller.TetrisGameController;
 import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.Board;
 import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.PieceGenerator;
 import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.TetrisGame;
 import uoft.csc207.gameapplication.Games.TetrisGame.Presenter.TetrisGamePresenter;
+
+interface Command {
+    void run();
+}
 
 public class TetrisGameDriver extends GameDriver {
 
@@ -21,18 +25,11 @@ public class TetrisGameDriver extends GameDriver {
 
     private Map<Request, Command> requestToCommand;
 
-    private String config;
-//    private DisplayMetrics metrics;
-
-//    public void setConfigurations(String config) {
-//        this.config = config;
-//    }
-
     public void init() {
-        super.init();
         game = new TetrisGame(new Board(10, 20), new PieceGenerator());
-        presenter = new TetrisGamePresenter("default");
-        controller = new TetrisGameController(getMetrics());
+        System.out.println(getColourScheme());
+        presenter = new TetrisGamePresenter(getColourScheme());
+        controller = new TetrisGameController(screenWidth, screenHeight);
 
         requestToCommand = new HashMap<>();
         requestToCommand.put(Request.MOVE_LEFT, new Command() {

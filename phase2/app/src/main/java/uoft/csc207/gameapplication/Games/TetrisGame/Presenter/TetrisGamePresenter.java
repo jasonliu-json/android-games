@@ -9,45 +9,46 @@ import android.graphics.Rect;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class responsible for presenting the Tetris game to the screen.
+ */
 public class TetrisGamePresenter {
 
-    private String colorScheme;
-    private Map<String, Map<Character, Integer>> colorSchemes;
+    /**
+     * The color scheme for the Tetris blocks.
+     */
+    private Map<String, Integer> colorScheme;
 
+    /**
+     * A map between the colors defined in the color scheme to the specifc blocks in Tetris.
+     */
+    private Map<Character, String> pieceToColor;
 
-    public TetrisGamePresenter(String config) {
-        System.out.println(config);
-        colorScheme = config;
-        colorSchemes = new HashMap<>();
-        Map<Character, Integer> defaultScheme = new HashMap<>();
-        defaultScheme.put('I', Color.rgb(130, 215, 255));
-        defaultScheme.put('J', Color.rgb(100, 170, 255));
-        defaultScheme.put('L', Color.rgb(255, 170, 70));
-        defaultScheme.put('O', Color.rgb(255, 220, 100));
-        defaultScheme.put('S', Color.rgb(155, 255, 110));
-        defaultScheme.put('Z', Color.rgb(255, 100, 100));
-        defaultScheme.put('T', Color.rgb(170, 140, 255));
-        colorSchemes.put("default", defaultScheme);
-        Map<Character, Integer> aquaScheme = new HashMap<>();
-        aquaScheme.put('I', Color.rgb(130, 215, 255));
-        aquaScheme.put('J', Color.rgb(130, 215, 255));
-        aquaScheme.put('L', Color.rgb(130, 215, 255));
-        aquaScheme.put('O', Color.rgb(130, 215, 255));
-        aquaScheme.put('S', Color.rgb(130, 215, 255));
-        aquaScheme.put('Z', Color.rgb(130, 215, 255));
-        aquaScheme.put('T', Color.rgb(130, 215, 255));
-        colorSchemes.put("aqua", aquaScheme);
-        Map<Character, Integer> emberScheme = new HashMap<>();
-        emberScheme.put('I', Color.rgb(255, 100, 100));
-        emberScheme.put('J', Color.rgb(255, 100, 100));
-        emberScheme.put('L', Color.rgb(255, 100, 100));
-        emberScheme.put('O', Color.rgb(255, 100, 100));
-        emberScheme.put('S', Color.rgb(255, 100, 100));
-        emberScheme.put('Z', Color.rgb(255, 100, 100));
-        emberScheme.put('T', Color.rgb(255, 100, 100));
-        colorSchemes.put("ember", emberScheme);
+    /**
+     * Construct a new TetrisGamePresenter object.
+     *
+     * @param colorScheme The color scheme for the Tetris blocks.
+     */
+    public TetrisGamePresenter(Map<String, Integer> colorScheme) {
+        this.colorScheme = colorScheme;
+
+        pieceToColor = new HashMap<>();
+        pieceToColor.put('I', "BlockColour1");
+        pieceToColor.put('J', "BlockColour2");
+        pieceToColor.put('L', "BlockColour3");
+        pieceToColor.put('O', "BlockColour4");
+        pieceToColor.put('S', "BlockColour5");
+        pieceToColor.put('Z', "BlockColour6");
+        pieceToColor.put('T', "BlockColour7");
     }
 
+    /**
+     * Draw a frame of Tetris onscreen.
+     *
+     * @param canvas The canvas to be displayed.
+     * @param bitmap The bitmap for drawing.
+     * @param grid The 2D array representation of a board to be displayed.
+     */
     public void draw(Canvas canvas, Bitmap bitmap, char[][] grid) {
         Canvas newCanvas = new Canvas(bitmap);
         newCanvas.save();
@@ -58,6 +59,12 @@ public class TetrisGamePresenter {
         newCanvas.restore();
     }
 
+    /**
+     * Draw a grid onscreen.
+     *
+     * @param canvas The canvas to be displayed.
+     * @param grid The 2D array representation of a board to be displayed.
+     */
     private void drawGrid(Canvas canvas, char[][] grid) {
         float length = canvas.getWidth() / (grid[0].length + 2);
         float x = 0;
@@ -76,6 +83,12 @@ public class TetrisGamePresenter {
         }
     }
 
+    /**
+     * Draw Tetris blocks onscreen.
+     *
+     * @param canvas The canvas to be displayed.
+     * @param grid The 2D array representation of a board to be displayed.
+     */
     private void drawBlocks(Canvas canvas, char[][] grid) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
@@ -86,7 +99,10 @@ public class TetrisGamePresenter {
                 int x = k * length;
                 int y = i * length;
                 if (block != '.') {
-                    paint.setColor(colorSchemes.get(colorScheme).get(block));
+                    Integer color = colorScheme.get(pieceToColor.get(block));
+                    if (color != null) {
+                        paint.setColor(color);
+                    }
                     canvas.drawRect(new Rect(x, y, x + length, y + length), paint);
                 }
             }

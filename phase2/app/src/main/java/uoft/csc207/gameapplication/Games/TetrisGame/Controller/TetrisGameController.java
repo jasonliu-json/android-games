@@ -1,21 +1,19 @@
 package uoft.csc207.gameapplication.Games.TetrisGame.Controller;
 
-import android.util.DisplayMetrics;
-
-import uoft.csc207.gameapplication.Games.TetrisGame.Request;
-
 import static java.lang.Thread.sleep;
 
 public class TetrisGameController {
 
-    private DisplayMetrics metrics;
+    private int screenWidth;
+    private int screenHeight;
     private int xEnd;
     private int yEnd;
     private int xStart;
     private int yStart;
 
-    public TetrisGameController(DisplayMetrics metrics) {
-        this.metrics = metrics;
+    public TetrisGameController(int screenWidth, int screenHeight) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public void touchStart(float x, float y) {
@@ -48,9 +46,9 @@ public class TetrisGameController {
 
     public Request touchUp() {
         if (Math.abs(xEnd - xStart) < 10 && Math.abs(yEnd - yStart) < 10) {
-            if (yStart > metrics.heightPixels * 0.85) {
+            if (yStart > screenHeight * 0.85) {
                 return Request.DROP_DOWN;
-            } else if (xStart < metrics.widthPixels * 0.5) {
+            } else if (xStart < screenWidth * 0.5) {
                 return Request.ROTATE_CLOCKWISE;
             } else {
                 return Request.ROTATE_COUNTERCLOCKWISE;

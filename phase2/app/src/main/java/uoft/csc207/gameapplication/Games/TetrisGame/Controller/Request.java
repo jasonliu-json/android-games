@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Games.TetrisGame;
+package uoft.csc207.gameapplication.Games.TetrisGame.Controller;
 
 public enum Request {
     MOVE_LEFT,
