@@ -19,8 +19,8 @@ public class NoteIntervalsReader {
     private Context context;
 
     public NoteIntervalsReader(Context context, String song) {
-//        filePath = "mii_channel_intervals.csv";
         clickIntervals = new ArrayList<>();
+        noteColumns = new ArrayList<>();
         this.context = context;
         read(song);
     }
