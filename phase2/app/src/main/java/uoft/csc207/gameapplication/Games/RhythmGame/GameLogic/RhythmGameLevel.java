@@ -52,10 +52,10 @@ public class RhythmGameLevel extends Observable {
         }
 
         if (mode.equalsIgnoreCase("RANDOM")) {
-            this.noteGenerator = new RandomNoteGenerator();
+            this.noteGenerator = new RandomNoteGenerator(columns, pointsSystem);
             this.endLevelChecker = new EndByLives(10, pointsSystem);
         } else if (mode.equalsIgnoreCase("SONG")) {
-            this.noteGenerator = new SongNoteGenerator(song, context);
+            this.noteGenerator = new SongNoteGenerator(columns, song, context);
             this.endLevelChecker = new EndBySong(noteGenerator, columns);
         }
     }
@@ -68,7 +68,7 @@ public class RhythmGameLevel extends Observable {
             columns[i].timeUpdate();
         }
 
-        noteGenerator.timeUpdate(columns);
+        noteGenerator.timeUpdate();
 
         if (endLevelChecker.getIsLevelOver()) {
             setChanged();

@@ -29,24 +29,9 @@ public class SongNoteGenerator extends NoteGenerator {
     public SongNoteGenerator(Column[] columns, String song, Context context) {
         super(columns);
 
-        noteIntervals = new ArrayList<>();
-        noteColumns = new ArrayList<>();
         NoteIntervalsReader noteIntervalsReader = new NoteIntervalsReader(context, song);
-
-
-        // gonna hard code an array list for now
-//
-        String[] testingIntervals = new String[10];
-        for (int i=0;i<5;i++){
-            noteIntervals.add(Long.valueOf(i));
-            noteColumns.add(i % 4);
-        }
-
-//        System.out.println("constructor note intervals" + noteIntervals);
-//        System.out.println("constructor note intervals" + noteIntervals);
-//        System.out.println("columns" + noteColumns);
-
-
+        noteIntervals = noteIntervalsReader.getIntervalsArray();
+        noteColumns = noteIntervalsReader.getNoteColumns();
     }
 
     /**
