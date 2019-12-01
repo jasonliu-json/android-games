@@ -3,16 +3,23 @@ package uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.NoteGenerator;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
 
 /**
- * Generates notes in the Rhythm columns
+ * Generates notes in the Rhythm columns.
  */
 public abstract class NoteGenerator {
-    public abstract void timeUpdate(Column[] columns);
+    private Column[] columns;
 
-    public void start(){}
+    NoteGenerator(Column[] columns) {
+        this.columns = columns;
+    }
+    public abstract void timeUpdate();
 
-    public void stop(){}
+    public abstract void start();
 
-    public boolean getIsOver() {
-        return false;
+    public abstract void stop();
+
+    public abstract boolean getIsOver();
+
+    Column[] getColumns() {
+        return columns;
     }
 }
