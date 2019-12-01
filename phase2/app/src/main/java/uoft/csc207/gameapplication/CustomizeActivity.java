@@ -21,11 +21,11 @@ import uoft.csc207.gameapplication.Utility.JSONFileRW;
 public class CustomizeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String FILE = "Customize.json";
-    private JSONObject jsonObject;
-    private JSONObject tetrisCust;
-    private JSONObject rhythmCust;
-    private JSONObject mazeCust;
     private JSONFileRW fileRW;
+    private JSONObject allCustomizations;
+    private JSONObject tetrisCustomizations;
+    private JSONObject rhythmCustomizations;
+    private JSONObject mazeCustomizations;
 
     /**
      * Let the customization menu get into the Created state.
@@ -36,39 +36,41 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customize);
+
+        loadCustomizations();
+        initializeViews();
+    }
+    
+    // Loads the customizations into the JSONObject instances.
+    private void loadCustomizations() {
         fileRW = new JSONFileRW(FILE, this);
-        jsonObject = fileRW.load();
-        if (jsonObject != null) {
+        allCustomizations = fileRW.load();
+        if (allCustomizations != null) {
             try {
-                tetrisCust = jsonObject.getJSONObject("tetris");
-                rhythmCust = jsonObject.getJSONObject("rhythm");
-                mazeCust = jsonObject.getJSONObject("maze");
+                tetrisCustomizations = allCustomizations.getJSONObject("tetris");
+                rhythmCustomizations = allCustomizations.getJSONObject("rhythm");
+                mazeCustomizations = allCustomizations.getJSONObject("maze");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
 
-        // Tetris Game Spinners
-//        Spinner tetrisControlSpinner = (Spinner) findViewById(R.id.tetris_control_spinner);
-//        ArrayAdapter<CharSequence> tetrisControlAdapter = ArrayAdapter.createFromResource(this,
-//                R.array.tetrisControls, android.R.layout.simple_spinner_item);
-//        tetrisControlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        tetrisControlSpinner.setAdapter(tetrisControlAdapter);
-//        tetrisControlSpinner.setOnItemSelectedListener(this);
-
-        Spinner tetrisColourSpinner = (Spinner) findViewById(R.id.tetris_colour_spinner);
+    private void initializeViews() {
+        // Initializes the spinner for the colour of Tetris game
+        Spinner tetrisColourSpinner =  findViewById(R.id.tetris_colour_spinner);
         ArrayAdapter<CharSequence> tetrisColourAdapter = ArrayAdapter.createFromResource(this,
                 R.array.tetrisColours, android.R.layout.simple_spinner_item);
         tetrisColourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tetrisColourSpinner.setAdapter(tetrisColourAdapter);
         tetrisColourSpinner.setOnItemSelectedListener(this);
 
-        // Rhythm Game Spinners
+        // Initializes the spinners for the shapes of Rhythm game
         int[] shapeSpinnersId = {R.id.shape1_spinner, R.id.shape2_spinner, R.id.shape3_spinner,
                 R.id.shape4_spinner};
 
         for (int i = 0; i < 4; i++) {
-            Spinner shapeSpinner = (Spinner) findViewById(shapeSpinnersId[i]);
+            Spinner shapeSpinner =  findViewById(shapeSpinnersId[i]);
             ArrayAdapter<CharSequence> shapeAdapter = ArrayAdapter.createFromResource(this,
                     R.array.shapes, android.R.layout.simple_spinner_item);
             shapeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -76,8 +78,8 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
             shapeSpinner.setOnItemSelectedListener(this);
         }
 
-        // Maze Game Spinner
-        Spinner mazeControlSpinner = (Spinner) findViewById(R.id.maze_control_spinner);
+        // Initializes the spinner for the controls of Maze game
+        Spinner mazeControlSpinner =  findViewById(R.id.maze_control_spinner);
         ArrayAdapter<CharSequence> mazeControlAdapter = ArrayAdapter.createFromResource(this,
                 R.array.mazeControls, android.R.layout.simple_spinner_item);
         mazeControlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,24 +91,15 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save();
+                fileRW.write(allCustomizations.toString());
                 Toast.makeText(CustomizeActivity.this, "Applied", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     /**
-     * Save the customization info into a Json object.
-     */
-    private void save() {
-        String jsonText = jsonObject.toString();
-        fileRW.write(jsonText);
-        System.out.println(jsonText);
-    }
-
-    /**
-     * Let the customization into the selection state.
-     *
+     * Saves the selection into the corresponding JSONObjects
+     * https://developer.android.com/reference/android/widget/AdapterView.OnItemSelectedListener
      * @param adapterView The AdapterView where the selection happens.
      * @param i           The position of the view in the adapter.
      * @param l           The row id of the item that is selected.
@@ -116,26 +109,23 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             switch (adapterView.getId()) {
-//                case R.id.tetris_control_spinner:
-//                    tetrisCust.put("controls", adapterView.getSelectedItem());
-//                    break;
                 case R.id.tetris_colour_spinner:
-                    tetrisCust.put("colours", adapterView.getSelectedItem());
+                    tetrisCustomizations.put("colours", adapterView.getSelectedItem());
                     break;
                 case R.id.shape1_spinner:
-                    rhythmCust.put("shape1", adapterView.getSelectedItem());
+                    rhythmCustomizations.put("shape1", adapterView.getSelectedItem());
                     break;
                 case R.id.shape2_spinner:
-                    rhythmCust.put("shape2", adapterView.getSelectedItem());
+                    rhythmCustomizations.put("shape2", adapterView.getSelectedItem());
                     break;
                 case R.id.shape3_spinner:
-                    rhythmCust.put("shape3", adapterView.getSelectedItem());
+                    rhythmCustomizations.put("shape3", adapterView.getSelectedItem());
                     break;
                 case R.id.shape4_spinner:
-                    rhythmCust.put("shape4", adapterView.getSelectedItem());
+                    rhythmCustomizations.put("shape4", adapterView.getSelectedItem());
                     break;
                 case R.id.maze_control_spinner:
-                    mazeCust.put("controls", adapterView.getSelectedItem());
+                    mazeCustomizations.put("controls", adapterView.getSelectedItem());
                     break;
                 default:
                     break;

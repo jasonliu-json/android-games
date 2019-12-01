@@ -30,6 +30,9 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     private RhythmGameController controller;
     private RhythmGamePresenter presenter;
 
+    /**
+     * Constructs a Rhythm Game Driver and initializes to start of game.
+     */
     public RhythmGameDriver() {
         this.totalPoints = 0;
         this.levelIndex = 0;
@@ -129,7 +132,7 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     }
 
     /**
-     * Returns if the game is over.
+     * Returns whether the game is over.
      * @return true if and only if on the last level of the game and the level is over.
      */
     @Override

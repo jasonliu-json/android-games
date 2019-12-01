@@ -13,7 +13,7 @@ public class ColumnMessage {
         this.message = msg;
     }
 
-    public String getMessage() {
+    String getMessage() {
         return message;
     }
 

@@ -29,6 +29,7 @@ public class GameActivity extends AppCompatActivity {
     GameView gameView;
     private GameDriver gameDriver;
 
+    private Timer timer = new Timer();
     private TimerTask checkIsGameOver = new TimerTask() {
         @Override
         public void run() {
@@ -38,18 +39,16 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    // File reading and writing
+    // Configurations and customizations for the games.
     private static final String CUSTOMIZATIONS_FILE = "Customize.json";
     private static final String COLOUR_PALETTES_FILE = "ColourPalettes.json";
-
     private JSONObject tetrisConfigurations;
     private JSONObject rhythmConfigurations;
     private JSONObject mazeConfigurations;
     private JSONObject allConfigurations;
-
     private Map<String, Integer> colourScheme;
 
-    private Timer timer = new Timer();
+
 
     /**
      * Initializes the game on create.
@@ -158,18 +157,18 @@ public class GameActivity extends AppCompatActivity {
      */
     private void setDriverConfigurations(String gameType) {
         switch (gameType) {
-            case "gameWrapper":
+            case "GameWrapper":
                 setRhythmConfigurations(gameType);
                 gameDriver.setConfigurations(allConfigurations);
                 break;
-            case "tetrisGame":
+            case "TetrisGame":
                 gameDriver.setConfigurations(tetrisConfigurations);
                 break;
-            case "rhythmGame":
+            case "RhythmGame":
                 setRhythmConfigurations(gameType);
                 gameDriver.setConfigurations(rhythmConfigurations);
                 break;
-            case "mazeGame":
+            case "MazeGame":
                 gameDriver.setConfigurations(mazeConfigurations);
                 break;
             default:
@@ -193,7 +192,7 @@ public class GameActivity extends AppCompatActivity {
 
         // Determines presenter and level configurations based on game type selected
         switch (gameType) {
-            case "gameWrapper":
+            case "GameWrapper":
                 String wrapperConfig =
                         "      \"presenter\": \"MISSED\",\n" +
                                 "      \"levels\": [\n" +
@@ -207,7 +206,7 @@ public class GameActivity extends AppCompatActivity {
                                 "  }";
                 jsonString.append(wrapperConfig);
                 break;
-            case "rhythmGame":
+            case "RhythmGame":
                 String individualConfig =
                         "      \"presenter\": \"STATS\",\n" +
                                 "      \"levels\": [\n" +

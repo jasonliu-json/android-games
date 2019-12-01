@@ -18,17 +18,18 @@ import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 public class GameWrapperDriver extends GameDriver{
     private GameDriver gameDriver;
 
-    private Paint textPaint = new Paint();
-    private boolean gameIsOver;
     private int points;
+    private Paint pointsPaint = new Paint();
     private int gamesPlayed;
+
+    private boolean gameIsOver; // whether the entire game is over
 
     public GameWrapperDriver() {
         points = 0;
         gameIsOver = false;
         gamesPlayed = 0;
-        textPaint.setColor(Color.rgb(255, 141, 54));
-        textPaint.setTextSize(60);
+        pointsPaint.setColor(Color.rgb(255, 141, 54));
+        pointsPaint.setTextSize(60);
     }
 
     /**
@@ -67,7 +68,7 @@ public class GameWrapperDriver extends GameDriver{
     public void draw(Canvas canvas) {
         int currentGamePoints = gameDriver.getPoints();
         gameDriver.draw(canvas);
-        canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, textPaint);
+        canvas.drawText(String.valueOf(points + currentGamePoints), 10, 80, pointsPaint);
     }
 
     /**
@@ -137,6 +138,7 @@ public class GameWrapperDriver extends GameDriver{
         return gameIsOver;
     }
 
+    @Override
     public int getPoints() {
         return points;
     }

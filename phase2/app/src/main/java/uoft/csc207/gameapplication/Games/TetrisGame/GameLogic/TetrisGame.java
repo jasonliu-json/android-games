@@ -147,7 +147,7 @@ public class TetrisGame {
             moveDown();
             count = 0;
             if (linesCleared >= 10) {
-                threshold = Math.max(5, threshold - 5);
+                threshold = Math.max(5, threshold - 10);
                 linesCleared = linesCleared % 10;
             }
         } else {
