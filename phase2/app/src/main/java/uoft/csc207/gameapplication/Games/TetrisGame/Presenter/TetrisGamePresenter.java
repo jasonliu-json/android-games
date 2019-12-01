@@ -20,7 +20,7 @@ public class TetrisGamePresenter {
     private Map<String, Integer> colorScheme;
 
     /**
-     * A map for the colors held in the color scheme to their corresponding Tetris blocks.
+     * A map between a color held in colorScheme to its respective Tetris piece.
      */
     private Map<Character, String> pieceToColor;
 
