@@ -14,14 +14,13 @@ import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.Column.Column;
 public class SongNoteGenerator extends NoteGenerator {
 
 //    ArrayList<Long> noteIntervals;
-    ArrayList<Integer> noteColumns;
-    private List<Long> noteIntervals;
+    private List<Integer> noteColumns;
+    private List<Double> noteIntervals;
 
     private NoteIntervalsReader intervalsReader;
 
     private int intervalIndex = 0;
     private int lastNoteTime;
-    private String song;
     private boolean isRunning;
 
     private boolean isOver = false;
