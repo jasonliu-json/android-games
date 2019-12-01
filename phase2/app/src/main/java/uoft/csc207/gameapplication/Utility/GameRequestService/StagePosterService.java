@@ -13,9 +13,19 @@ import org.json.JSONObject;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 
+/**
+ * Connect to the rest API, and post the stage of the game.
+ */
 public class StagePosterService extends RestApiConnector {
     public static final String STAGEPOSTER = "api/tokens/stage/";
 
+    /**
+     * Called when posting the stage.
+     *
+     * @param callback Return the state of the application.
+     * @param token    The request token for authentication.
+     * @param stage    The stage to be displayed.
+     */
     public void postStage(Token token, String stage, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -28,7 +38,8 @@ public class StagePosterService extends RestApiConnector {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess();
-                }}, new Response.ErrorListener() {
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     callback.onFailure();

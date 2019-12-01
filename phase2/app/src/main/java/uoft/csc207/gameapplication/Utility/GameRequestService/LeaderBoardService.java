@@ -15,11 +15,20 @@ import java.io.IOException;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
 import uoft.csc207.gameapplication.LeaderboardActivity;
 
+/**
+ * Connect to rest API, and get leader board.
+ */
 // specifically made for global scores
-public class LeaderBoardService extends RestApiConnector{
+public class LeaderBoardService extends RestApiConnector {
     public static final String LEADERBOARDS = "api/leaderboard/testing/";
     private LeaderBoard leaderBoard = new LeaderBoard();
 
+    /**
+     * Get the global leader board from rest API.
+     *
+     * @param callback Return the state of the application.
+     * @param game     The game passed to the leader board.
+     */
     public void getGlobalLeaderboards(String game, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -49,6 +58,9 @@ public class LeaderBoardService extends RestApiConnector{
         }
     }
 
+    /**
+     * @return The leader board instance requested.
+     */
     public LeaderBoard getLeaderBoard() {
         return leaderBoard;
     }
