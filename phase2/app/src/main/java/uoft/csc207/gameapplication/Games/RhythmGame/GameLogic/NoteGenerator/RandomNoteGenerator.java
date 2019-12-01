@@ -14,6 +14,11 @@ public class RandomNoteGenerator extends NoteGenerator {
     private long lastNoteTime;
     private boolean isRunning;
 
+    /**
+     * Constructs a note generator that generates notes in columns, randomly
+     * @param columns the columns of a level
+     * @param pointsSystem the points system of a level
+     */
     public RandomNoteGenerator(Column[] columns, RhythmGamePointsSystem pointsSystem) {
         super(columns);
         setDifficulty(Difficulty.EASY);
