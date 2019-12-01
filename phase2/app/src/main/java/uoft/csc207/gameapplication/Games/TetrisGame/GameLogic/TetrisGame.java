@@ -59,8 +59,8 @@ public class TetrisGame {
      *
      * @return A representation of the Tetris board.
      */
-    public Board getBoard() {
-        return board;
+    public char[][] getGrid() {
+        return board.getGrid();
     }
 
     /**

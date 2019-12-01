@@ -2,21 +2,19 @@ package uoft.csc207.gameapplication.Games.TetrisGame.Controller;
 
 import android.util.DisplayMetrics;
 
-import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameMediator;
+import uoft.csc207.gameapplication.Games.TetrisGame.Request;
 
 import static java.lang.Thread.sleep;
 
 public class TetrisGameController {
 
-    private TetrisGameMediator mediator;
     private DisplayMetrics metrics;
     private int xEnd;
     private int yEnd;
     private int xStart;
     private int yStart;
 
-    public TetrisGameController(TetrisGameMediator mediator, DisplayMetrics metrics) {
-        this.mediator = mediator;
+    public TetrisGameController(DisplayMetrics metrics) {
         this.metrics = metrics;
     }
 
@@ -27,7 +25,7 @@ public class TetrisGameController {
         yStart = (int) y;
     }
 
-    public void touchMove(float x, float y) {
+    public Request touchMove(float x, float y) {
         try {
             sleep(40);
         } catch (Exception e) {
@@ -35,25 +33,29 @@ public class TetrisGameController {
         } finally {
             int xDistance = (int) x - xEnd;
             int yDistance = (int) y - yEnd;
+            xEnd = (int) x;
+            yEnd = (int) y;
             if (xDistance > 20) {
-                mediator.moveRight();
+                return Request.MOVE_RIGHT;
             } else if (xDistance < -20) {
-                mediator.moveLeft();
+                return Request.MOVE_LEFT;
             } else if (yDistance > 20) {
-                mediator.moveDown();
+                return Request.MOVE_DOWN;
             }
-            this.xEnd = (int) x;
-            this.yEnd = (int) y;
+            return null;
         }
     }
 
-    public void touchUp() {
+    public Request touchUp() {
         if (Math.abs(xEnd - xStart) < 10 && Math.abs(yEnd - yStart) < 10) {
-            if (xStart < metrics.widthPixels / 2) {
-                mediator.rotateCounterClockwise();
+            if (yStart > metrics.heightPixels * 0.85) {
+                return Request.DROP_DOWN;
+            } else if (xStart < metrics.widthPixels * 0.5) {
+                return Request.ROTATE_CLOCKWISE;
             } else {
-                mediator.rotateClockwise();
+                return Request.ROTATE_COUNTERCLOCKWISE;
             }
         }
+        return null;
     }
 }

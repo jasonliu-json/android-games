@@ -45,7 +45,7 @@ public class Board {
      * @return The 2D array representation of this board.
      */
     public char[][] getGrid() {
-        return grid;
+        return grid.clone();
     }
 
     /**

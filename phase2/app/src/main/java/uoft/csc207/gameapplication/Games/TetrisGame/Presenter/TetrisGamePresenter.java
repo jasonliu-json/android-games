@@ -9,19 +9,14 @@ import android.graphics.Rect;
 import java.util.HashMap;
 import java.util.Map;
 
-import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.Board;
-import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameMediator;
-
-
 public class TetrisGamePresenter {
 
-    private TetrisGameMediator mediator;
     private String colorScheme;
     private Map<String, Map<Character, Integer>> colorSchemes;
 
 
-    public TetrisGamePresenter(TetrisGameMediator mediator, String config) {
-        this.mediator = mediator;
+    public TetrisGamePresenter(String config) {
+        System.out.println(config);
         colorScheme = config;
         colorSchemes = new HashMap<>();
         Map<Character, Integer> defaultScheme = new HashMap<>();
@@ -41,7 +36,7 @@ public class TetrisGamePresenter {
         aquaScheme.put('S', Color.rgb(130, 215, 255));
         aquaScheme.put('Z', Color.rgb(130, 215, 255));
         aquaScheme.put('T', Color.rgb(130, 215, 255));
-        colorSchemes.put("default", aquaScheme);
+        colorSchemes.put("aqua", aquaScheme);
         Map<Character, Integer> emberScheme = new HashMap<>();
         emberScheme.put('I', Color.rgb(255, 100, 100));
         emberScheme.put('J', Color.rgb(255, 100, 100));
@@ -50,21 +45,21 @@ public class TetrisGamePresenter {
         emberScheme.put('S', Color.rgb(255, 100, 100));
         emberScheme.put('Z', Color.rgb(255, 100, 100));
         emberScheme.put('T', Color.rgb(255, 100, 100));
-        colorSchemes.put("default", emberScheme);
+        colorSchemes.put("ember", emberScheme);
     }
 
-    public void draw(Canvas canvas, Bitmap bitmap) {
+    public void draw(Canvas canvas, Bitmap bitmap, char[][] grid) {
         Canvas newCanvas = new Canvas(bitmap);
         newCanvas.save();
         newCanvas.drawColor(Color.WHITE);
-        drawGrid(newCanvas, mediator.getBoard());
-        drawBlocks(newCanvas, mediator.getBoard());
+        drawGrid(newCanvas, grid);
+        drawBlocks(newCanvas, grid);
         canvas.drawBitmap(bitmap, 88, 88, null);
         newCanvas.restore();
     }
 
-    private void drawGrid(Canvas canvas, Board board) {
-        float length = canvas.getWidth() / (board.getWidth() + 2);
+    private void drawGrid(Canvas canvas, char[][] grid) {
+        float length = canvas.getWidth() / (grid[0].length + 2);
         float x = 0;
         float y = 0;
         Paint paint = new Paint();
@@ -81,13 +76,13 @@ public class TetrisGamePresenter {
         }
     }
 
-    private void drawBlocks(Canvas canvas, Board board) {
+    private void drawBlocks(Canvas canvas, char[][] grid) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         int length = canvas.getWidth() / 12;
-        for (int i = 0; i < board.getHeight(); i++) {
-            for (int k = 0; k < board.getWidth(); k++) {
-                char block = board.getGrid()[i][k];
+        for (int i = 0; i < grid.length; i++) {
+            for (int k = 0; k < grid[0].length; k++) {
+                char block = grid[i][k];
                 int x = k * length;
                 int y = i * length;
                 if (block != '.') {
