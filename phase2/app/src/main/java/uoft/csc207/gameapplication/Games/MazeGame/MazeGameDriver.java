@@ -13,6 +13,7 @@ import uoft.csc207.gameapplication.Games.MazeGame.Controller.MazeController;
 import uoft.csc207.gameapplication.Games.MazeGame.Controller.SwipeController;
 import uoft.csc207.gameapplication.Games.MazeGame.Controller.TapController;
 import uoft.csc207.gameapplication.Games.MazeGame.GameLogic.MazeGame;
+import uoft.csc207.gameapplication.Games.MazeGame.Presenter.MazePresenter;
 
 import static java.lang.Thread.sleep;
 
@@ -21,6 +22,7 @@ public class MazeGameDriver extends GameDriver {
 
     private MazeGame mazeGame;
     private MazeController mazeController;
+    private MazePresenter mazePresenter = new MazePresenter();
     /**
      * cursors initial x and y position when pressed down on the screen
      */
@@ -42,8 +44,6 @@ public class MazeGameDriver extends GameDriver {
      * @param y coordinate of press
      */
     public void touchStart(float x, float y) {
-//        xInit = (int) x;
-//        yInit = (int) y;
         mazeController.touchStart(x, y);
     }
 
@@ -53,32 +53,6 @@ public class MazeGameDriver extends GameDriver {
      * @param y where the y position of the cursor when moved
      */
     public void touchMove(float x, float y) {
-//        try {
-//            sleep(100);
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        finally {
-//            int xDistance = (int) x - xInit;
-//            int yDistance = (int) y - yInit;
-//            if (Math.abs(xDistance) > Math.abs(yDistance)) {
-//                if (xDistance > 0) {
-//                    mazeGame.moveRight();
-//                }
-//                else {
-//                    mazeGame.moveLeft();
-//                }
-//            }
-//            else {
-//                if (yDistance > 0) {
-//                    mazeGame.moveDown();
-//                }
-//                else {
-//                    mazeGame.moveUp();
-//                }
-//            }
-//        }
         mazeController.touchMove(x, y);
     }
 
@@ -105,6 +79,11 @@ public class MazeGameDriver extends GameDriver {
         }
     }
 
+    @Override
+    public void timeUpdate() {
+        mazeGame.update();
+    }
+
     /**
      * draws onto the canvas
      *
@@ -115,7 +94,8 @@ public class MazeGameDriver extends GameDriver {
         newCanvas.drawColor(Color.WHITE);
         newCanvas.scale(1.01f, 1.01f);
 
-        mazeGame.draw(newCanvas, screenWidth, screenHeight);
+        Character[][] mazeArrayRepresentation = mazeGame.getMaze();
+        mazePresenter.draw(newCanvas, mazeArrayRepresentation, screenWidth, screenHeight);
 
         canvas.drawBitmap(bitmap, 0, 0, null);
 
@@ -152,6 +132,8 @@ public class MazeGameDriver extends GameDriver {
 
     @Override
     public void setConfigurations(JSONObject configurations) {
+        super.setConfigurations(configurations);
+
         try {
             controllerType = configurations.getString("controls");
         } catch (JSONException e) {
