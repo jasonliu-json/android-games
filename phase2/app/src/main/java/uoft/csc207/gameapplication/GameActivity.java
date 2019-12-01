@@ -12,6 +12,7 @@ import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
 import uoft.csc207.gameapplication.Games.RhythmGame.RhythmGameDriver;
 import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
 import uoft.csc207.gameapplication.Utility.JSONFileRW;
+import uoft.csc207.gameapplication.Utility.TryGetJSON;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,27 +69,22 @@ public class GameActivity extends AppCompatActivity {
         switch (gameType) {
             case "gameWrapper":
                 gameDriver = new GameWrapperDriver();
-                gameDriver.setConfigurations(allConfigurations);
                 gameView.setStage("1");
                 break;
             case "tetrisGame":
                 gameDriver = new TetrisGameDriver();
-                gameDriver.setConfigurations(tetrisConfigurations);
                 gameView.setStage("2");
                 break;
             case "rhythmGame":
                 gameDriver = new RhythmGameDriver();
-                gameDriver.setConfigurations(rhythmConfigurations);
                 gameView.setStage("3");
                 break;
             case "mazeGame":
                 gameDriver = new MazeGameDriver(this);
-                gameDriver.setConfigurations(mazeConfigurations);
                 gameView.setStage("4");
                 break;
             default:
                 gameDriver = new GameWrapperDriver();
-                gameDriver.setConfigurations(tetrisConfigurations);
                 break;
         }
 
@@ -97,6 +93,7 @@ public class GameActivity extends AppCompatActivity {
         gameDriver.setMetrics(metrics);
         gameDriver.setContext(this);
         gameDriver.setColourScheme(colourScheme);
+        setDriverConfigurations(gameType);
         gameDriver.init();
 
         gameView.setDriver(gameDriver);
@@ -128,7 +125,7 @@ public class GameActivity extends AppCompatActivity {
         JSONObject palettes = colourFileRW.load();
         if (palettes != null) {
             try {
-                // Gets the theme and parses it into a map.
+                // Gets the themme and parses it into a the colour scheme map.
                 String theme = tetrisConfigurations.getString("colours");
                 JSONObject colourPalette = palettes.getJSONObject(theme);
                 Map<String, Integer> colourScheme = new HashMap<>();
@@ -147,150 +144,111 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void setDriverConfigurations(String gameType) {
+        switch (gameType) {
+            case "gameWrapper":
+                setRhythmConfigurations(gameType);
+                gameDriver.setConfigurations(allConfigurations);
+                break;
+            case "tetrisGame":
+                gameDriver.setConfigurations(tetrisConfigurations);
+                break;
+            case "rhythmGame":
+                setRhythmConfigurations(gameType);
+                gameDriver.setConfigurations(rhythmConfigurations);
+                break;
+            case "mazeGame":
+                gameDriver.setConfigurations(mazeConfigurations);
+                break;
+            default:
+                gameDriver.setConfigurations(new JSONObject());
+                break;
+        }
+    }
 
-//    private String getRhythmSharedConfig() {
-//        StringBuilder configs = new StringBuilder();
-//        try {
-//            configs.append(tetrisConfigurations.getString("colours"));
-//            configs.append(";");
-//            for (int i = 0; i < 4; i++)
-//                configs.append(rhythmConfigurations.getString(String.format(Locale.CANADA, "shape%d", i+1)));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return configs.toString();
-//    }
-//
-//    private String getTetrisConfig() {
-//        StringBuilder configs = new StringBuilder("");
-//        try {
-//            configs.append(tetrisConfigurations.getString("colours").toLowerCase());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return configs.toString();
-//    }
+    private void setRhythmConfigurations(String gameType) {
+        StringBuilder jsonString = new StringBuilder("{\n");
+        // Copies the shape configurations
+        for (int i = 1; i <= 4; i++) {
+            jsonString.append(String.format(Locale.CANADA,"      \"shape%d\" : \"", i));
+            jsonString.append(TryGetJSON.tryGetString(rhythmConfigurations, String.format(Locale.CANADA,
+                    "shape%d", i), "O"));
+            jsonString.append("\",\n");
+        }
 
-//    /**
-//     * Sets the state of the game, based on previous values.
-//     */
-//    private void setState() {
-//        int gameState;
-//        int savedScore;
-//        try {
-//            gameState = Integer.valueOf(userdata.getString("savedStage"));
-//            savedScore = Integer.valueOf(userdata.getString(("savedPoints")));
-////            gameDriver.setGameState(savedScore, gameState);
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
+        // Determines presenter and level configurations based on game type selected
+        switch (gameType) {
+            case "gameWrapper":
+                String wrapperConfig =
+                        "      \"presenter\": \"MISSED\",\n" +
+                                "      \"levels\": [\n" +
+                                "        {\n" +
+                                "          \"numColumns\": 4,\n" +
+                                "          \"height\": 100,\n" +
+                                "          \"song\": \"Mii Channel\",\n" +
+                                "          \"mode\": \"RANDOM\" \n" +
+                                "        }\n" +
+                                "      ]\n" +
+                                "  }";
+                jsonString.append(wrapperConfig);
+                break;
+            case "rhythmGame":
+                String individualConfig =
+                        "      \"presenter\": \"STATS\",\n" +
+                                "      \"levels\": [\n" +
+                                "        {\n" +
+                                "          \"numColumns\": 3,\n" +
+                                "          \"height\": 100,\n" +
+                                "          \"song\": \"Mii Channel\",\n" +
+                                "          \"mode\": \"SONG\"\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"numColumns\": 4,\n" +
+                                "          \"height\": 100,\n" +
+                                "          \"song\": \"Old Town Road\",\n" +
+                                "          \"mode\": \"SONG\"\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"numColumns\": 4,\n" +
+                                "          \"height\": 80,\n" +
+                                "          \"song\": \"Mii Channel\",\n" +
+                                "          \"mode\": \"SONG\"\n" +
+                                "        }\n" +
+                                "      ]\n" +
+                                "  }";
+                jsonString.append(individualConfig);
+                break;
+            default:
+                break;
+        }
+        try {
+            rhythmConfigurations = new JSONObject(jsonString.toString());
+            allConfigurations.put("rhythm", rhythmConfigurations);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
-     * Resumes the game.
+     * Resumes the game and starts threads.
      */
     @Override
     protected void onResume() {
         super.onResume();
         gameView.start();
         timer.scheduleAtFixedRate(checkIsGameOver, 0, 100);
-//        gameSessionStart = System.currentTimeMillis();
     }
 
     /**
-     * Pauses the game and writes changes.
+     * Ends thread-related processes.
      */
     @Override
     protected void onPause() {
         super.onPause();
-//        System.out.println("onPause()");
         gameView.stop();
 
         timer.cancel();
         timer.purge();
     }
-
-//    /**
-//     * Updates score.
-//     */
-//    private void updateScores() {
-//        Comparator<String> byValue = new Comparator<String>() {
-//            @Override
-//            public int compare(String o1, String o2) {
-//                return Integer.parseInt(o2) - Integer.parseInt(o1);
-//            }
-//        };
-//
-//        try {
-//            userdata.put("savedStage", "0");
-//            userdata.put("savedPoints", "0");
-//            JSONArray userScore = userdata.getJSONArray("topPlays");
-//            String[] scores = new String[10];
-//            for (int i = 0; i < userScore.length(); i ++) {
-//                scores[i] = userScore.getJSONObject(i).getString(String.format("top%d", i));
-//            }
-//            if (Integer.valueOf(scores[9]) < gameDriver.getPoints()) {
-////                System.out.println(gameDriver.getPoints());
-//                scores[9] = String.valueOf(gameDriver.getPoints());
-//            }
-//            Arrays.sort(scores, byValue);
-//            for (int i = 0; i < userScore.length(); i++) {
-//                JSONObject scorePosition = userScore.getJSONObject(i);
-//                scorePosition.put(String.format("top%d", i), scores[i]);
-//            }
-//            int points = Integer.valueOf(userdata.getString("totalPoints"));
-//            points += gameDriver.getPoints();
-//            userdata.put("totalPoints", String.valueOf(points));
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
-
-//    /**
-//     * Updates time.
-//     */
-//    private void updateTimePlayed() {
-//        try {
-//            int timePlayed = Integer.valueOf(userdata.getString("timePlayed"));
-//            timePlayed += ((System.currentTimeMillis() - gameSessionStart)/1000);
-//            userdata.put("timePlayed", String.valueOf(timePlayed));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    /**
-//     * Stops the game and saves changes.
-//     */
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-////        saveState();
-////        customizeFileRW.write(database.toString());
-//        // hardcoded manual stop
-//    }
-//
-//    /**
-//     * Saves the state and the points.
-//     */
-//    private void saveState() {
-//        try {
-//            if (gameDriver.getGameIsOver()) {
-//                userdata.put("savedStage", "0");
-//                userdata.put("savedPoints", "0");
-//            }
-//            else {
-////                userdata.put("savedStage", String.valueOf(gameDriver.getGameState()));
-////                userdata.put("savedPoints", String.valueOf(gameDriver.getPoints()));
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
 }

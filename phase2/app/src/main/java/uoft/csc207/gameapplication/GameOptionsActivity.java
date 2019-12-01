@@ -6,24 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.Toast;
 
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
-import uoft.csc207.gameapplication.Utility.JSONFileRW;
 
 public class GameOptionsActivity extends AppCompatActivity {
-
-    private Button gameWrapperButton;
-    private Button tetrisGameButton;
-    private Button rhythmGameButton;
-    private Button mazeGameButton;
-
-
     GetUserService getUserService;
 
     private int currentStage;
@@ -56,15 +45,14 @@ public class GameOptionsActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        gameWrapperButton = (Button) findViewById(R.id.game_wrapper);
-        tetrisGameButton = (Button) findViewById(R.id.tetris_game);
-        rhythmGameButton = (Button) findViewById(R.id.rhythm_game);
-        mazeGameButton = (Button) findViewById(R.id.maze_game);
+        Button gameWrapperButton = findViewById(R.id.game_wrapper);
+        Button tetrisGameButton = findViewById(R.id.tetris_game);
+        Button rhythmGameButton = findViewById(R.id.rhythm_game);
+        Button mazeGameButton = findViewById(R.id.maze_game);
 
         gameWrapperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                configureRhythmGame(1);
                 Intent gameWrapperActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                 gameWrapperActivity.putExtra("gameType", "gameWrapper");
                 startActivity(gameWrapperActivity);
@@ -81,6 +69,9 @@ public class GameOptionsActivity extends AppCompatActivity {
                     tetrisGameActivity.putExtra("gameType", "tetrisGame");
                     startActivity(tetrisGameActivity);
                     finish();
+                } else {
+                    showToast("This level is not yet unlocked. " +
+                            "You must first play all previoius games.");
                 }
             }
 
@@ -90,11 +81,13 @@ public class GameOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentStage > 1) {
-                    configureRhythmGame(3);
                     Intent rhythmGameActivity = new Intent(GameOptionsActivity.this, GameActivity.class);
                     rhythmGameActivity.putExtra("gameType", "rhythmGame");
                     startActivity(rhythmGameActivity);
                     finish();
+                } else {
+                    showToast("This level is not yet unlocked. " +
+                            "You must first play all previoius games.");
                 }
             }
         });
@@ -107,53 +100,15 @@ public class GameOptionsActivity extends AppCompatActivity {
                     mazeGameActivity.putExtra("gameType", "mazeGame");
                     startActivity(mazeGameActivity);
                     finish();
+                } else {
+                    showToast("This level is not yet unlocked. " +
+                            "You must first play all previoius games.");
                 }
             }
         });
     }
 
-    private void configureRhythmGame(int code) {
-        JSONFileRW fileRW = new JSONFileRW("Customize.json", this);
-        System.out.println("configureRhythmGame: " + code);
-        try {
-            JSONObject allCust = fileRW.load();
-            JSONObject rhythmCust = allCust.getJSONObject("rhythm");
-            JSONArray levelsArray = new JSONArray();
-            if (code == 1) {
-                rhythmCust.put("presenterMode", "MISSED");
-                levelsArray = new JSONArray("[{\"numColumns\": 4,\n" +
-                        "          \"height\": 100,\n" +
-                        "          \"song\": \"Mii Channel\",\n" +
-                        "          \"mode\": \"RANDOM\"}]");
-            } else if (code == 3) {
-                rhythmCust.put("presenterMode", "STATS");
-                levelsArray = new JSONArray("[        {\n" +
-                        "          \"numColumns\": 3,\n" +
-                        "          \"height\": 100,\n" +
-                        "          \"song\": \"Mii Channel\",\n" +
-                        "          \"mode\": \"SONG\"\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "          \"numColumns\": 4,\n" +
-                        "          \"height\": 100,\n" +
-                        "          \"song\": \"Old Town Road\",\n" +
-                        "          \"mode\": \"SONG\"\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "          \"numColumns\": 4,\n" +
-                        "          \"height\": 80,\n" +
-                        "          \"song\": \"Mii Channel\",\n" +
-                        "          \"mode\": \"SONG\"\n" +
-                        "        }]");
-            }
-            rhythmCust.put("levels", levelsArray);
-//            allCust.put("rhythm", rhythmCust);
-            fileRW.write(allCust.toString());
-            System.out.println("game options 1: " + allCust.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void showToast(String text) {
+        Toast.makeText(GameOptionsActivity.this, text, Toast.LENGTH_SHORT).show();
     }
-
 }

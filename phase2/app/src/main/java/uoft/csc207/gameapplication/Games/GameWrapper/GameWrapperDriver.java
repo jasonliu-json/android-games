@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
@@ -75,11 +76,7 @@ public class GameWrapperDriver extends GameDriver{
     @Override
     public void init() {
         gameDriver = new TetrisGameDriver();
-        try {
-            gameDriver.setConfigurations(getConfigurations().getJSONObject("tetris"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        trySetGameDriveConfiguration("tetris");
 
         gameDriver.setMetrics(getMetrics());
         gameDriver.setContext(getContext());
@@ -105,18 +102,14 @@ public class GameWrapperDriver extends GameDriver{
         if (gameDriver.getGameIsOver()) {
             gamesPlayed++;
             points += gameDriver.getPoints();
-            try {
-                if (gamesPlayed == 1) {
-                    gameDriver = new RhythmGameDriver();
-                    gameDriver.setConfigurations(getConfigurations().getJSONObject("rhythm"));
-                } else if (gamesPlayed == 2) {
-                    gameDriver = new MazeGameDriver(getContext());
-                    gameDriver.setConfigurations(getConfigurations().getJSONObject("maze"));
-                } else {
-                    gameIsOver = true;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (gamesPlayed == 1) {
+                gameDriver = new RhythmGameDriver();
+                trySetGameDriveConfiguration("rhythm");
+            } else if (gamesPlayed == 2) {
+                gameDriver = new MazeGameDriver(getContext());
+                trySetGameDriveConfiguration("maze");
+            } else {
+                gameIsOver = true;
             }
 
             gameDriver.setMetrics(getMetrics());
@@ -146,5 +139,13 @@ public class GameWrapperDriver extends GameDriver{
 
     public int getPoints() {
         return points;
+    }
+
+    private void trySetGameDriveConfiguration(String game) {
+        try {
+            gameDriver.setConfigurations(getConfigurations().getJSONObject(game));
+        } catch (JSONException e) {
+            gameDriver.setConfigurations(new JSONObject());
+        }
     }
 }

@@ -14,6 +14,7 @@ import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.RhythmGame.Controller.RhythmGameController;
 import uoft.csc207.gameapplication.Games.RhythmGame.GameLogic.RhythmGameLevel;
 import uoft.csc207.gameapplication.Games.RhythmGame.Presenter.RhythmGamePresenter;
+import uoft.csc207.gameapplication.Utility.TryGetJSON;
 
 /**
  * The driver for the entire Rhythm game.
@@ -43,7 +44,9 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         try {
             createLevels(getConfigurations().getJSONArray("levels"));
         } catch (JSONException e) {
-            e.printStackTrace();
+            this.levels = new RhythmGameLevel[1];
+            levels[0] = new RhythmGameLevel(4, 100,
+                    "Old Town Road", "SONG", getContext());
         }
 
         this.controller = new RhythmGameController(levels[levelIndex], getMetrics().widthPixels);
@@ -51,20 +54,11 @@ public class RhythmGameDriver extends GameDriver implements Observer {
         // Prepares the shapes for the presenter.
         char[] shapes = new char[4];
         for (int i = 1; i <= 4; i++) {
-            try {
-                shapes[i - 1] = getConfigurations().getString(String.format(Locale.CANADA,
-                        "shape%d", i)).charAt(0);
-            } catch (JSONException e) {
-                shapes[i - 1] = 'O';
-            }
+            shapes[i - 1] = TryGetJSON.tryGetString(getConfigurations(), String.format(Locale.CANADA,
+                    "shape%d", i), "O").charAt(0);
         }
 
-        String statDrawerMode;
-        try {
-            statDrawerMode = getConfigurations().getString("presenterMode");
-        } catch (JSONException e) {
-            statDrawerMode = "STATS";
-        }
+        String statDrawerMode = TryGetJSON.tryGetString(getConfigurations(), "presenter", "STATS");
 
         this.presenter = new RhythmGamePresenter(levels[levelIndex], getMetrics(), getContext(),
                 shapes, getColourScheme(), statDrawerMode);
@@ -156,19 +150,16 @@ public class RhythmGameDriver extends GameDriver implements Observer {
     private void createLevels(JSONArray levelsArray) {
         this.levels = new RhythmGameLevel[levelsArray.length()];
 
+        JSONObject jsonLevel;
+        int numColumns, gameHeight;
+        String song, mode;
         for (int i = 0; i < levelsArray.length(); i++) {
-            try {
-                JSONObject levelJSON = levelsArray.getJSONObject(i);
-                int numColumns = levelJSON.getInt("numColumns");
-                int gameHeight = levelJSON.getInt("height");
-                String song = levelJSON.getString("song");
-                String mode = levelJSON.getString("mode");
-                levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode, getContext());
-            } catch (JSONException e) {
-                levels[i] = new RhythmGameLevel(4, 100,
-                        "Old Town Road", "SONG", getContext());
-            }
-
+            jsonLevel = TryGetJSON.tryGetJSONObject(levelsArray, i, new JSONObject());
+            numColumns = TryGetJSON.tryGetInt(jsonLevel, "numColumns", 4);
+            gameHeight = TryGetJSON.tryGetInt(jsonLevel,"height", 100);
+            song = TryGetJSON.tryGetString(jsonLevel,"song", "Old Town Road");
+            mode = TryGetJSON.tryGetString(jsonLevel,"mode", "SONG");
+            levels[i] = new RhythmGameLevel(numColumns, gameHeight, song, mode, getContext());
             levels[i].addObserver(this);
         }
     }
