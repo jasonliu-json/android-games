@@ -261,6 +261,7 @@ public class RhythmGamePresenter {
         Map<String, Integer> songIds = new HashMap<>();
         songIds.put("Old Town Road", R.raw.old_town_road);
         songIds.put("Mii Channel", R.raw.mii_channel);
+        songIds.put("Handclap", R.raw.handclap);
 
         return Collections.unmodifiableMap(songIds);
     }
