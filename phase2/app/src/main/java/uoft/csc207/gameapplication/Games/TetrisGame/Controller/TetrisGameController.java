@@ -86,7 +86,7 @@ public class TetrisGameController {
             } else if (yDistance > 20) {
                 return Request.MOVE_DOWN;
             }
-            return null;
+            return Request.VOID;
         }
     }
 
@@ -106,6 +106,6 @@ public class TetrisGameController {
                 return Request.ROTATE_CLOCKWISE;
             }
         }
-        return null;
+        return Request.VOID;
     }
 }

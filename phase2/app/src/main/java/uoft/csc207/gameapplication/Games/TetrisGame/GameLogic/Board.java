@@ -44,26 +44,8 @@ public class Board {
      *
      * @return The 2D array representation of this board.
      */
-    public char[][] getGrid() {
+    char[][] getGrid() {
         return grid.clone();
-    }
-
-    /**
-     * Return the width of this board.
-     *
-     * @return The width of this board.
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Return the height of this board.
-     *
-     * @return The height of this board.
-     */
-    public int getHeight() {
-        return height;
     }
 
     /**
@@ -198,7 +180,8 @@ public class Board {
     private boolean canRotate(int direction) {
         for (int y = 0; y < currPiece.getSprites()[0].length; y++) {
             for (int x = 0; x < currPiece.getSprites()[0][0].length(); x++) {
-                if (currPiece.getSprites()[(currPiece.getRotation() + direction) % currPiece.getSprites().length][y].charAt(x) != '.') {
+                int newRot = (currPiece.getRotation() + direction) % currPiece.getSprites().length;
+                if (currPiece.getSprites()[newRot][y].charAt(x) != '.') {
                     try {
                         if (grid[currPiece.getY() + y][currPiece.getX() + x] != '.') {
                             return false;
