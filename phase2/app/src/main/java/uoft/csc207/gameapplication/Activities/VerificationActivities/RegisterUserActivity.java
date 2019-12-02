@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
-import uoft.csc207.gameapplication.Utility.GameRequestService.RegisterService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.UserVerificationServices.RegisterService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
 /**

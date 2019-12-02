@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Utility.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices;
 
 import android.content.Context;
 
@@ -7,6 +7,10 @@ public abstract class RestApiConnector {
 
     protected Context context;
 
+    /**
+     * Sets context so we can use volley
+     * @param context the game activity or the context we are using volley on
+     */
     public void setContext(Context context) {
         this.context = context;
     }

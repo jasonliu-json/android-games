@@ -11,7 +11,7 @@ import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
-import uoft.csc207.gameapplication.Utility.GameRequestService.LeaderBoardService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService.LeaderBoardService;
 
 /**
  * Set up the leader board and shows the top players' scores.

@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Utility.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,8 +13,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.RestApiConnector;
 
 /**
  * Connect to the rest API, and get user.
@@ -26,8 +28,8 @@ public class GetUserService extends RestApiConnector {
     /**
      * Get user from rest API.
      *
-     * @param callback Return the state of the application.
-     * @param token    The request token for authentication.
+     * @param callback used to return the state of the application.
+     * @param token    The token for authentication.
      */
     public void getUser(Token token, final CallBack callback) {
         try {

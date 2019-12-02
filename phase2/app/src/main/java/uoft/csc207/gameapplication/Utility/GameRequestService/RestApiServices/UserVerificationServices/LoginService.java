@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Utility.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.UserVerificationServices;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,15 +13,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.RestApiConnector;
 
 import static java.lang.Thread.sleep;
 
 // specifically for accessing user info
-public class LoginService extends RestApiConnector{
+public class LoginService extends RestApiConnector {
     public static final String LOGIN = "api/tokens/login";
     private static Token loginToken = new Token();
 
+    /**
+     * Posts the username and password in the body to get a valid authentication token from server
+     * @param username the users username
+     * @param password the users password
+     * @param callback used to return the state of the application.
+     */
     public void login(String username, String password, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);

@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Utility.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.RestApiConnector;
 
 /**
  * Connect to rest API, and get leader board.
@@ -23,8 +25,8 @@ public class LeaderBoardService extends RestApiConnector {
     /**
      * Get the global leader board from rest API.
      *
-     * @param callback Return the state of the application.
-     * @param game     The game passed to the leader board.
+     * @param callback used to return the state of the application.
+     * @param game     The specific leaderboard for the game.
      */
     public void getGlobalLeaderboards(String game, final CallBack callback) {
         try {

@@ -11,12 +11,12 @@ import java.util.TimerTask;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
-import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.UserVerificationServices.LoginService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
-import uoft.csc207.gameapplication.Utility.GameRequestService.ScorePosterService;
-import uoft.csc207.gameapplication.Utility.GameRequestService.StagePosterService;
-import uoft.csc207.gameapplication.Utility.GameRequestService.TimePlayedService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService.ScorePosterService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService.StagePosterService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService.TimePlayedService;
 
 
 public class GameView extends View {

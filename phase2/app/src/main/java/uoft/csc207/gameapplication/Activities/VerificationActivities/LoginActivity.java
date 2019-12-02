@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import uoft.csc207.gameapplication.Activities.MainMenuActivities.MainMenuActivity;
 import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
-import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.UserVerificationServices.LoginService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;
 
 /**

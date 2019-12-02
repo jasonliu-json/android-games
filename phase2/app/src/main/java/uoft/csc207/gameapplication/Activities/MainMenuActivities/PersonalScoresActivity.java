@@ -10,8 +10,8 @@ import java.util.List;
 
 import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
-import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
-import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService.GetUserService;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.UserVerificationServices.LoginService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.LeaderBoard;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;

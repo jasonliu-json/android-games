@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Utility.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.UserVerificationServices;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -9,6 +9,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.RestApiConnector;
+
 /**
  * Connect to rest API, and make the registration application.
  */
@@ -18,8 +21,8 @@ public class RegisterService extends RestApiConnector {
     /**
      * Make the registration application.
      *
-     * @param callback   Return the state of the application.
-     * @param jsonObject The Json object storing the game information.
+     * @param callback   used to return the state of the application.
+     * @param jsonObject The Json object storing the registration information.
      */
     public void register(JSONObject jsonObject, final CallBack callback) {
         try {

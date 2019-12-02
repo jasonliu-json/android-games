@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication.Utility.GameRequestService;
+package uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.GameDataService;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,33 +10,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONObject;
 
-import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Score;
+import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
+import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.RestApiConnector;
 
 /**
- * Connect to rest API, and post the score out.
+ * Connect to the rest API, and display the time played.
  */
-public class ScorePosterService extends RestApiConnector {
-    public static final String SCOREPOSTER = "api/tokens/score/";
+public class TimePlayedService extends RestApiConnector {
+    public static final String TIMEPLAYED = "api/tokens/timeplayed/";
 
     /**
-     * Called when posting the score.
+     * Update and display the playing time.
      *
-     * @param callback Return the state of the application.
-     * @param token    The request token for authentication.
-     * @param game     The game type of the score to be posted.
-     * @param score    The score earned by the user.
+     * @param callback   used to return the state of the application.
+     * @param token      The token used for authentication.
+     * @param timePlayed The playing time to post.
      */
-    public void postScore(Token token, Score score, String game, final CallBack callback) {
+    public void updateTimePlayed(Token token, Long timePlayed, final CallBack callback) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-
-            JSONObject jsonObject = new JSONObject();
             ObjectMapper objectMapper = new ObjectMapper();
-            jsonObject.put("token", new JSONObject(objectMapper.writeValueAsString(token)));
-            jsonObject.put("score", new JSONObject(objectMapper.writeValueAsString(score)));
-
-            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.PUT, URL + SCOREPOSTER + game, jsonObject, new Response.Listener<JSONObject>() {
+            JSONObject jsonTokenObject = new JSONObject(objectMapper.writeValueAsString(token));
+            String timePlayedSeconds = String.valueOf((int) (timePlayed / 1000));
+            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.PUT, URL + TIMEPLAYED + timePlayedSeconds, jsonTokenObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess();
