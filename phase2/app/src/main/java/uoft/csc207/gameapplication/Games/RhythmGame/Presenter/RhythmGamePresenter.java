@@ -107,9 +107,14 @@ public class RhythmGamePresenter {
      */
     public void stop() {
         if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
+            try {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } finally {
+                mediaPlayer = null;
+            }
         }
     }
 

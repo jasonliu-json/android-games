@@ -226,7 +226,7 @@ public class GameActivity extends AppCompatActivity {
                                 "        {\n" +
                                 "          \"numColumns\": 4,\n" +
                                 "          \"height\": 80,\n" +
-                                "          \"song\": \"Mii Channel\",\n" +
+                                "          \"song\": \"Handclap\",\n" +
                                 "          \"mode\": \"SONG\"\n" +
                                 "        }\n" +
                                 "      ]\n" +

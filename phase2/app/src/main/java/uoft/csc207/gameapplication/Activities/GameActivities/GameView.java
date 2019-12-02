@@ -21,7 +21,7 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.RestApiServices.Ga
 
 public class GameView extends View {
     private GameDriver gameDriver;
-    private Timer timer;
+    private Timer timer = new Timer();
     private boolean scorePosted = false;
     private boolean stageUpdated = false;
     private boolean timeUpdated = false;
@@ -54,19 +54,19 @@ public class GameView extends View {
     public void start() {
         startTime = System.currentTimeMillis();
         gameDriver.start();
-        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if (gameDriver.getGameIsOver()) {
+                    stop();
                     postScores();
                     postStage();
                     postTimePlayed();
-                    stop();
                 } else {
                     gameDriver.timeUpdate();
                     invalidate();
                 }
+                System.out.println("timer run");
             }
         }, 0, 30);
     }

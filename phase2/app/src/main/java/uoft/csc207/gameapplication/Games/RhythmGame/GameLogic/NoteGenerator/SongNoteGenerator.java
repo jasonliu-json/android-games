@@ -109,6 +109,7 @@ public class SongNoteGenerator extends NoteGenerator {
         Map<String, String> songToFile = new HashMap<>();
         songToFile.put("Old Town Road", "old_town_road_intervals.csv");
         songToFile.put("Mii Channel", "mii_channel_intervals.csv");
+        songToFile.put("Hand Clap", "handclap_intervals.csv");
 
         return Collections.unmodifiableMap(songToFile);
     }
