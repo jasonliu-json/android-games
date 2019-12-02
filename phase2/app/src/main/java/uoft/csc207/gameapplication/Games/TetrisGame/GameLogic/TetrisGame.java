@@ -123,7 +123,7 @@ public class TetrisGame {
     /**
      * Rotate the current piece counterclockwise, if possible.
      */
-    public void rotateCounterClockwise() {
+    public void rotateCounterclockwise() {
         board.rotateCounterClockwise();
     }
 
