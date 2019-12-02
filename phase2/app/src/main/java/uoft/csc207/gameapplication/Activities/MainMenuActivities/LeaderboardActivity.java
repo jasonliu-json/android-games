@@ -43,10 +43,12 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
+                System.out.println("Failed to get users");
             }
 
             @Override
             public void onWait() {
+                System.out.println("Waiting for user info");
             }
         });
 

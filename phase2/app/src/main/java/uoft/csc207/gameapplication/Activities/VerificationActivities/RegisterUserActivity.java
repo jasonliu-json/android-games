@@ -84,12 +84,13 @@ public class RegisterUserActivity extends AppCompatActivity {
 
                         @Override
                         public void onSuccess() {
+                            showToast("registered");
                             finish();
                         }
 
                         @Override
                         public void onWait() {
-
+                            showToast("sending information");
                         }
                     });
                 }
