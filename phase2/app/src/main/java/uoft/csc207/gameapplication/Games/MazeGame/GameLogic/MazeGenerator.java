@@ -23,7 +23,7 @@ public class MazeGenerator {
      * @param width how many columns the user wants
      * @param height how many rows the the user wants
      */
-    public MazeGenerator(int width, int height) {
+    MazeGenerator(int width, int height) {
         this.width = 2 * width + 1;
         this.height = 2 * height + 1;
         this.startingPoint =  new int[2];
@@ -39,7 +39,7 @@ public class MazeGenerator {
      *
      * @return the starting point of the character
      */
-    public int[] getStartingPoint() {
+    int[] getStartingPoint() {
         return startingPoint;
     }
 
@@ -47,7 +47,7 @@ public class MazeGenerator {
      *
      * @return the end point of the maze
      */
-    public int[] getEndPoint() {
+    int[] getEndPoint() {
         return endPoint;
     }
 
@@ -55,14 +55,14 @@ public class MazeGenerator {
      *
      * @return returns the maze board for drawing
      */
-    public Character[][] getMaze() {
+    Character[][] getMaze() {
         return maze;
     }
 
     /**
      * creates a new maze and creates a new endpoint and starting point
      */
-    public void newMaze() {
+    void newMaze() {
         maze = generateMaze(width, height);
     }
 
