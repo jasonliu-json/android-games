@@ -127,7 +127,7 @@ public class MazePresenter {
      * @param maze a 2-D character array representation of the maze
      * @param characterPos 2 values in this array containing the users (x,y) position on screen
      */
-    public void drawMap(Canvas canvas, Character[][] maze, int[] characterPos) {
+    public void draw(Canvas canvas, Character[][] maze, int[] characterPos) {
         int blockWidth = screenWidth / maze.length;
         int blockHeight = screenHeight / maze[0].length;
 
@@ -197,5 +197,17 @@ public class MazePresenter {
             }
         }
         characterBlocks = cleanedBlocks;
+    }
+
+    public boolean isGameInitialized() {
+        return initialized;
+    }
+
+    public void beginInitialization() {
+        initialized = false;
+        fixedBlocks = new ArrayList<>();
+        characterBlocks = new ArrayList<>();
+        xCord = 0;
+        yCord = 0;
     }
 }

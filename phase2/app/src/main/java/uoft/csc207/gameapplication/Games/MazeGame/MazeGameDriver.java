@@ -22,6 +22,11 @@ public class MazeGameDriver extends GameDriver {
     private String controllerType = "Tap";
 
     /**
+     * used to reset the timer in maze game at every new level.
+     */
+    private boolean startTimer = true;
+
+    /**
      * The game logic, controller and presenter.
      */
     private MazeGame mazeGame;
@@ -44,7 +49,9 @@ public class MazeGameDriver extends GameDriver {
      * @param y coordinate of press
      */
     public void touchStart(float x, float y) {
-        executeCommand(mazeController.touchStart(x, y));
+        if (mazePresenter.isGameInitialized()) {
+            executeCommand(mazeController.touchStart(x, y));
+        }
     }
 
     /**
@@ -53,14 +60,18 @@ public class MazeGameDriver extends GameDriver {
      * @param y where the y position of the cursor when moved
      */
     public void touchMove(float x, float y) {
-        executeCommand(mazeController.touchMove(x, y));
+        if (mazePresenter.isGameInitialized()) {
+            executeCommand(mazeController.touchMove(x, y));
+        }
     }
 
     /**
      * calls controllers movement methods and invokes a the movement integer representation
      */
     public void touchUp() {
-        executeCommand(mazeController.touchUp());
+        if (mazePresenter.isGameInitialized()) {
+            executeCommand(mazeController.touchUp());
+        }
     }
 
     /**
@@ -92,7 +103,13 @@ public class MazeGameDriver extends GameDriver {
      */
     @Override
     public void timeUpdate() {
-        mazeGame.update();
+        if (mazePresenter.isGameInitialized()) {
+            if (startTimer) {
+                mazeGame.resetTimer();
+                startTimer = false;
+            }
+            mazeGame.update();
+        }
     }
 
     /**
@@ -105,8 +122,13 @@ public class MazeGameDriver extends GameDriver {
         newCanvas.drawColor(Color.WHITE);
         newCanvas.scale(1.01f, 1.01f);
 
+        if (mazeGame.getInitializationStatus()) {
+            mazePresenter.beginInitialization();
+            startTimer = true;
+        }
+
         Character[][] mazeArrayRepresentation = mazeGame.getMaze();
-        mazePresenter.drawMap(newCanvas, mazeArrayRepresentation, mazeGame.getCharacterPos());
+        mazePresenter.draw(newCanvas, mazeArrayRepresentation, mazeGame.getCharacterPos());
 
         canvas.drawBitmap(bitmap, 0, 0, null);
 

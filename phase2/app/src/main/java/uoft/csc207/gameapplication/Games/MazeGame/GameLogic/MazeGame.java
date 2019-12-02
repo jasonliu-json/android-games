@@ -3,6 +3,11 @@ package uoft.csc207.gameapplication.Games.MazeGame.GameLogic;
 
 public class MazeGame {
     /**
+     *  if this mazeGame needs to be reinitialized with the new game screen
+     */
+    private boolean initializationStatus = false;
+
+    /**
      * the maze generator used to create a new maze
      */
     private MazeGenerator mazeGenerator;
@@ -55,8 +60,8 @@ public class MazeGame {
 
         currentLevel = 1;
         gameIsOver = false;
-        startTime = System.currentTimeMillis();
     }
+
     /**
      * Checks to see if the user can move down if movement is possible complete it
      */
@@ -134,19 +139,18 @@ public class MazeGame {
             xEndPos = -1;
             yEndPos = -1;
             calculatePoints();
-            if (currentLevel == 1) {
+            if (currentLevel == 3) {
                 gameIsOver = true;
-                // temporarily print game is over
             }
             else {
                 currentLevel += 1;
                 mazeGenerator.newMaze();
-
                 maze = mazeGenerator.getMaze();
                 xCharacter = mazeGenerator.getStartingPoint()[0];
                 yCharacter = mazeGenerator.getStartingPoint()[1];
                 xEndPos = mazeGenerator.getEndPoint()[0];
                 yEndPos = mazeGenerator.getEndPoint()[1];
+                initializationStatus = true;
             }
         }
     }
@@ -168,7 +172,7 @@ public class MazeGame {
         if (currentLevelPoints > 0) {
             points += currentLevelPoints;
         }
-        currentLevelPoints = 0;
+        currentLevelPoints = 2000;
         startTime = System.currentTimeMillis();
     }
 
@@ -186,5 +190,15 @@ public class MazeGame {
      */
     public int[] getCharacterPos() {
         return new int[]{xCharacter, yCharacter};
+    }
+
+    public void resetTimer() {
+        startTime = System.currentTimeMillis();
+    }
+
+    public boolean getInitializationStatus() {
+        boolean status = initializationStatus;
+        initializationStatus = false;
+        return status;
     }
 }
