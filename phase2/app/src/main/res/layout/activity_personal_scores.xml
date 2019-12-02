@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonalScoresActivity">
+    tools:context=".Activities.MainMenuActivities.PersonalScoresActivity">
 
     <TextView
         android:id="@+id/scores"

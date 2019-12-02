@@ -1,7 +1,5 @@
 package uoft.csc207.gameapplication.Utility.GameRequestService;
 
-import android.content.Context;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -10,8 +8,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
-
-import uoft.csc207.gameapplication.RegisterUserActivity;
 
 /**
  * Connect to rest API, and make the registration application.

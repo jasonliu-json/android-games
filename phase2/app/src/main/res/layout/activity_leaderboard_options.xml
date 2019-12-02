@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LeaderboardOptionsActivity">
+    tools:context=".Activities.MainMenuActivities.LeaderboardOptionsActivity">
 
     <TextView
         android:id="@+id/leaderboard_options_title"

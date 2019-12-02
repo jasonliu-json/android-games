@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.MainMenuActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import uoft.csc207.gameapplication.Activities.GameActivities.GameOptionsActivity;
+import uoft.csc207.gameapplication.R;
 
 /**
  * Set up the main menu, creating four options for the users to choose by buttons.

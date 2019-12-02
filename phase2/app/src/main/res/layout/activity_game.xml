@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".Activities.GameActivities.GameActivity">
 
 
 <!--    <uoft.csc207.gameapplication.Games.MazeGame.MazeGameView-->
@@ -22,7 +22,7 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
-        <uoft.csc207.gameapplication.GameView
+        <uoft.csc207.gameapplication.Activities.GameActivities.GameView
             android:id="@+id/GameView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

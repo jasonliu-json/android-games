@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.GameActivities;
 
 import android.content.Context;
 import android.graphics.Canvas;

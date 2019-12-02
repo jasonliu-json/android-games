@@ -1,7 +1,5 @@
 package uoft.csc207.gameapplication.Utility.GameRequestService;
 
-import android.content.Context;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,7 +15,6 @@ import java.io.IOException;
 
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.Token;
 import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
-import uoft.csc207.gameapplication.PersonalScoresActivity;
 
 /**
  * Connect to the rest API, and get user.

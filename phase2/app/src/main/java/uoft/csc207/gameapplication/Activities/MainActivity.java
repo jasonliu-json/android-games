@@ -1,9 +1,12 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import uoft.csc207.gameapplication.R;
+import uoft.csc207.gameapplication.Activities.VerificationActivities.LoginActivity;
 
 /**
  * Set up the game and start the game life cycle.

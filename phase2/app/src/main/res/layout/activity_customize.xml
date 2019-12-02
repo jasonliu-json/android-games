@@ -7,7 +7,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintEnd_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:context=".GameActivity">
+    tools:context=".Activities.GameActivities.GameActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

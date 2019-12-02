@@ -1,8 +1,8 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.MainMenuActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
+import uoft.csc207.gameapplication.R;
 
 import android.content.Intent;
 import android.os.Bundle;

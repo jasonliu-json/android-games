@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.MainMenuActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import uoft.csc207.gameapplication.R;
 
 /**
  * The Option menu of specific scores for the users.

@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.VerificationActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
 
+import uoft.csc207.gameapplication.Activities.MainMenuActivities.MainMenuActivity;
+import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;
 import uoft.csc207.gameapplication.Utility.RegisterUtility;

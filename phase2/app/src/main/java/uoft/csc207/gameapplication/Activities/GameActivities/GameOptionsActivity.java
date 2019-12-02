@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.GameActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.GameRequestService.CallBack;
 import uoft.csc207.gameapplication.Utility.GameRequestService.GetUserService;
 import uoft.csc207.gameapplication.Utility.GameRequestService.LoginService;

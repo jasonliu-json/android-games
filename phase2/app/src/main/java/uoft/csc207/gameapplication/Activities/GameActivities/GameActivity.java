@@ -1,4 +1,4 @@
-package uoft.csc207.gameapplication;
+package uoft.csc207.gameapplication.Activities.GameActivities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import uoft.csc207.gameapplication.Games.GameWrapper.GameWrapperDriver;
 import uoft.csc207.gameapplication.Games.MazeGame.MazeGameDriver;
 import uoft.csc207.gameapplication.Games.RhythmGame.RhythmGameDriver;
 import uoft.csc207.gameapplication.Games.TetrisGame.TetrisGameDriver;
+import uoft.csc207.gameapplication.R;
 import uoft.csc207.gameapplication.Utility.JSONFileRW;
 import uoft.csc207.gameapplication.Utility.TryGetJSON;
 
