@@ -26,7 +26,6 @@ public class MainMenuActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent gameOptionsActivity = new Intent(MainMenuActivity.this, GameOptionsActivity.class);
                 startActivity(gameOptionsActivity);
             }
@@ -58,17 +57,4 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
-
-
-//
-//        registerText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent registerUser = new Intent(LoginActivity.this, RegisterUserActivity.class);
-//                startActivity(registerUser);
-//            }
-//        });
-//    }
-
-
 }

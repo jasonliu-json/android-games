@@ -63,6 +63,9 @@ public class GameOptionsActivity extends AppCompatActivity {
         Button rhythmGameButton = findViewById(R.id.rhythm_game);
         Button mazeGameButton = findViewById(R.id.maze_game);
 
+        // Based on button clicked, saves information for the next activity as to what game
+        // the user wants to play. Also determines if the user has unlocked the game before playing.
+
         gameWrapperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +125,7 @@ public class GameOptionsActivity extends AppCompatActivity {
     }
 
     /**
-     * Display the related game info.
+     * Displays a toast message.
      *
      * @param text The text to be displayed.
      */

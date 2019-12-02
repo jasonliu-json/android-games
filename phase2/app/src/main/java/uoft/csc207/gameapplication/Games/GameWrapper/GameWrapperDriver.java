@@ -102,7 +102,7 @@ public class GameWrapperDriver extends GameDriver{
         // Select next driver when game is over
         if (gameDriver.getGameIsOver()) {
             gamesPlayed++;
-            points += gameDriver.getPoints();
+            points += gameDriver.getPoints();   // saves points
             if (gamesPlayed == 1) {
                 gameDriver = new RhythmGameDriver();
                 trySetGameDriveConfiguration("rhythm");
@@ -143,6 +143,7 @@ public class GameWrapperDriver extends GameDriver{
         return points;
     }
 
+    // Sets the configurations for a driver or empty configuration if not configurations found
     private void trySetGameDriveConfiguration(String game) {
         try {
             gameDriver.setConfigurations(getConfigurations().getJSONObject(game));

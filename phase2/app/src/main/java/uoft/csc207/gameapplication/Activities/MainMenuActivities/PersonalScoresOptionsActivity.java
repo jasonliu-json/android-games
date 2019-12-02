@@ -28,6 +28,9 @@ public class PersonalScoresOptionsActivity extends AppCompatActivity {
         Button rhythmGameScoresButton =  findViewById(R.id.rhythm_scores_button);
         Button mazeGameScoresButton =  findViewById(R.id.maze_scores_button);
 
+        // Based on button clicked, saves information for the next activity as to what game
+        // the user wants to see their personal scores for.
+
         gameWrapperScoresButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
