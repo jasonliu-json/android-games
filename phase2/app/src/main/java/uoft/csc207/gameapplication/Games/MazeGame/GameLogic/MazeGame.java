@@ -151,6 +151,9 @@ public class MazeGame {
         }
     }
 
+    /**
+     * updates the time taken for this user and lowers the score for this level
+     */
     public void update() {
         long timeTaken = System.currentTimeMillis() - startTime;
         currentLevelPoints = (int)(2000 - (timeTaken / 1000 * 60));
@@ -169,11 +172,18 @@ public class MazeGame {
         startTime = System.currentTimeMillis();
     }
 
-
+    /**
+     * gets this games 2-D character array maze representation
+     * @return 2-D character array
+     */
     public Character[][] getMaze() {
         return maze;
     }
 
+    /**
+     * gets this games (x,y) character position
+     * @return Array with two values [x,y]
+     */
     public int[] getCharacterPos() {
         return new int[]{xCharacter, yCharacter};
     }

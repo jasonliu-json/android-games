@@ -6,7 +6,6 @@ import android.graphics.Color;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.Callable;
 
 import uoft.csc207.gameapplication.Games.GameDriver;
 import uoft.csc207.gameapplication.Games.MazeGame.Controller.MazeController;
@@ -15,19 +14,20 @@ import uoft.csc207.gameapplication.Games.MazeGame.Controller.TapController;
 import uoft.csc207.gameapplication.Games.MazeGame.GameLogic.MazeGame;
 import uoft.csc207.gameapplication.Games.MazeGame.Presenter.MazePresenter;
 
-import static java.lang.Thread.sleep;
 
 public class MazeGameDriver extends GameDriver {
+    /**
+     * specifies the controller type by default it would be tap
+     */
     private String controllerType = "Tap";
 
+    /**
+     * The game logic, controller and presenter.
+     */
     private MazeGame mazeGame;
     private MazeController mazeController;
     private MazePresenter mazePresenter;
-    /**
-     * cursors initial x and y position when pressed down on the screen
-     */
-    private int xInit;
-    private int yInit;
+
 
     /**
      * creates the MazeGameDriver that accesses the MazeGame
@@ -38,7 +38,7 @@ public class MazeGameDriver extends GameDriver {
     }
 
     /**
-     * sets the init x and y position
+     * calls the controllers touch method and invokes a the movement integer representation
      *
      * @param x coordinate of press
      * @param y coordinate of press
@@ -48,7 +48,7 @@ public class MazeGameDriver extends GameDriver {
     }
 
     /**
-     * calls the MazeGame movement methods
+     * calls the controllers touch method and invokes a the movement integer representation
      * @param x where the x position of the cursor when moved
      * @param y where the y position of the cursor when moved
      */
@@ -56,10 +56,18 @@ public class MazeGameDriver extends GameDriver {
         executeCommand(mazeController.touchMove(x, y));
     }
 
+    /**
+     * calls controllers movement methods and invokes a the movement integer representation
+     */
     public void touchUp() {
         executeCommand(mazeController.touchUp());
     }
 
+    /**
+     * Invokes the movement method in the game logic based of a integer ie. 1 is up, 2 is right,
+     * 3 is down, 4 is left.
+     * @param control the integer representation of the game logic movement
+     */
     private void executeCommand(int control) {
         switch (control) {
             case 1:
@@ -79,6 +87,9 @@ public class MazeGameDriver extends GameDriver {
         }
     }
 
+    /**
+     * updates the mazeGame time so scores decrement the scores of the user the longer they take
+     */
     @Override
     public void timeUpdate() {
         mazeGame.update();
@@ -117,6 +128,9 @@ public class MazeGameDriver extends GameDriver {
         return mazeGame.getPoints();
     }
 
+    /**
+     * Initializes the controller and the maze game presenter
+     */
     @Override
     public void init() {
         if (controllerType.equalsIgnoreCase("tap")) {
@@ -131,6 +145,11 @@ public class MazeGameDriver extends GameDriver {
         mazePresenter = new MazePresenter(screenWidth, screenHeight);
     }
 
+    /**
+     * reads the configuration parameter to customize this game drivers control if customization
+     * parameters is invalid invoke default controller.
+     * @param configurations a json object containing controls
+     */
     @Override
     public void setConfigurations(JSONObject configurations) {
         super.setConfigurations(configurations);
