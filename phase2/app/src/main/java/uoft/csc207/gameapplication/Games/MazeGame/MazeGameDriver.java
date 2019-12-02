@@ -44,7 +44,7 @@ public class MazeGameDriver extends GameDriver {
      * @param y coordinate of press
      */
     public void touchStart(float x, float y) {
-        mazeController.touchStart(x, y);
+        executeCommand(mazeController.touchStart(x, y));
     }
 
     /**
@@ -53,7 +53,7 @@ public class MazeGameDriver extends GameDriver {
      * @param y where the y position of the cursor when moved
      */
     public void touchMove(float x, float y) {
-        mazeController.touchMove(x, y);
+        executeCommand(mazeController.touchMove(x, y));
     }
 
     public void touchUp() {
