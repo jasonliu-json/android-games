@@ -124,25 +124,28 @@ public class Board {
     }
 
     /**
+     * Move the current piece left or right, if possible.
+     */
+    private void tryMove(int adjX) {
+        eraseCurrPiece();
+        if (canMove(adjX, 0)) {
+            currPiece.move(adjX, 0);
+        }
+        drawCurrPiece();
+    }
+
+    /**
      * Move the current piece left, if possible.
      */
     void moveLeft() {
-        eraseCurrPiece();
-        if (canMove(-1, 0)) {
-            currPiece.move(-1, 0);
-        }
-        drawCurrPiece();
+        tryMove(-1);
     }
 
     /**
      * Move the current piece right, if possible.
      */
     void moveRight() {
-        eraseCurrPiece();
-        if (canMove(1, 0)) {
-            currPiece.move(1, 0);
-        }
-        drawCurrPiece();
+        tryMove(1);
     }
 
     /**
@@ -196,25 +199,28 @@ public class Board {
     }
 
     /**
-     * Rotate the current piece clockwise, if possible.
+     * Rotate the current piece clockwise or counterclockwise, if possible.
      */
-    void rotateClockwise() {
+    private void tryRotate(int direction) {
         eraseCurrPiece();
-        if (canRotate(1)) {
-            currPiece.rotate(1);
+        if (canRotate(direction)) {
+            currPiece.rotate(direction);
         }
         drawCurrPiece();
     }
 
     /**
+     * Rotate the current piece clockwise, if possible.
+     */
+    void rotateClockwise() {
+        tryRotate(1);
+    }
+
+    /**
      * Rotate the current piece counterclockwise, if possible.
      */
-    void rotateCounterClockwise() {
-        eraseCurrPiece();
-        if (canRotate(currPiece.getSprites().length - 1)) {
-            currPiece.rotate(currPiece.getSprites().length - 1);
-        }
-        drawCurrPiece();
+    void rotateCounterclockwise() {
+        tryRotate(currPiece.getSprites().length - 1);
     }
 
     /**
