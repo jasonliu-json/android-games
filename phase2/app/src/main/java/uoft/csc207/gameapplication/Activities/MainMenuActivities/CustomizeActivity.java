@@ -57,6 +57,7 @@ public class CustomizeActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    // Initializes the spinners and apply button
     private void initializeViews() {
         // Initializes the spinner for the colour of Tetris game
         Spinner tetrisColourSpinner =  findViewById(R.id.tetris_colour_spinner);

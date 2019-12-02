@@ -54,9 +54,9 @@ public class RhythmGameDriver extends GameDriver implements Observer {
 
         this.controller = new RhythmGameController(levels[levelIndex], getMetrics().widthPixels);
 
-        // Prepares the shapes for the presenter.
+        // Prepares and constructs the presenter //
         char[] shapes = new char[4];
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {  // prepares the four shapes of each column
             shapes[i - 1] = TryGetJSON.tryGetString(getConfigurations(), String.format(Locale.CANADA,
                     "shape%d", i), "O").charAt(0);
         }

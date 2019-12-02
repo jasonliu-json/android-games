@@ -20,13 +20,9 @@ import uoft.csc207.gameapplication.Utility.GameRequestService.Models.User;
  * Set up users' score and display it on the scoreboard.
  */
 public class PersonalScoresActivity extends AppCompatActivity {
-
-    ArrayList<String> personalScores = new ArrayList<>();
     String timePlayedText;
     String totalPointsText;
-
     String scoresType;
-
 
     GetUserService getUserService;
 
@@ -82,12 +78,12 @@ public class PersonalScoresActivity extends AppCompatActivity {
         int extraSeconds = Integer.valueOf(timePlayedText) % 60;
         timePlayedText = "Time Played: \n" + minutesPlayed + "m " + extraSeconds + "s";
 
-
         List<Score> scores = new ArrayList<>();
         // default if no leaderBoard presented
         for (int i = 0; i < 10; i++) {
             scores.add(new Score());
         }
+
         // creates the string representation of user score board
         for (LeaderBoard leaderBoard : user.getUserScores()) {
             if (leaderBoard.getGame().equals(scoresType)) {
@@ -102,17 +98,17 @@ public class PersonalScoresActivity extends AppCompatActivity {
         }
 
         // begin settings those strings.
-        TextView title = (TextView) findViewById(R.id.score_title);
+        TextView title = findViewById(R.id.score_title);
         title.setTextSize(30);
 
         String titleText = "Personal scores for " + scoresType;
         title.setText(titleText);
 
-        TextView scoreList = (TextView) findViewById(R.id.scores);
+        TextView scoreList = findViewById(R.id.scores);
         scoreList.setTextSize(20);
         scoreList.setText(scoreBoard);
 
-        TextView timePlayed = (TextView) findViewById(R.id.time_played);
+        TextView timePlayed = findViewById(R.id.time_played);
         timePlayed.setTextSize(20);
         timePlayed.setText(timePlayedText);
 
@@ -120,93 +116,4 @@ public class PersonalScoresActivity extends AppCompatActivity {
         totalPoints.setTextSize(20);
         totalPoints.setText(totalPointsText);
     }
-
-//    /**
-//     * gets the time played by this user
-//     * @return the total time played by this user
-//     */
-//    private String getTimePlayed() {
-//        try {
-//            return jsonUserObject.getString("timePlayed");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * return the total amount of points accumulated by this user
-//     * @return the users total points scored in the lifetime
-//     */
-//    private String getTotalPoints() {
-//        try {
-//            return jsonUserObject.getString("totalPoints");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * Creates the jsonObject by reading the data base off assets or memory and loads the
-//     * players top 10 scores
-//     */
-//    private void loadPersonalScores() {
-//        JSONObject jsonObject;
-//        try {
-//            int i = 0;
-//            String jsonString = "";
-//            try {
-//                FileInputStream fileInputStream = openFileInput(FILE);
-//                while ((i = fileInputStream.read()) != -1) {
-//                    jsonString += (char) i;
-//                }
-//                fileInputStream.close();
-//            }
-//            catch (FileNotFoundException e) {
-//                BufferedReader bufferReader = new BufferedReader(
-//                        new InputStreamReader(getAssets().open(FILE)));
-//                while ((i = bufferReader.read()) != -1) {
-//                    jsonString += (char) i;
-//                }
-//                bufferReader.close();
-//            }
-//            jsonObject = new JSONObject(jsonString);
-//            loadUserScore(jsonObject);
-//        }
-//        catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    /**
-//     * helper that loads up this current users top 10 best scores
-//     * @param jsonObject the json data base for the users
-//     */
-//    private void loadUserScore(JSONObject jsonObject) {
-//        try {
-//            JSONArray users = jsonObject.getJSONArray("users");
-//            for (int i = 0; i < users.length(); i++) {
-//                JSONObject user = users.getJSONObject(i);
-//                if (user.getString("username").equals(username)) {
-//                    jsonUserObject = user;
-//
-//                    JSONArray scores = user.getJSONArray("topPlays");
-//
-//                    for (int s = 0; s < scores.length(); s++) {
-//                        personalScores.add(scores.getJSONObject(s).getString(String.format("top%d", s)));
-//                    }
-//                }
-//            }
-//        }
-//        catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
