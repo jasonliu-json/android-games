@@ -28,9 +28,9 @@ Installation guide
 3.	Clone the project into Android Studio.
 4.	Find your computer’s IP address and copy it.
 5.	Open phase2/app/src/main/java/uoft/csc207/gameapplication/Utility/GameRequestService/RestApiConnector.java and replace String URL value with your IP address.
-6.  Don’t forget the :8080/ suffix.
+6.  ^^ Don’t forget the :8080/ suffix!
 7.	Run on Pixel 3 XL on Android 9.0 emulator.
-8.	U can go make ur own account noob or i guess just type "admin" into username and u won't need a password
+8.	Use "admin" for username and password is not required to login. Alternatively, create a new account and login.
 
 
 Credits
