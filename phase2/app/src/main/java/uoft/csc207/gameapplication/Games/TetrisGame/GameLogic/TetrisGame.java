@@ -16,17 +16,17 @@ public class TetrisGame {
     private PieceGenerator pieceGenerator;
 
     /**
-     * The number of lines cleared on the current level.
+     * The number of lines cleared on the current speed.
      */
     private int linesCleared;
 
     /**
-     * The number of frames between each time the current piece falls down.
+     * The rate at which the current piece falls down, expressed as a frame count.
      */
-    private int threshold;
+    private int rate;
 
     /**
-     * The number of frames since the last time the current piece fell down.
+     * A frame counter for the rate.
      */
     private int count;
 
@@ -50,7 +50,7 @@ public class TetrisGame {
         gameIsOver = false;
         points = 0;
         linesCleared = 0;
-        threshold = 25;
+        rate = 25;
         count = 0;
     }
 
@@ -124,7 +124,7 @@ public class TetrisGame {
      * Rotate the current piece counterclockwise, if possible.
      */
     public void rotateCounterclockwise() {
-        board.rotateCounterClockwise();
+        board.rotateCounterclockwise();
     }
 
     /**
@@ -149,11 +149,11 @@ public class TetrisGame {
      * Move the current piece down, periodically.
      */
     public void update() {
-        if (count == threshold) {
+        if (count == rate) {
             moveDown();
             count = 0;
             if (linesCleared >= 10) {
-                threshold = Math.max(5, threshold - 10);
+                rate = Math.max(5, rate - 10);
                 linesCleared = linesCleared % 10;
             }
         } else {
