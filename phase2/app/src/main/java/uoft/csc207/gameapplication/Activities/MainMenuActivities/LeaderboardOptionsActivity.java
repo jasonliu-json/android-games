@@ -22,11 +22,14 @@ public class LeaderboardOptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard_options);
-        Button gameWrapperLeaderboardButton =  findViewById(R.id.wrapper_leaderboard_button);
-        Button tetrisGameLeaderboardButton =  findViewById(R.id.tetris_scores_button);
-        Button rhythmGameLeaderboardButton =  findViewById(R.id.rhythm_scores_button);
-        Button mazeGameLeaderboardButton =  findViewById(R.id.maze_leaderboard_button);
 
+        Button gameWrapperLeaderboardButton = findViewById(R.id.wrapper_leaderboard_button);
+        Button tetrisGameLeaderboardButton = findViewById(R.id.tetris_scores_button);
+        Button rhythmGameLeaderboardButton = findViewById(R.id.rhythm_scores_button);
+        Button mazeGameLeaderboardButton = findViewById(R.id.maze_leaderboard_button);
+
+        // Based on button clicked, saves information for the next activity as to what game
+        // the user wants to see  the leaderboard for.
         gameWrapperLeaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
