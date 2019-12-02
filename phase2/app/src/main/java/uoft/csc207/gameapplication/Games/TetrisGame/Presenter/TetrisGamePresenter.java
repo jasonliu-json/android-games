@@ -42,7 +42,7 @@ public class TetrisGamePresenter {
     }
 
     /**
-     * Draw a frame of Tetris onscreen.
+     * Draw the current frame of Tetris to the canvas.
      *
      * @param canvas The canvas to be displayed.
      * @param bitmap The bitmap for drawing.

@@ -128,12 +128,18 @@ public class TetrisGame {
     }
 
     /**
-     * Reset to a new current piece, if possible. Otherwise, end the game.
+     * Reset to a new current piece, if possible, and update points. Otherwise, end the game.
      */
     private void reset() {
         int lines = board.clearLines();
         linesCleared += lines;
-        points += lines * 100;
+        if (lines == 4) {
+            points += 800;
+        } else if (lines == 3) {
+            points += 500;
+        } else {
+            points += lines * 100;
+        }
         if (!board.setCurrPiece(pieceGenerator.getRandomPiece())) {
             gameIsOver = true;
         }

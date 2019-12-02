@@ -11,7 +11,7 @@ import uoft.csc207.gameapplication.Games.TetrisGame.GameLogic.TetrisGame;
 import uoft.csc207.gameapplication.Games.TetrisGame.Presenter.TetrisGamePresenter;
 
 /**
- * A facade class for the Tetris game, serving as an interface for managing touch inputs and
+ * A facade class for the Tetris game, serving as a concrete interface for managing touch inputs and
  * drawing the game to the screen.
  */
 public class TetrisGameDriver extends GameDriver {
