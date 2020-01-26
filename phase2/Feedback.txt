@@ -1,0 +1,35 @@
+Dear group_0547
+
+This semester, we talked about MVP, the Model-View-Presenter architecture. It has many advantages, particularly when working with Android. As you can see from your project, your activity classes have methods that are specific to Android. If you encapsulate the rest of your code sufficiently, it is possible to port it to another platform simply by creating a new UI (for example, a website).
+
+Encapsulation can take on many forms. You can package your View classes together. You can ensure that your dependencies go one-way, towards the inner more abstract layers. You can incorporate SOLID principles as much as possible and design patterns where they make sense.
+Here is feedback that is specific to your project:
+
+You made good use of…
++ abstraction and the MVP pattern in the Tertrics Game.
++ The overall code is clean.
++ The packaging of different games and functionalities are also clear. 
++ Good use of Facade in RythymLevel and the customization of songs in the Rhythm Game deserve special mentions.
++ Really well done with the GameDriver Interface, it is able to unify the backend of all games and making adding new games much easier.
++ Use of abstract class to add different game modes and strategies was well thought of. All activities follow the single responsibility principle which was great to see. 
++ The use of a combination of web server and database to keep track of the leaderboard is a good way of decoupling the front-end and the data..
++ Javadoc are well done in most of the classes. 
+
+The user sees…
++ 3 simple but robust games with some ability to customize. 
++ First game is a Maze game, second game is Tetris and third game is a rhythm game. All of them have some comzomizations.
++ The user is able to easily navigate, play games and check the statistics easily.
+
+A good next step would be to…
++ Consider cleaning up some of the imports.
++ (Optional) The UI of the games could use some improvement, such as larger fonts, colourful background and instructions on the games. More statistics could be added for each game.
++ Try thinking about having a global MVP pattern so that all the games are more consistent and a new team member trying to add a game would understand what to implement with ease. 
++ Some inline comments would be helpful to improve the readability of the code. 
++ Several of the classes could really use some more attention to Javadoc.
++ PackageNames don't follow naming conventions, should be all lowercase to not be confused with class names. 
+
+We hope that you enjoyed working on this project and found it a useful learning experience.
+
+Cheers,
+The CSC207 Instructional Team
+
